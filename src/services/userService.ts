@@ -4,7 +4,7 @@ import apiClient from './apiClient';
 class UserService {
   static async loginService(credentials: LoginRequest) {
     try {
-      const response = await apiClient.post('/api/auth/login', credentials);
+      const response = await apiClient.post('/auth/login', credentials);
       return response.data;
     } catch (error) {
       throw new Error('Login failed');
