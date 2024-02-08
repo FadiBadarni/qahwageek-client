@@ -44,6 +44,7 @@ const handleApiError = (error: AxiosError<ErrorData>): ErrorData => {
   };
 };
 
+let isRefreshing = false;
 axiosClient.interceptors.response.use(
   async (response: AxiosResponse) => response,
   async (error: AxiosError<ErrorData>) => {
@@ -53,13 +54,18 @@ axiosClient.interceptors.response.use(
       return Promise.reject(error);
     }
 
-    // Check if the error is 401 (Unauthorized), and the request has not been retried yet
-    // Additionally, ensure that the failing request is not the refresh token request itself to avoid infinite loops
     if (
       error.response?.status === UNAUTHORIZED &&
       !originalRequest._retry &&
       originalRequest.url !== REFRESH_TOKEN_ENDPOINT
     ) {
+      if (isRefreshing) {
+        // If a refresh is already in progress, return a rejected promise to avoid further actions
+        // Optionally, you could queue this request or handle it differently
+        return Promise.reject('Refresh token operation already in progress.');
+      }
+
+      isRefreshing = true;
       originalRequest._retry = true; // Mark the request as retried to avoid looping
 
       try {
@@ -69,10 +75,12 @@ axiosClient.interceptors.response.use(
           {},
           { withCredentials: true }
         );
+        isRefreshing = false;
 
         // If the refresh was successful, retry the original request
         return axiosClient(originalRequest);
       } catch (refreshError) {
+        isRefreshing = false;
         store.dispatch(clearUser());
         store.dispatch(clearAuthState());
         // If the refresh token request fails, redirect the user to the login page
@@ -81,7 +89,7 @@ axiosClient.interceptors.response.use(
       }
     }
 
-    // For all other errors or if the refresh token request itself fails, use the handleApiError function to process and reject the promise
+    // For all other errors or if the refresh token request itself fails.
     const processedError = handleApiError(error);
     return Promise.reject(processedError);
   }
