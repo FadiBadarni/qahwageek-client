@@ -24,6 +24,7 @@ const userSlice = createSlice({
     clearUser: (state) => {
       state.data = null;
       state.status = LoadingStatus.Idle;
+      state.error = null;
     },
 
     setLoading: (state, action) => {
