@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
 import { LoadingStatus, RehydrateAction } from 'store/shared/commonState';
+import { login, logout } from 'store/user/userActions';
 
 export interface AuthState {
   status: LoadingStatus;
@@ -24,13 +25,39 @@ const authSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(REHYDRATE, (state, action: RehydrateAction) => {
-      const incomingAuth = action.payload?.auth;
-      if (incomingAuth) {
-        state.status = incomingAuth.status ?? initialState.status;
-        state.error = incomingAuth.error ?? initialState.error;
-      }
-    });
+    builder
+      .addCase(login.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+        state.error = null;
+      })
+      .addCase(login.fulfilled, (state) => {
+        state.status = LoadingStatus.Succeeded;
+        state.error = null;
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error =
+          action.error.message ?? 'An unexpected error occurred during login.';
+      })
+      .addCase(logout.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.status = LoadingStatus.Idle;
+        state.error = null;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error =
+          action.error.message ?? 'An unexpected error occurred during logout.';
+      })
+      .addCase(REHYDRATE, (state, action: RehydrateAction) => {
+        const incomingAuth = action.payload?.auth;
+        if (incomingAuth) {
+          state.status = incomingAuth.status ?? initialState.status;
+          state.error = incomingAuth.error ?? initialState.error;
+        }
+      });
   },
 });
 
