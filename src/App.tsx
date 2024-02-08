@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { login } from 'store/user/userActions';
+import { login, logout } from 'store/user/userActions';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -11,6 +11,10 @@ function App() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(login({ username, password }));
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
   };
 
   return (
@@ -36,6 +40,7 @@ function App() {
         </div>
         <button type="submit">Login</button>
       </form>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }

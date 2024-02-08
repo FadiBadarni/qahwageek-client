@@ -10,6 +10,13 @@ class UserService {
       throw new Error('Login failed');
     }
   }
+  static async logoutService() {
+    try {
+      await apiClient.post('/auth/logout');
+    } catch (error) {
+      throw new Error('Logout failed');
+    }
+  }
 }
 
 export default UserService;

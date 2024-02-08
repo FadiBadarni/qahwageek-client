@@ -2,7 +2,7 @@ import { LoadingStatus, RehydrateAction } from 'store/shared/commonState';
 import { UserState } from './userState';
 import { createSlice } from '@reduxjs/toolkit';
 import { REHYDRATE } from 'redux-persist';
-import { login } from './userActions';
+import { login, logout } from './userActions';
 
 const initialState: UserState = {
   data: null,
@@ -55,6 +55,17 @@ const userSlice = createSlice({
           state.status = incomingUser.status ?? initialState.status;
           state.error = incomingUser.error ?? initialState.error;
         }
+      })
+      .addCase(logout.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.status = LoadingStatus.Idle;
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error =
+          action.error.message ?? 'An unexpected error occurred during logout';
       });
   },
 });
