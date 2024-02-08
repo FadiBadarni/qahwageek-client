@@ -30,15 +30,33 @@ const handleApiError = (error: AxiosError<ErrorData>): ErrorData => {
 };
 
 apiClient.interceptors.response.use(
-  (response: AxiosResponse) => response,
-  (error: AxiosError<ErrorData>) => {
-    const apiError = handleApiError(error);
+  async (response: AxiosResponse) => response,
+  async (error: AxiosError<ErrorData>) => {
+    const originalRequest = error.config as any;
 
-    if (apiError.status === UNAUTHORIZED) {
-      window.location.href = LOGIN_PAGE_URL;
+    if (!originalRequest) {
+      return Promise.reject(error);
     }
 
-    return Promise.reject(apiError);
+    if (error.response?.status === UNAUTHORIZED && !originalRequest._retry) {
+      originalRequest._retry = true; // Mark the request as retried
+
+      try {
+        // Attempt to refresh the token
+        await apiClient.post('/auth/refresh', {}, { withCredentials: true });
+
+        // If refresh was successful, retry the original request
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        // Redirect to login on refresh token failure
+        window.location.href = LOGIN_PAGE_URL;
+        return Promise.reject(refreshError);
+      }
+    }
+
+    // For all other errors, use the handleApiError function to process and reject the promise
+    const processedError = handleApiError(error);
+    return Promise.reject(processedError);
   }
 );
 

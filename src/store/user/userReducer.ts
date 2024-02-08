@@ -61,6 +61,7 @@ const userSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         state.status = LoadingStatus.Idle;
+        state.data = null;
       })
       .addCase(logout.rejected, (state, action) => {
         state.status = LoadingStatus.Failed;

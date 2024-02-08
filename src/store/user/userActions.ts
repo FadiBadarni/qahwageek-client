@@ -28,3 +28,16 @@ export const logout = createAsyncThunk(
     }
   }
 );
+
+export const getUserInfo = createAsyncThunk(
+  'user/getUserInfo',
+  async (_, { rejectWithValue }) => {
+    try {
+      const data = await UserService.getUserInfoService();
+      return data;
+    } catch (error) {
+      const message = (error as Error).message || 'Failed to fetch user info';
+      return rejectWithValue(message);
+    }
+  }
+);

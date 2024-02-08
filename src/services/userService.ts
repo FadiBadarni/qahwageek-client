@@ -17,6 +17,15 @@ class UserService {
       throw new Error('Logout failed');
     }
   }
+  static async getUserInfoService() {
+    try {
+      const response = await apiClient.get('/user/info');
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      throw new Error('Failed to fetch user info');
+    }
+  }
 }
 
 export default UserService;
