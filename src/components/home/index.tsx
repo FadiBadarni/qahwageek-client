@@ -11,8 +11,10 @@ export const Home: React.FC = () => {
 
   return (
     <div className="home">
-      <h1>Welcome to the Home Page!</h1>
-      <p>This page is protected and requires login.</p>
+      <h1 className="text-neutral-100">Welcome to the Home Page!</h1>
+      <p className="text-neutral-100">
+        This page is protected and requires login.
+      </p>
     </div>
   );
 };
