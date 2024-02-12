@@ -7,7 +7,7 @@ import { Home } from 'components/home';
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-dark-900">
       <Router>
         <Navbar />
         <div className="flex-grow ">
