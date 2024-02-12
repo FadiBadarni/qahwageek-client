@@ -7,20 +7,22 @@ import { Home } from 'components/home';
 
 function App() {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col bg-white">
       <Router>
         <Navbar />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
+        <div className="flex-grow ">
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Home />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/login" element={<LoginPage />} />
+          </Routes>
+        </div>
       </Router>
     </div>
   );
