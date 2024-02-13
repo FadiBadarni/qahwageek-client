@@ -46,19 +46,19 @@ export const Navbar: React.FC = () => {
                       الرئيسية
                     </Link>
                     <Link
-                      to="/terms-guide"
+                      to="/category/terms"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
                       دليل المصطلحات
                     </Link>
                     <Link
-                      to="/espresso-code"
+                      to="/category/code"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
                       اسبرسو كود
                     </Link>
                     <Link
-                      to="/career-development"
+                      to="/category/career"
                       className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                     >
                       تطوير المهنة
@@ -144,7 +144,7 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <MobileNav handleLogout={handleLogout} userInitial={userInitial} />
+          <MobileNav handleLogout={handleLogout} user={user} />
         </>
       )}
     </Disclosure>
