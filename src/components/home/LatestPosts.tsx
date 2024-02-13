@@ -1,13 +1,6 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-
-interface RecentPost {
-  id: number;
-  title: string;
-  writer: string;
-  publishedAt: string;
-  imageUrl?: string;
-}
+import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { RecentPost } from 'models/post';
 
 const posts: RecentPost[] = [
   {
@@ -16,6 +9,7 @@ const posts: RecentPost[] = [
     writer: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
+    readingTime: 5,
   },
   {
     id: 2,
@@ -23,6 +17,7 @@ const posts: RecentPost[] = [
     writer: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
+    readingTime: 5,
   },
   {
     id: 3,
@@ -35,35 +30,37 @@ const posts: RecentPost[] = [
 
 export const LatestPosts: React.FC = () => {
   return (
-    <div className="max-w-xs">
-      <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+    <div className="p-4 space-y-4">
+      <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right">
+        المقالات الجديدة
+      </h2>
+      <div>
         {posts.map((post) => (
-          <li key={post.id} className="flex gap-x-4 py-5">
-            <div className="flex-1 flex flex-col justify-between">
-              <p className="text-sm font-semibold leading-6  line-clamp-2">
+          <div
+            key={post.id}
+            className="flex items-center p-4 border-b border-gray-300 last:border-b-0 dark:border-dark-500 bg-gray-100 dark:bg-dark-700 rounded-md"
+          >
+            <div className="flex-grow">
+              <h3 className="text-lg font-semibold dark:text-white">
                 {post.title}
-              </p>
-              <div className="flex justify-between items-end mt-4">
-                <p className="text-sm leading-6 ">
-                  {post.writer} -{' '}
-                  <time dateTime={post.publishedAt}>{post.publishedAt}</time>
-                </p>
+              </h3>
+              <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mt-2">
+                <UserIcon className="h-5 w-5 mr-1" />
+                <span>{post.writer}</span>
+                <CalendarIcon className="h-5 w-5 mr-1 ml-4" />
+                <time dateTime={post.publishedAt}>{post.publishedAt}</time>
+                <ClockIcon className="h-5 w-5 mr-1 ml-4" />
+                <span>{post.readingTime}</span>
               </div>
             </div>
             <img
-              className="h-12 w-12 flex-none rounded-sm bg-gray-50 order-last"
+              className="w-24 h-24 object-cover rounded-lg ml-4"
               src={post.imageUrl}
-              alt=""
+              alt={post.title}
             />
-          </li>
+          </div>
         ))}
-      </ul>
-      <Link
-        to="/most-recent"
-        className="flex w-full items-center justify-center rounded-md bg-brand-100 dark:bg-brand-500 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-neutral-100 shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-brand-600 focus-visible:outline-offset-0"
-      >
-        عرض الكل
-      </Link>
+      </div>
     </div>
   );
 };

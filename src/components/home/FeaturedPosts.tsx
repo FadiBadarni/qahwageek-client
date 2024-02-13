@@ -2,15 +2,7 @@ import React from 'react';
 import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-
-interface RecentPost {
-  id: number;
-  title: string;
-  writer: string;
-  publishedAt: string;
-  imageUrl?: string;
-  readingTime?: number;
-}
+import { RecentPost } from 'models/post';
 
 const posts: RecentPost[] = [
   {
@@ -44,9 +36,9 @@ const posts: RecentPost[] = [
     imageUrl: 'https://via.placeholder.com/150',
   },
 ];
+
 const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 1024 },
     items: 2,
   },
@@ -66,12 +58,10 @@ const responsive = {
 
 const FeaturedPosts: React.FC = () => {
   return (
-    <div className="space-y-4">
-      <div className="text-center">
-        <h2 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold text-gray-800 dark:text-white text-right">
-          المقالات المميزة
-        </h2>
-      </div>
+    <div className="space-y-2">
+      <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right">
+        المقالات المميزة
+      </h2>
       <Carousel
         responsive={responsive}
         infinite={true}
