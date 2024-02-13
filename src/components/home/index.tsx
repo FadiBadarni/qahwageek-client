@@ -1,6 +1,7 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { getUserInfo } from 'store/user/userActions';
+import { LatestPosts } from './LatestPosts';
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -10,11 +11,9 @@ export const Home: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="home">
-      <h1 className="text-neutral-100">Welcome to the Home Page!</h1>
-      <p className="text-neutral-100">
-        This page is protected and requires login.
-      </p>
+    <div className=" text-neutral-100">
+      <h1 className="text-3xl font-bold text-center">أهلا وسهلا ب قهوة چيك!</h1>
+      <LatestPosts />
     </div>
   );
 };
