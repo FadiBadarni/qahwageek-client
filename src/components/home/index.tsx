@@ -1,7 +1,7 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { getUserInfo } from 'store/user/userActions';
-import { LatestPosts } from './LatestPosts';
+import FeaturedPosts from './FeaturedPosts';
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -11,9 +11,13 @@ export const Home: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="">
-      <h1 className="text-3xl font-bold text-center">أهلا وسهلا ب قهوة چيك!</h1>
-      <LatestPosts />
+    <div>
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center mt-2 mb-6">
+        أهلا وسهلا بقهوة چيك!
+      </h1>
+      <div>
+        <FeaturedPosts />
+      </div>
     </div>
   );
 };
