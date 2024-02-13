@@ -40,17 +40,18 @@ export const LatestPosts: React.FC = () => {
             key={post.id}
             className="flex items-center p-4 border-b border-gray-300 last:border-b-0 dark:border-dark-500 bg-gray-100 dark:bg-dark-700 rounded-md"
           >
-            <div className="flex-grow">
+            <div className="flex flex-grow flex-col justify-between h-full">
               <h3 className="text-lg font-semibold dark:text-white">
                 {post.title}
               </h3>
-              <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mt-2">
-                <UserIcon className="h-5 w-5 mr-1" />
+
+              <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mt-6">
+                <UserIcon className="h-5 w-5 ml-1" />
                 <span>{post.writer}</span>
-                <CalendarIcon className="h-5 w-5 mr-1 ml-4" />
+                <CalendarIcon className="h-5 w-5 ml-1 mr-4" />
                 <time dateTime={post.publishedAt}>{post.publishedAt}</time>
-                <ClockIcon className="h-5 w-5 mr-1 ml-4" />
-                <span>{post.readingTime}</span>
+                <ClockIcon className="h-5 w-5 ml-1 mr-4" />
+                <span>{post.readingTime} دقائق قراءة</span>
               </div>
             </div>
             <img
