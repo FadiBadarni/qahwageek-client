@@ -1,5 +1,7 @@
 import React from 'react';
 import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 interface RecentPost {
   id: number;
@@ -42,65 +44,107 @@ const posts: RecentPost[] = [
     imageUrl: 'https://via.placeholder.com/150',
   },
 ];
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 1024 },
+    items: 2,
+  },
+  desktop: {
+    breakpoint: { max: 1024, min: 768 },
+    items: 2,
+  },
+  tablet: {
+    breakpoint: { max: 768, min: 464 },
+    items: 1,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+  },
+};
 
 const FeaturedPosts: React.FC = () => {
   return (
-    <div className="rounded-lg shadow-lg grid grid-cols-1 gap-4 md:grid-cols-2 lg:gap-6">
-      {posts.map((post) => (
-        <div
-          key={post.id}
-          className="relative bg-white rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl"
-        >
-          {post.imageUrl && (
-            <div className="relative group">
-              <img
-                src={post.imageUrl}
-                alt={post.title}
-                className="w-full object-cover h-48 rounded-lg"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-75 group-hover:opacity-50 transition-opacity duration-500 ease-in-out"></div>
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-lg font-semibold leading-6 text-white">
-                  {post.title}
-                </h3>
-                <div className="flex justify-between items-center mt-4">
-                  <div className="flex items-center">
-                    <UserIcon
-                      className="h-5 w-5 text-gray-200 ml-1"
-                      aria-hidden="true"
-                    />
-                    <span className="text-sm text-gray-200">{post.writer}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <CalendarIcon
-                      className="h-5 w-5 text-gray-200 ml-1"
-                      aria-hidden="true"
-                    />
-                    <time
-                      dateTime={post.publishedAt}
-                      className="text-sm text-gray-200"
-                    >
-                      {post.publishedAt}
-                    </time>
-                  </div>
-                  {post.readingTime && (
-                    <div className="flex items-center text-gray-200">
-                      <ClockIcon className="h-5 w-5 ml-1 " aria-hidden="true" />
-                      <span>{post.readingTime} دقائق</span>
+    <div className="space-y-4">
+      <div className="text-center">
+        <h2 className="text-xl sm:text-2xl md:text-2xl lg:text-3xl font-semibold text-gray-800 dark:text-white text-right">
+          المقالات المميزة
+        </h2>
+      </div>
+      <Carousel
+        responsive={responsive}
+        infinite={true}
+        autoPlay={true}
+        arrows={false}
+        autoPlaySpeed={5000}
+        swipeable={true}
+        draggable={true}
+        showDots={false}
+        removeArrowOnDeviceType={['tablet', 'mobile', 'desktop']}
+        itemClass="carousel-item-padding-40-px"
+        className="rounded-lg shadow-lg"
+        rtl
+      >
+        {posts.map((post) => (
+          <div key={post.id} className="p-4">
+            <div className="relative bg-white rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+              {post.imageUrl && (
+                <div className="relative group">
+                  <img
+                    src={post.imageUrl}
+                    alt={post.title}
+                    className="w-full object-cover h-48 rounded-lg"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
+                    <h3 className="text-lg font-semibold leading-6 text-white">
+                      {post.title}
+                    </h3>
+                    <div className="flex justify-between items-center mt-4">
+                      <div className="flex items-center">
+                        <UserIcon
+                          className="h-5 w-5 text-gray-200 ml-1"
+                          aria-hidden="true"
+                        />
+                        <span className="text-sm text-gray-200">
+                          {post.writer}
+                        </span>
+                      </div>
+                      <div className="flex items-center">
+                        <CalendarIcon
+                          className="h-5 w-5 text-gray-200 ml-1"
+                          aria-hidden="true"
+                        />
+                        <time
+                          dateTime={post.publishedAt}
+                          className="text-sm text-gray-200"
+                        >
+                          {post.publishedAt}
+                        </time>
+                      </div>
+                      {post.readingTime && (
+                        <div className="flex items-center text-gray-200">
+                          <ClockIcon
+                            className="h-5 w-5 ml-1 "
+                            aria-hidden="true"
+                          />
+                          <span>{post.readingTime} دقائق</span>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
+              <a
+                href="/post/link"
+                className="absolute inset-0 z-10"
+                aria-label={`Read more about ${post.title}`}
+                onMouseDown={(e) => e.preventDefault()}
+              ></a>
             </div>
-          )}
-          <a
-            href="/post/link"
-            className="absolute inset-0 z-10"
-            aria-label={`Read more about ${post.title}`}
-          ></a>{' '}
-          {/* Invisible link covering the entire card for accessibility */}
-        </div>
-      ))}
+          </div>
+        ))}
+      </Carousel>
     </div>
   );
 };

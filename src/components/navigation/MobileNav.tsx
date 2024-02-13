@@ -14,7 +14,7 @@ const MobileNav: React.FC<MobileNavProps> = ({ handleLogout, user }) => {
     : '';
 
   return (
-    <Disclosure.Panel className="lg:hidden fixed bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100 w-full">
+    <Disclosure.Panel className="lg:hidden fixed bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100 w-full z-40">
       <div className="space-y-1 px-2 pb-3 pt-2">
         <Disclosure.Button
           as={Link}
