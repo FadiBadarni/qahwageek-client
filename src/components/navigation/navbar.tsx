@@ -39,7 +39,10 @@ export const Navbar: React.FC = () => {
     : '';
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure
+      as="nav"
+      className="bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100"
+    >
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
@@ -52,25 +55,25 @@ export const Navbar: React.FC = () => {
                   <div className="flex space-x-4 rtl:space-x-reverse">
                     <Link
                       to="/"
-                      className="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
                     >
                       الرئيسية
                     </Link>
                     <Link
                       to="/category/terms"
-                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
                     >
                       دليل المصطلحات
                     </Link>
                     <Link
                       to="/category/code"
-                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
                     >
                       اسبرسو كود
                     </Link>
                     <Link
                       to="/category/career"
-                      className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
                     >
                       تطوير المهنة
                     </Link>
@@ -85,14 +88,14 @@ export const Navbar: React.FC = () => {
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                       <MagnifyingGlassIcon
-                        className="h-5 w-5 text-gray-400"
+                        className="h-5 w-5 text-gray-400 dark:text-gray-500"
                         aria-hidden="true"
                       />
                     </div>
                     <input
                       id="search"
                       name="search"
-                      className="block w-full rounded-md border-0 bg-gray-700 py-1.5 pr-10 pl-3 text-gray-300 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 focus:ring-0 sm:text-sm sm:leading-6"
+                      className="block w-full rounded-md border-0 bg-gray-50 py-1.5 pr-10 pl-3 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 dark:bg-gray-700 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus:text-gray-100 focus:ring-0 sm:text-sm sm:leading-6"
                       placeholder="البحث"
                       type="search"
                     />
@@ -108,7 +111,7 @@ export const Navbar: React.FC = () => {
               </button>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
+                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover: focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">فتح القائمة الرئيسية</span>
                   {open ? (
@@ -123,7 +126,7 @@ export const Navbar: React.FC = () => {
                   {/* Profile dropdown */}
                   <Menu as="div" className="relative mr-4 flex-shrink-0">
                     <div>
-                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">فتح قائمة المستخدم</span>
                         <div className="h-8 w-8 rounded-full flex items-center justify-center bg-slate-950">
