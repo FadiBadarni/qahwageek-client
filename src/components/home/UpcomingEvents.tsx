@@ -1,11 +1,13 @@
 import { MeetupEvent } from 'models/event';
-import React from 'react';
+import React, { useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import {
   CalendarIcon,
   GlobeAltIcon,
   LinkIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 
 const events: MeetupEvent[] = [
@@ -33,9 +35,26 @@ const events: MeetupEvent[] = [
     eventLink: 'http://example.com',
     isOnlineEvent: true,
   },
+  {
+    eventId: '4',
+    title: 'العنوان الأول',
+    date: '2023-01-01T12:00:00Z',
+    imageUrl: 'https://via.placeholder.com/150',
+    eventLink: 'http://example.com',
+    isOnlineEvent: true,
+  },
 ];
 
 export const UpcomingEvents: React.FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const eventsPerPage = 3;
+
+  const indexOfLastEvent = currentPage * eventsPerPage;
+  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
+  const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
+
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
   const formatDateWithTime = (dateTimeString: string) => {
     const date = parseISO(dateTimeString);
     return format(date, 'PPPp', { locale: ar });
@@ -46,7 +65,7 @@ export const UpcomingEvents: React.FC = () => {
       <h2 className="text-center text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white">
         شو في قريب ؟
       </h2>
-      {events.map((event) => (
+      {currentEvents.map((event) => (
         <div
           key={event.eventId}
           className="bg-white dark:bg-dark-700 rounded-lg shadow p-4 relative group"
@@ -81,6 +100,24 @@ export const UpcomingEvents: React.FC = () => {
           </div>
         </div>
       ))}
+      <div className="flex justify-center items-center space-x-reverse space-x-4">
+        <button
+          onClick={() => paginate(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ChevronRightIcon className="h-5 w-5" />
+        </button>
+        <span>{currentPage}</span>
+
+        <button
+          onClick={() => paginate(currentPage + 1)}
+          disabled={currentPage === Math.ceil(events.length / eventsPerPage)}
+          className="disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ChevronLeftIcon className="h-5 w-5" />
+        </button>
+      </div>
     </div>
   );
 };
