@@ -20,7 +20,6 @@ class UserService {
   static async getUserInfoService() {
     try {
       const response = await axiosClient.get('/user/info');
-      console.log(response);
       return response.data;
     } catch (error) {
       throw new Error('Failed to fetch user info');

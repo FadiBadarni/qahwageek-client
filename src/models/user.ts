@@ -1,7 +1,7 @@
 export interface UserData {
   id: number;
   email: string;
-  userName: string;
+  username: string;
   roles: any[];
 }
 
