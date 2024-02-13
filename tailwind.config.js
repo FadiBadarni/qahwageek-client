@@ -11,11 +11,16 @@ module.exports = {
           700: '#21262D',
         },
         light: {
-          100: '#F8FAFC',
-          200: '#F1F5F9',
-          300: '#E2E8F0',
-          400: '#CBD5E1',
-          500: '#94A3B8',
+          // Slightly off-white background to reduce glare
+          100: '#F0F2F5',
+          // Soft gray for secondary elements, less stark than pure white
+          200: '#E5E7EB',
+          // Neutral for subtle borders and dividers
+          300: '#D1D5DB',
+          // Light gray for inputs and other form elements
+          400: '#9CA3AF',
+          // Darker gray for text to ensure good contrast without being too harsh
+          500: '#6B7280',
         },
         brand: {
           500: '#2563EB',
@@ -30,9 +35,11 @@ module.exports = {
           400: '#BAE6FD',
         },
         neutral: {
-          100: '#E0E0E0',
-          200: '#A1A1AA',
-          300: '#71717A',
+          100: '#F0F2F5',
+          200: '#E5E7EB',
+          300: '#D1D5DB',
+          400: '#9CA3AF',
+          500: '#6B7280',
         },
       },
     },
