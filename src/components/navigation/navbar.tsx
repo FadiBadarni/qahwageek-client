@@ -6,10 +6,16 @@ import { RootState } from 'store/store';
 import { Fragment } from 'react';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { MagnifyingGlassIcon } from '@heroicons/react/20/solid';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import {
+  Bars3Icon,
+  XMarkIcon,
+  SunIcon,
+  MoonIcon,
+} from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import logo from 'assets/logo.svg';
 import MobileNav from './MobileNav';
+import { toggleTheme } from 'store/theme/themeReducer';
 
 function classNames(...classes: (string | null | undefined)[]): string {
   return classes.filter(Boolean).join(' ');
@@ -18,9 +24,14 @@ function classNames(...classes: (string | null | undefined)[]): string {
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.user.data);
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const handleToggleTheme = () => {
+    dispatch(toggleTheme());
   };
 
   const userInitial = user?.username
@@ -88,6 +99,13 @@ export const Navbar: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <button onClick={handleToggleTheme} className="p-2">
+                {currentTheme === 'dark' ? (
+                  <SunIcon className="h-6 w-6 text-yellow-500" />
+                ) : (
+                  <MoonIcon className="h-6 w-6 text-gray-700" />
+                )}
+              </button>
               <div className="flex lg:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">

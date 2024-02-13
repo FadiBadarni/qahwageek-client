@@ -18,14 +18,14 @@ const posts: RecentPost[] = [
     imageUrl: 'https://via.placeholder.com/150',
   },
   {
-    id: 1,
+    id: 2,
     title: 'العنوان الأول',
     writer: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
   },
   {
-    id: 1,
+    id: 3,
     title: 'العنوان الأول',
     writer: 'فادي بدارنة',
     publishedAt: '2023-01-01',

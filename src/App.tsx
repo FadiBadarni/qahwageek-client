@@ -4,8 +4,21 @@ import { LoginPage } from 'components/login';
 import { ProtectedRoute } from 'ProtectedRoute';
 import { Navbar } from 'components/navigation/navbar';
 import { Home } from 'components/home';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useEffect } from 'react';
 
 function App() {
+  const theme = useSelector((state: RootState) => state.theme.theme);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark');
+    }
+  }, [theme]);
+
   return (
     <div className="min-h-screen  flex flex-col bg-dark-900">
       <Router>
