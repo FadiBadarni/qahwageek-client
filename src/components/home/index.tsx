@@ -4,6 +4,7 @@ import { getUserInfo } from 'store/user/userActions';
 import FeaturedPosts from './FeaturedPosts';
 import { LatestPosts } from './LatestPosts';
 import { UpcomingEvents } from './UpcomingEvents';
+import { PopularPosts } from './PopularPosts';
 
 export const Home: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ export const Home: React.FC = () => {
         <div className="md:flex md:space-x-4">
           <div className="md:w-2/3">
             <LatestPosts />
+            <PopularPosts />
           </div>
           <div className="md:w-1/3">
             <UpcomingEvents />
