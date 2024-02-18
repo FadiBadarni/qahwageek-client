@@ -1,7 +1,10 @@
 import { RichTextEditor } from 'components/textEditor/RichTextEditor';
+import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useState } from 'react';
+import { uploadImageToS3 } from 'store/post/postActions';
 
 const CreatePost = () => {
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
 
@@ -15,15 +18,45 @@ const CreatePost = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    let updatedContent = content;
 
-    // Extract base64 images and replace them with S3 URLs
-    //const updatedContent = await replaceBase64WithS3URLs(content);
+    const base64ImageRegex = /<img src="(data:image\/[^;]+;base64,[^"]+)"/g;
+    let matches = [...content.matchAll(base64ImageRegex)];
 
-    // Now, updatedContent has S3 URLs instead of base64 strings
-    console.log(content);
+    // Map matches to promises that resolve to replacement strings
+    const replacementsPromise = matches.map(async (match) => {
+      const [fullMatch, dataURI] = match; // fullMatch is the entire img src value, dataURI includes the MIME type and base64 data
+      const contentType = dataURI.split(';')[0].split(':')[1]; // Extract MIME type from dataURI
+      const fileExtension = contentType.split('/')[1] || 'jpg';
+      const filename = `image-${Date.now()}.${fileExtension}`;
+      try {
+        const imageUrl = await dispatch(
+          uploadImageToS3({ base64Image: dataURI, filename }) // Pass the entire data URI
+        ).unwrap();
+        return {
+          old: fullMatch,
+          new: imageUrl,
+        };
+      } catch (error) {
+        console.error('Failed to upload image to S3:', error);
+        return null;
+      }
+    });
 
-    // Proceed to use updatedContent for the post submission
-    // Update Redux state or directly submit the post data
+    // Resolve all promises and apply the replacements
+    const replacements = await Promise.all(replacementsPromise);
+    replacements.forEach((replacement) => {
+      if (replacement) {
+        updatedContent = updatedContent.replace(
+          replacement.old,
+          `<img src="${replacement.new}" />`
+        );
+      }
+    });
+
+    console.log({ title, content: updatedContent });
+    // Dispatch the action to save the post with updated content
+    // dispatch(savePost({ title, content: updatedContent }));
   };
 
   return (
