@@ -38,6 +38,8 @@ export const Navbar: React.FC = () => {
     ? user.username.charAt(0).toUpperCase()
     : '';
 
+  const isAdmin = user?.roles.includes('ROLE_ADMIN');
+
   return (
     <Disclosure
       as="nav"
@@ -77,6 +79,14 @@ export const Navbar: React.FC = () => {
                     >
                       تطوير المهنة
                     </Link>
+                    {isAdmin && (
+                      <Link
+                        to="/cms"
+                        className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
+                      >
+                        ادارة المحتوى
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>
@@ -165,7 +175,11 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <MobileNav handleLogout={handleLogout} user={user} />
+          <MobileNav
+            handleLogout={handleLogout}
+            user={user}
+            isAdmin={isAdmin}
+          />
         </>
       )}
     </Disclosure>

@@ -6,9 +6,14 @@ import { UserData } from 'models/user';
 interface MobileNavProps {
   handleLogout: () => void;
   user: UserData | null;
+  isAdmin: boolean | undefined;
 }
 
-const MobileNav: React.FC<MobileNavProps> = ({ handleLogout, user }) => {
+const MobileNav: React.FC<MobileNavProps> = ({
+  handleLogout,
+  user,
+  isAdmin,
+}) => {
   const userInitial = user?.username
     ? user.username.charAt(0).toUpperCase()
     : '';
@@ -44,6 +49,15 @@ const MobileNav: React.FC<MobileNavProps> = ({ handleLogout, user }) => {
         >
           تطوير المهنة
         </Disclosure.Button>
+        {isAdmin && (
+          <Disclosure.Button
+            as={Link}
+            to="/cms"
+            className="block rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-700 dark:text-white"
+          >
+            ادارة المحتوى
+          </Disclosure.Button>
+        )}
       </div>
       <div className="border-t border-gray-700 pb-3 pt-4">
         <div className="flex items-center px-5">

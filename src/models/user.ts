@@ -2,7 +2,7 @@ export interface UserData {
   id: number;
   email: string;
   username: string;
-  roles: any[];
+  roles: string[];
 }
 
 export interface LoginRequest {
