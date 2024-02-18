@@ -3,6 +3,7 @@ import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import { RecentPost } from 'models/post';
+import { useNavigate } from 'react-router-dom';
 
 const posts: RecentPost[] = [
   {
@@ -57,6 +58,8 @@ const responsive = {
 };
 
 const FeaturedPosts: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="space-y-2">
       <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right">
@@ -77,7 +80,12 @@ const FeaturedPosts: React.FC = () => {
         rtl
       >
         {posts.map((post) => (
-          <div key={post.id} className="p-4">
+          <div
+            key={post.id}
+            className="p-4"
+            onClick={() => navigate(`/posts/${post.id}`)}
+            style={{ cursor: 'pointer' }}
+          >
             <div className="relative bg-white rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
               {post.imageUrl && (
                 <div className="relative group">
@@ -125,12 +133,6 @@ const FeaturedPosts: React.FC = () => {
                   </div>
                 </div>
               )}
-              <a
-                href="/post/link"
-                className="absolute inset-0 z-10"
-                aria-label={`Read more about ${post.title}`}
-                onMouseDown={(e) => e.preventDefault()}
-              ></a>
             </div>
           </div>
         ))}

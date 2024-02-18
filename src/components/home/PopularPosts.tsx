@@ -38,6 +38,7 @@ export const PopularPosts: React.FC = () => {
         {posts.map((post) => (
           <PostItem
             key={post.id}
+            id={post.id}
             title={post.title}
             writer={post.writer}
             publishedAt={post.publishedAt}
