@@ -7,6 +7,7 @@ import { Home } from 'components/home';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useEffect } from 'react';
+import Footer from 'components/footer';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -36,6 +37,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </div>
+        <Footer />
       </Router>
     </div>
   );
