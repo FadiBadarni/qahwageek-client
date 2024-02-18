@@ -9,6 +9,8 @@ import { RootState } from 'store/store';
 import { useEffect } from 'react';
 import Footer from 'components/footer';
 import CMSPage from 'components/admin/CMSPage';
+import Post from 'components/post';
+import CreatePost from 'components/admin/CreatePost';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -36,11 +38,20 @@ function App() {
               }
             />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/posts/:postId" element={<Post />} />
             <Route
               path="/cms"
               element={
                 <ProtectedRoute>
                   <CMSPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cms/create-post"
+              element={
+                <ProtectedRoute>
+                  <CreatePost />
                 </ProtectedRoute>
               }
             />

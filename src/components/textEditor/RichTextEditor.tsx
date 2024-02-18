@@ -1,7 +1,7 @@
 import { ChangeEvent } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import './text-editor.scss';
+import './text-editor.css';
 
 interface RichTextEditorProps {
   name: string;
@@ -10,14 +10,15 @@ interface RichTextEditorProps {
 }
 
 const toolbarOptions = [
-  [{ header: [1, 2, 3, 4, 5, 6, false] }, { font: [] }], // Headers in a dropdown, Font styles
-  ['bold', 'italic', 'underline', 'strike'], // Toggled buttons
-  [{ color: [] }, { background: [] }], // Text colors, background colors
-  ['blockquote', 'code-block'], // Blockquote, Code-block
-  [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }], // Lists, Indentations
-  [{ direction: 'rtl' }], // Text direction
-  [{ align: [] }], // Text alignment
-  ['clean'], // Remove formatting
+  [{ header: [1, 2, 3, 4, 5, 6, false] }],
+  ['bold', 'italic', 'underline', 'strike'],
+  [{ color: [] }, { background: [] }],
+  ['blockquote', 'code-block'],
+  [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
+  [{ direction: 'rtl' }],
+  [{ align: [] }],
+  ['clean'],
+  ['image'],
 ];
 
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
