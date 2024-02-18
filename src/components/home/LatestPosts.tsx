@@ -1,6 +1,6 @@
 import React from 'react';
-import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { RecentPost } from 'models/post';
+import PostItem from 'components/shared/PostItem';
 
 const posts: RecentPost[] = [
   {
@@ -36,32 +36,19 @@ export const LatestPosts: React.FC = () => {
       </h2>
       <div>
         {posts.map((post) => (
-          <div
+          <PostItem
             key={post.id}
-            className="flex items-center p-4 border-b border-gray-300 last:border-b-0 dark:border-dark-500 bg-gray-100 dark:bg-dark-700 rounded-md"
-          >
-            <div className="flex flex-grow flex-col justify-between h-full">
-              <h3 className="text-lg font-semibold dark:text-white">
-                {post.title}
-              </h3>
-
-              <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mt-6">
-                <UserIcon className="h-5 w-5 ml-1" />
-                <span>{post.writer}</span>
-                <CalendarIcon className="h-5 w-5 ml-1 mr-4" />
-                <time dateTime={post.publishedAt}>{post.publishedAt}</time>
-                <ClockIcon className="h-5 w-5 ml-1 mr-4" />
-                <span>{post.readingTime} دقائق قراءة</span>
-              </div>
-            </div>
-            <img
-              className="w-24 h-24 object-cover rounded-lg ml-4"
-              src={post.imageUrl}
-              alt={post.title}
-            />
-          </div>
+            title={post.title}
+            writer={post.writer}
+            publishedAt={post.publishedAt}
+            imageUrl={post.imageUrl}
+            readingTime={post.readingTime}
+          />
         ))}
       </div>
+      <button className="mt-4 w-full py-2 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-400 transition duration-300 ease-in-out text-center">
+        رؤية المزيد
+      </button>
     </div>
   );
 };
