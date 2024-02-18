@@ -1,7 +1,7 @@
 import { RichTextEditor } from 'components/textEditor/RichTextEditor';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useState } from 'react';
-import { uploadImageToS3 } from 'store/post/postActions';
+import { savePost, uploadImageToS3 } from 'store/post/postActions';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
@@ -54,28 +54,46 @@ const CreatePost = () => {
       }
     });
 
-    console.log({ title, content: updatedContent });
     // Dispatch the action to save the post with updated content
-    // dispatch(savePost({ title, content: updatedContent }));
+    dispatch(savePost({ title, content: updatedContent }));
   };
 
   return (
-    <div className="p-5">
+    <div className="p-4">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <input
-          type="text"
-          name="title"
-          value={title}
-          onChange={handleTitleChange}
-          placeholder="عنوان المقال"
-          className="block w-full px-4 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-brand-500 focus:border-brand-500 sm:text-sm"
-          required
-        />
-        <RichTextEditor
-          name="content"
-          value={content}
-          onChange={(e: any) => handleContentChange(e.target.value)}
-        />
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
+          >
+            عنوان المقال
+          </label>
+          <input
+            id="title"
+            type="text"
+            name="title"
+            value={title}
+            onChange={handleTitleChange}
+            placeholder="أدخل عنوان المقال هنا"
+            className="mt-1 block w-full rounded-md border-0 bg-light-100 py-2 px-4 placeholder-neutral-400 text-neutral-700 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:ring-0 sm:text-sm sm:leading-6"
+            required
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="content"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-2"
+          >
+            محتوى المقال
+          </label>
+          <RichTextEditor
+            name="content"
+            value={content}
+            onChange={(e: any) => handleContentChange(e.target.value)}
+          />
+        </div>
+
         <button
           type="submit"
           className="mt-4 px-4 py-2 bg-brand-500 text-white font-medium rounded-md hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"

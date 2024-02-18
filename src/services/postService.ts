@@ -10,6 +10,14 @@ class PostService {
     });
     return response.data.url;
   }
+
+  static async savePost(postData: {
+    title: string;
+    content: string;
+  }): Promise<any> {
+    const response = await axiosClient.post(`/posts`, postData);
+    return response.data;
+  }
 }
 
 export default PostService;

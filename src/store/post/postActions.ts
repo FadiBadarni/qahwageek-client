@@ -10,16 +10,12 @@ export const uploadImageToS3 = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      console.log('base64Image', filename);
       const blob = convertBase64ToBlob(base64Image);
-      console.log('blob', blob);
       // Request a presigned URL from the server
       const presignedUrl = await PostService.getPresignedUrl(
         filename,
         blob.type
       );
-      console.log(blob.type);
-      console.log('presignedUrl', presignedUrl);
       // Upload the blob to S3
       await axios.put(presignedUrl, blob, {
         headers: {
@@ -33,6 +29,22 @@ export const uploadImageToS3 = createAsyncThunk(
       return rejectWithValue(
         error.response?.data || 'Unable to upload image to S3'
       );
+    }
+  }
+);
+
+export const savePost = createAsyncThunk(
+  'posts/savePost',
+  async (
+    { title, content }: { title: string; content: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const savedPost = await PostService.savePost({ title, content });
+      return savedPost;
+    } catch (error: any) {
+      console.error('Failed to save post:', error);
+      return rejectWithValue(error.response?.data || 'Unable to save post');
     }
   }
 );
