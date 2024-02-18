@@ -1,6 +1,8 @@
 import React from 'react';
 import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
+import { format, parseISO } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 interface PostItemProps {
   id: number;
@@ -20,6 +22,10 @@ const PostItem: React.FC<PostItemProps> = ({
   readingTime,
 }) => {
   const navigate = useNavigate();
+
+  const date = parseISO(publishedAt);
+
+  const formattedDate = format(date, 'dd MMMM - HH:mm', { locale: ar });
 
   const handleClick = () => {
     navigate(`/posts/${id}`);
@@ -41,7 +47,7 @@ const PostItem: React.FC<PostItemProps> = ({
           </div>
           <div className="flex flex-col sm:flex-row items-center">
             <CalendarIcon className="h-4 w-4 sm:h-5 sm:w-5 mb-1 sm:mb-0 sm:ml-2" />
-            <time dateTime={publishedAt}>{publishedAt}</time>
+            <time dateTime={publishedAt}>{formattedDate}</time>
           </div>
           {readingTime && (
             <div className="flex flex-col sm:flex-row items-center">
