@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useEffect } from 'react';
 import Footer from 'components/footer';
+import CMSPage from 'components/admin/CMSPage';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -35,6 +36,14 @@ function App() {
               }
             />
             <Route path="/login" element={<LoginPage />} />
+            <Route
+              path="/cms"
+              element={
+                <ProtectedRoute>
+                  <CMSPage />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </div>
         <Footer />
