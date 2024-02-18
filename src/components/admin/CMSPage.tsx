@@ -67,7 +67,7 @@ const CMSPage: React.FC = () => {
       </div>
 
       {/* Sidebar for Large Screens */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 bg-light-200 dark:bg-dark-800 overflow-y-auto pt-[64px] lg:h-full">
+      <aside className="hidden lg:flex lg:flex-col lg:w-64 bg-light-200 dark:bg-dark-800 overflow-y-auto lg:h-full">
         <div className="py-4 px-3">
           <ul className="space-y-2">
             <li>
