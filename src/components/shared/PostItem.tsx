@@ -52,7 +52,7 @@ const PostItem: React.FC<PostItemProps> = ({
           {readingTime && (
             <div className="flex flex-col sm:flex-row items-center">
               <ClockIcon className="h-4 w-4 sm:h-5 sm:w-5 mb-1 sm:mb-0 sm:ml-2" />
-              <span>{readingTime} دقائق قراءة</span>
+              <span>{readingTime} دَ قراءة</span>
             </div>
           )}
         </div>

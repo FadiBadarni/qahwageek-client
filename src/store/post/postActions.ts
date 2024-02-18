@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { NewPost } from 'models/post';
 import PostService from 'services/postService';
 import { convertBase64ToBlob } from 'utils/fileUpload';
 
@@ -64,20 +65,9 @@ export const uploadMainImage = createAsyncThunk(
 
 export const savePost = createAsyncThunk(
   'posts/savePost',
-  async (
-    {
-      title,
-      content,
-      mainImageUrl,
-    }: { title: string; content: string; mainImageUrl?: string },
-    { rejectWithValue }
-  ) => {
+  async (postData: NewPost, { rejectWithValue }) => {
     try {
-      const savedPost = await PostService.savePost({
-        title,
-        content,
-        mainImageUrl,
-      });
+      const savedPost = await PostService.savePost(postData);
       return savedPost;
     } catch (error: any) {
       console.error('Failed to save post:', error);
