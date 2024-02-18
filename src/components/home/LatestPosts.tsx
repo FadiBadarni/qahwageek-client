@@ -1,34 +1,18 @@
-import React from 'react';
-import { RecentPost } from 'models/post';
+import React, { useEffect } from 'react';
 import PostItem from 'components/shared/PostItem';
-
-const posts: RecentPost[] = [
-  {
-    id: 1,
-    title: 'العنوان الأول',
-    writer: 'فادي بدارنة',
-    publishedAt: '2023-01-01',
-    imageUrl: 'https://via.placeholder.com/150',
-    readingTime: 5,
-  },
-  {
-    id: 2,
-    title: 'العنوان الأول',
-    writer: 'فادي بدارنة',
-    publishedAt: '2023-01-01',
-    imageUrl: 'https://via.placeholder.com/150',
-    readingTime: 5,
-  },
-  {
-    id: 3,
-    title: 'العنوان الأول',
-    writer: 'فادي بدارنة',
-    publishedAt: '2023-01-01',
-    imageUrl: 'https://via.placeholder.com/150',
-  },
-];
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { getRecentPosts } from 'store/post/postActions';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 export const LatestPosts: React.FC = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getRecentPosts());
+  }, [dispatch]);
+
+  const posts = useSelector((state: RootState) => state.posts.data);
   return (
     <div className="p-4 space-y-4">
       <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right">
@@ -40,7 +24,7 @@ export const LatestPosts: React.FC = () => {
             key={post.id}
             id={post.id}
             title={post.title}
-            writer={post.writer}
+            writer={post.author}
             publishedAt={post.publishedAt}
             imageUrl={post.imageUrl}
             readingTime={post.readingTime}

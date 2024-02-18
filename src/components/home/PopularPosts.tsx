@@ -6,7 +6,7 @@ const posts: RecentPost[] = [
   {
     id: 1,
     title: 'العنوان الأول',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
@@ -14,7 +14,7 @@ const posts: RecentPost[] = [
   {
     id: 2,
     title: 'العنوان الأول',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
@@ -22,7 +22,7 @@ const posts: RecentPost[] = [
   {
     id: 3,
     title: 'العنوان الأول',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
   },
@@ -40,7 +40,7 @@ export const PopularPosts: React.FC = () => {
             key={post.id}
             id={post.id}
             title={post.title}
-            writer={post.writer}
+            writer={post.author}
             publishedAt={post.publishedAt}
             imageUrl={post.imageUrl}
             readingTime={post.readingTime}

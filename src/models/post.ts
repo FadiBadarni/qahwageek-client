@@ -1,7 +1,7 @@
 export interface RecentPost {
   id: number;
   title: string;
-  writer: string;
+  author: string;
   publishedAt: string;
   imageUrl?: string;
   readingTime?: number;

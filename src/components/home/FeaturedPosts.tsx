@@ -9,7 +9,7 @@ const posts: RecentPost[] = [
   {
     id: 1,
     title: '9 استراتيجيّات البحث عن عمل في زمن التغيرات',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     imageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
@@ -17,7 +17,7 @@ const posts: RecentPost[] = [
   {
     id: 2,
     title: 'العنوان الثاني',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-02',
     imageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
@@ -25,14 +25,14 @@ const posts: RecentPost[] = [
   {
     id: 3,
     title: 'العنوان الثالث',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-03',
     imageUrl: 'https://via.placeholder.com/150',
   },
   {
     id: 4,
     title: 'العنوان الرابع',
-    writer: 'فادي بدارنة',
+    author: 'فادي بدارنة',
     publishedAt: '2023-01-04',
     imageUrl: 'https://via.placeholder.com/150',
   },
@@ -105,7 +105,7 @@ const FeaturedPosts: React.FC = () => {
                           aria-hidden="true"
                         />
                         <span className="text-sm text-gray-200">
-                          {post.writer}
+                          {post.author}
                         </span>
                       </div>
                       <div className="flex items-center">

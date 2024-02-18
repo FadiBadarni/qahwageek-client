@@ -48,3 +48,18 @@ export const savePost = createAsyncThunk(
     }
   }
 );
+
+export const getRecentPosts = createAsyncThunk(
+  'posts/getRecentPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const recentPosts = await PostService.getRecentPosts();
+      return recentPosts;
+    } catch (error: any) {
+      console.error('Failed to fetch recent posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch recent posts'
+      );
+    }
+  }
+);

@@ -13,16 +13,19 @@ import authReducer from 'store/auth/authReducer';
 import themeReducer from 'store/theme/themeReducer';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './user/userReducer';
+import postReducer from './post/postReducer';
 export interface RootState {
   user: ReturnType<typeof userReducer>;
   auth: ReturnType<typeof authReducer>;
   theme: ReturnType<typeof themeReducer>;
+  posts: ReturnType<typeof postReducer>;
 }
 
 const rootReducer = combineReducers({
   user: userReducer,
   auth: authReducer,
   theme: themeReducer,
+  posts: postReducer,
 });
 
 const persistConfig = {
