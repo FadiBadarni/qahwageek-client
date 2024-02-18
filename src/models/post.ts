@@ -14,3 +14,8 @@ export interface LightPost {
   publishedAt: string;
   imageUrl?: string;
 }
+
+export interface NewPost {
+  title: string;
+  content: string;
+}

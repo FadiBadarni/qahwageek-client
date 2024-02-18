@@ -1,5 +1,6 @@
 import { RichTextEditor } from 'components/textEditor/RichTextEditor';
 import { useAppDispatch } from 'hooks/useAppDispatch';
+import { NewPost } from 'models/post';
 import React, { useState } from 'react';
 import { savePost, uploadImageToS3 } from 'store/post/postActions';
 
@@ -54,8 +55,17 @@ const CreatePost = () => {
       }
     });
 
+    const newPostData: NewPost = {
+      title,
+      content: updatedContent,
+    };
+
     // Dispatch the action to save the post with updated content
-    dispatch(savePost({ title, content: updatedContent }));
+    try {
+      await dispatch(savePost(newPostData)).unwrap();
+    } catch (error) {
+      console.error('Failed to save post:', error);
+    }
   };
 
   return (

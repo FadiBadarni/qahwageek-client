@@ -1,3 +1,4 @@
+import { NewPost } from 'models/post';
 import axiosClient from './axiosClient';
 
 class PostService {
@@ -11,10 +12,7 @@ class PostService {
     return response.data.url;
   }
 
-  static async savePost(postData: {
-    title: string;
-    content: string;
-  }): Promise<any> {
+  static async savePost(postData: NewPost): Promise<any> {
     const response = await axiosClient.post(`/posts`, postData);
     return response.data;
   }
