@@ -26,7 +26,7 @@ export const LatestPosts: React.FC = () => {
             title={post.title}
             writer={post.author}
             publishedAt={post.publishedAt}
-            imageUrl={post.imageUrl}
+            imageUrl={post.mainImageUrl}
             readingTime={post.readingTime}
           />
         ))}

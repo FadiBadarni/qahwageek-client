@@ -3,8 +3,9 @@ export interface RecentPost {
   title: string;
   author: string;
   publishedAt: string;
-  imageUrl?: string;
+  mainImageUrl?: string;
   readingTime?: number;
+  content?: string | TrustedHTML;
 }
 
 export interface LightPost {
@@ -18,4 +19,5 @@ export interface LightPost {
 export interface NewPost {
   title: string;
   content: string;
+  mainImageUrl?: string;
 }

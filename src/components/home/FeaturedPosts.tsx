@@ -11,7 +11,7 @@ const posts: RecentPost[] = [
     title: '9 استراتيجيّات البحث عن عمل في زمن التغيرات',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
-    imageUrl: 'https://via.placeholder.com/150',
+    mainImageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
   },
   {
@@ -19,7 +19,7 @@ const posts: RecentPost[] = [
     title: 'العنوان الثاني',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-02',
-    imageUrl: 'https://via.placeholder.com/150',
+    mainImageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
   },
   {
@@ -27,14 +27,14 @@ const posts: RecentPost[] = [
     title: 'العنوان الثالث',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-03',
-    imageUrl: 'https://via.placeholder.com/150',
+    mainImageUrl: 'https://via.placeholder.com/150',
   },
   {
     id: 4,
     title: 'العنوان الرابع',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-04',
-    imageUrl: 'https://via.placeholder.com/150',
+    mainImageUrl: 'https://via.placeholder.com/150',
   },
 ];
 
@@ -87,10 +87,10 @@ const FeaturedPosts: React.FC = () => {
             style={{ cursor: 'pointer' }}
           >
             <div className="relative bg-white rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
-              {post.imageUrl && (
+              {post.mainImageUrl && (
                 <div className="relative group">
                   <img
-                    src={post.imageUrl}
+                    src={post.mainImageUrl}
                     alt={post.title}
                     className="w-full object-cover h-48 rounded-lg"
                   />

@@ -33,14 +33,51 @@ export const uploadImageToS3 = createAsyncThunk(
   }
 );
 
+export const uploadMainImage = createAsyncThunk(
+  'post/uploadMainImage',
+  async (
+    { file, filename }: { file: File; filename: string },
+    { dispatch, rejectWithValue }
+  ) => {
+    try {
+      const contentType = file.type;
+      const presignedUrl = await PostService.getPresignedUrl(
+        filename,
+        contentType
+      );
+      await axios.put(presignedUrl, file, {
+        headers: {
+          'Content-Type': contentType,
+        },
+      });
+
+      const imageUrl = presignedUrl.split('?')[0];
+      return imageUrl;
+    } catch (error: any) {
+      console.error('Failed to upload main image to S3:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to upload main image to S3'
+      );
+    }
+  }
+);
+
 export const savePost = createAsyncThunk(
   'posts/savePost',
   async (
-    { title, content }: { title: string; content: string },
+    {
+      title,
+      content,
+      mainImageUrl,
+    }: { title: string; content: string; mainImageUrl?: string },
     { rejectWithValue }
   ) => {
     try {
-      const savedPost = await PostService.savePost({ title, content });
+      const savedPost = await PostService.savePost({
+        title,
+        content,
+        mainImageUrl,
+      });
       return savedPost;
     } catch (error: any) {
       console.error('Failed to save post:', error);

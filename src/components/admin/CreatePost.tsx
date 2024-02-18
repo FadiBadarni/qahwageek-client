@@ -2,12 +2,18 @@ import { RichTextEditor } from 'components/textEditor/RichTextEditor';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { NewPost } from 'models/post';
 import React, { useState } from 'react';
-import { savePost, uploadImageToS3 } from 'store/post/postActions';
+import {
+  savePost,
+  uploadImageToS3,
+  uploadMainImage,
+} from 'store/post/postActions';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -20,6 +26,21 @@ const CreatePost = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     let updatedContent = content;
+    let mainImagePresignedUrl = '';
+
+    if (selectedImage) {
+      const filename = `main-image-${Date.now()}.${
+        selectedImage.type.split('/')[1]
+      }`;
+      try {
+        mainImagePresignedUrl = await dispatch(
+          uploadMainImage({ file: selectedImage, filename })
+        ).unwrap();
+      } catch (error) {
+        console.error('Failed to upload main image:', error);
+        return; // Stop the submission if the main image upload fails
+      }
+    }
 
     const base64ImageRegex = /<img src="(data:image\/[^;]+;base64,[^"]+)"/g;
     let matches = [...content.matchAll(base64ImageRegex)];
@@ -58,6 +79,7 @@ const CreatePost = () => {
     const newPostData: NewPost = {
       title,
       content: updatedContent,
+      mainImageUrl: mainImagePresignedUrl,
     };
 
     // Dispatch the action to save the post with updated content
@@ -87,6 +109,25 @@ const CreatePost = () => {
             placeholder="أدخل عنوان المقال هنا"
             className="mt-1 block w-full rounded-md border-0 bg-light-100 py-2 px-4 placeholder-neutral-400 text-neutral-700 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:ring-0 sm:text-sm sm:leading-6"
             required
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="image"
+            className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
+          >
+            اختر صورة للمقال
+          </label>
+          <input
+            id="image"
+            type="file"
+            accept="image/*"
+            onChange={(e) =>
+              setSelectedImage(e.target.files ? e.target.files[0] : null)
+            }
+            className="mt-1 block w-full text-sm text-neutral-700 file:mr-4 file:py-2 file:px-4
+               file:rounded-md file:border-0 file:text-sm file:font-semibold
+               file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100"
           />
         </div>
 
