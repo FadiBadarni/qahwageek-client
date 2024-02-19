@@ -7,6 +7,7 @@ import { RootState } from 'store/store';
 import DOMPurify from 'dompurify';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
+import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
 
 type Props = {};
 
@@ -25,13 +26,6 @@ const Post = (props: Props) => {
       dispatch(getPostById(Number(postId)));
     }
   }, [postId, dispatch]);
-
-  const createDOMPurifyConfig = () => {
-    return {
-      ADD_TAGS: ['h3', 'strong', 'u', 'img', 'span', 'a', 'pre', 'ul', 'li'],
-      ADD_ATTR: ['style', 'href', 'target', 'rel', 'class', 'spellcheck'],
-    };
-  };
 
   const sanitizedContent = post
     ? DOMPurify.sanitize(post.content, createDOMPurifyConfig())
@@ -85,10 +79,10 @@ const Post = (props: Props) => {
                 ))}
               </div>
             </div>
-            <div className="mt-4 p-6 bg-white/90 dark:bg-dark-800/90 rounded-md">
+            <div className="mt-4 p-2 bg-white/90 dark:bg-dark-800/90 rounded-md">
               <div
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
-                className="prose dark:prose-dark"
+                className="prose dark:prose-dark mx-auto max-w-none"
               ></div>
             </div>
           </div>

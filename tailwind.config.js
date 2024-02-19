@@ -42,10 +42,43 @@ module.exports = {
           500: '#6B7280',
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#333',
+            ul: {
+              listStyleType: 'disc',
+              marginRight: '1rem',
+            },
+            ol: {
+              listStyleType: 'decimal',
+              marginRight: '1rem',
+            },
+            li: {
+              marginTop: '0.25em',
+              marginBottom: '0.25em',
+            },
+          },
+        },
+        dark: {
+          css: {
+            color: '#fff',
+            a: {
+              color: '#3182ce',
+            },
+            h1: { color: '#fff' },
+            h2: { color: '#fff' },
+            h3: { color: '#fff' },
+            strong: { color: '#fff' },
+            u: { color: '#fff' },
+          },
+        },
+      },
     },
   },
   plugins: [
     require('@tailwindcss/forms'),
     require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
   ],
 };
