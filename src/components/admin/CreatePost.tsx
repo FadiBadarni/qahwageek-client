@@ -10,6 +10,7 @@ import {
   uploadMainImage,
 } from 'store/post/postActions';
 import { RootState } from 'store/store';
+import CategorySelect from './CategorySelect';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
@@ -35,15 +36,6 @@ const CreatePost = () => {
 
   const handleReadingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReadingTime(e.target.value);
-  };
-
-  const handleCategoryChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    const value = Array.from(event.target.selectedOptions, (option) =>
-      parseInt(option.value)
-    );
-    setSelectedCategoryIds(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -118,8 +110,8 @@ const CreatePost = () => {
   return (
     <div className="p-4">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="sm:col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
+          <div className="md:col-span-3">
             <label
               htmlFor="title"
               className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
@@ -137,12 +129,12 @@ const CreatePost = () => {
               required
             />
           </div>
-          <div>
+          <div className="md:col-span-1">
             <label
               htmlFor="readingTime"
               className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
             >
-              مدة القراءة (بالدقائق)
+              مدة القراءة
             </label>
             <input
               id="readingTime"
@@ -155,14 +147,19 @@ const CreatePost = () => {
               min="1"
             />
           </div>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="sm:col-span-2">
+          <div className="md:col-span-1">
+            <CategorySelect
+              categories={categories}
+              selectedCategoryIds={selectedCategoryIds}
+              onCategoryChange={setSelectedCategoryIds}
+            />
+          </div>
+          <div className="md:col-span-1">
             <label
               htmlFor="image"
               className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
             >
-              اختر صورة رئيسية للمقال
+              اختر صورة
             </label>
             <input
               id="image"
@@ -173,27 +170,6 @@ const CreatePost = () => {
               }
               className="mt-1 block w-full text-sm text-neutral-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
             />
-          </div>
-          <div className="sm:col-span-1">
-            <label
-              htmlFor="category"
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
-            >
-              اختر تصنيف المقال
-            </label>
-            <select
-              id="categories"
-              multiple={true}
-              value={selectedCategoryIds.map(String)}
-              onChange={handleCategoryChange}
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400 text-neutral-700 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
-            >
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
           </div>
         </div>
         <div>
@@ -209,7 +185,6 @@ const CreatePost = () => {
             onChange={(e: any) => handleContentChange(e.target.value)}
           />
         </div>
-
         <button
           type="submit"
           className="mt-4 px-4 py-2 bg-brand-500 text-white font-medium rounded-md hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"

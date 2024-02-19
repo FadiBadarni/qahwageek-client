@@ -16,10 +16,7 @@ import { Link } from 'react-router-dom';
 import logo from 'assets/logo.svg';
 import MobileNav from './MobileNav';
 import { toggleTheme } from 'store/theme/themeReducer';
-
-function classNames(...classes: (string | null | undefined)[]): string {
-  return classes.filter(Boolean).join(' ');
-}
+import { classNames } from 'utils/tailwindUtil';
 
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
