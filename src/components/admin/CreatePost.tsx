@@ -1,19 +1,29 @@
 import { RichTextEditor } from 'components/textEditor/RichTextEditor';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { NewPost } from 'models/post';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import {
+  fetchAllCategories,
   savePost,
   uploadImageToS3,
   uploadMainImage,
 } from 'store/post/postActions';
+import { RootState } from 'store/store';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
+  const categories = useSelector((state: RootState) => state.categories.data);
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [readingTime, setReadingTime] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -25,6 +35,15 @@ const CreatePost = () => {
 
   const handleReadingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReadingTime(e.target.value);
+  };
+
+  const handleCategoryChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const value = Array.from(event.target.selectedOptions, (option) =>
+      parseInt(option.value)
+    );
+    setSelectedCategoryIds(value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -85,6 +104,7 @@ const CreatePost = () => {
       content: updatedContent,
       mainImageUrl: mainImagePresignedUrl,
       readingTime: readingTime ? parseInt(readingTime, 10) : undefined,
+      categoryIds: selectedCategoryIds,
     };
 
     // Dispatch the action to save the post with updated content
@@ -98,8 +118,8 @@ const CreatePost = () => {
   return (
     <div className="p-4">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex-1">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-2">
             <label
               htmlFor="title"
               className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
@@ -117,24 +137,7 @@ const CreatePost = () => {
               required
             />
           </div>
-          <div className="flex-1">
-            <label
-              htmlFor="image"
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
-            >
-              اختر صورة رئيسية للمقال
-            </label>
-            <input
-              id="image"
-              type="file"
-              accept="image/*"
-              onChange={(e) =>
-                setSelectedImage(e.target.files ? e.target.files[0] : null)
-              }
-              className="mt-1 block w-full text-sm text-neutral-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-            />
-          </div>
-          <div className="flex-1">
+          <div>
             <label
               htmlFor="readingTime"
               className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
@@ -153,7 +156,46 @@ const CreatePost = () => {
             />
           </div>
         </div>
-
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-2">
+            <label
+              htmlFor="image"
+              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
+            >
+              اختر صورة رئيسية للمقال
+            </label>
+            <input
+              id="image"
+              type="file"
+              accept="image/*"
+              onChange={(e) =>
+                setSelectedImage(e.target.files ? e.target.files[0] : null)
+              }
+              className="mt-1 block w-full text-sm text-neutral-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+            />
+          </div>
+          <div className="sm:col-span-1">
+            <label
+              htmlFor="category"
+              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
+            >
+              اختر تصنيف المقال
+            </label>
+            <select
+              id="categories"
+              multiple={true}
+              value={selectedCategoryIds.map(String)}
+              onChange={handleCategoryChange}
+              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400 text-neutral-700 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            >
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div>
           <label
             htmlFor="content"

@@ -10,6 +10,7 @@ const posts: RecentPost[] = [
     publishedAt: '2023-01-01',
     mainImageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
+    categories: [],
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ const posts: RecentPost[] = [
     publishedAt: '2023-01-01',
     mainImageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
+    categories: [],
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ const posts: RecentPost[] = [
     author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
     mainImageUrl: 'https://via.placeholder.com/150',
+    categories: [],
   },
 ];
 

@@ -1,0 +1,33 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { fetchAllCategories } from './postActions';
+import { CategoryState } from './postState';
+import { LoadingStatus } from 'store/shared/commonState';
+
+const initialState: CategoryState = {
+  data: [],
+  status: LoadingStatus.Idle,
+  error: null,
+};
+const categorySlice = createSlice({
+  name: 'categories',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAllCategories.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchAllCategories.fulfilled, (state, action) => {
+        state.status = LoadingStatus.Succeeded;
+        state.data = action.payload;
+      })
+      .addCase(fetchAllCategories.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error =
+          action.error.message ??
+          'An unexpected error occurred fetching categories';
+      });
+  },
+});
+
+export default categorySlice.reducer;

@@ -21,6 +21,11 @@ class PostService {
     const response = await axiosClient.get(`/posts/recent`);
     return response.data;
   }
+
+  static async getAllCategories(): Promise<any> {
+    const response = await axiosClient.get(`/categories`);
+    return response.data;
+  }
 }
 
 export default PostService;

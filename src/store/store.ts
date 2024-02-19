@@ -14,11 +14,13 @@ import themeReducer from 'store/theme/themeReducer';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './user/userReducer';
 import postReducer from './post/postReducer';
+import categorySlice from './post/categoryReducer';
 export interface RootState {
   user: ReturnType<typeof userReducer>;
   auth: ReturnType<typeof authReducer>;
   theme: ReturnType<typeof themeReducer>;
   posts: ReturnType<typeof postReducer>;
+  categories: ReturnType<typeof categorySlice>;
 }
 
 const rootReducer = combineReducers({
@@ -26,6 +28,7 @@ const rootReducer = combineReducers({
   auth: authReducer,
   theme: themeReducer,
   posts: postReducer,
+  categories: categorySlice,
 });
 
 const persistConfig = {

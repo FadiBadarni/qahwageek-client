@@ -11,6 +11,7 @@ const posts: RecentPost[] = [
     title: '9 استراتيجيّات البحث عن عمل في زمن التغيرات',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-01',
+    categories: [],
     mainImageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
   },
@@ -19,6 +20,7 @@ const posts: RecentPost[] = [
     title: 'العنوان الثاني',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-02',
+    categories: [],
     mainImageUrl: 'https://via.placeholder.com/150',
     readingTime: 5,
   },
@@ -27,6 +29,7 @@ const posts: RecentPost[] = [
     title: 'العنوان الثالث',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-03',
+    categories: [],
     mainImageUrl: 'https://via.placeholder.com/150',
   },
   {
@@ -34,6 +37,7 @@ const posts: RecentPost[] = [
     title: 'العنوان الرابع',
     author: 'فادي بدارنة',
     publishedAt: '2023-01-04',
+    categories: [],
     mainImageUrl: 'https://via.placeholder.com/150',
   },
 ];
