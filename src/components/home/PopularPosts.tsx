@@ -1,8 +1,8 @@
 import React from 'react';
-import { RecentPost } from 'models/post';
+import { LightPost } from 'models/post';
 import PostItem from 'components/shared/PostItem';
 
-const posts: RecentPost[] = [
+const posts: LightPost[] = [
   {
     id: 1,
     title: 'العنوان الأول',

@@ -2,10 +2,10 @@ import React from 'react';
 import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { RecentPost } from 'models/post';
+import { LightPost } from 'models/post';
 import { useNavigate } from 'react-router-dom';
 
-const posts: RecentPost[] = [
+const posts: LightPost[] = [
   {
     id: 1,
     title: '9 استراتيجيّات البحث عن عمل في زمن التغيرات',

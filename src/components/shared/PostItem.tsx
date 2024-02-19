@@ -3,10 +3,10 @@ import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
-import { RecentPost } from 'models/post';
+import { LightPost } from 'models/post';
 
 interface PostItemProps {
-  post: RecentPost;
+  post: LightPost;
 }
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {

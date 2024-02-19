@@ -12,7 +12,7 @@ export const LatestPosts: React.FC = () => {
     dispatch(getRecentPosts());
   }, [dispatch]);
 
-  const posts = useSelector((state: RootState) => state.posts.data);
+  const posts = useSelector((state: RootState) => state.posts.recentPosts.data);
   return (
     <div className="p-4 space-y-4">
       <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right">
