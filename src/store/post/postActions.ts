@@ -4,6 +4,19 @@ import { NewPost } from 'models/post';
 import PostService from 'services/postService';
 import { convertBase64ToBlob } from 'utils/fileUpload';
 
+export const getPostById = createAsyncThunk(
+  'posts/getPostById',
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const post = await PostService.getPostById(id);
+      return post;
+    } catch (error: any) {
+      console.error('Failed to fetch post by ID:', error);
+      return rejectWithValue(error.response?.data || 'Unable to fetch post');
+    }
+  }
+);
+
 export const uploadImageToS3 = createAsyncThunk(
   'post/uploadImageToS3',
   async (

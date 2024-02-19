@@ -2,6 +2,11 @@ import { NewPost } from 'models/post';
 import axiosClient from './axiosClient';
 
 class PostService {
+  static async getPostById(id: number): Promise<any> {
+    const response = await axiosClient.get(`/posts/${id}`);
+    return response.data;
+  }
+
   static async getPresignedUrl(
     filename: string,
     contentType: string

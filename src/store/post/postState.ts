@@ -1,8 +1,8 @@
-import { Category, LightPost } from 'models/post';
+import { Category, LightPost, Post } from 'models/post';
 import { CommonState, LoadingStatus } from 'store/shared/commonState';
 
 export interface PostState {
-  currentPost: CommonState<LightPost | null>;
+  currentPost: CommonState<Post | null>;
   recentPosts: CommonState<LightPost[]>;
   featuredPosts: CommonState<LightPost[]>;
 }
