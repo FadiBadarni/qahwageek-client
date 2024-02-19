@@ -12,16 +12,18 @@ const posts: LightPost[] = [
   {
     id: 1,
     title: 'فهم React Hooks',
-    writer: 'جين دو',
+    author: 'جين دو',
     publishedAt: '2023-01-01',
-    imageUrl: 'https://via.placeholder.com/100',
+    mainImageUrl: 'https://via.placeholder.com/100',
+    categoryNames: [],
   },
   {
     id: 4,
     title: 'مقدمة في TypeScript',
-    writer: 'جين دو',
+    author: 'جين دو',
     publishedAt: '2023-01-01',
-    imageUrl: 'https://via.placeholder.com/100',
+    categoryNames: [],
+    mainImageUrl: 'https://via.placeholder.com/100',
   },
 ];
 
@@ -70,7 +72,7 @@ export default function PostsListing() {
             >
               <img
                 className="h-12 w-12 flex-none rounded-full"
-                src={post.imageUrl}
+                src={post.mainImageUrl}
                 alt={post.title}
               />
               <div className="min-w-0 flex-auto">
@@ -78,7 +80,7 @@ export default function PostsListing() {
                   {post.title}
                 </p>
                 <p className="mt-1 flex text-xs leading-5 text-neutral-400">
-                  {post.writer} ·{' '}
+                  {post.author} ·{' '}
                   {format(new Date(post.publishedAt), 'PPP', { locale: ar })}
                 </p>
               </div>

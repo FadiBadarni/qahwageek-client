@@ -1,6 +1,6 @@
-import { Category, RecentPost } from 'models/post';
+import { Category, LightPost } from 'models/post';
 import { CommonState } from 'store/shared/commonState';
 
-export interface PostState extends CommonState<RecentPost[]> {}
+export interface PostState extends CommonState<LightPost[]> {}
 
 export interface CategoryState extends CommonState<Category[]> {}

@@ -22,7 +22,9 @@ export interface Category {
 export interface LightPost {
   id: number;
   title: string;
-  writer: string;
+  author: string;
   publishedAt: string;
-  imageUrl?: string;
+  mainImageUrl?: string;
+  readingTime?: number;
+  categoryNames: string[];
 }
