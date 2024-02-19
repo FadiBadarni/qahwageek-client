@@ -27,7 +27,7 @@ function App() {
     <div className="min-h-screen flex flex-col bg-light-100 dark:bg-dark-900 text-neutral-600 dark:text-neutral-100">
       <Router>
         <Navbar />
-        <div className="flex-grow w-full mx-auto max-w-7xl px-2 py-2 sm:px-4 lg:px-8">
+        <div className="flex-grow w-full mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
           <Routes>
             <Route
               path="/"
