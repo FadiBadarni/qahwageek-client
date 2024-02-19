@@ -32,7 +32,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 }) => {
   const quillRef = useRef<ReactQuill>(null);
   const handleEditorChange = (content: string) => {
-    // Example function to check if the content is primarily LTR (e.g., English)
+    // function to check if the content is primarily LTR (e.g., English)
     const isLTRContent = (text: string) => /[A-Za-z]/.test(text);
 
     const quillEditor = quillRef.current?.getEditor();

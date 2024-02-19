@@ -47,32 +47,39 @@ const Post = (props: Props) => {
               className="relative w-full max-w-7xl mx-auto h-[25vh] md:h-[35vh] lg:h-[45vh] xl:h-[55vh] mb-4 rounded-md bg-cover bg-center"
               style={{ backgroundImage: `url(${post.mainImageUrl})` }}
             >
-              <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent to-black/60 rounded-md"></div>
+              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-md bg-gradient-to-b from-black/30 to-black/90"></div>
 
-              <div className="absolute bottom-14 w-full p-4">
-                <h1 className="text-4xl font-bold text-white">{post.title}</h1>
+              <div className="absolute bottom-14 w-full p-4 md:bottom-20 lg:p-8">
+                <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
+                  {post.title}
+                </h1>
               </div>
             </div>
           )}
 
-          <div className="relative -mt-[10vh] mb-6 p-4 bg-white/90 dark:bg-dark-800/90 rounded-md">
+          <div
+            className="relative mb-6 p-4 bg-white/90 dark:bg-dark-800/90 rounded-md 
+            -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh]"
+          >
             <div className="flex flex-wrap items-center text-sm justify-between mb-4">
               {/* Author, Date, and Reading Time */}
-              <div className="flex items-center flex-grow">
+              <div className="flex flex-wrap items-center flex-grow">
                 <span>كتب بواسطة - </span>
                 <span className="font-semibold mr-2">{post.author}</span>
-                <span className="mx-4">|</span>
-                <time dateTime={post.publishedAt}>{formattedDate}</time>
-                <span className="mx-4">|</span>
-                <span>{`${post.readingTime} دقائق قراءة`}</span>
+                <span className=" md:inline mx-2">|</span>
+                <time className="block" dateTime={post.publishedAt}>
+                  {formattedDate}
+                </time>
+                <span className=" md:inline mx-2">|</span>
+                <span className="block">{`${post.readingTime} دقائق قراءة`}</span>
               </div>
               {/* Categories */}
-              <div className="flex flex-wrap items-center">
+              <div className="flex flex-wrap items-center mt-2 md:mt-0">
                 {post.categoryNames.map((category, index) => (
                   <span
                     key={index}
-                    className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-semibold ml-2 my-1
-                      bg-brand-200 text-brand-500 dark:bg-dark-700 dark:text-accent-400"
+                    className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs md:text-sm font-semibold ml-2 my-1
+                    bg-brand-200 text-brand-500 dark:bg-dark-700 dark:text-accent-400"
                   >
                     {category}
                   </span>
