@@ -26,7 +26,16 @@ const Post = (props: Props) => {
     }
   }, [postId, dispatch]);
 
-  const sanitizedContent = post ? DOMPurify.sanitize(post.content) : '';
+  const createDOMPurifyConfig = () => {
+    return {
+      ADD_TAGS: ['h3', 'strong', 'u', 'img', 'span', 'a', 'pre', 'ul', 'li'],
+      ADD_ATTR: ['style', 'href', 'target', 'rel', 'class', 'spellcheck'],
+    };
+  };
+
+  const sanitizedContent = post
+    ? DOMPurify.sanitize(post.content, createDOMPurifyConfig())
+    : '';
 
   if (status === 'loading') return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;

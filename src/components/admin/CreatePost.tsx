@@ -15,6 +15,7 @@ import CategorySelect from './CategorySelect';
 const CreatePost = () => {
   const dispatch = useAppDispatch();
   const categories = useSelector((state: RootState) => state.categories.data);
+  const [previewMode, setPreviewMode] = useState(false);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -57,22 +58,33 @@ const CreatePost = () => {
       }
     }
 
-    const base64ImageRegex = /<img src="(data:image\/[^;]+;base64,[^"]+)"/g;
-    let matches = [...content.matchAll(base64ImageRegex)];
+    const imgTagRegex =
+      /<img ([^>]*src="data:image\/[^;]+;base64,[^"]+"[^>]*)>/g;
+    let matches = [...content.matchAll(imgTagRegex)];
 
     // Map matches to promises that resolve to replacement strings
     const replacementsPromise = matches.map(async (match) => {
-      const [fullMatch, dataURI] = match; // fullMatch is the entire img src value, dataURI includes the MIME type and base64 data
-      const contentType = dataURI.split(';')[0].split(':')[1]; // Extract MIME type from dataURI
+      const [fullMatch, attributesPart] = match; // fullMatch is the entire img tag, attributesPart includes all attributes
+      const dataURIMatch = attributesPart.match(
+        /src="(data:image\/[^;]+;base64,[^"]+)"/
+      );
+      if (!dataURIMatch) return null; // Skip if no data URI found
+      const dataURI = dataURIMatch[1];
+      const contentType = dataURI.split(';')[0].split(':')[1];
       const fileExtension = contentType.split('/')[1] || 'jpg';
       const filename = `image-${Date.now()}.${fileExtension}`;
       try {
         const imageUrl = await dispatch(
-          uploadImageToS3({ base64Image: dataURI, filename }) // Pass the entire data URI
+          uploadImageToS3({ base64Image: dataURI, filename })
         ).unwrap();
+        // Replace only the src part of the attributesPart
+        const newAttributesPart = attributesPart.replace(
+          dataURIMatch[0],
+          `src="${imageUrl}"`
+        );
         return {
           old: fullMatch,
-          new: imageUrl,
+          new: `<img ${newAttributesPart} />`,
         };
       } catch (error) {
         console.error('Failed to upload image to S3:', error);
@@ -86,7 +98,7 @@ const CreatePost = () => {
       if (replacement) {
         updatedContent = updatedContent.replace(
           replacement.old,
-          `<img src="${replacement.new}" />`
+          replacement.new
         );
       }
     });
@@ -105,6 +117,16 @@ const CreatePost = () => {
     } catch (error) {
       console.error('Failed to save post:', error);
     }
+  };
+
+  const togglePreviewMode = () => {
+    console.log(
+      'Toggling preview mode. Current mode:',
+      previewMode ? 'Preview' : 'Edit'
+    );
+
+    console.log('Current HTML content:', content);
+    setPreviewMode(!previewMode);
   };
 
   return (
@@ -179,12 +201,31 @@ const CreatePost = () => {
           >
             محتوى المقال
           </label>
-          <RichTextEditor
-            name="content"
-            value={content}
-            onChange={(e: any) => handleContentChange(e.target.value)}
-          />
+          {previewMode ? (
+            // Preview mode: Render the content as HTML
+
+            <div
+              className="ql-editor bg-light-100 dark:bg-dark-700 p-4 rounded shadow text-neutral-700 dark:text-neutral-200"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+          ) : (
+            // Edit mode: Show the rich text editor
+            <RichTextEditor
+              name="content"
+              value={content}
+              onChange={(e: any) => handleContentChange(e.target.value)}
+            />
+          )}
         </div>
+
+        <button
+          type="button"
+          onClick={togglePreviewMode}
+          className="mt-4 px-4 py-2 ml-2 bg-brand-500 text-white font-medium rounded-md hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+        >
+          {previewMode ? 'العودة للتحرير' : 'معاينة'}
+        </button>
+
         <button
           type="submit"
           className="mt-4 px-4 py-2 bg-brand-500 text-white font-medium rounded-md hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"

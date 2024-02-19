@@ -1,7 +1,10 @@
 import { ChangeEvent } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './text-editor.css';
+import ResizeModule from '@ssumo/quill-resize-module';
+
+Quill.register('modules/resize', ResizeModule);
 
 interface RichTextEditorProps {
   name: string;
@@ -11,14 +14,15 @@ interface RichTextEditorProps {
 
 const toolbarOptions = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
-  ['bold', 'italic', 'underline', 'strike'],
-  [{ color: [] }, { background: [] }],
-  ['blockquote', 'code-block'],
-  [{ list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' }],
-  [{ direction: 'rtl' }],
-  [{ align: [] }],
-  ['clean'],
-  ['image'],
+  ['bold', 'italic', 'underline', 'strike'], // Inline styles
+  [{ color: [] }, { background: [] }], // Text color and background
+  ['blockquote', 'code-block'], // Blockquotes and code blocks for formatting
+  [{ list: 'ordered' }, { list: 'bullet' }], // Ordered and unordered lists
+  [{ indent: '-1' }, { indent: '+1' }], // Indentation
+  [{ direction: 'rtl' }], // Text direction for RTL languages
+  [{ align: [] }], // Text alignment
+  ['link', 'image'], // Adding links and images
+  ['clean'], // Removing formatting
 ];
 
 export const RichTextEditor: React.FC<RichTextEditorProps> = ({
@@ -36,11 +40,25 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
     onChange(event);
   };
 
+  const modules = {
+    toolbar: toolbarOptions,
+    resize: {
+      locale: {
+        altTip: 'اضغط على Alt لتغيير الحجم بنسبة مئوية',
+        inputTip: 'اضغط Enter للتأكيد',
+        floatLeft: ' لليسار',
+        floatRight: ' لليمين',
+        center: 'توسيط',
+        restore: 'استعادة',
+      },
+    },
+  };
+
   return (
     <ReactQuill
       value={value}
       onChange={handleEditorChange}
-      modules={{ toolbar: toolbarOptions }}
+      modules={modules}
       className="rich-text-editor"
     />
   );

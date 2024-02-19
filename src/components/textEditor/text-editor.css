@@ -48,3 +48,16 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
 }
+
+[dir='rtl'] .toolbar {
+  direction: rtl;
+}
+.ql-editor img {
+  max-width: 100%;
+  height: auto;
+}
+
+[dir='rtl'] .ql-editor {
+  text-align: right;
+  direction: rtl;
+}
