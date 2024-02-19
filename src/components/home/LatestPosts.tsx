@@ -20,15 +20,7 @@ export const LatestPosts: React.FC = () => {
       </h2>
       <div>
         {posts.map((post) => (
-          <PostItem
-            key={post.id}
-            id={post.id}
-            title={post.title}
-            writer={post.author}
-            publishedAt={post.publishedAt}
-            imageUrl={post.mainImageUrl}
-            readingTime={post.readingTime}
-          />
+          <PostItem key={post.id} post={post} />
         ))}
       </div>
       <button className="mt-4 w-full py-2 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-400 transition duration-300 ease-in-out text-center">

@@ -5,7 +5,7 @@ export interface RecentPost {
   publishedAt: string;
   mainImageUrl?: string;
   readingTime?: number;
-  categories: Category[];
+  categoryNames: string[];
 }
 export interface NewPost {
   title: string;
