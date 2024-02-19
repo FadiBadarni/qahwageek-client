@@ -52,12 +52,22 @@
 [dir='rtl'] .toolbar {
   direction: rtl;
 }
+
+[dir='ltr'] .toolbar {
+  direction: ltr;
+}
+
 .ql-editor img {
   max-width: 100%;
   height: auto;
 }
 
-[dir='rtl'] .ql-editor {
-  text-align: right;
+.ql-editor[dir='ltr'] {
+  direction: ltr;
+  text-align: left;
+}
+
+.ql-editor[dir='rtl'] {
   direction: rtl;
+  text-align: right;
 }

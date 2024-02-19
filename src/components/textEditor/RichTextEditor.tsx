@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './text-editor.css';
@@ -30,14 +30,25 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
   value,
   onChange,
 }) => {
+  const quillRef = useRef<ReactQuill>(null);
   const handleEditorChange = (content: string) => {
-    const event = {
-      target: {
-        name,
-        value: content,
-      },
-    } as ChangeEvent<HTMLInputElement>;
-    onChange(event);
+    // Example function to check if the content is primarily LTR (e.g., English)
+    const isLTRContent = (text: string) => /[A-Za-z]/.test(text);
+
+    const quillEditor = quillRef.current?.getEditor();
+    if (quillEditor) {
+      const text = quillEditor.getText();
+      if (isLTRContent(text)) {
+        quillEditor.root.setAttribute('dir', 'ltr');
+      } else {
+        quillEditor.root.setAttribute('dir', 'rtl');
+      }
+    }
+
+    // Your existing change handling logic
+    onChange({
+      target: { name, value: content },
+    } as ChangeEvent<HTMLInputElement>);
   };
 
   const modules = {
@@ -56,6 +67,7 @@ export const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
   return (
     <ReactQuill
+      ref={quillRef}
       value={value}
       onChange={handleEditorChange}
       modules={modules}
