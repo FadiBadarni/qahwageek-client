@@ -7,14 +7,14 @@ class UserService {
       const response = await axiosClient.post('/auth/login', credentials);
       return response.data;
     } catch (error) {
-      throw new Error('Login failed');
+      throw error;
     }
   }
   static async logoutService() {
     try {
       await axiosClient.post('/auth/logout');
     } catch (error) {
-      throw new Error('Logout failed');
+      throw error;
     }
   }
   static async getUserInfoService() {
@@ -22,7 +22,7 @@ class UserService {
       const response = await axiosClient.get('/user/info');
       return response.data;
     } catch (error) {
-      throw new Error('Failed to fetch user info');
+      throw error;
     }
   }
 }

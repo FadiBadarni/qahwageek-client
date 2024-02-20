@@ -57,11 +57,13 @@ axiosClient.interceptors.response.use(
       error.response.data.message === 'Invalid username or password'
     ) {
       // Directly reject the promise with the error without attempting a token refresh
-      return Promise.reject(error);
+      const processedError = handleApiError(error);
+      return Promise.reject(processedError);
     }
 
     if (!originalRequest) {
-      return Promise.reject(error);
+      const processedError = handleApiError(error);
+      return Promise.reject(processedError);
     }
 
     if (
