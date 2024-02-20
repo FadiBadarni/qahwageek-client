@@ -19,18 +19,9 @@ export const LoginPage: React.FC = () => {
     const loginResult = await dispatch(login({ username, password }));
 
     if (loginResult.type === 'user/login/rejected') {
-      let message = '';
-      switch (loginResult.payload) {
-        case 'Invalid username or password':
-          message = 'اسم المستخدم أو كلمة المرور غير صحيحة';
-          break;
-        default:
-          message = 'حدث خطأ أثناء محاولة تسجيل الدخول';
-      }
-
       displayError({
         title: 'خطأ في تسجيل الدخول',
-        text: message,
+        text: loginResult.payload,
         icon: 'error',
         confirmButtonText: 'حسنًا',
       });
@@ -73,6 +64,12 @@ export const LoginPage: React.FC = () => {
 
           <div>
             <div className="flex items-center justify-between">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium leading-6 text-neutral-100"
+              >
+                كلمة المرور
+              </label>
               <div className="text-sm">
                 <Link
                   to="/forgot-password"
@@ -81,12 +78,6 @@ export const LoginPage: React.FC = () => {
                   نسيت كلمة المرور؟
                 </Link>
               </div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium leading-6 text-neutral-100"
-              >
-                كلمة المرور
-              </label>
             </div>
             <div className="mt-2">
               <input

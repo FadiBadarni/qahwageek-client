@@ -54,7 +54,7 @@ axiosClient.interceptors.response.use(
     // Check if the error is specifically due to bad credentials
     if (
       error.response?.status === UNAUTHORIZED &&
-      error.response.data.message === 'Invalid username or password'
+      error.response.data.message === 'اسم المستخدم أو كلمة المرور غير صحيحة'
     ) {
       // Directly reject the promise with the error without attempting a token refresh
       const processedError = handleApiError(error);
