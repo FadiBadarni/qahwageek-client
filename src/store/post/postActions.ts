@@ -104,6 +104,21 @@ export const getRecentPosts = createAsyncThunk(
   }
 );
 
+export const getFeaturedPosts = createAsyncThunk(
+  'posts/getFeaturedPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const featuredPosts = await PostService.getFeaturedPosts();
+      return featuredPosts;
+    } catch (error: any) {
+      console.error('Failed to fetch featured posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch featured posts'
+      );
+    }
+  }
+);
+
 export const fetchAllCategories = createAsyncThunk(
   'categories/fetchAll',
   async (_, { rejectWithValue }) => {

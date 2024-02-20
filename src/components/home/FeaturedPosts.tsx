@@ -1,46 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import { LightPost } from 'models/post';
 import { useNavigate } from 'react-router-dom';
-
-const posts: LightPost[] = [
-  {
-    id: 1,
-    title: '9 استراتيجيّات البحث عن عمل في زمن التغيرات',
-    author: 'فادي بدارنة',
-    publishedAt: '2023-01-01',
-    mainImageUrl: 'https://via.placeholder.com/150',
-    readingTime: 5,
-    categoryNames: [],
-  },
-  {
-    id: 2,
-    title: 'العنوان الثاني',
-    author: 'فادي بدارنة',
-    publishedAt: '2023-01-02',
-    mainImageUrl: 'https://via.placeholder.com/150',
-    categoryNames: [],
-    readingTime: 5,
-  },
-  {
-    id: 3,
-    title: 'العنوان الثالث',
-    author: 'فادي بدارنة',
-    publishedAt: '2023-01-03',
-    categoryNames: [],
-    mainImageUrl: 'https://via.placeholder.com/150',
-  },
-  {
-    id: 4,
-    title: 'العنوان الرابع',
-    author: 'فادي بدارنة',
-    publishedAt: '2023-01-04',
-    categoryNames: [],
-    mainImageUrl: 'https://via.placeholder.com/150',
-  },
-];
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { getFeaturedPosts } from 'store/post/postActions';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 const responsive = {
   superLargeDesktop: {
@@ -62,7 +28,16 @@ const responsive = {
 };
 
 const FeaturedPosts: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getFeaturedPosts());
+  }, [dispatch]);
+
+  const posts = useSelector(
+    (state: RootState) => state.posts.featuredPosts.data
+  );
 
   return (
     <div className="space-y-2">

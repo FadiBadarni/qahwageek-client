@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getPostById, getRecentPosts } from './postActions';
+import { getFeaturedPosts, getPostById, getRecentPosts } from './postActions';
 import { LoadingStatus } from 'store/shared/commonState';
 import { initialPostsState } from './postState';
 import { LightPost } from 'models/post';
@@ -23,6 +23,22 @@ const postSlice = createSlice({
       .addCase(getRecentPosts.rejected, (state, action) => {
         state.recentPosts.status = LoadingStatus.Failed;
         state.recentPosts.error =
+          action.error.message ?? 'An unexpected error occurred';
+      })
+      //Handling featerd posts
+      .addCase(getFeaturedPosts.pending, (state) => {
+        state.featuredPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        getFeaturedPosts.fulfilled,
+        (state, action: PayloadAction<LightPost[]>) => {
+          state.featuredPosts.status = LoadingStatus.Succeeded;
+          state.featuredPosts.data = action.payload;
+        }
+      )
+      .addCase(getFeaturedPosts.rejected, (state, action) => {
+        state.featuredPosts.status = LoadingStatus.Failed;
+        state.featuredPosts.error =
           action.error.message ?? 'An unexpected error occurred';
       })
       //Handling post by id

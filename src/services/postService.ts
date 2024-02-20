@@ -27,6 +27,11 @@ class PostService {
     return response.data;
   }
 
+  static async getFeaturedPosts(): Promise<any> {
+    const response = await axiosClient.get(`/posts/featured`);
+    return response.data;
+  }
+
   static async getAllCategories(): Promise<any> {
     const response = await axiosClient.get(`/categories`);
     return response.data;
