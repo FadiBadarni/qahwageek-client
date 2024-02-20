@@ -5,6 +5,7 @@ import { Link, Navigate } from 'react-router-dom';
 import { RootState } from 'store/store';
 import { login } from 'store/user/userActions';
 import logo from 'assets/logo.svg';
+import { displayError } from 'utils/alertUtils';
 
 export const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,9 +14,27 @@ export const LoginPage: React.FC = () => {
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(login({ username, password }));
+    const loginResult = await dispatch(login({ username, password }));
+
+    if (loginResult.type === 'user/login/rejected') {
+      let message = '';
+      switch (loginResult.payload) {
+        case 'Invalid username or password':
+          message = 'اسم المستخدم أو كلمة المرور غير صحيحة';
+          break;
+        default:
+          message = 'حدث خطأ أثناء محاولة تسجيل الدخول';
+      }
+
+      displayError({
+        title: 'خطأ في تسجيل الدخول',
+        text: message,
+        icon: 'error',
+        confirmButtonText: 'حسنًا',
+      });
+    }
   };
 
   if (user) {
@@ -23,7 +42,7 @@ export const LoginPage: React.FC = () => {
   }
 
   return (
-    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-dark-900">
+    <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <img className="mx-auto h-20 w-auto" src={logo} alt="Qahwa Geek" />
         <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-100">
