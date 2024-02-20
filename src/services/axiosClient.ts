@@ -45,10 +45,20 @@ const handleApiError = (error: AxiosError<ErrorData>): ErrorData => {
 };
 
 let isRefreshing = false;
+
 axiosClient.interceptors.response.use(
   async (response: AxiosResponse) => response,
   async (error: AxiosError<ErrorData>) => {
     const originalRequest = error.config as any;
+
+    // Check if the error is specifically due to bad credentials
+    if (
+      error.response?.status === UNAUTHORIZED &&
+      error.response.data.message === 'Invalid username or password'
+    ) {
+      // Directly reject the promise with the error without attempting a token refresh
+      return Promise.reject(error);
+    }
 
     if (!originalRequest) {
       return Promise.reject(error);
@@ -61,8 +71,9 @@ axiosClient.interceptors.response.use(
     ) {
       if (isRefreshing) {
         // If a refresh is already in progress, return a rejected promise to avoid further actions
-        // Optionally, you could queue this request or handle it differently
-        return Promise.reject('Refresh token operation already in progress.');
+        return Promise.reject(
+          new Error('Refresh token operation already in progress.')
+        );
       }
 
       isRefreshing = true;
@@ -89,7 +100,7 @@ axiosClient.interceptors.response.use(
       }
     }
 
-    // For all other errors or if the refresh token request itself fails.
+    // For all other errors or if the refresh token request itself fails, process the error normally.
     const processedError = handleApiError(error);
     return Promise.reject(processedError);
   }
