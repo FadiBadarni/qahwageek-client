@@ -12,7 +12,7 @@ import {
   SunIcon,
   MoonIcon,
 } from '@heroicons/react/24/outline';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from 'assets/logo.svg';
 import MobileNav from './MobileNav';
 import { toggleTheme } from 'store/theme/themeReducer';
@@ -20,11 +20,16 @@ import { classNames } from 'utils/tailwindUtil';
 
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user.data);
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const handleLogin = () => {
+    navigate('/login');
   };
 
   const handleToggleTheme = () => {
@@ -130,43 +135,51 @@ export const Navbar: React.FC = () => {
               </div>
               <div className="hidden lg:mr-4 lg:block">
                 <div className="flex items-center">
-                  {/* Profile dropdown */}
-                  <Menu as="div" className="relative mr-4 flex-shrink-0">
-                    <div>
-                      <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
-                        <span className="absolute -inset-1.5" />
-                        <span className="sr-only">فتح قائمة المستخدم</span>
-                        <div className="h-8 w-8 rounded-full flex items-center justify-center bg-slate-950">
-                          {userInitial}
-                        </div>
-                      </Menu.Button>
-                    </div>
-                    <Transition
-                      as={Fragment}
-                      enter="transition ease-out duration-100"
-                      enterFrom="transform opacity-0 scale-95"
-                      enterTo="transform opacity-100 scale-100"
-                      leave="transition ease-in duration-75"
-                      leaveFrom="transform opacity-100 scale-100"
-                      leaveTo="transform opacity-0 scale-95"
+                  {user ? (
+                    <Menu as="div" className="relative mr-4 flex-shrink-0">
+                      <div>
+                        <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                          <span className="absolute -inset-1.5" />
+                          <span className="sr-only">فتح قائمة المستخدم</span>
+                          <div className="h-8 w-8 rounded-full flex items-center justify-center bg-slate-950">
+                            {userInitial}
+                          </div>
+                        </Menu.Button>
+                      </div>
+                      <Transition
+                        as={Fragment}
+                        enter="transition ease-out duration-100"
+                        enterFrom="transform opacity-0 scale-95"
+                        enterTo="transform opacity-100 scale-100"
+                        leave="transition ease-in duration-75"
+                        leaveFrom="transform opacity-100 scale-100"
+                        leaveTo="transform opacity-0 scale-95"
+                      >
+                        <Menu.Items className="absolute left-0 z-10 mt-2 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          <Menu.Item>
+                            {({ active }) => (
+                              <button
+                                className={classNames(
+                                  active ? 'bg-gray-100' : '',
+                                  'block px-4 py-2 text-sm text-gray-700 w-full text-right'
+                                )}
+                                onClick={handleLogout}
+                              >
+                                تسجيل الخروج
+                              </button>
+                            )}
+                          </Menu.Item>
+                        </Menu.Items>
+                      </Transition>
+                    </Menu>
+                  ) : (
+                    <button
+                      onClick={handleLogin}
+                      className="ml-4 bg-brand-500 p-2 rounded-md text-sm text-white hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:bg-brand-500 dark:hover:bg-brand-400 dark:focus:ring-offset-dark-700"
                     >
-                      <Menu.Items className="absolute left-0 z-10 mt-2 w-48 origin-top-left rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                        <Menu.Item>
-                          {({ active }) => (
-                            <button
-                              className={classNames(
-                                active ? 'bg-gray-100' : '',
-                                'block px-4 py-2 text-sm text-gray-700 w-full text-right'
-                              )}
-                              onClick={handleLogout}
-                            >
-                              تسجيل الخروج
-                            </button>
-                          )}
-                        </Menu.Item>
-                      </Menu.Items>
-                    </Transition>
-                  </Menu>
+                      تسجيل الدخول
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

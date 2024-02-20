@@ -1,6 +1,6 @@
 import React from 'react';
 import { Disclosure } from '@headlessui/react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserData } from 'models/user';
 
 interface MobileNavProps {
@@ -14,9 +14,11 @@ const MobileNav: React.FC<MobileNavProps> = ({
   user,
   isAdmin,
 }) => {
-  const userInitial = user?.username
-    ? user.username.charAt(0).toUpperCase()
-    : '';
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate('/login');
+  };
 
   return (
     <Disclosure.Panel className="lg:hidden fixed bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100 w-full z-40">
@@ -59,31 +61,44 @@ const MobileNav: React.FC<MobileNavProps> = ({
           </Disclosure.Button>
         )}
       </div>
-      <div className="border-t border-gray-700 pb-3 pt-4">
-        <div className="flex items-center px-5">
-          <div className="flex-shrink-0">
-            <div className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-700 dark:bg-dark-800">
-              {userInitial}
+      {user ? (
+        <div className="border-t border-gray-700 pb-3 pt-4">
+          <div className="flex items-center px-5">
+            <div className="flex-shrink-0">
+              <div className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-700 dark:bg-dark-800">
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+            </div>
+            <div className="mr-3">
+              <div className="text-base font-medium text-gray-900 dark:text-neutral-100">
+                {user.username}
+              </div>
+              <div className="text-sm font-medium text-gray-800 dark:text-neutral-400">
+                {user.email}
+              </div>
             </div>
           </div>
-          <div className="mr-3">
-            <div className="text-base font-medium text-gray-900 dark:text-neutral-100">
-              {user?.username}
-            </div>
-            <div className="text-sm font-medium text-gray-800 dark:text-neutral-400">
-              {user?.email}
-            </div>
+          <div className="mt-3 space-y-1 px-2">
+            <button
+              className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
+              onClick={handleLogout}
+            >
+              تسجيل الخروج
+            </button>
           </div>
         </div>
-        <div className="mt-3 space-y-1 px-2">
-          <button
-            className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-700 hover:text-white dark:text-neutral-100 dark:hover:bg-gray-700 dark:hover:text-white"
-            onClick={handleLogout}
-          >
-            تسجيل الخروج
-          </button>
+      ) : (
+        <div className="border-t border-gray-700 pb-3 pt-4">
+          <div className="px-2">
+            <button
+              onClick={handleLogin}
+              className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
+            >
+              تسجيل الدخول
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </Disclosure.Panel>
   );
 };
