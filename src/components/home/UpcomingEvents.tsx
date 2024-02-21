@@ -1,17 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import {
   CalendarIcon,
   GlobeAltIcon,
   LinkIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
 } from '@heroicons/react/24/outline';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { getAllEvents } from 'store/event/eventActions';
+import { getUpcomingEvents } from 'store/event/eventActions';
 import { LoadingStatus } from 'store/shared/commonState';
 
 export const UpcomingEvents: React.FC = () => {
@@ -20,45 +18,14 @@ export const UpcomingEvents: React.FC = () => {
     (state: RootState) => state.events.upcomingEvents
   );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [eventsPerPage, setEventsPerPage] = useState(getEventsPerPage());
-
   useEffect(() => {
-    dispatch(getAllEvents());
+    dispatch(getUpcomingEvents());
   }, [dispatch]);
-
-  useEffect(() => {
-    function handleResize() {
-      setEventsPerPage(getEventsPerPage());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const indexOfLastEvent = currentPage * eventsPerPage;
-  const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
-  const currentEvents = events.slice(indexOfFirstEvent, indexOfLastEvent);
-
-  const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
   const formatDateWithTime = (dateTimeString: string) => {
     const date = parseISO(dateTimeString);
     return format(date, 'PPPp', { locale: ar });
   };
-
-  function getEventsPerPage() {
-    const width = window.innerWidth;
-    if (width < 640) {
-      // sm breakpoint and below
-      return 1;
-    } else if (width >= 640 && width < 768) {
-      // sm to md
-      return 2;
-    } else {
-      return 3; // md and above
-    }
-  }
 
   return (
     <div className="flex flex-col p-4 space-y-4">
@@ -67,7 +34,7 @@ export const UpcomingEvents: React.FC = () => {
       </h2>
       {status === LoadingStatus.Loading && <p>Loading events...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1 gap-4">
-        {currentEvents.map((event) => (
+        {events.map((event) => (
           <div
             key={event.eventId}
             className="bg-white dark:bg-dark-700 rounded-lg shadow p-4 relative group"
@@ -107,22 +74,12 @@ export const UpcomingEvents: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center items-center space-x-reverse space-x-4">
+      <div className="flex justify-center">
         <button
-          onClick={() => paginate(currentPage - 1)}
-          disabled={currentPage === 1}
-          className="disabled:opacity-50 disabled:cursor-not-allowed"
+          onClick={() => {}}
+          className="w-full py-2 px-4 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-400 transition duration-300 ease-in-out text-center"
         >
-          <ChevronRightIcon className="h-5 w-5" />
-        </button>
-        <span>{currentPage}</span>
-
-        <button
-          onClick={() => paginate(currentPage + 1)}
-          disabled={currentPage === Math.ceil(events.length / eventsPerPage)}
-          className="disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <ChevronLeftIcon className="h-5 w-5" />
+          رؤية المزيد
         </button>
       </div>
     </div>

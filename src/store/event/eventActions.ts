@@ -1,16 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import EventService from 'services/eventService';
 
-export const getAllEvents = createAsyncThunk(
-  'events/getAllEvents',
+export const getUpcomingEvents = createAsyncThunk(
+  'events/getUpcomingEvents ',
   async (_, { rejectWithValue }) => {
     try {
-      const events = await EventService.getAllEvents();
+      const events = await EventService.getUpcomingEvents();
       return events;
     } catch (error: any) {
-      console.error('Failed to fetch all events:', error);
+      console.error('Failed to fetch upcoming events:', error);
       return rejectWithValue(
-        error.response?.data || 'Unable to fetch all events'
+        error.response?.data || 'Unable to fetch upcoming events'
       );
     }
   }
