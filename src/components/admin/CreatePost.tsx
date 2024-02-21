@@ -1,4 +1,3 @@
-import { RichTextEditor } from 'components/textEditor/RichTextEditor';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { NewPost } from 'models/post';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +10,7 @@ import {
 } from 'store/post/postActions';
 import { RootState } from 'store/store';
 import CategorySelect from './CategorySelect';
+import TextEditor from 'components/home/TextEditor';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
@@ -210,11 +210,7 @@ const CreatePost = () => {
             />
           ) : (
             // Edit mode: Show the rich text editor
-            <RichTextEditor
-              name="content"
-              value={content}
-              onChange={(e: any) => handleContentChange(e.target.value)}
-            />
+            <TextEditor onContentChange={handleContentChange} />
           )}
         </div>
 

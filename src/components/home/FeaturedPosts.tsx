@@ -7,6 +7,8 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getFeaturedPosts } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { format, parseISO } from 'date-fns';
+import { ar } from 'date-fns/locale';
 
 const responsive = {
   superLargeDesktop: {
@@ -96,7 +98,11 @@ const FeaturedPosts: React.FC = () => {
                           dateTime={post.publishedAt}
                           className="text-sm text-gray-200"
                         >
-                          {post.publishedAt}
+                          {format(
+                            parseISO(post.publishedAt),
+                            'dd MMMM - HH:mm',
+                            { locale: ar }
+                          )}
                         </time>
                       </div>
                       {post.readingTime && (
