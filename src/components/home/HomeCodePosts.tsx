@@ -5,7 +5,7 @@ import { getNewestProgrammingPosts } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 
-export const CodePosts: React.FC = () => {
+export const HomeCodePosts: React.FC = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {

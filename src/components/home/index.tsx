@@ -2,7 +2,7 @@ import React from 'react';
 import FeaturedPosts from './FeaturedPosts';
 import { LatestPosts } from './LatestPosts';
 import { UpcomingEvents } from './UpcomingEvents';
-import { CodePosts } from './CodePosts';
+import { HomeCodePosts } from './HomeCodePosts';
 
 export const Home: React.FC = () => {
   return (
@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
         <div className="md:flex md:space-x-4">
           <div className="md:w-2/3">
             <LatestPosts />
-            <CodePosts />
+            <HomeCodePosts />
           </div>
           <div className="md:w-1/3">
             <UpcomingEvents />

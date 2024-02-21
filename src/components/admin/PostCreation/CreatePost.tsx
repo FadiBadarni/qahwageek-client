@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { fetchAllCategories } from 'store/post/postActions';
 import { RootState } from 'store/store';
-import CategorySelect from '../CategorySelect';
+import CategorySelect from './CategorySelect';
 import TextEditor from 'components/textEditor/TextEditor';
 import {
   createNewPostData,
