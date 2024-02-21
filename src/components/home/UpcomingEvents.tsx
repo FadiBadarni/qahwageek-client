@@ -11,9 +11,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { getUpcomingEvents } from 'store/event/eventActions';
 import { LoadingStatus } from 'store/shared/commonState';
+import { useNavigate } from 'react-router-dom';
 
 export const UpcomingEvents: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const { data: events, status } = useSelector(
     (state: RootState) => state.events.upcomingEvents
   );
@@ -25,6 +28,10 @@ export const UpcomingEvents: React.FC = () => {
   const formatDateWithTime = (dateTimeString: string) => {
     const date = parseISO(dateTimeString);
     return format(date, 'PPPp', { locale: ar });
+  };
+
+  const handleButtonClick = () => {
+    navigate('/events');
   };
 
   return (
@@ -76,7 +83,7 @@ export const UpcomingEvents: React.FC = () => {
       </div>
       <div className="flex justify-center">
         <button
-          onClick={() => {}}
+          onClick={handleButtonClick}
           className="w-full py-2 px-4 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-400 transition duration-300 ease-in-out text-center"
         >
           رؤية المزيد
