@@ -17,6 +17,7 @@ import logo from 'assets/logo.svg';
 import MobileNav from './MobileNav';
 import { toggleTheme } from 'store/theme/themeReducer';
 import { classNames } from 'utils/tailwindUtil';
+import './navbar.css';
 
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -45,7 +46,7 @@ export const Navbar: React.FC = () => {
   return (
     <Disclosure
       as="nav"
-      className="bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100"
+      className="bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100 transition duration-300 ease-in-out"
     >
       {({ open }) => (
         <>
@@ -53,7 +54,15 @@ export const Navbar: React.FC = () => {
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
-                  <img className="h-8 w-auto" src={logo} alt="قهوة چيك" />
+                  <img
+                    className={`h-8 w-auto ${
+                      currentTheme === 'dark'
+                        ? 'svg-light-theme'
+                        : 'svg-dark-theme'
+                    }`}
+                    src={logo}
+                    alt="Logo"
+                  />
                 </div>
                 <div className="hidden lg:mr-6 lg:block">
                   <div className="flex space-x-4 rtl:space-x-reverse">
@@ -141,7 +150,7 @@ export const Navbar: React.FC = () => {
                         <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">فتح قائمة المستخدم</span>
-                          <div className="h-8 w-8 rounded-full flex items-center justify-center bg-slate-950">
+                          <div className="h-8 w-8 rounded-full flex items-center justify-center dark:bg-slate-950 bg-neutral-300">
                             {userInitial}
                           </div>
                         </Menu.Button>

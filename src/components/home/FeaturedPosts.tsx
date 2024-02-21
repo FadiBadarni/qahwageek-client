@@ -42,8 +42,8 @@ const FeaturedPosts: React.FC = () => {
   );
 
   return (
-    <div className="space-y-2">
-      <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right">
+    <div className="space-y-2 ">
+      <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right ">
         المقالات المميزة
       </h2>
       <Carousel
@@ -63,11 +63,11 @@ const FeaturedPosts: React.FC = () => {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="p-4"
+            className="p-4 bg-neutral-300 dark:bg-dark-700 transition duration-300 ease-in-out"
             onClick={() => navigate(`/posts/${post.id}`)}
             style={{ cursor: 'pointer' }}
           >
-            <div className="relative bg-white rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+            <div className="relative bg-neutral-300 rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
               {post.mainImageUrl && (
                 <div className="relative group">
                   <img

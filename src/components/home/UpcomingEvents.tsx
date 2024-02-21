@@ -44,7 +44,7 @@ export const UpcomingEvents: React.FC = () => {
         {events.map((event) => (
           <div
             key={event.eventId}
-            className="bg-white dark:bg-dark-700 rounded-lg shadow p-4 relative group"
+            className="bg-neutral-300 dark:bg-dark-700 rounded-lg shadow p-4 relative group transition duration-300 ease-in-out"
           >
             <div className="relative block overflow-hidden">
               <a

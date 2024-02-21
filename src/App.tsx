@@ -24,7 +24,7 @@ function App() {
   }, [theme]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-light-100 dark:bg-dark-900 text-neutral-600 dark:text-neutral-100">
+    <div className="min-h-screen flex flex-col bg-light-100 dark:bg-dark-900 text-neutral-600 dark:text-neutral-100 transition duration-300 ease-in-out">
       <Router>
         <Navbar />
         <div className="flex-grow w-full mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
