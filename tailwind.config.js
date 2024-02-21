@@ -11,15 +11,10 @@ module.exports = {
           700: '#21262D',
         },
         light: {
-          // Slightly off-white background to reduce glare
           100: '#F0F2F5',
-          // Soft gray for secondary elements, less stark than pure white
           200: '#E5E7EB',
-          // Neutral for subtle borders and dividers
-          300: '#D1D5DB',
-          // Light gray for inputs and other form elements
+          300: '#CBD5E1',
           400: '#9CA3AF',
-          // Darker gray for text to ensure good contrast without being too harsh
           500: '#6B7280',
         },
         brand: {
@@ -37,15 +32,15 @@ module.exports = {
         neutral: {
           100: '#F0F2F5',
           200: '#E5E7EB',
-          300: '#D1D5DB',
+          300: '#CBD5E1',
           400: '#9CA3AF',
           500: '#6B7280',
         },
       },
-      typography: {
+      typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: '#333',
+            color: theme('colors.dark.800'),
             ul: {
               listStyleType: 'disc',
               marginRight: '1rem',
@@ -58,27 +53,48 @@ module.exports = {
               marginTop: '0.25em',
               marginBottom: '0.25em',
             },
+            table: {
+              borderColor: theme('colors.neutral.400'),
+              backgroundColor: theme('colors.light.100'),
+            },
+            'th, td': {
+              borderColor: theme('colors.neutral.400'),
+              color: theme('colors.dark.800'),
+              borderStyle: 'solid',
+              borderLeftWidth: '1px',
+            },
+            tr: {
+              borderColor: theme('colors.neutral.400'),
+            },
           },
         },
         dark: {
           css: {
-            color: '#fff',
+            color: theme('colors.light.100'),
             a: {
               color: '#3182ce',
             },
-            h1: { color: '#fff' },
-            h2: { color: '#fff' },
-            h3: { color: '#fff' },
-            strong: { color: '#fff' },
-            u: { color: '#fff' },
-            code: { color: '#fff' },
+            h1: { color: theme('colors.light.100') },
+            h2: { color: theme('colors.light.100') },
+            h3: { color: theme('colors.light.100') },
+            strong: { color: theme('colors.light.100') },
+            u: { color: theme('colors.light.100') },
+            code: { color: theme('colors.light.100') },
             blockquote: {
-              color: '#9CA3AF',
-              borderLeftColor: '#6B7280',
+              color: theme('colors.light.400'),
+              borderLeftColor: theme('colors.light.500'),
+            },
+            table: {
+              borderColor: theme('colors.light.500'),
+              backgroundColor: theme('colors.dark.800'),
+            },
+            'th, td': {
+              borderColor: theme('colors.light.500'),
+              color: theme('colors.light.100'),
             },
           },
         },
-      },
+      }),
     },
   },
   plugins: [

@@ -11,6 +11,16 @@ export const createDOMPurifyConfig = () => {
       'ul',
       'li',
       'iframe',
+      'table',
+      'tr',
+      'td',
+      'th',
+      'thead',
+      'tbody',
+      'tfoot',
+      'col',
+      'colgroup',
+      'caption',
     ] as string[],
     ADD_ATTR: [
       'style',
@@ -25,6 +35,9 @@ export const createDOMPurifyConfig = () => {
       'allowfullscreen',
       'frameborder',
       'allow',
+      'colspan',
+      'rowspan',
+      'scope',
     ] as string[],
   };
 };
