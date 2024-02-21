@@ -58,7 +58,7 @@ const Post = (props: Props) => {
           )}
 
           <div
-            className="relative mb-6 p-4 bg-white/90 dark:bg-dark-800/90 rounded-md 
+            className="relative mb-6 p-4 bg-light-200 dark:bg-dark-800/90 rounded-md 
             -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh]"
           >
             <div className="flex flex-wrap items-center text-sm justify-between mb-4">
@@ -79,14 +79,14 @@ const Post = (props: Props) => {
                   <span
                     key={index}
                     className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs md:text-sm font-semibold ml-2 my-1
-                    bg-brand-200 text-brand-500 dark:bg-dark-700 dark:text-accent-400"
+                              bg-brand-200 text-brand-500 dark:bg-dark-700 dark:text-accent-400"
                   >
                     {category}
                   </span>
                 ))}
               </div>
             </div>
-            <div className="mt-4 p-2 bg-white/90 dark:bg-dark-800/90 rounded-md">
+            <div className="mt-4 p-2 bg-light-200 dark:bg-dark-800/90 rounded-md">
               <div
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 className="prose dark:prose-dark mx-auto max-w-none"

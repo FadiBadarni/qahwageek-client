@@ -44,11 +44,11 @@ const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
           'directionality',
         ],
         toolbar:
-          'undo redo | styleselect | bold italic forecolor backcolor | ' +
-          'alignleft aligncenter alignright alignjustify | ' +
-          'blockquote | codesample | bullist numlist outdent indent | ' +
-          'link image media table | removeformat | help | ' +
-          'ltr rtl | preview fullscreen',
+          'redo undo | styles  | bold italic forecolor backcolor | ' +
+          'alignleft aligncenter alignright | ' +
+          'blockquote codesample | bullist numlist | ' +
+          'link image media  | help |' +
+          'ltr rtl | table removeformat outdent indent | preview fullscreen',
         content_style:
           "@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');",
         skin: currentTheme === 'dark' ? 'oxide-dark' : 'oxide',
