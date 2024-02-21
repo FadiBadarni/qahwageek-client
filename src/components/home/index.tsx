@@ -2,12 +2,12 @@ import React from 'react';
 import FeaturedPosts from './FeaturedPosts';
 import { LatestPosts } from './LatestPosts';
 import { UpcomingEvents } from './UpcomingEvents';
-import { PopularPosts } from './PopularPosts';
+import { CodePosts } from './CodePosts';
 
 export const Home: React.FC = () => {
   return (
     <div>
-      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-center mt-2 mb-6">
+      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-center mt-4 mb-4">
         أهلا وسهلا بقهوة چيك!
       </h1>
       <div className="space-y-4">
@@ -17,7 +17,7 @@ export const Home: React.FC = () => {
         <div className="md:flex md:space-x-4">
           <div className="md:w-2/3">
             <LatestPosts />
-            <PopularPosts />
+            <CodePosts />
           </div>
           <div className="md:w-1/3">
             <UpcomingEvents />

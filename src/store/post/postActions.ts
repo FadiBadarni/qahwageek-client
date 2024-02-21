@@ -133,3 +133,18 @@ export const fetchAllCategories = createAsyncThunk(
     }
   }
 );
+
+export const getNewestProgrammingPosts = createAsyncThunk(
+  'posts/getNewestProgrammingPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const programmingPosts = await PostService.getNewestProgrammingPosts();
+      return programmingPosts;
+    } catch (error: any) {
+      console.error('Failed to fetch programming posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch programming posts'
+      );
+    }
+  }
+);

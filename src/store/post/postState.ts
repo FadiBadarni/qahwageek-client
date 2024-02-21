@@ -5,6 +5,7 @@ export interface PostState {
   currentPost: CommonState<Post | null>;
   recentPosts: CommonState<LightPost[]>;
   featuredPosts: CommonState<LightPost[]>;
+  programmingPosts: CommonState<LightPost[]>;
 }
 
 export interface CategoryState extends CommonState<Category[]> {}
@@ -21,6 +22,11 @@ export const initialPostsState: PostState = {
     error: null,
   },
   featuredPosts: {
+    data: [],
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  programmingPosts: {
     data: [],
     status: LoadingStatus.Idle,
     error: null,
