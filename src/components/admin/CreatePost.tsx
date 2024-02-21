@@ -15,7 +15,6 @@ import TextEditor from 'components/home/TextEditor';
 const CreatePost = () => {
   const dispatch = useAppDispatch();
   const categories = useSelector((state: RootState) => state.categories.data);
-  const [previewMode, setPreviewMode] = useState(false);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -119,16 +118,6 @@ const CreatePost = () => {
     }
   };
 
-  const togglePreviewMode = () => {
-    console.log(
-      'Toggling preview mode. Current mode:',
-      previewMode ? 'Preview' : 'Edit'
-    );
-
-    console.log('Current HTML content:', content);
-    setPreviewMode(!previewMode);
-  };
-
   return (
     <div className="p-4">
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -201,26 +190,8 @@ const CreatePost = () => {
           >
             محتوى المقال
           </label>
-          {previewMode ? (
-            // Preview mode: Render the content as HTML
-
-            <div
-              className="ql-editor bg-light-100 dark:bg-dark-700 p-4 rounded shadow text-neutral-700 dark:text-neutral-200"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-          ) : (
-            // Edit mode: Show the rich text editor
-            <TextEditor onContentChange={handleContentChange} />
-          )}
+          <TextEditor onContentChange={handleContentChange} />
         </div>
-
-        <button
-          type="button"
-          onClick={togglePreviewMode}
-          className="mt-4 px-4 py-2 ml-2 bg-brand-500 text-white font-medium rounded-md hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-        >
-          {previewMode ? 'العودة للتحرير' : 'معاينة'}
-        </button>
 
         <button
           type="submit"

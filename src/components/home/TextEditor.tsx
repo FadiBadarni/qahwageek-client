@@ -42,12 +42,14 @@ const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
           'help',
           'wordcount',
           'directionality',
+          'blockquote',
         ],
         toolbar:
-          'undo redo | blocks | ' +
-          'bold italic forecolor | alignleft aligncenter ' +
-          'alignright alignjustify | codesample | bullist numlist outdent indent | ' +
-          'removeformat | help | ltr rtl | preview',
+          'undo redo | styleselect | bold italic forecolor backcolor | ' +
+          'alignleft aligncenter alignright alignjustify | ' +
+          'blockquote | codesample | bullist numlist outdent indent | ' +
+          'link image media table | removeformat | help | ' +
+          'ltr rtl | preview fullscreen',
         content_style:
           "@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');",
         skin: currentTheme === 'dark' ? 'oxide-dark' : 'oxide',
