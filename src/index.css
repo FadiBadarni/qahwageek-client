@@ -9,3 +9,10 @@ textarea[id^='form-field_'] {
   text-align: left !important;
   direction: ltr !important;
 }
+[dir='rtl'] blockquote {
+  border-right: 5px solid #ddd;
+  border-left: none;
+  padding-right: 1rem;
+  padding-left: 0;
+  text-align: right;
+}

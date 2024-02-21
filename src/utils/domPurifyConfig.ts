@@ -10,6 +10,7 @@ export const createDOMPurifyConfig = () => {
       'pre',
       'ul',
       'li',
+      'iframe',
     ] as string[],
     ADD_ATTR: [
       'style',
@@ -18,6 +19,12 @@ export const createDOMPurifyConfig = () => {
       'rel',
       'class',
       'spellcheck',
+      'src',
+      'width',
+      'height',
+      'allowfullscreen',
+      'frameborder',
+      'allow',
     ] as string[],
   };
 };

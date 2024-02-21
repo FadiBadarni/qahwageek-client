@@ -42,7 +42,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
           'help',
           'wordcount',
           'directionality',
-          'blockquote',
         ],
         toolbar:
           'undo redo | styleselect | bold italic forecolor backcolor | ' +

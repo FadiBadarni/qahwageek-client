@@ -71,6 +71,11 @@ module.exports = {
             h3: { color: '#fff' },
             strong: { color: '#fff' },
             u: { color: '#fff' },
+            code: { color: '#fff' },
+            blockquote: {
+              color: '#9CA3AF',
+              borderLeftColor: '#6B7280',
+            },
           },
         },
       },
