@@ -1,5 +1,7 @@
 import React from 'react';
 import { Editor } from '@tinymce/tinymce-react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface TextEditorProps {
   onContentChange: (content: string) => void;
@@ -8,8 +10,9 @@ interface TextEditorProps {
 const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
   const apiKey = process.env.REACT_APP_TINYMCE_API_KEY || '';
 
-  const handleEditorChange = (content: string, editor: any) => {
-    console.log('Content was updated:', content);
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
+  const handleEditorChange = (content: string) => {
     onContentChange(content);
   };
 
@@ -17,8 +20,9 @@ const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
     <Editor
       apiKey={apiKey}
       init={{
-        height: 500,
+        height: 400,
         menubar: false,
+        language: 'ar',
         plugins: [
           'advlist',
           'autolink',
@@ -30,12 +34,11 @@ const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
           'anchor',
           'searchreplace',
           'visualblocks',
-          'code',
+          'codesample',
           'fullscreen',
           'insertdatetime',
           'media',
           'table',
-          'code',
           'help',
           'wordcount',
           'directionality',
@@ -43,12 +46,14 @@ const TextEditor: React.FC<TextEditorProps> = ({ onContentChange }) => {
         toolbar:
           'undo redo | blocks | ' +
           'bold italic forecolor | alignleft aligncenter ' +
-          'alignright alignjustify | bullist numlist outdent indent | ' +
+          'alignright alignjustify | codesample | bullist numlist outdent indent | ' +
           'removeformat | help | ltr rtl | preview',
         content_style:
           "@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');",
+        skin: currentTheme === 'dark' ? 'oxide-dark' : 'oxide',
+        content_css: currentTheme === 'dark' ? 'dark' : 'default',
       }}
-      initialValue="Welcome to TinyMCE!"
+      initialValue="عن شو بدنا نكتب اليوم ؟"
       onEditorChange={handleEditorChange}
     />
   );

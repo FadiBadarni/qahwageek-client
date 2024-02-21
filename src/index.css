@@ -5,3 +5,7 @@
 body {
   font-family: 'Cairo', sans-serif;
 }
+textarea[id^='form-field_'] {
+  text-align: left !important;
+  direction: ltr !important;
+}
