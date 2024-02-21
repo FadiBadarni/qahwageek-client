@@ -42,7 +42,7 @@ const FeaturedPosts: React.FC = () => {
   );
 
   return (
-    <div className="space-y-2 ">
+    <div className="space-y-2 p-4">
       <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right ">
         المقالات المميزة
       </h2>

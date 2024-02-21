@@ -35,7 +35,7 @@ export const UpcomingEvents: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col p-4 space-y-4">
+    <div className="flex flex-col p-4 space-y-4 pl-0">
       <h2 className="text-center text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white">
         شو في قريب ؟
       </h2>

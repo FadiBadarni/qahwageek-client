@@ -11,6 +11,7 @@ import Footer from 'components/footer';
 import CMSPage from 'components/admin/CMSPage';
 import Post from 'components/post';
 import CreatePost from 'components/admin/PostCreation/CreatePost';
+import CodePosts from 'components/categories/code';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -27,11 +28,12 @@ function App() {
     <div className="min-h-screen flex flex-col bg-light-100 dark:bg-dark-900 text-neutral-600 dark:text-neutral-100 transition duration-300 ease-in-out">
       <Router>
         <Navbar />
-        <div className="flex-grow w-full mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
+        <div className="flex-grow w-full mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/posts/:postId" element={<Post />} />
+            <Route path="/category/code" element={<CodePosts />} />
             <Route
               path="/cms"
               element={

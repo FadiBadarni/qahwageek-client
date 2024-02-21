@@ -6,11 +6,11 @@ import { HomeCodePosts } from './HomeCodePosts';
 
 export const Home: React.FC = () => {
   return (
-    <div>
+    <div className="max-w-7xl mx-auto p-4">
       <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-center mt-4 mb-4">
         أهلا وسهلا بقهوة چيك!
       </h1>
-      <div className="space-y-4">
+      <div className="">
         <div className="py-3">
           <FeaturedPosts />
         </div>
