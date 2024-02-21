@@ -1,4 +1,3 @@
-import { MeetupEvent } from 'models/event';
 import React, { useEffect, useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -9,45 +8,33 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from '@heroicons/react/24/outline';
-
-const events: MeetupEvent[] = [
-  {
-    eventId: '1',
-    title: 'العنوان الأول',
-    date: '2023-01-01T12:00:00Z',
-    imageUrl: 'https://via.placeholder.com/150',
-    eventLink: 'http://example.com',
-    isOnlineEvent: true,
-  },
-  {
-    eventId: '2',
-    title: 'العنوان الأول',
-    date: '2023-01-01T12:00:00Z',
-    imageUrl: 'https://via.placeholder.com/150',
-    eventLink: 'http://example.com',
-    isOnlineEvent: true,
-  },
-  {
-    eventId: '3',
-    title: 'العنوان الأول',
-    date: '2023-01-01T12:00:00Z',
-    imageUrl: 'https://via.placeholder.com/150',
-    eventLink: 'http://example.com',
-    isOnlineEvent: true,
-  },
-  {
-    eventId: '4',
-    title: 'العنوان الأول',
-    date: '2023-01-01T12:00:00Z',
-    imageUrl: 'https://via.placeholder.com/150',
-    eventLink: 'http://example.com',
-    isOnlineEvent: true,
-  },
-];
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { getAllEvents } from 'store/event/eventActions';
+import { LoadingStatus } from 'store/shared/commonState';
 
 export const UpcomingEvents: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { data: events, status } = useSelector(
+    (state: RootState) => state.events.upcomingEvents
+  );
+
   const [currentPage, setCurrentPage] = useState(1);
   const [eventsPerPage, setEventsPerPage] = useState(getEventsPerPage());
+
+  useEffect(() => {
+    dispatch(getAllEvents());
+  }, [dispatch]);
+
+  useEffect(() => {
+    function handleResize() {
+      setEventsPerPage(getEventsPerPage());
+    }
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const indexOfLastEvent = currentPage * eventsPerPage;
   const indexOfFirstEvent = indexOfLastEvent - eventsPerPage;
@@ -73,20 +60,12 @@ export const UpcomingEvents: React.FC = () => {
     }
   }
 
-  useEffect(() => {
-    function handleResize() {
-      setEventsPerPage(getEventsPerPage());
-    }
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   return (
     <div className="flex flex-col p-4 space-y-4">
       <h2 className="text-center text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white">
         شو في قريب ؟
       </h2>
+      {status === LoadingStatus.Loading && <p>Loading events...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1 gap-4">
         {currentEvents.map((event) => (
           <div
