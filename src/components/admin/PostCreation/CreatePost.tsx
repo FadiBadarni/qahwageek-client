@@ -80,7 +80,7 @@ const CreatePost = () => {
               value={title}
               onChange={handleTitleChange}
               placeholder="أدخل عنوان المقال هنا"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400 text-neutral-700 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               required
             />
           </div>
@@ -98,11 +98,11 @@ const CreatePost = () => {
               value={readingTime}
               onChange={handleReadingTimeChange}
               placeholder="مثال: 5"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400 text-neutral-700 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400  focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               min="1"
             />
           </div>
-          <div className="md:col-span-1">
+          <div className="md:col-span-1 flex items-end">
             <CategorySelect
               categories={categories}
               selectedCategoryIds={selectedCategoryIds}
@@ -114,7 +114,7 @@ const CreatePost = () => {
               htmlFor="image"
               className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
             >
-              اختر صورة
+              اختر صورة الغلاف
             </label>
             <input
               id="image"
@@ -123,7 +123,7 @@ const CreatePost = () => {
               onChange={(e) =>
                 setSelectedImage(e.target.files ? e.target.files[0] : null)
               }
-              className="mt-1 block w-full text-sm text-neutral-700 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+              className="mt-1 block w-full text-sm  file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-neutral-300 file:text-sm file:font-semibold file:bg-light-100 file:placeholder-neutral-400 file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-700 dark:file:text-neutral-200 dark:file:placeholder:text-neutral-500 dark:file:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
         </div>
@@ -137,12 +137,14 @@ const CreatePost = () => {
           <TextEditor onContentChange={handleContentChange} />
         </div>
 
-        <button
-          type="submit"
-          className="mt-4 px-4 py-2 bg-brand-500 text-white font-medium rounded-md hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-        >
-          إنشاء المقالة
-        </button>
+        <div className="flex justify-center mt-4">
+          <button
+            type="submit"
+            className="px-6 py-3 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-lg"
+          >
+            إنشاء المقالة
+          </button>
+        </div>
       </form>
     </div>
   );
