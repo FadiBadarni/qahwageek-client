@@ -10,7 +10,7 @@ import { useEffect } from 'react';
 import Footer from 'components/footer';
 import CMSPage from 'components/admin/CMSPage';
 import Post from 'components/post';
-import CreatePost from 'components/admin/CreatePost';
+import CreatePost from 'components/admin/PostCreation/CreatePost';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);

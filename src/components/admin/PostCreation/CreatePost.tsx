@@ -1,16 +1,16 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { NewPost } from 'models/post';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  fetchAllCategories,
-  savePost,
-  uploadImageToS3,
-  uploadMainImage,
-} from 'store/post/postActions';
+import { fetchAllCategories } from 'store/post/postActions';
 import { RootState } from 'store/store';
-import CategorySelect from './CategorySelect';
-import TextEditor from 'components/home/TextEditor';
+import CategorySelect from '../CategorySelect';
+import TextEditor from 'components/textEditor/TextEditor';
+import {
+  createNewPostData,
+  replaceInlineImagesWithS3Urls,
+  saveNewPost,
+  uploadMainImageIfNeeded,
+} from './utils';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
@@ -40,81 +40,25 @@ const CreatePost = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    let updatedContent = content;
-    let mainImagePresignedUrl = '';
-
-    if (selectedImage) {
-      const filename = `main-image-${Date.now()}.${
-        selectedImage.type.split('/')[1]
-      }`;
-      try {
-        mainImagePresignedUrl = await dispatch(
-          uploadMainImage({ file: selectedImage, filename })
-        ).unwrap();
-      } catch (error) {
-        console.error('Failed to upload main image:', error);
-        return; // Stop the submission if the main image upload fails
-      }
-    }
-
-    const imgTagRegex =
-      /<img ([^>]*src="data:image\/[^;]+;base64,[^"]+"[^>]*)>/g;
-    let matches = [...content.matchAll(imgTagRegex)];
-
-    // Map matches to promises that resolve to replacement strings
-    const replacementsPromise = matches.map(async (match) => {
-      const [fullMatch, attributesPart] = match; // fullMatch is the entire img tag, attributesPart includes all attributes
-      const dataURIMatch = attributesPart.match(
-        /src="(data:image\/[^;]+;base64,[^"]+)"/
-      );
-      if (!dataURIMatch) return null; // Skip if no data URI found
-      const dataURI = dataURIMatch[1];
-      const contentType = dataURI.split(';')[0].split(':')[1];
-      const fileExtension = contentType.split('/')[1] || 'jpg';
-      const filename = `image-${Date.now()}.${fileExtension}`;
-      try {
-        const imageUrl = await dispatch(
-          uploadImageToS3({ base64Image: dataURI, filename })
-        ).unwrap();
-        // Replace only the src part of the attributesPart
-        const newAttributesPart = attributesPart.replace(
-          dataURIMatch[0],
-          `src="${imageUrl}"`
-        );
-        return {
-          old: fullMatch,
-          new: `<img ${newAttributesPart} />`,
-        };
-      } catch (error) {
-        console.error('Failed to upload image to S3:', error);
-        return null;
-      }
-    });
-
-    // Resolve all promises and apply the replacements
-    const replacements = await Promise.all(replacementsPromise);
-    replacements.forEach((replacement) => {
-      if (replacement) {
-        updatedContent = updatedContent.replace(
-          replacement.old,
-          replacement.new
-        );
-      }
-    });
-
-    const newPostData: NewPost = {
-      title,
-      content: updatedContent,
-      mainImageUrl: mainImagePresignedUrl,
-      readingTime: readingTime ? parseInt(readingTime, 10) : undefined,
-      categoryIds: selectedCategoryIds,
-    };
-
-    // Dispatch the action to save the post with updated content
     try {
-      await dispatch(savePost(newPostData)).unwrap();
+      const mainImagePresignedUrl = await uploadMainImageIfNeeded(
+        dispatch,
+        selectedImage
+      );
+      const updatedContent = await replaceInlineImagesWithS3Urls(
+        dispatch,
+        content
+      );
+      const newPostData = createNewPostData(
+        title,
+        updatedContent,
+        mainImagePresignedUrl,
+        readingTime,
+        selectedCategoryIds
+      );
+      await saveNewPost(dispatch, newPostData);
     } catch (error) {
-      console.error('Failed to save post:', error);
+      console.error('Failed to process or save post:', error);
     }
   };
 
