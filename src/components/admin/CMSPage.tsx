@@ -7,7 +7,7 @@ const CMSPage: React.FC = () => {
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-light-100 dark:bg-dark-900">
+    <div className="flex flex-col lg:flex-row min-h-screen bg-light-100 dark:bg-dark-900 ">
       {/* Mobile Nav Toggle */}
       <div className="flex justify-between items-center bg-light-200 dark:bg-dark-800 p-4 lg:hidden">
         <span className="text-xl font-semibold text-gray-900 dark:text-white">

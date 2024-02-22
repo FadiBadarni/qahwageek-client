@@ -12,6 +12,7 @@ module.exports = {
           layer: '#1F2937',
           text: '#F9FAFB',
           border: '#374151',
+          input: '#1F2937',
         },
         light: {
           primary: '#2563EB',
@@ -20,6 +21,7 @@ module.exports = {
           layer: '#d6dee7',
           text: '#1F2937',
           border: '#D1D5DB',
+          input: '#F3F4F6',
         },
         brand: {
           500: '#2563EB',

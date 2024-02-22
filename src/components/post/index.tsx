@@ -44,22 +44,23 @@ const Post = (props: Props) => {
         <article>
           {post.mainImageUrl && (
             <div
-              className="relative w-full max-w-7xl mx-auto h-[25vh] md:h-[35vh] lg:h-[45vh] xl:h-[55vh] mb-4 rounded-md bg-cover bg-center"
+              className="relative w-full h-[25vh] md:h-[35vh] lg:h-[45vh] xl:h-[55vh] mb-4 rounded-md bg-cover bg-center"
               style={{ backgroundImage: `url(${post.mainImageUrl})` }}
             >
-              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-md bg-gradient-to-b from-black/30 to-black/90"></div>
+              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-md bg-gradient-to-b from-white/10 to-white/10 dark:from-black/30 dark:to-black/90"></div>
 
-              <div className="absolute bottom-14 w-full p-4 md:bottom-20 lg:p-8">
-                <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
-                  {post.title}
-                </h1>
+              <div className="absolute bottom-[5vh] sm:bottom-[5vh] md:bottom-[5vh] lg:bottom-[10vh] xl:bottom-[12vh] w-full p-4 md:p-8">
+                <div className="max-w-7xl mx-auto">
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
+                    {post.title}
+                  </h1>
+                </div>
               </div>
             </div>
           )}
-
           <div
             className="relative mb-6 p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
-            -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh]"
+            -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8"
           >
             <div className="flex flex-wrap items-center text-sm justify-between mb-4">
               {/* Author, Date, and Reading Time */}
@@ -86,7 +87,7 @@ const Post = (props: Props) => {
                 ))}
               </div>
             </div>
-            <div className="mt-4 p-2  rounded-md">
+            <div className="mt-4 p-2 rounded-md md:px-16 px-0">
               <div
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 className="prose dark:prose-dark mx-auto max-w-none"

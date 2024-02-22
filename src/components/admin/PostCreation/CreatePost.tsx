@@ -63,13 +63,13 @@ const CreatePost = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="p-4 mx-auto max-w-7xl px-6 lg:px-8">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
           <div className="md:col-span-3">
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
+              className="block text-sm font-medium text-light-text dark:text-dark-text"
             >
               عنوان المقال
             </label>
@@ -80,7 +80,7 @@ const CreatePost = () => {
               value={title}
               onChange={handleTitleChange}
               placeholder="أدخل عنوان المقال هنا"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400 focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 placeholder-neutral-400 focus:bg-white focus:text-neutral-900 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               required
             />
           </div>
@@ -98,7 +98,7 @@ const CreatePost = () => {
               value={readingTime}
               onChange={handleReadingTimeChange}
               placeholder="مثال: 5"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-100 py-2 px-4 placeholder-neutral-400  focus:bg-white focus:text-neutral-900 dark:bg-dark-700 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input  py-2 px-4 placeholder-neutral-400  focus:bg-white focus:text-neutral-900 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               min="1"
             />
           </div>
@@ -112,7 +112,7 @@ const CreatePost = () => {
           <div className="md:col-span-1">
             <label
               htmlFor="image"
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
+              className="block text-sm font-medium text-light-text dark:text-dark-text"
             >
               اختر صورة الغلاف
             </label>
@@ -123,14 +123,14 @@ const CreatePost = () => {
               onChange={(e) =>
                 setSelectedImage(e.target.files ? e.target.files[0] : null)
               }
-              className="mt-1 block w-full text-sm  file:mr-4 file:py-2 file:px-4 file:rounded-md file:border file:border-neutral-300 file:text-sm file:font-semibold file:bg-light-100 file:placeholder-neutral-400 file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-700 dark:file:text-neutral-200 dark:file:placeholder:text-neutral-500 dark:file:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border dark:file:border-neutral-700 file:text-sm file:font-semibold file:bg-light-input file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-input dark:file:text-neutral-200 dark:file:hover:bg-dark-layer focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
         </div>
         <div>
           <label
             htmlFor="content"
-            className="block text-sm font-medium text-neutral-700 dark:text-neutral-200 mb-2"
+            className="block text-sm font-medium text-light-text dark:text-dark-text mb-2"
           >
             محتوى المقال
           </label>
