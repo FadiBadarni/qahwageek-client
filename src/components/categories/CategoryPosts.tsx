@@ -40,11 +40,11 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-8 mt-8 lg:mt-10">
-        <div className="lg:col-span-5 space-y-10">
+        <div className="lg:col-span-5 space-y-4">
           {posts.map((post) => (
             <article
               key={post.id}
-              className="relative flex flex-row gap-8 items-center bg-light-layer dark:bg-dark-layer rounded-sm"
+              className="relative flex flex-row gap-4 items-center bg-light-layer dark:bg-dark-layer rounded-sm  p-2"
             >
               <div className="flex-shrink-0">
                 <div className="w-24 h-24 lg:w-32 lg:h-32 p-2">
