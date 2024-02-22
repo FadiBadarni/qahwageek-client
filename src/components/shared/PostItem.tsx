@@ -30,7 +30,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   };
   return (
     <div
-      className="flex items-center p-3 mb-2 border-b border-neutral-300 last:border-b-0 dark:border-dark-500 bg-neutral-300 dark:bg-dark-700 rounded-md cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-neutral-200 dark:hover:bg-dark-600"
+      className="flex items-center p-3 mb-2 border-b border-neutral-300 last:border-b-0 dark:border-dark-500 bg-light-layer dark:bg-dark-layer rounded-md cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-neutral-200 dark:hover:bg-dark-600"
       onClick={handleClick}
     >
       <div className="flex-grow flex flex-col justify-between h-full">

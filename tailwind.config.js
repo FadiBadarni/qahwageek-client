@@ -6,16 +6,20 @@ module.exports = {
     extend: {
       colors: {
         dark: {
-          900: '#0D1117',
-          800: '#161B22',
-          700: '#21262D',
+          primary: '#60A5FA',
+          accent: '#BFDBFE',
+          background: '#111827',
+          layer: '#1F2937',
+          text: '#F9FAFB',
+          border: '#374151',
         },
         light: {
-          100: '#F0F2F5',
-          200: '#E5E7EB',
-          300: '#CBD5E1',
-          400: '#9CA3AF',
-          500: '#6B7280',
+          primary: '#2563EB',
+          accent: '#E0E7FF',
+          background: '#F9FAFB',
+          layer: '#d6dee7',
+          text: '#1F2937',
+          border: '#D1D5DB',
         },
         brand: {
           500: '#2563EB',
@@ -30,17 +34,24 @@ module.exports = {
           400: '#BAE6FD',
         },
         neutral: {
-          100: '#F0F2F5',
+          100: '#F9FAFB',
           200: '#E5E7EB',
           300: '#CBD5E1',
           400: '#9CA3AF',
           500: '#6B7280',
         },
       },
+
       typography: (theme) => ({
         DEFAULT: {
           css: {
-            color: theme('colors.dark.800'),
+            color: theme('colors.text'),
+            a: {
+              color: theme('colors.primary'),
+              '&:hover': {
+                color: theme('colors.accent.500'),
+              },
+            },
             ul: {
               listStyleType: 'disc',
               marginRight: '1rem',
@@ -53,13 +64,23 @@ module.exports = {
               marginTop: '0.25em',
               marginBottom: '0.25em',
             },
+            h1: { color: theme('colors.text') },
+            h2: { color: theme('colors.text') },
+            h3: { color: theme('colors.text') },
+            strong: { color: theme('colors.text') },
+            u: { color: theme('colors.text') },
+            code: { color: theme('colors.text') },
+            blockquote: {
+              color: theme('colors.text'),
+              borderLeftColor: theme('colors.border'),
+            },
             table: {
               borderColor: theme('colors.neutral.400'),
-              backgroundColor: theme('colors.light.100'),
+              backgroundColor: theme('colors.light.layer'),
             },
             'th, td': {
               borderColor: theme('colors.neutral.400'),
-              color: theme('colors.dark.800'),
+              color: theme('colors.text'),
               borderStyle: 'solid',
               borderLeftWidth: '1px',
             },
@@ -70,27 +91,46 @@ module.exports = {
         },
         dark: {
           css: {
-            color: theme('colors.light.100'),
+            color: theme('colors.dark.text'),
             a: {
-              color: '#3182ce',
+              color: theme('colors.dark.primary'),
+              '&:hover': {
+                color: theme('colors.dark.accent'),
+              },
             },
-            h1: { color: theme('colors.light.100') },
-            h2: { color: theme('colors.light.100') },
-            h3: { color: theme('colors.light.100') },
-            strong: { color: theme('colors.light.100') },
-            u: { color: theme('colors.light.100') },
-            code: { color: theme('colors.light.100') },
+            ul: {
+              listStyleType: 'disc',
+              marginRight: '1rem',
+            },
+            ol: {
+              listStyleType: 'decimal',
+              marginRight: '1rem',
+            },
+            li: {
+              marginTop: '0.25em',
+              marginBottom: '0.25em',
+            },
+            h1: { color: theme('colors.dark.text') },
+            h2: { color: theme('colors.dark.text') },
+            h3: { color: theme('colors.dark.text') },
+            strong: { color: theme('colors.dark.text') },
+            u: { color: theme('colors.dark.text') },
+            code: { color: theme('colors.dark.text') },
+            pre: { backgroundColor: theme('colors.dark.border') },
             blockquote: {
-              color: theme('colors.light.400'),
-              borderLeftColor: theme('colors.light.500'),
+              color: theme('colors.dark.text'),
+              borderLeftColor: theme('colors.dark.border'),
             },
             table: {
-              borderColor: theme('colors.light.500'),
-              backgroundColor: theme('colors.dark.800'),
+              borderColor: theme('colors.dark.border'),
+              backgroundColor: theme('colors.dark.layer'),
             },
             'th, td': {
-              borderColor: theme('colors.light.500'),
-              color: theme('colors.light.100'),
+              borderColor: theme('colors.dark.border'),
+              color: theme('colors.dark.text'),
+            },
+            tr: {
+              borderColor: theme('colors.dark.border'),
             },
           },
         },

@@ -63,7 +63,7 @@ const FeaturedPosts: React.FC = () => {
         {posts.map((post) => (
           <div
             key={post.id}
-            className="p-4 bg-neutral-300 dark:bg-dark-700 transition duration-300 ease-in-out"
+            className="p-4 bg-light-layer dark:bg-dark-layer transition duration-300 ease-in-out"
             onClick={() => navigate(`/posts/${post.id}`)}
             style={{ cursor: 'pointer' }}
           >

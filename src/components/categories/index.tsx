@@ -35,22 +35,22 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
                   index > 0 ? 'hidden md:block' : ''
                 } ${
                   index % 2 === 0 ? 'md:border-l-2' : 'md:border-r-2'
-                } border-neutral-300 dark:border-neutral-600`}
+                } border-neutral-300 dark:border-neutral-600 relative`}
               >
-                <div className="w-full h-48 overflow-hidden">
+                <div className="w-full h-48 overflow-hidden relative">
                   <img
                     className="w-full h-full object-cover"
                     src={post.mainImageUrl}
                     alt="Programming Post"
                   />
+                  <span className="absolute bottom-0 right-0 py-1 px-3 text-sm font-semibold text-neutral-800 bg-neutral-200 dark:bg-neutral-600 dark:text-neutral-200 rounded-tl-lg">
+                    {post.categoryNames.join(', ')}
+                  </span>
                 </div>
                 <div className="p-4">
                   <h3 className="font-bold text-xl mb-2 text-neutral-700 dark:text-neutral-200 line-clamp-2">
                     {post.title}
                   </h3>
-                  <p className="text-neutral-500 dark:text-neutral-400 text-sm">
-                    {post.categoryNames.join(', ')}
-                  </p>
                 </div>
               </div>
             ))}

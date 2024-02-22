@@ -46,7 +46,7 @@ export const Navbar: React.FC = () => {
   return (
     <Disclosure
       as="nav"
-      className="bg-light-300 text-neutral-900 dark:bg-dark-700 dark:text-neutral-100 transition duration-300 ease-in-out"
+      className="bg-light-layer dark:bg-dark-layer text-neutral-900 dark:text-neutral-100 transition duration-300 ease-in-out"
     >
       {({ open }) => (
         <>
