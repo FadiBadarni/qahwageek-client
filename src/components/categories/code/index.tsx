@@ -3,10 +3,11 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getNewestProgrammingPosts } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import ProgrammingPosts from './ProgrammingPosts';
 
 type Props = {};
 
-const CodePosts = (props: Props) => {
+const CodeCategoryHome = (props: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -61,9 +62,11 @@ const CodePosts = (props: Props) => {
             </div>
           </div>
         </div>
+        <hr className="my-8 border-t border-neutral-300 dark:border-neutral-600" />
+        <ProgrammingPosts />
       </div>
     </>
   );
 };
 
-export default CodePosts;
+export default CodeCategoryHome;
