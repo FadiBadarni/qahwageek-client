@@ -4,7 +4,7 @@ type Props = {};
 
 const NewsReport = (props: Props) => {
   return (
-    <div className="bg-neutral-100 dark:bg-neutral-800 p-4 rounded-lg">
+    <div className="bg-light-layer dark:bg-dark-layer p-4 rounded-lg">
       <h2 className="text-lg font-semibold text-neutral-700 dark:text-neutral-200">
         معلومات عامة
       </h2>

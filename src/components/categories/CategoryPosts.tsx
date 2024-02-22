@@ -44,10 +44,10 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
           {posts.map((post) => (
             <article
               key={post.id}
-              className="relative flex flex-row gap-8 items-center"
+              className="relative flex flex-row gap-8 items-center bg-light-layer dark:bg-dark-layer rounded-sm"
             >
               <div className="flex-shrink-0">
-                <div className="w-24 h-24 lg:w-32 lg:h-32">
+                <div className="w-24 h-24 lg:w-32 lg:h-32 p-2">
                   <img
                     src={post.mainImageUrl}
                     alt={post.title}
