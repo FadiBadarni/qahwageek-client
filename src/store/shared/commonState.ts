@@ -20,6 +20,7 @@ export interface PaginatedData<T> {
   items: T;
   totalCount: number;
   currentPage: number;
+  totalPages: number;
 }
 
 interface RehydratePayload {

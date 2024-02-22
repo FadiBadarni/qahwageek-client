@@ -1,17 +1,42 @@
-import { LightPost } from 'models/post';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { fetchPostsByCategory } from 'store/post/postActions';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { PostsPagination } from './PostsPagination';
 
 type CategoryPostsProps = {
-  posts: LightPost[];
   newsComponent?: React.ReactNode;
+  categoryName: string;
 };
 
 const CategoryPosts: React.FC<CategoryPostsProps> = ({
-  posts,
   newsComponent,
+  categoryName,
 }) => {
+  const dispatch = useAppDispatch();
+  const posts = useSelector(
+    (state: RootState) => state.posts.categoryPosts.data.items
+  );
+  const totalPages = useSelector(
+    (state: RootState) => state.posts.categoryPosts.data.totalPages
+  );
+  const currentPage = useSelector(
+    (state: RootState) => state.posts.categoryPosts.data.currentPage
+  );
+
+  useEffect(() => {
+    dispatch(
+      fetchPostsByCategory({ categoryName, page: currentPage, size: 10 })
+    );
+  }, [dispatch, currentPage, categoryName]);
+
+  const handlePageChange = (page: number) => {
+    dispatch(fetchPostsByCategory({ categoryName, page, size: 10 }));
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-8 mt-8 lg:mt-10">
@@ -55,6 +80,11 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
               </div>
             </article>
           ))}
+          <PostsPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+          />
         </div>
         {newsComponent && <div className="lg:col-span-3">{newsComponent}</div>}
       </div>

@@ -86,6 +86,7 @@ const postSlice = createSlice({
         state.categoryPosts.data.totalCount = action.payload.totalElements;
         state.categoryPosts.data.currentPage =
           action.payload.pageable.pageNumber;
+        state.categoryPosts.data.totalPages = action.payload.totalPages;
       })
       .addCase(fetchPostsByCategory.rejected, (state, action) => {
         state.categoryPosts.status = LoadingStatus.Failed;

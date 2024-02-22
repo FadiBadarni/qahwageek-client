@@ -41,6 +41,7 @@ export const initialPostsState: PostState = {
       items: [],
       totalCount: 0,
       currentPage: 0,
+      totalPages: 0,
     },
     status: LoadingStatus.Idle,
     error: null,
