@@ -1,5 +1,6 @@
 import { LightPost } from 'models/post';
 import React, { ReactNode } from 'react';
+import './categoryPage.css';
 
 type CategoryHeaderProps = {
   bannerTitle: string;
@@ -16,11 +17,24 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
 }) => {
   return (
     <>
-      <div className="relative bg-neutral-700 dark:bg-dark-800 py-8 sm:py-8 transition duration-300 ease-in-out text-center z-10">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
+      <div className="relative bg-light-border dark:bg-dark-border py-8 sm:py-8 transition duration-300 ease-in-out text-center z-10 complex-border">
+        <div className="theme-based-shape-divider">
+          <svg
+            data-name="Layer 1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
+              className="shape-fill"
+            ></path>
+          </svg>
+        </div>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-light-text dark:text-dark-text">
           {bannerTitle}
         </h2>
-        <p className="mt-4 text-base sm:text-lg md:text-xl leading-8 text-neutral-300 dark:text-neutral-200">
+        <p className="mt-4 text-base sm:text-lg md:text-xl leading-8 text-neutral-700 dark:text-neutral-100">
           {bannerSubtitle}
         </p>
         <div className="pb-20 md:pb-32"></div>
@@ -31,7 +45,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             {posts.map((post, index) => (
               <div
                 key={post.id}
-                className={`w-full md:w-1/2 lg:w-1/3 overflow-hidden shadow-lg bg-white dark:bg-neutral-800 ${
+                className={`w-full md:w-1/2 lg:w-1/3 overflow-hidden shadow-lg bg-light-border dark:bg-dark-border ${
                   index > 0 ? 'hidden md:block' : ''
                 } ${
                   index % 2 === 0 ? 'md:border-l-2' : 'md:border-r-2'

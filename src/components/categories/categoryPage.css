@@ -1,0 +1,26 @@
+.theme-based-shape-divider {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  z-index: -1;
+}
+
+.theme-based-shape-divider svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 130px;
+}
+
+.theme-based-shape-divider .shape-fill {
+  fill: #f9fafb;
+  transition: fill 0.3s ease-in-out;
+}
+
+.dark .theme-based-shape-divider .shape-fill {
+  fill: #111827;
+  transition: fill 0.3s ease-in-out;
+}
