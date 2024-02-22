@@ -15,15 +15,15 @@ const CodeCategoryHome = (props: Props) => {
     dispatch(getNewestProgrammingPosts());
   }, [dispatch]);
 
-  const programmingPosts = useSelector((state: RootState) =>
-    state.posts.programmingPosts.data.slice(0, 2)
+  const latestProgrammingPosts = useSelector((state: RootState) =>
+    state.posts.latestProgrammingPosts.data.slice(0, 2)
   );
 
   return (
     <CategoryHeader
       bannerTitle="اسبرسو كود"
       bannerSubtitle="هنا تجد مقالات برمجية تعليمية ومفيدة."
-      posts={programmingPosts}
+      posts={latestProgrammingPosts}
       PostsComponent={<ProgrammingPosts />}
     />
   );

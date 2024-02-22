@@ -12,8 +12,8 @@ export const HomeCodePosts: React.FC = () => {
     dispatch(getNewestProgrammingPosts());
   }, [dispatch]);
 
-  const programmingPosts = useSelector(
-    (state: RootState) => state.posts.programmingPosts.data
+  const latestProgrammingPosts = useSelector(
+    (state: RootState) => state.posts.latestProgrammingPosts.data
   );
 
   return (
@@ -22,7 +22,7 @@ export const HomeCodePosts: React.FC = () => {
         اسبرسو كود
       </h2>
       <div>
-        {programmingPosts.map((post) => (
+        {latestProgrammingPosts.map((post) => (
           <PostItem key={post.id} post={post} />
         ))}
       </div>

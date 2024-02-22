@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  fetchPostsByCategory,
   getFeaturedPosts,
   getNewestProgrammingPosts,
   getPostById,
@@ -49,11 +50,11 @@ const postSlice = createSlice({
       //Handling post by id
       .addCase(getPostById.pending, (state) => {
         state.currentPost.status = LoadingStatus.Loading;
-        state.currentPost.data = null; // Clear current post data when loading new
+        state.currentPost.data = null;
       })
       .addCase(getPostById.fulfilled, (state, action) => {
         state.currentPost.status = LoadingStatus.Succeeded;
-        state.currentPost.data = action.payload; // Set fetched post as current
+        state.currentPost.data = action.payload;
       })
       .addCase(getPostById.rejected, (state, action) => {
         state.currentPost.status = LoadingStatus.Failed;
@@ -62,19 +63,34 @@ const postSlice = createSlice({
       })
       //Handling Newest Programming Posts
       .addCase(getNewestProgrammingPosts.pending, (state) => {
-        state.programmingPosts.status = LoadingStatus.Loading;
+        state.latestProgrammingPosts.status = LoadingStatus.Loading;
       })
       .addCase(
         getNewestProgrammingPosts.fulfilled,
         (state, action: PayloadAction<LightPost[]>) => {
-          state.programmingPosts.status = LoadingStatus.Succeeded;
-          state.programmingPosts.data = action.payload;
+          state.latestProgrammingPosts.status = LoadingStatus.Succeeded;
+          state.latestProgrammingPosts.data = action.payload;
         }
       )
       .addCase(getNewestProgrammingPosts.rejected, (state, action) => {
-        state.programmingPosts.status = LoadingStatus.Failed;
-        state.programmingPosts.error =
+        state.latestProgrammingPosts.status = LoadingStatus.Failed;
+        state.latestProgrammingPosts.error =
           action.error.message ?? 'An unexpected error occurred';
+      })
+      .addCase(fetchPostsByCategory.pending, (state) => {
+        state.categoryPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchPostsByCategory.fulfilled, (state, action) => {
+        state.categoryPosts.status = LoadingStatus.Succeeded;
+        state.categoryPosts.data.items = action.payload.content;
+        state.categoryPosts.data.totalCount = action.payload.totalElements;
+        state.categoryPosts.data.currentPage =
+          action.payload.pageable.pageNumber;
+      })
+      .addCase(fetchPostsByCategory.rejected, (state, action) => {
+        state.categoryPosts.status = LoadingStatus.Failed;
+        state.categoryPosts.error =
+          action.error.message ?? 'Unable to fetch posts for the category';
       });
   },
 });

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { getNewestProgrammingPosts } from 'store/post/postActions';
+import { fetchPostsByCategory } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import NewsReport from './NewsReport';
@@ -11,13 +11,16 @@ type Props = {};
 const ProgrammingPosts = (props: Props) => {
   const dispatch = useAppDispatch();
 
+  const programmingPosts = useSelector(
+    (state: RootState) => state.posts.categoryPosts.data.items
+  );
+
   useEffect(() => {
-    dispatch(getNewestProgrammingPosts());
+    dispatch(
+      fetchPostsByCategory({ categoryName: 'programming', page: 0, size: 10 })
+    );
   }, [dispatch]);
 
-  const programmingPosts = useSelector(
-    (state: RootState) => state.posts.programmingPosts.data
-  );
   return (
     <CategoryPosts posts={programmingPosts} newsComponent={<NewsReport />} />
   );

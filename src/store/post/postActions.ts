@@ -148,3 +148,33 @@ export const getNewestProgrammingPosts = createAsyncThunk(
     }
   }
 );
+
+export const fetchPostsByCategory = createAsyncThunk(
+  'posts/fetchByCategory',
+  async (
+    {
+      categoryName,
+      page,
+      size,
+    }: { categoryName: string; page: number; size: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const posts = await PostService.getPostsByCategory(
+        categoryName,
+        page,
+        size
+      );
+      return posts;
+    } catch (error: any) {
+      console.error(
+        `Failed to fetch posts for category ${categoryName}:`,
+        error
+      );
+      return rejectWithValue(
+        error.response?.data ||
+          `Unable to fetch posts for category ${categoryName}`
+      );
+    }
+  }
+);
