@@ -178,3 +178,16 @@ export const fetchPostsByCategory = createAsyncThunk(
     }
   }
 );
+
+export const searchPosts = createAsyncThunk(
+  'posts/search',
+  async (query: string, { rejectWithValue }) => {
+    try {
+      const searchResults = await PostService.searchPosts(query);
+      return searchResults;
+    } catch (error: any) {
+      console.error('Failed to search posts:', error);
+      return rejectWithValue(error.response?.data || 'Unable to search posts');
+    }
+  }
+);

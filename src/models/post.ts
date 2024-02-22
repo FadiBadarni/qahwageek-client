@@ -29,3 +29,9 @@ export interface LightPost {
   readingTime?: number;
   categoryNames: string[];
 }
+
+export interface PostSearchResult {
+  id: string;
+  title: string;
+  mainImageUrl: string;
+}

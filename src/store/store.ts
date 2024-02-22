@@ -16,6 +16,7 @@ import userReducer from './user/userReducer';
 import postReducer from './post/postReducer';
 import categorySlice from './post/categoryReducer';
 import eventSlice from './event/eventSlice';
+import searchSlice from './post/searchSlice';
 export interface RootState {
   user: ReturnType<typeof userReducer>;
   auth: ReturnType<typeof authReducer>;
@@ -23,6 +24,7 @@ export interface RootState {
   posts: ReturnType<typeof postReducer>;
   categories: ReturnType<typeof categorySlice>;
   events: ReturnType<typeof eventSlice>;
+  search: ReturnType<typeof searchSlice>;
 }
 
 const rootReducer = combineReducers({
@@ -32,6 +34,7 @@ const rootReducer = combineReducers({
   posts: postReducer,
   categories: categorySlice,
   events: eventSlice,
+  search: searchSlice,
 });
 
 const persistConfig = {

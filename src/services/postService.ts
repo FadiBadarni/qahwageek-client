@@ -1,4 +1,4 @@
-import { NewPost } from 'models/post';
+import { NewPost, PostSearchResult } from 'models/post';
 import axiosClient from './axiosClient';
 
 class PostService {
@@ -78,6 +78,17 @@ class PostService {
     try {
       const response = await axiosClient.get(`/posts/category`, {
         params: { categoryName, page, size },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async searchPosts(query: string): Promise<PostSearchResult[]> {
+    try {
+      const response = await axiosClient.get(`/posts/search`, {
+        params: { query },
       });
       return response.data;
     } catch (error) {

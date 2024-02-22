@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { searchPosts } from 'store/post/postActions';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 const SearchInput: React.FC = () => {
+  const [query, setQuery] = useState('');
+  const dispatch = useAppDispatch();
+  const searchResults = useSelector(
+    (state: RootState) => state.search.data.results
+  );
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && query.trim() !== '') {
+      dispatch(searchPosts(query.trim()));
+    }
+  };
+
   return (
     <div className="w-full max-w-lg lg:max-w-xs">
       <label htmlFor="search" className="sr-only">
@@ -20,6 +40,9 @@ const SearchInput: React.FC = () => {
           className="block w-full rounded-md border-0 bg-gray-50 py-1.5 pr-10 pl-3 placeholder:text-gray-400 focus:bg-white focus:text-gray-900 dark:bg-gray-700 dark:placeholder:text-gray-500 dark:focus:bg-gray-800 dark:focus:text-gray-100 focus:ring-0 sm:text-sm sm:leading-6"
           placeholder="البحث"
           type="search"
+          value={query}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyPress}
         />
       </div>
     </div>
