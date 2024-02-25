@@ -13,6 +13,7 @@ import Post from 'components/post';
 import CreatePost from 'components/admin/PostCreation/CreatePost';
 import CodePosts from 'components/categories/code';
 import CareerPosts from 'components/categories/career';
+import TermsPosts from 'components/categories/terms';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -36,6 +37,7 @@ function App() {
             <Route path="/posts/:postId" element={<Post />} />
             <Route path="/category/code" element={<CodePosts />} />
             <Route path="/category/career" element={<CareerPosts />} />
+            <Route path="/category/terms" element={<TermsPosts />} />
             <Route
               path="/cms"
               element={

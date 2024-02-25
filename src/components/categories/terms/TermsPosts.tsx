@@ -1,21 +1,21 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { fetchPostsByCategory } from 'store/post/postActions';
-import NewsReport from '../NewsReport';
 import CategoryPosts from '../CategoryPosts';
+import NewsReport from '../NewsReport';
 
 type Props = {};
 
-const CareerPosts = (props: Props) => {
+const TermsPosts = (props: Props) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(
-      fetchPostsByCategory({ categoryName: 'career', page: 0, size: 10 })
+      fetchPostsByCategory({ categoryName: 'terms', page: 0, size: 10 })
     );
   }, [dispatch]);
 
-  return <CategoryPosts newsComponent={<NewsReport />} categoryName="career" />;
+  return <CategoryPosts newsComponent={<NewsReport />} categoryName="terms" />;
 };
 
-export default CareerPosts;
+export default TermsPosts;

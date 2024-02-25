@@ -164,6 +164,21 @@ export const getNewestCareerPosts = createAsyncThunk(
   }
 );
 
+export const getNewestTermsPosts = createAsyncThunk(
+  'posts/getNewestTermsPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const termsPosts = await PostService.getNewestTermsPosts();
+      return termsPosts;
+    } catch (error: any) {
+      console.error('Failed to fetch terms posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch terms posts'
+      );
+    }
+  }
+);
+
 export const fetchPostsByCategory = createAsyncThunk(
   'posts/fetchByCategory',
   async (

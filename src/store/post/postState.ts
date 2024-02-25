@@ -11,6 +11,7 @@ export interface PostState {
   featuredPosts: CommonState<LightPost[]>;
   latestProgrammingPosts: CommonState<LightPost[]>;
   latestCareerPosts: CommonState<LightPost[]>;
+  latestTermsPosts: CommonState<LightPost[]>;
   categoryPosts: CommonState<PaginatedData<LightPost[]>>;
 }
 
@@ -38,6 +39,11 @@ export const initialPostsState: PostState = {
     error: null,
   },
   latestCareerPosts: {
+    data: [],
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  latestTermsPosts: {
     data: [],
     status: LoadingStatus.Idle,
     error: null,

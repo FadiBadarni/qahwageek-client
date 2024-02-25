@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { fetchPostsByCategory } from 'store/post/postActions';
-import NewsReport from './NewsReport';
+import NewsReport from '../NewsReport';
 import CategoryPosts from '../CategoryPosts';
 
 type Props = {};

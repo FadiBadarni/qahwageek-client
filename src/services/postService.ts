@@ -79,6 +79,15 @@ class PostService {
     }
   }
 
+  static async getNewestTermsPosts(): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/posts/terms/newest`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getPostsByCategory(
     categoryName: string,
     page: number = 0,

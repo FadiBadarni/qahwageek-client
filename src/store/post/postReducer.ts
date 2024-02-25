@@ -4,6 +4,7 @@ import {
   getFeaturedPosts,
   getNewestCareerPosts,
   getNewestProgrammingPosts,
+  getNewestTermsPosts,
   getPostById,
   getRecentPosts,
 } from './postActions';
@@ -91,6 +92,21 @@ const postSlice = createSlice({
       .addCase(getNewestCareerPosts.rejected, (state, action) => {
         state.latestCareerPosts.status = LoadingStatus.Failed;
         state.latestCareerPosts.error =
+          action.error.message ?? 'An unexpected error occurred';
+      })
+      .addCase(getNewestTermsPosts.pending, (state) => {
+        state.latestTermsPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        getNewestTermsPosts.fulfilled,
+        (state, action: PayloadAction<LightPost[]>) => {
+          state.latestTermsPosts.status = LoadingStatus.Succeeded;
+          state.latestTermsPosts.data = action.payload;
+        }
+      )
+      .addCase(getNewestTermsPosts.rejected, (state, action) => {
+        state.latestTermsPosts.status = LoadingStatus.Failed;
+        state.latestTermsPosts.error =
           action.error.message ?? 'An unexpected error occurred';
       })
       .addCase(fetchPostsByCategory.pending, (state) => {
