@@ -47,11 +47,11 @@ const Post = (props: Props) => {
               className="relative w-full h-[25vh] md:h-[35vh] lg:h-[45vh] xl:h-[55vh] mb-4 rounded-md bg-cover bg-center"
               style={{ backgroundImage: `url(${post.mainImageUrl})` }}
             >
-              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-md bg-gradient-to-b from-white/10 to-white/10 dark:from-black/30 dark:to-black/90"></div>
+              <div className="absolute top-0 left-0 right-0 bottom-0 rounded-md bg-gradient-to-b from-white/10 to-white/60 dark:from-black/30 dark:to-black/90"></div>
 
               <div className="absolute bottom-[5vh] sm:bottom-[5vh] md:bottom-[5vh] lg:bottom-[10vh] xl:bottom-[12vh] w-full p-4 md:p-8">
                 <div className="max-w-7xl mx-auto">
-                  <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-tight">
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-light-text dark:text-dark-text leading-tight">
                     {post.title}
                   </h1>
                 </div>

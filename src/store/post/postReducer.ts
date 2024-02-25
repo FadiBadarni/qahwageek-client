@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchPostsByCategory,
   getFeaturedPosts,
+  getNewestCareerPosts,
   getNewestProgrammingPosts,
   getPostById,
   getRecentPosts,
@@ -75,6 +76,21 @@ const postSlice = createSlice({
       .addCase(getNewestProgrammingPosts.rejected, (state, action) => {
         state.latestProgrammingPosts.status = LoadingStatus.Failed;
         state.latestProgrammingPosts.error =
+          action.error.message ?? 'An unexpected error occurred';
+      })
+      .addCase(getNewestCareerPosts.pending, (state) => {
+        state.latestCareerPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        getNewestCareerPosts.fulfilled,
+        (state, action: PayloadAction<LightPost[]>) => {
+          state.latestCareerPosts.status = LoadingStatus.Succeeded;
+          state.latestCareerPosts.data = action.payload;
+        }
+      )
+      .addCase(getNewestCareerPosts.rejected, (state, action) => {
+        state.latestCareerPosts.status = LoadingStatus.Failed;
+        state.latestCareerPosts.error =
           action.error.message ?? 'An unexpected error occurred';
       })
       .addCase(fetchPostsByCategory.pending, (state) => {

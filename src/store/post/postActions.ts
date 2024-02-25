@@ -149,6 +149,21 @@ export const getNewestProgrammingPosts = createAsyncThunk(
   }
 );
 
+export const getNewestCareerPosts = createAsyncThunk(
+  'posts/getNewestCareerPosts',
+  async (_, { rejectWithValue }) => {
+    try {
+      const careerPosts = await PostService.getNewestCareerPosts();
+      return careerPosts;
+    } catch (error: any) {
+      console.error('Failed to fetch career posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch career posts'
+      );
+    }
+  }
+);
+
 export const fetchPostsByCategory = createAsyncThunk(
   'posts/fetchByCategory',
   async (

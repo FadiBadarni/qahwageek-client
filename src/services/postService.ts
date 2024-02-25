@@ -70,6 +70,15 @@ class PostService {
     }
   }
 
+  static async getNewestCareerPosts(): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/posts/career/newest`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async getPostsByCategory(
     categoryName: string,
     page: number = 0,
