@@ -17,21 +17,27 @@ textarea[id^='form-field_'] {
   text-align: right;
 }
 :root {
-  /* Light theme colors */
-  --color-light-input: #f7f7f7; /* Light mode input background */
-  --color-primary: #4f46e5; /* Primary color for focus border */
-  --color-dropdown-bg: #ffffff; /* Dropdown background */
-  --color-selected: #eff6ff; /* Background color for selected option */
-  --color-focused: #dbeafe; /* Background color for option on hover/focus */
-  --color-option-bg: #ffffff; /* Default option background */
-  --color-on-selected: #1f2937; /* Text color on selected option */
-  --color-on-option: #4b5563; /* Text color on options */
-  --color-placeholder: #9ca3af; /* Placeholder text color */
-  --color-text: #374151; /* Default text color */
-  --color-active-option: #e0e7ff; /* Background color for active option */
+  --color-light-input: #f7f7f7;
+  --color-primary: #4f46e5;
+  --color-dropdown-bg: #ffffff;
+  --color-selected: #eff6ff;
+  --color-focused: #dbeafe;
+  --color-option-bg: #ffffff;
+  --color-on-selected: #1f2937;
+  --color-on-option: #4b5563;
+  --color-placeholder: #9ca3af;
+  --color-text: #374151;
+  --color-active-option: #e0e7ff;
 
-  /* Dark theme colors (if you have a dark mode) */
-  --color-dark-input: #374151; /* Dark mode input background */
-  --color-dark-dropdown-bg: #1f2937; /* Dark mode dropdown background */
-  --color-dark-text: #f9fafb; /* Dark mode text color */
+  --color-dark-input: #374151;
+  --color-dark-dropdown-bg: #1f2937;
+  --color-dark-text: #f9fafb;
+}
+
+.svg-light-theme {
+  filter: brightness(0) invert(1);
+}
+
+.svg-dark-theme {
+  filter: brightness(0);
 }

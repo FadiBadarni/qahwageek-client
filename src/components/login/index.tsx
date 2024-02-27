@@ -10,6 +10,7 @@ import { displayError } from 'utils/alertUtils';
 export const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useSelector((state: RootState) => state.user.data);
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -35,8 +36,14 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img className="mx-auto h-20 w-auto" src={logo} alt="Qahwa Geek" />
-        <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-neutral-100">
+        <img
+          className={`mx-auto h-20 w-auto ${
+            currentTheme === 'dark' ? 'svg-light-theme' : 'svg-dark-theme'
+          }`}
+          src={logo}
+          alt="Qahwa Geek"
+        />
+        <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-light-text dark:text-dark-text">
           تسجيل الدخول إلى حسابك
         </h2>
       </div>
@@ -46,7 +53,7 @@ export const LoginPage: React.FC = () => {
           <div>
             <label
               htmlFor="username"
-              className="block text-sm font-medium leading-6 text-neutral-100 text-right"
+              className="block text-sm font-medium leading-6 text-light-text dark:text-dark-text text-right"
             >
               اسم المستخدم
             </label>
@@ -57,7 +64,11 @@ export const LoginPage: React.FC = () => {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="block w-full rounded-md border-0 bg-dark-700 py-1.5 text-neutral-100 shadow-sm ring-1 ring-inset ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 
+             bg-light-input dark:bg-dark-input 
+             text-light-text dark:text-dark-text 
+             ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 
+             focus:ring-2 focus:ring-inset focus:ring-brand-500"
               />
             </div>
           </div>
@@ -66,14 +77,14 @@ export const LoginPage: React.FC = () => {
             <div className="flex items-center justify-between">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium leading-6 text-neutral-100"
+                className="block text-sm font-medium leading-6 text-light-text dark:text-dark-text"
               >
                 كلمة المرور
               </label>
               <div className="text-sm">
                 <Link
                   to="/forgot-password"
-                  className="font-semibold text-accent-400 hover:text-accent-500"
+                  className="font-semibold text-light-primary dark:text-dark-primary"
                 >
                   نسيت كلمة المرور؟
                 </Link>
@@ -87,7 +98,11 @@ export const LoginPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 bg-dark-700 py-1.5 text-neutral-100 shadow-sm ring-1 ring-inset ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 
+             bg-light-input dark:bg-dark-input 
+             text-light-text dark:text-dark-text 
+             ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 
+             focus:ring-2 focus:ring-inset focus:ring-brand-500"
               />
             </div>
           </div>
