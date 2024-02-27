@@ -1,8 +1,7 @@
-const { override, addBabelPlugins } = require('customize-cra');
+const { override, addBabelPlugin } = require('customize-cra');
 
 module.exports = override(
-  ...addBabelPlugins(
-    process.env.NODE_ENV === 'production' &&
-      'babel-plugin-transform-remove-console'
-  )
+  ...(process.env.NODE_ENV === 'production'
+    ? [addBabelPlugin('babel-plugin-transform-remove-console')]
+    : [])
 );
