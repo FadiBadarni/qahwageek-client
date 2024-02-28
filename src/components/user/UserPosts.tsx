@@ -2,6 +2,7 @@ import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { LightPost } from 'models/post';
 import React from 'react';
+import { ClockIcon, CalendarIcon } from '@heroicons/react/24/outline';
 
 interface UserPostsProps {
   posts: LightPost[];
@@ -9,46 +10,49 @@ interface UserPostsProps {
 
 const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
+      <div className="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-4">
+        آخر المشاركات
+      </div>
       {posts.map((post) => (
         <div
           key={post.id}
-          className="border border-neutral-400 rounded-lg p-4 bg-neutral-100 dark:bg-dark-layer text-neutral-600 dark:text-neutral-200"
+          className="flex justify-between items-start p-2 bg-light-layer dark:bg-dark-layer rounded-lg"
         >
-          <div className="flex gap-4">
-            <img
-              src={post.mainImageUrl}
-              alt={post.title}
-              className="w-24 h-24 object-cover rounded-md flex-shrink-0"
-            />
-            <div className="flex flex-col justify-between">
-              <h3 className="text-lg font-semibold">{post.title}</h3>
-              <div className="text-xs md:text-sm flex flex-wrap gap-1 mt-2">
-                {post.categoryNames.length > 0 && (
-                  <>
-                    {post.categoryNames.map((name, index) => (
-                      <span
-                        key={index}
-                        className="bg-accent-500 text-white dark:text-dark-text px-2 py-1 rounded-full"
-                      >
-                        {name}
-                      </span>
-                    ))}
-                  </>
-                )}
+          <div className="flex space-x-2">
+            {post.mainImageUrl && (
+              <img
+                src={post.mainImageUrl}
+                alt={post.title}
+                className="w-16 h-16 md:w-20 md:h-20 object-cover rounded-md"
+              />
+            )}
+            <div className="flex flex-col flex-grow pr-4">
+              <h3 className="text-md font-semibold text-neutral-800 dark:text-neutral-100">
+                {post.title}
+              </h3>
+              <div className="flex flex-wrap gap-1 mt-1 mb-2">
+                {post.categoryNames.map((category, index) => (
+                  <span
+                    key={index}
+                    className="bg-neutral-400 dark:bg-dark-500 text-white px-2 py-1 rounded-full text-xs"
+                  >
+                    {category}
+                  </span>
+                ))}
               </div>
-              <div className="mt-2">
-                <p className="text-xs">بواسطة: {post.author}</p>
-                <p className="text-xs">
-                  نشر في:{' '}
-                  {format(parseISO(post.publishedAt), 'dd MMMM, yyyy', {
+              <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-xs">
+                <CalendarIcon className="h-4 w-4 ml-2" />
+                <time dateTime={post.publishedAt}>
+                  {format(parseISO(post.publishedAt), 'dd MMM yyyy', {
                     locale: ar,
                   })}
-                </p>
+                </time>
                 {post.readingTime && (
-                  <p className="text-xs">
-                    وقت القراءة: {post.readingTime} دقائق
-                  </p>
+                  <>
+                    <ClockIcon className="h-4 w-4 ml-2 mr-2" />
+                    <span>{post.readingTime} دقائق</span>
+                  </>
                 )}
               </div>
             </div>
