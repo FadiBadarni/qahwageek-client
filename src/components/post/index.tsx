@@ -8,6 +8,7 @@ import DOMPurify from 'dompurify';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
+import ShareContainer from './ShareContainer';
 
 type Props = {};
 
@@ -74,24 +75,32 @@ const Post = (props: Props) => {
                 <span className=" md:inline mx-2">|</span>
                 <span className="block">{`${post.readingTime} دقائق قراءة`}</span>
               </div>
-              {/* Categories */}
-              <div className="flex flex-wrap items-center mt-2 md:mt-0">
-                {post.categoryNames.map((category, index) => (
-                  <span
-                    key={index}
-                    className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs md:text-sm font-semibold ml-2 my-1
-                              bg-light-background text-brand-500 dark:bg-dark-background dark:text-accent-400"
-                  >
-                    {category}
-                  </span>
-                ))}
-              </div>
+
+              {post && (
+                <ShareContainer
+                  url={`https://qahwageek.netlify.app/posts/${post.id}`}
+                  title={post.title}
+                />
+              )}
             </div>
-            <div className="mt-4 p-2 rounded-md md:px-16 px-0">
+            <div className="mt-4 p-2 rounded-md md:px-32 px-0">
               <div
                 dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                 className="prose dark:prose-dark mx-auto max-w-none"
               ></div>
+              <div className="mt-4">
+                <h3 className="text-sm font-semibold mb-2">التصنيفات:</h3>
+                <div className="flex flex-wrap">
+                  {post.categoryNames.map((category, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs md:text-sm font-semibold mr-2 mb-2 bg-brand-500 text-white dark:bg-accent-400"
+                    >
+                      {category}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </article>
