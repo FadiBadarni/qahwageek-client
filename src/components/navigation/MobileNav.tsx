@@ -65,8 +65,16 @@ const MobileNav: React.FC<MobileNavProps> = ({
         <div className="border-t border-gray-700 pb-3 pt-4">
           <div className="flex items-center px-5">
             <div className="flex-shrink-0">
-              <div className="h-10 w-10 rounded-full flex items-center justify-center bg-slate-700 dark:bg-dark-800">
-                {user.username.charAt(0).toUpperCase()}
+              <div className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center bg-slate-700 dark:bg-dark-800">
+                {user?.profilePicture ? (
+                  <img
+                    src={user.profilePicture}
+                    alt={`${user.username}'s Profile`}
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  user.username.charAt(0).toUpperCase()
+                )}
               </div>
             </div>
             <div className="mr-3">
@@ -79,6 +87,13 @@ const MobileNav: React.FC<MobileNavProps> = ({
             </div>
           </div>
           <div className="mt-3 space-y-1 px-2">
+            <Disclosure.Button
+              as={Link}
+              to="/user/profile"
+              className="block w-full text-right rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
+            >
+              المنطقة الشخصية
+            </Disclosure.Button>
             <button
               className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
               onClick={handleLogout}

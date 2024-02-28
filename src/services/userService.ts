@@ -25,6 +25,47 @@ class UserService {
       throw error;
     }
   }
+  static async getUserProfileService(userId: number) {
+    try {
+      const response = await axiosClient.get(`/user/profile/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getPresignedUrlForProfilePicture(
+    filename: string,
+    contentType: string
+  ) {
+    try {
+      const response = await axiosClient.post(
+        `/user/profile-picture/presigned-url`,
+        {
+          filename,
+          contentType,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updateUserProfile(
+    userId: number,
+    profileData: { profilePicture: string }
+  ) {
+    try {
+      const response = await axiosClient.put(
+        `/user/${userId}/profile`,
+        profileData
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

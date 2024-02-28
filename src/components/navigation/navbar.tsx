@@ -131,8 +131,16 @@ export const Navbar: React.FC = () => {
                         <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">فتح قائمة المستخدم</span>
-                          <div className="h-8 w-8 rounded-full flex items-center justify-center dark:bg-slate-950 bg-neutral-300">
-                            {userInitial}
+                          <div className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center dark:bg-slate-950 bg-neutral-300">
+                            {user?.profilePicture ? (
+                              <img
+                                src={user.profilePicture}
+                                alt="Profile"
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <span>{userInitial}</span>
+                            )}
                           </div>
                         </Menu.Button>
                       </div>
@@ -148,9 +156,26 @@ export const Navbar: React.FC = () => {
                         <Menu.Items className="absolute left-0 z-20 mt-2 w-48 origin-top-left rounded-md bg-light-background dark:bg-dark-background py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
                             {({ active }) => (
+                              <Link
+                                to="/user/profile"
+                                className={classNames(
+                                  active
+                                    ? 'bg-neutral-200 dark:bg-neutral-700'
+                                    : '',
+                                  'block px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text'
+                                )}
+                              >
+                                المنطقة الشخصية
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
                               <button
                                 className={classNames(
-                                  active ? 'bg-gray-100' : '',
+                                  active
+                                    ? 'bg-neutral-200 dark:bg-neutral-700'
+                                    : '',
                                   'block px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text'
                                 )}
                                 onClick={handleLogout}

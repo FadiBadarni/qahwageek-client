@@ -14,6 +14,7 @@ import CreatePost from 'components/admin/PostCreation/CreatePost';
 import CodePosts from 'components/categories/code';
 import CareerPosts from 'components/categories/career';
 import TermsPosts from 'components/categories/terms';
+import UserProfile from 'components/user';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -38,6 +39,14 @@ function App() {
             <Route path="/category/code" element={<CodePosts />} />
             <Route path="/category/career" element={<CareerPosts />} />
             <Route path="/category/terms" element={<TermsPosts />} />
+            <Route
+              path="/user/profile"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/cms"
               element={

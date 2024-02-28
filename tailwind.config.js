@@ -73,7 +73,12 @@ module.exports = {
             h3: { color: theme('colors.text') },
             strong: { color: theme('colors.text') },
             u: { color: theme('colors.text') },
-            code: { color: theme('colors.text') },
+            code: {
+              color: theme('colors.text'),
+              backgroundColor: theme('colors.light.input'),
+              padding: '0.25rem',
+              borderRadius: '0.2rem',
+            },
             blockquote: {
               color: theme('colors.text'),
               borderLeftColor: theme('colors.border'),
@@ -119,7 +124,12 @@ module.exports = {
             h3: { color: theme('colors.dark.text') },
             strong: { color: theme('colors.dark.text') },
             u: { color: theme('colors.dark.text') },
-            code: { color: theme('colors.dark.text') },
+            code: {
+              color: theme('colors.dark.text'),
+              backgroundColor: theme('colors.dark.border'),
+              padding: '0.25rem',
+              borderRadius: '0.2rem',
+            },
             pre: { backgroundColor: theme('colors.dark.border') },
             blockquote: {
               color: theme('colors.dark.text'),
