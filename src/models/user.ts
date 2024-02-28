@@ -3,6 +3,7 @@ export interface UserData {
   email: string;
   username: string;
   roles: string[];
+  profilePicture?: string;
 }
 
 export interface LoginRequest {

@@ -131,8 +131,16 @@ export const Navbar: React.FC = () => {
                         <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                           <span className="absolute -inset-1.5" />
                           <span className="sr-only">فتح قائمة المستخدم</span>
-                          <div className="h-8 w-8 rounded-full flex items-center justify-center dark:bg-slate-950 bg-neutral-300">
-                            {userInitial}
+                          <div className="h-8 w-8 rounded-full overflow-hidden flex items-center justify-center dark:bg-slate-950 bg-neutral-300">
+                            {user?.profilePicture ? (
+                              <img
+                                src={user.profilePicture}
+                                alt="Profile"
+                                className="h-full w-full object-cover"
+                              />
+                            ) : (
+                              <span>{userInitial}</span>
+                            )}
                           </div>
                         </Menu.Button>
                       </div>
