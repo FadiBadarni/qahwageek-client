@@ -6,6 +6,14 @@ export interface UserData {
   profilePicture?: string;
 }
 
+export interface UserProfileType {
+  username: string;
+  email: string;
+  profilePicture: string;
+  bio: string;
+  joinDate: string;
+}
+
 export interface LoginRequest {
   username: string;
   password: string;
