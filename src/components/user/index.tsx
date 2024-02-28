@@ -45,23 +45,23 @@ const UserProfile: React.FC = () => {
               </div>
             )}
           </div>
-          <h2 className="mt-4 font-bold text-xl dark:text-text text-dark-text">
+          <h2 className="mt-2 text-lg sm:text-xl md:font-bold dark:text-text text-dark-text">
             {userProfile.username}
           </h2>
-          <p className="text-sm text-neutral-600 dark:text-neutral-200">
+          <p className="text-xs sm:text-sm dark:text-neutral-200">
             {userProfile.email}
           </p>
-          <p className="mt-2 text-neutral-500 dark:text-neutral-400">
+          <p className="mt-1 text-xs sm:text-sm dark:text-neutral-400">
             {userProfile.bio || 'لا يوجد سيرة ذاتية'}
           </p>
-          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-200">
+          <p className="mt-1 text-xs sm:text-sm dark:text-neutral-200">
             انضم:{' '}
             {format(parseISO(userProfile.joinDate), 'dd MMMM, yyyy', {
               locale: ar,
             })}
           </p>
           {/* Subtitle for Social Media Handles */}
-          <h3 className="mt-4 mb-2 text-xs font-semibold dark:text-dark-text text-light-text">
+          <h3 className="mt-3 mb-1 text-xs sm:text-sm font-semibold dark:text-dark-text text-light-text">
             حسابات التواصل الاجتماعي
           </h3>
           <UserSocialMedia
