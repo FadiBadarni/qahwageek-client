@@ -1,6 +1,10 @@
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { CameraIcon } from '@heroicons/react/24/outline';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { uploadProfilePicture } from 'store/user/userActions';
 
 interface ProfilePictureUpdateDialogProps {
   isOpen: boolean;
@@ -11,13 +15,45 @@ const ProfilePictureUpdateDialog: React.FC<ProfilePictureUpdateDialogProps> = ({
   isOpen,
   onClose,
 }) => {
+  const dispatch = useAppDispatch();
+
+  const user = useSelector((state: RootState) => state.user.data);
+  const [file, setFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.files);
+    const fileList = event.target.files;
+    if (fileList && fileList.length > 0) {
+      const file = fileList[0];
+      setFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+  const handleDiscard = () => {
+    setFile(null);
+    setPreviewUrl(null);
+    onClose();
+  };
+
+  const handleDialogClose = () => {
+    setFile(null);
+    setPreviewUrl(null);
+    onClose();
+  };
+
+  const handleSaveChanges = async () => {
+    if (file && user?.id) {
+      await dispatch(uploadProfilePicture({ userId: user.id, file }));
+      setFile(null);
+      setPreviewUrl(null);
+      onClose();
+    }
   };
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-50" onClose={onClose}>
+      <Dialog as="div" className="relative z-50" onClose={handleDialogClose}>
         <Transition.Child
           as={Fragment}
           enter="ease-out duration-300"
@@ -53,25 +89,47 @@ const ProfilePictureUpdateDialog: React.FC<ProfilePictureUpdateDialogProps> = ({
                   >
                     تغيير الصورة الشخصية
                   </Dialog.Title>
-                  <div className="mt-2">
-                    <p className="text-sm">
-                      يمكنك تحميل صورة جديدة لتغيير صورة ملفك الشخصي.
-                    </p>
+                  {previewUrl ? (
+                    <img
+                      src={previewUrl}
+                      alt="Preview"
+                      className="mt-4 w-32 h-32 md:w-48 md:h-48 mx-auto rounded-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src={user?.profilePicture || 'defaultProfilePicUrl'}
+                      alt="Current Profile"
+                      className="mt-4 w-32 h-32 md:w-48 md:h-48 mx-auto rounded-full object-cover"
+                    />
+                  )}
+                  <div className="mt-4 text-right">
+                    <label
+                      htmlFor="profilePicture"
+                      className="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-200"
+                    >
+                      اختر صورة جديدة للملف الشخصي
+                    </label>
+                    <input
+                      id="profilePicture"
+                      type="file"
+                      onChange={handleFileInput}
+                      className="block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-500 file:text-white hover:file:bg-brand-400"
+                      accept="image/*"
+                    />
                   </div>
                 </div>
-                <div className="mt-4">
-                  <input
-                    type="file"
-                    onChange={handleFileInput}
-                    className="text-center"
-                    accept="image/*"
-                  />
-                </div>
-                <div className="mt-5 sm:mt-6">
+                <div className="mt-5 sm:mt-6 space-x-2 flex justify-around">
                   <button
                     type="button"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium shadow-sm hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
-                    onClick={onClose}
+                    className=" inline-flex justify-center rounded-md border border-transparent bg-neutral-200 px-4 py-2 text-base font-medium text-neutral-600 shadow-sm hover:bg-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-2"
+                    onClick={handleDiscard}
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-primary px-4 py-2 text-base font-medium shadow-sm hover:bg-brand-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2"
+                    onClick={handleSaveChanges}
                   >
                     حفظ التغييرات
                   </button>
