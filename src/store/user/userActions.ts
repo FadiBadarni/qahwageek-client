@@ -41,3 +41,17 @@ export const getUserInfo = createAsyncThunk(
     }
   }
 );
+
+export const getUserProfile = createAsyncThunk(
+  'user/getUserProfile',
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      const userProfile = await UserService.getUserProfileService(userId);
+      return userProfile;
+    } catch (error) {
+      const message =
+        (error as Error).message || 'Failed to fetch user profile';
+      return rejectWithValue(message);
+    }
+  }
+);

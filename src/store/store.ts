@@ -17,8 +17,10 @@ import postReducer from './post/postReducer';
 import categorySlice from './post/categoryReducer';
 import eventSlice from './event/eventSlice';
 import searchSlice from './post/searchSlice';
+import profileSlice from './user/profileSlice';
 export interface RootState {
   user: ReturnType<typeof userReducer>;
+  userProfile: ReturnType<typeof profileSlice>;
   auth: ReturnType<typeof authReducer>;
   theme: ReturnType<typeof themeReducer>;
   posts: ReturnType<typeof postReducer>;
@@ -29,6 +31,7 @@ export interface RootState {
 
 const rootReducer = combineReducers({
   user: userReducer,
+  userProfile: profileSlice,
   auth: authReducer,
   theme: themeReducer,
   posts: postReducer,

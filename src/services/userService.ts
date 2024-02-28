@@ -25,6 +25,14 @@ class UserService {
       throw error;
     }
   }
+  static async getUserProfileService(userId: number) {
+    try {
+      const response = await axiosClient.get(`/user/profile/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;
