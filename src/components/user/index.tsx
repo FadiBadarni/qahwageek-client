@@ -5,7 +5,7 @@ import { RootState } from 'store/store';
 import { getUserProfile } from 'store/user/userActions';
 import UserPosts from './UserPosts';
 import UserBasicInfo from './UserBasicInfo';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();

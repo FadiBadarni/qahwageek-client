@@ -3,7 +3,7 @@ import FeaturedPosts from './FeaturedPosts';
 import { LatestPosts } from './LatestPosts';
 import { UpcomingEvents } from './UpcomingEvents';
 import { HomeCodePosts } from './HomeCodePosts';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 export const Home: React.FC = () => {
   return (
