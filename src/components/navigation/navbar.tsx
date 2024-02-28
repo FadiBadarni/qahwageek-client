@@ -156,9 +156,26 @@ export const Navbar: React.FC = () => {
                         <Menu.Items className="absolute left-0 z-20 mt-2 w-48 origin-top-left rounded-md bg-light-background dark:bg-dark-background py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                           <Menu.Item>
                             {({ active }) => (
+                              <Link
+                                to="/user/profile"
+                                className={classNames(
+                                  active
+                                    ? 'bg-neutral-200 dark:bg-neutral-700'
+                                    : '',
+                                  'block px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text'
+                                )}
+                              >
+                                المنطقة الشخصية
+                              </Link>
+                            )}
+                          </Menu.Item>
+                          <Menu.Item>
+                            {({ active }) => (
                               <button
                                 className={classNames(
-                                  active ? 'bg-gray-100' : '',
+                                  active
+                                    ? 'bg-neutral-200 dark:bg-neutral-700'
+                                    : '',
                                   'block px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text'
                                 )}
                                 onClick={handleLogout}
