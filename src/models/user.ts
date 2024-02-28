@@ -9,6 +9,7 @@ export interface UserData {
 }
 
 export interface UserProfileType {
+  id: number;
   username: string;
   email: string;
   profilePicture: string;
