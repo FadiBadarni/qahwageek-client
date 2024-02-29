@@ -56,7 +56,7 @@ export const getUserProfile = createAsyncThunk(
     }
   }
 );
-//TODO: add reducers in response to this action.
+
 export const uploadProfilePicture = createAsyncThunk(
   'user/uploadProfilePicture',
   async (
