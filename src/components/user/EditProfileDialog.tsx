@@ -73,7 +73,7 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-black bg-opacity-25 transition-opacity"></div>
+              <div className="fixed inset-0 bg-neutral-700 bg-opacity-75 transition-opacity dark:bg-neutral-900 dark:bg-opacity-75"></div>
             </Transition.Child>
             <Transition.Child
               as={React.Fragment}
@@ -84,16 +84,13 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white p-6 text-left shadow-xl transition-all sm:my-8 sm:max-w-4xl sm:w-full">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
+              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-light-layer dark:bg-dark-layer p-6 text-light-text dark:text-dark-text shadow-xl transition-all sm:my-8 sm:max-w-4xl sm:w-full">
+                <Dialog.Title as="h3" className="text-lg font-medium leading-6">
                   تعديل تفاصيل المستخدم
                 </Dialog.Title>
                 <div className="flex flex-col md:flex-row mt-4">
-                  <div className="flex-1">
-                    <div className="text-center">
+                  <div className="flex-1 flex flex-col items-center justify-center">
+                    <div className="text-center mb-4">
                       <CameraIcon
                         className="mx-auto h-12 w-12 text-neutral-500 dark:text-neutral-400"
                         aria-hidden="true"
@@ -104,58 +101,56 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
                       >
                         تغيير الصورة الشخصية
                       </Dialog.Title>
-                      {previewUrl ? (
-                        <img
-                          src={previewUrl}
-                          alt="Preview"
-                          className="mt-4 w-32 h-32 md:w-48 md:h-48 mx-auto rounded-full object-cover"
-                        />
-                      ) : (
-                        <img
-                          src={
-                            userProfile?.profilePicture ||
-                            'defaultProfilePicUrl'
-                          }
-                          alt="Current Profile"
-                          className="mt-4 w-32 h-32 md:w-48 md:h-48 mx-auto rounded-full object-cover"
-                        />
-                      )}
-                      <div className="mt-4 text-right">
-                        <label
-                          htmlFor="profilePicture"
-                          className="block mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-200"
-                        >
-                          اختر صورة جديدة للملف الشخصي
-                        </label>
-                        <input
-                          id="profilePicture"
-                          type="file"
-                          onChange={handleFileInput}
-                          className="block w-full text-sm text-neutral-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-brand-500 file:text-white hover:file:bg-brand-400"
-                          accept="image/*"
-                        />
-                      </div>
+                    </div>
+                    {previewUrl ? (
+                      <img
+                        src={previewUrl}
+                        alt="Preview"
+                        className="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover"
+                      />
+                    ) : (
+                      <img
+                        src={
+                          userProfile?.profilePicture || 'defaultProfilePicUrl'
+                        }
+                        alt="Current Profile"
+                        className="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover"
+                      />
+                    )}
+                    <div className="mt-4 w-full flex flex-col items-center">
+                      <label
+                        htmlFor="profilePicture"
+                        className="mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-200"
+                      >
+                        اختر صورة جديدة للملف الشخصي
+                      </label>
+                      <input
+                        id="profilePicture"
+                        type="file"
+                        onChange={handleFileInput}
+                        className="block w-full text-sm text-neutral-500 file:py-2 file:px-4 file:rounded-lg file:border file:border-neutral-400 file:text-sm file:font-semibold file:bg-light-layer dark:file:bg-dark-layer file:text-light-text dark:file:text-dark-text hover:file:bg-light-accent dark:hover:file:bg-dark-accent cursor-pointer"
+                        accept="image/*"
+                      />
                     </div>
                   </div>
+
                   <div className="flex-1 mt-4 md:mt-0 md:ml-4">
-                    <label
-                      htmlFor="bio"
-                      className="block text-sm font-medium text-gray-700"
-                    >
+                    <label htmlFor="bio" className="block text-sm font-medium ">
                       السيرة الذاتية
                     </label>
                     <textarea
                       id="bio"
                       rows={3}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                      className="mt-1 block w-full rounded-lg border border-neutral-400 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text"
                       value={bio}
                       onChange={handleBioChange}
                     ></textarea>
+
                     {socialMediaHandles.map((handle, index) => (
                       <div key={index} className="mt-4">
                         <label
                           htmlFor={`social-${index}`}
-                          className="block text-sm font-medium text-gray-700"
+                          className="block text-sm font-medium "
                         >
                           {handle.platform}
                         </label>
@@ -163,7 +158,7 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
                           type="text"
                           name={`social-${index}`}
                           id={`social-${index}`}
-                          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                          className="mt-1 block w-full rounded-lg border border-neutral-400 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text"
                           value={handle.handle}
                           onChange={(e) => handleSocialMediaChange(index)(e)}
                         />
@@ -171,10 +166,23 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
                     ))}
                   </div>
                 </div>
-                <div className="mt-5 sm:mt-6">
+                <div className="flex justify-between mt-5 sm:mt-6">
                   <button
                     type="button"
-                    className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                    className="ml-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-200 dark:bg-neutral-600 text-base font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 dark:focus:ring-neutral-500"
+                    onClick={() => {
+                      setBio('');
+                      setSocialMediaHandles([]);
+                      setFile(null);
+                      setPreviewUrl(null);
+                      onClose();
+                    }}
+                  >
+                    إلغاء
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-light-background dark:bg-dark-background text-base font-medium text-white hover:bg-brand-400 dark:hover:bg-accent-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary dark:focus:ring-accent-500"
                     onClick={handleSaveChanges}
                   >
                     حفظ التغييرات
