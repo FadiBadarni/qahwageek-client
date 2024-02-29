@@ -35,16 +35,16 @@ const UserSocialMedia: React.FC<UserSocialMediaProps> = ({
   }
 
   return (
-    <div className="mb-4 mt-2 flex flex-wrap justify-center md:justify-start">
+    <div className="flex flex-wrap justify-center md:justify-center">
       {socialMediaHandles.map((handle) => (
         <a
           key={handle.platform}
           href={handle.handle}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex flex-col items-center bg-neutral-200 dark:bg-dark-layer hover:bg-accent-500 dark:hover:bg-accent-400 rounded-full px-4 py-2 m-2 text-center transition-colors duration-300 ease-in-out"
+          className="inline-flex flex-col items-center bg-neutral-200 dark:bg-dark-layer hover:bg-light-border dark:hover:bg-dark-border rounded-full px-4 py-2 m-2 text-center transition-colors duration-300 ease-in-out"
           aria-label={`حساب ${handle.platform}`}
-          style={{ minWidth: '80px' }}
+          style={{ minWidth: '60px' }}
         >
           {getSocialMediaIcon(handle.platform)}
           <span className="text-xs mt-1 text-neutral-600 dark:text-neutral-200">

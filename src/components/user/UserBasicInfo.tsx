@@ -6,7 +6,7 @@ import UserSocialMedia from './UserSocialMedia';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { FaEdit } from 'react-icons/fa';
-import ProfilePictureUpdateDialog from './ProfilePictureUpdateDialog';
+import EditProfileDialog from './EditProfileDialog';
 
 interface UserBasicInfoProps {
   userProfile: UserProfileType;
@@ -22,9 +22,9 @@ const UserBasicInfo: React.FC<UserBasicInfoProps> = ({ userProfile }) => {
   };
 
   return (
-    <div className="md:flex-1 md:w-1/3 flex flex-col items-center text-center p-4">
+    <div className="md:flex-1 md:w-1/3 flex flex-col items-center text-center p-4 bg-light-layer dark:bg-dark-layer rounded-md shadow-lg">
       <div className="h-32 w-32 md:h-48 md:w-48 relative">
-        <div className="h-32 w-32 md:h-48 md:w-48 overflow-hidden rounded-full border-4 border-light-border dark:border-dark-border self-center ">
+        <div className="h-32 w-32 md:h-48 md:w-48 overflow-hidden rounded-full border-4 border-light-border dark:border-dark-border self-center">
           {userProfile.profilePicture ? (
             <img
               src={userProfile.profilePicture}
@@ -47,7 +47,7 @@ const UserBasicInfo: React.FC<UserBasicInfoProps> = ({ userProfile }) => {
           )}
         </div>
       </div>
-      <h2 className="mt-2 text-lg sm:text-xl md:font-bold dark:text-text text-dark-text">
+      <h2 className="mt-4 text-lg sm:text-xl md:font-bold dark:text-text text-dark-text">
         {userProfile.username}
       </h2>
       <p className="text-xs sm:text-sm dark:text-neutral-200">
@@ -62,16 +62,13 @@ const UserBasicInfo: React.FC<UserBasicInfoProps> = ({ userProfile }) => {
           locale: ar,
         })}
       </p>
-      <h3 className="mt-3 mb-1 text-xs sm:text-sm font-semibold dark:text-dark-text text-light-text">
-        حسابات التواصل الاجتماعي
-      </h3>
-      <UserSocialMedia socialMediaHandles={userProfile.socialMediaHandles} />
-      {isCurrentUser && (
-        <ProfilePictureUpdateDialog
-          isOpen={isDialogOpen}
-          onClose={() => setIsDialogOpen(false)}
-        />
-      )}
+      <div className="mt-auto w-full">
+        <UserSocialMedia socialMediaHandles={userProfile.socialMediaHandles} />
+      </div>
+      <EditProfileDialog
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+      />
     </div>
   );
 };
