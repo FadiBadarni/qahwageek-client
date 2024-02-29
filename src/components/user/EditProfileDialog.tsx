@@ -4,7 +4,7 @@ import { RootState } from 'store/store';
 import { Dialog, Transition } from '@headlessui/react';
 import { uploadProfilePicture } from 'store/user/userActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { CameraIcon } from '@heroicons/react/24/outline';
+import ProfilePictureSection from './ProfilePictureSection';
 
 interface EditProfileDialogProps {
   isOpen: boolean;
@@ -89,50 +89,11 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
                   تعديل تفاصيل المستخدم
                 </Dialog.Title>
                 <div className="flex flex-col md:flex-row mt-4">
-                  <div className="flex-1 flex flex-col items-center justify-center">
-                    <div className="text-center mb-4">
-                      <CameraIcon
-                        className="mx-auto h-12 w-12 text-neutral-500 dark:text-neutral-400"
-                        aria-hidden="true"
-                      />
-                      <Dialog.Title
-                        as="h3"
-                        className="mt-2 text-lg font-medium leading-6"
-                      >
-                        تغيير الصورة الشخصية
-                      </Dialog.Title>
-                    </div>
-                    {previewUrl ? (
-                      <img
-                        src={previewUrl}
-                        alt="Preview"
-                        className="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover"
-                      />
-                    ) : (
-                      <img
-                        src={
-                          userProfile?.profilePicture || 'defaultProfilePicUrl'
-                        }
-                        alt="Current Profile"
-                        className="w-32 h-32 md:w-48 md:h-48 rounded-full object-cover"
-                      />
-                    )}
-                    <div className="mt-4 w-full flex flex-col items-center">
-                      <label
-                        htmlFor="profilePicture"
-                        className="mb-2 text-sm font-medium text-neutral-700 dark:text-neutral-200"
-                      >
-                        اختر صورة جديدة للملف الشخصي
-                      </label>
-                      <input
-                        id="profilePicture"
-                        type="file"
-                        onChange={handleFileInput}
-                        className="block w-full text-sm text-neutral-500 file:py-2 file:px-4 file:rounded-lg file:border file:border-neutral-400 file:text-sm file:font-semibold file:bg-light-layer dark:file:bg-dark-layer file:text-light-text dark:file:text-dark-text hover:file:bg-light-accent dark:hover:file:bg-dark-accent cursor-pointer"
-                        accept="image/*"
-                      />
-                    </div>
-                  </div>
+                  <ProfilePictureSection
+                    previewUrl={previewUrl}
+                    defaultProfilePicUrl={userProfile?.profilePicture || ''}
+                    handleFileInput={handleFileInput}
+                  />
 
                   <div className="flex-1 mt-4 md:mt-0 md:ml-4">
                     <label htmlFor="bio" className="block text-sm font-medium ">
