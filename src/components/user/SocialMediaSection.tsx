@@ -17,6 +17,11 @@ const SocialMediaSection: React.FC<SocialMediaSectionProps> = ({
   handleSocialMediaChange,
 }) => (
   <>
+    <div className="mt-6">
+      <h3 className="text-sm font-medium text-light-text dark:text-dark-text">
+        حسابات التواصل الاجتماعي
+      </h3>
+    </div>
     {socialMediaHandles.map((handle, index) => (
       <div key={index} className="mt-4">
         <label
