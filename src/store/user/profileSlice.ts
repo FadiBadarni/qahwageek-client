@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProfileState } from './userState';
-import { getUserProfile } from './userActions';
+import { getUserProfile, uploadProfilePicture } from './userActions';
 import { UserProfileType } from 'models/user';
 import { LoadingStatus } from 'store/shared/commonState';
 const initialState: ProfileState = {
@@ -35,7 +35,15 @@ const profileSlice = createSlice({
       .addCase(getUserProfile.rejected, (state, action) => {
         state.status = LoadingStatus.Failed;
         state.error = action.error.message ?? 'Failed to fetch user profile';
-      });
+      })
+      .addCase(
+        uploadProfilePicture.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          if (state.data) {
+            state.data.profilePicture = action.payload;
+          }
+        }
+      );
   },
 });
 
