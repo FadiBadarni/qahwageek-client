@@ -5,6 +5,8 @@ import { Dialog, Transition } from '@headlessui/react';
 import { uploadProfilePicture } from 'store/user/userActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import ProfilePictureSection from './ProfilePictureSection';
+import SocialMediaSection from './SocialMediaSection';
+import BioSection from './BioSection';
 
 interface EditProfileDialogProps {
   isOpen: boolean;
@@ -96,35 +98,12 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
                   />
 
                   <div className="flex-1 mt-4 md:mt-0 md:ml-4">
-                    <label htmlFor="bio" className="block text-sm font-medium ">
-                      السيرة الذاتية
-                    </label>
-                    <textarea
-                      id="bio"
-                      rows={3}
-                      className="mt-1 block w-full rounded-lg border border-neutral-400 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text"
-                      value={bio}
-                      onChange={handleBioChange}
-                    ></textarea>
+                    <BioSection bio={bio} handleBioChange={handleBioChange} />
 
-                    {socialMediaHandles.map((handle, index) => (
-                      <div key={index} className="mt-4">
-                        <label
-                          htmlFor={`social-${index}`}
-                          className="block text-sm font-medium "
-                        >
-                          {handle.platform}
-                        </label>
-                        <input
-                          type="text"
-                          name={`social-${index}`}
-                          id={`social-${index}`}
-                          className="mt-1 block w-full rounded-lg border border-neutral-400 shadow-sm focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text"
-                          value={handle.handle}
-                          onChange={(e) => handleSocialMediaChange(index)(e)}
-                        />
-                      </div>
-                    ))}
+                    <SocialMediaSection
+                      socialMediaHandles={socialMediaHandles}
+                      handleSocialMediaChange={handleSocialMediaChange}
+                    />
                   </div>
                 </div>
                 <div className="flex justify-between mt-5 sm:mt-6">
