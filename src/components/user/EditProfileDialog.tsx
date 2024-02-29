@@ -61,6 +61,17 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
     onClose(); // Close dialog after saving changes
   };
 
+  const handleCancel = () => {
+    setBio(userProfile?.bio || '');
+
+    setSocialMediaHandles(userProfile?.socialMediaHandles || []);
+
+    setFile(null);
+    setPreviewUrl(null);
+
+    onClose();
+  };
+
   return (
     <Transition.Root show={isOpen} as={React.Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -110,13 +121,7 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
                   <button
                     type="button"
                     className="ml-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-200 dark:bg-neutral-600 text-base font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 dark:focus:ring-neutral-500"
-                    onClick={() => {
-                      setBio('');
-                      setSocialMediaHandles([]);
-                      setFile(null);
-                      setPreviewUrl(null);
-                      onClose();
-                    }}
+                    onClick={handleCancel}
                   >
                     إلغاء
                   </button>
