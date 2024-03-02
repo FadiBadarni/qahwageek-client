@@ -1,85 +1,42 @@
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/20/solid';
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import PostsListing from './PostsListing';
+import { MdPostAdd } from 'react-icons/md';
+import { FaUsers, FaChartBar } from 'react-icons/fa';
+import { BiAnalyse } from 'react-icons/bi';
 
-const CMSPage: React.FC = () => {
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+const CMSDashboard: React.FC = () => {
+  const dashboardItems = [
+    { to: '/cms/create-post', title: 'إنشاء مقال جديد', Icon: MdPostAdd },
+    { to: '/cms/manage-users', title: 'إدارة المستخدمين', Icon: FaUsers },
+    { to: '/cms/posts', title: 'المقالات الإجمالية', Icon: FaChartBar },
+    { to: '/cms/analytics', title: 'تحليلات الموقع', Icon: BiAnalyse },
+  ];
 
   return (
-    <div className="flex flex-col lg:flex-row min-h-screen bg-light-100 dark:bg-dark-900 ">
-      {/* Mobile Nav Toggle */}
-      <div className="flex justify-between items-center bg-light-200 dark:bg-dark-800 p-4 lg:hidden">
-        <span className="text-xl font-semibold text-gray-900 dark:text-white">
-          CMS Dashboard
-        </span>
-        <button onClick={() => setIsMobileNavOpen(!isMobileNavOpen)}>
-          {isMobileNavOpen ? (
-            <XMarkIcon className="h-6 w-6" />
-          ) : (
-            <Bars3Icon className="h-6 w-6" />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Nav Content */}
-      <div
-        className={`bg-light-200 dark:bg-dark-800 lg:hidden ${
-          isMobileNavOpen ? 'block' : 'hidden'
-        }`}
-      >
-        <nav className="py-4">
-          <ul className="space-y-2">
-            <li>
-              <Link
-                to="/cms/posts"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                المقالات
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/cms/create-post"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                إنشاء مقالة
-              </Link>
-            </li>
-          </ul>
-        </nav>
-      </div>
-
-      {/* Sidebar for Large Screens */}
-      <aside className="hidden lg:flex lg:flex-col lg:w-64 bg-light-200 dark:bg-dark-800 overflow-y-auto lg:h-full">
-        <div className="py-4 px-3">
-          <ul className="space-y-2">
-            <li>
-              <Link
-                to="/cms/posts"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                المقالات
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/cms/create-post"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                إنشاء مقالة
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </aside>
-
-      {/* Main Content */}
-      <div className="flex-grow">
-        <PostsListing />
+    <div className="min-h-screen bg-light-background dark:bg-dark-background flex flex-col justify-start items-center px-4 py-8">
+      <h2 className="text-2xl md:text-3xl font-semibold text-neutral-700 dark:text-neutral-200 mb-8 text-center">
+        لوحة التحكم
+      </h2>
+      <p className="text-md md:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl text-center mb-10">
+        استخدم هذه الأدوات لإدارة المحتوى، المستخدمين، وتحليلات الموقع.
+      </p>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-6xl px-4">
+        {dashboardItems.map(({ to, title, Icon }) => (
+          <Link
+            key={title}
+            to={to}
+            className="flex flex-col items-center justify-center p-6 bg-light-layer dark:bg-dark-layer rounded-lg shadow hover:shadow-md transition duration-300 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-700"
+            style={{ minHeight: '220px' }}
+          >
+            <Icon className="mb-4 w-12 h-12 text-brand-500 dark:text-accent-500" />
+            <span className="text-center text-neutral-700 dark:text-neutral-200">
+              {title}
+            </span>
+          </Link>
+        ))}
       </div>
     </div>
   );
 };
 
-export default CMSPage;
+export default CMSDashboard;
