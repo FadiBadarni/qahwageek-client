@@ -1,7 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ProfileState } from './userState';
-import { getUserProfile, uploadProfilePicture } from './userActions';
-import { UserProfileType } from 'models/user';
+import {
+  getUserProfile,
+  updateUserDetails,
+  uploadProfilePicture,
+} from './userActions';
+import { SocialMediaHandle, UserProfileType } from 'models/user';
 import { LoadingStatus } from 'store/shared/commonState';
 const initialState: ProfileState = {
   data: null,
@@ -43,7 +47,31 @@ const profileSlice = createSlice({
             state.data.profilePicture = action.payload;
           }
         }
-      );
+      )
+      .addCase(updateUserDetails.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        updateUserDetails.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            bio: string;
+            socialMediaHandles: SocialMediaHandle[];
+          }>
+        ) => {
+          state.status = LoadingStatus.Succeeded;
+          if (state.data) {
+            state.data.bio = action.payload.bio;
+            state.data.socialMediaHandles = action.payload.socialMediaHandles;
+          }
+          state.error = null;
+        }
+      )
+      .addCase(updateUserDetails.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error = action.payload as string;
+      });
   },
 });
 
