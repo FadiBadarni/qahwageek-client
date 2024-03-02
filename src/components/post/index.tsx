@@ -96,13 +96,15 @@ const Post = (props: Props) => {
                   dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                   className="prose dark:prose-dark mx-auto max-w-none"
                 ></div>
-                <div className="mt-4">
-                  <h3 className="text-sm font-semibold mb-2">التصنيفات:</h3>
+                <div className="mt-8 p-4 bg-light-background dark:bg-dark-background rounded-lg shadow">
+                  <h3 className="text-lg font-semibold mb-4 text-neutral-800 dark:text-neutral-200">
+                    التصنيفات:
+                  </h3>
                   <div className="flex flex-wrap">
                     {post.categoryNames.map((category, index) => (
                       <span
                         key={index}
-                        className="inline-flex items-center justify-center rounded-full px-3 py-1 text-xs md:text-sm font-semibold mr-2 mb-2 bg-brand-500 text-white dark:bg-accent-400"
+                        className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 border border-brand-300 bg-light-layer dark:bg-dark-layer text-neutral-800 dark:text-neutral-200 hover:bg-brand-200 dark:hover:bg-brand-700"
                       >
                         {category}
                       </span>
@@ -116,6 +118,8 @@ const Post = (props: Props) => {
           <div>Post not found</div>
         )}
       </div>
+
+      {/* <RecommendedPosts /> */}
     </>
   );
 };
