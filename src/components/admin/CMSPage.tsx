@@ -46,22 +46,6 @@ const CMSPage: React.FC = () => {
                 إنشاء مقالة
               </Link>
             </li>
-            <li>
-              <Link
-                to="/cms/categories"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                الفئات
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/cms/media"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                الوسائط
-              </Link>
-            </li>
           </ul>
         </nav>
       </div>
@@ -84,22 +68,6 @@ const CMSPage: React.FC = () => {
                 className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 إنشاء مقالة
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/cms/categories"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                الفئات
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/cms/media"
-                className="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                الوسائط
               </Link>
             </li>
           </ul>

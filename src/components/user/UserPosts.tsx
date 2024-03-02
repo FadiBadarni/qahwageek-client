@@ -3,12 +3,19 @@ import { ar } from 'date-fns/locale';
 import { LightPost } from 'models/post';
 import React from 'react';
 import { ClockIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { useNavigate } from 'react-router-dom';
 
 interface UserPostsProps {
   posts: LightPost[];
 }
 
 const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
+  const navigate = useNavigate();
+
+  const handlePostClick = (postId: number) => {
+    navigate(`/posts/${postId}`);
+  };
+
   return (
     <div className="flex flex-col gap-2">
       <div className="text-xl font-semibold text-neutral-800 dark:text-neutral-100 mb-4">
@@ -17,7 +24,8 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
       {posts.map((post) => (
         <div
           key={post.id}
-          className="flex justify-between items-start p-2 bg-light-layer dark:bg-dark-layer rounded-lg"
+          className="flex justify-between items-start p-2 bg-light-layer dark:bg-dark-layer rounded-lg cursor-pointer"
+          onClick={() => handlePostClick(post.id)}
         >
           <div className="flex space-x-2">
             {post.mainImageUrl && (

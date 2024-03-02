@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginRequest } from 'models/user';
+import { LoginRequest, SocialMediaHandle } from 'models/user';
 import UserService from 'services/userService';
 import { clearUser } from './userReducer';
 import axios from 'axios';
@@ -84,6 +84,32 @@ export const uploadProfilePicture = createAsyncThunk(
       return rejectWithValue(
         error.response?.data || 'Unable to upload profile picture'
       );
+    }
+  }
+);
+
+export const updateUserDetails = createAsyncThunk(
+  'user/updateUserDetails',
+  async (
+    {
+      userId,
+      bio,
+      socialMediaHandles,
+    }: { userId: number; bio: string; socialMediaHandles: SocialMediaHandle[] },
+    { rejectWithValue }
+  ) => {
+    try {
+      const profileData = { bio, socialMediaHandles };
+      const updatedUserDetails = await UserService.updateUserDetails(
+        userId,
+        profileData
+      );
+      return updatedUserDetails;
+    } catch (error: any) {
+      console.error('Failed to update user details:', error);
+      const errorMessage =
+        error.response?.data?.message || 'Unable to update user details';
+      return rejectWithValue(errorMessage);
     }
   }
 );

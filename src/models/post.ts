@@ -3,6 +3,7 @@ export interface Post {
   title: string;
   content: string;
   author: string;
+  authorProfilePicture: string;
   publishedAt: string;
   mainImageUrl?: string;
   readingTime?: number;

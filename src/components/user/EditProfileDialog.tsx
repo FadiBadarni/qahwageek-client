@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { Dialog, Transition } from '@headlessui/react';
-import { uploadProfilePicture } from 'store/user/userActions';
+import {
+  updateUserDetails,
+  uploadProfilePicture,
+} from 'store/user/userActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import ProfilePictureSection from './ProfilePictureSection';
 import SocialMediaSection from './SocialMediaSection';
 import BioSection from './BioSection';
+import { SocialMediaHandle } from 'models/user';
 
 interface EditProfileDialogProps {
   isOpen: boolean;
@@ -20,11 +24,35 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
   const dispatch = useAppDispatch();
   const userProfile = useSelector((state: RootState) => state.userProfile.data);
   const [bio, setBio] = useState(userProfile?.bio || '');
-  const [socialMediaHandles, setSocialMediaHandles] = useState(
-    userProfile?.socialMediaHandles || []
-  );
+  const [socialMediaHandles, setSocialMediaHandles] = useState<
+    SocialMediaHandle[]
+  >([
+    { platform: 'LinkedIn', handle: '' },
+    { platform: 'GitHub', handle: '' },
+  ]);
   const [file, setFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const linkedIn = userProfile?.socialMediaHandles?.find(
+      (h) => h.platform === 'LinkedIn'
+    );
+    const gitHub = userProfile?.socialMediaHandles?.find(
+      (h) => h.platform === 'GitHub'
+    );
+    setSocialMediaHandles([
+      {
+        id: linkedIn?.id,
+        platform: 'LinkedIn',
+        handle: linkedIn?.handle || '',
+      },
+      {
+        id: gitHub?.id,
+        platform: 'GitHub',
+        handle: gitHub?.handle || '',
+      },
+    ]);
+  }, [userProfile]);
 
   const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBio(e.target.value);
@@ -56,7 +84,9 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
         await dispatch(uploadProfilePicture({ userId: userProfile.id, file }));
       }
       // Handle bio and social media handles update
-      //await dispatch(updateUserDetails({ userId: userProfile.id, bio, socialMediaHandles }));
+      await dispatch(
+        updateUserDetails({ userId: userProfile.id, bio, socialMediaHandles })
+      );
     }
     onClose(); // Close dialog after saving changes
   };

@@ -1,6 +1,6 @@
 import { SocialMediaHandle } from 'models/user';
 import React from 'react';
-import { FaLinkedin, FaTwitter, FaLink } from 'react-icons/fa';
+import { FaLinkedin, FaLink, FaGithub } from 'react-icons/fa';
 
 interface UserSocialMediaProps {
   socialMediaHandles: SocialMediaHandle[];
@@ -13,10 +13,8 @@ const getSocialMediaIcon = (platform: string) => {
       return (
         <FaLinkedin size={iconSize} className="mb-1" aria-label="LinkedIn" />
       );
-    case 'twitter':
-      return (
-        <FaTwitter size={iconSize} className="mb-1" aria-label="Twitter" />
-      );
+    case 'github':
+      return <FaGithub size={iconSize} className="mb-1" aria-label="Github" />;
     default:
       return (
         <FaLink
