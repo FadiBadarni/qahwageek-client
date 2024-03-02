@@ -1,4 +1,4 @@
-import { LoginRequest } from 'models/user';
+import { LoginRequest, SocialMediaHandle } from 'models/user';
 import axiosClient from './axiosClient';
 
 class UserService {
@@ -63,6 +63,21 @@ class UserService {
       );
       return response.data;
     } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updateUserDetails(
+    userId: number,
+    profileData: { bio: string; socialMediaHandles: SocialMediaHandle[] }
+  ) {
+    try {
+      const response = await axiosClient.put(
+        `/user/${userId}/profile/details`,
+        profileData
+      );
+      return response.data;
+    } catch (error: any) {
       throw error;
     }
   }

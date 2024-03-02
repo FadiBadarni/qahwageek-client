@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { Dialog, Transition } from '@headlessui/react';
-import { uploadProfilePicture } from 'store/user/userActions';
+import {
+  updateUserDetails,
+  uploadProfilePicture,
+} from 'store/user/userActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import ProfilePictureSection from './ProfilePictureSection';
 import SocialMediaSection from './SocialMediaSection';
@@ -56,7 +59,9 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
         await dispatch(uploadProfilePicture({ userId: userProfile.id, file }));
       }
       // Handle bio and social media handles update
-      //await dispatch(updateUserDetails({ userId: userProfile.id, bio, socialMediaHandles }));
+      await dispatch(
+        updateUserDetails({ userId: userProfile.id, bio, socialMediaHandles })
+      );
     }
     onClose(); // Close dialog after saving changes
   };
