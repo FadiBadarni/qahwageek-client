@@ -25,7 +25,7 @@ export interface LoginRequest {
 }
 
 export interface SocialMediaHandle {
-  id: number;
+  id?: number;
   platform: string;
   handle: string;
 }
