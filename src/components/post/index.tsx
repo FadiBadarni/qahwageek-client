@@ -46,7 +46,7 @@ const Post = (props: Props) => {
         title={post?.title}
         description={post?.content}
         imageUrl={post?.mainImageUrl}
-        url={`https://qahwageek.netlify.app/posts/${post?.id}`}
+        url={`https://qahwageek.com/posts/${post?.id}`}
       />
       <div>
         {post ? (
@@ -86,7 +86,7 @@ const Post = (props: Props) => {
 
                 {post && (
                   <ShareContainer
-                    url={`https://qahwageek.netlify.app/posts/${post.id}`}
+                    url={`https://qahwageek.com/posts/${post.id}`}
                     title={post.title}
                   />
                 )}

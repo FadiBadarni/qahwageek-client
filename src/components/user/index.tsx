@@ -58,12 +58,9 @@ const UserProfile: React.FC = () => {
         <meta property="og:type" content="profile" />
         <meta
           property="og:url"
-          content={`https://qahwageek.netlify.app/user/${userId}`}
+          content={`https://qahwageek.com/user/${userId}`}
         />
-        <link
-          rel="canonical"
-          href={`https://qahwageek.netlify.app/user/${userId}`}
-        />
+        <link rel="canonical" href={`https://qahwageek.com/user/${userId}`} />
       </Helmet>
       <div className="flex flex-col md:flex-row gap-4">
         {/* User's Basic Information */}
