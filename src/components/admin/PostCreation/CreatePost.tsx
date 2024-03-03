@@ -18,7 +18,6 @@ const CreatePost = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [readingTime, setReadingTime] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
 
@@ -32,10 +31,6 @@ const CreatePost = () => {
 
   const handleContentChange = (content: string) => {
     setContent(content);
-  };
-
-  const handleReadingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReadingTime(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,7 +48,6 @@ const CreatePost = () => {
         title,
         updatedContent,
         mainImagePresignedUrl,
-        readingTime,
         selectedCategoryIds
       );
       await saveNewPost(dispatch, newPostData);
@@ -82,24 +76,6 @@ const CreatePost = () => {
               placeholder="أدخل عنوان المقال هنا"
               className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 placeholder-neutral-400 focus:bg-white focus:text-neutral-900 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               required
-            />
-          </div>
-          <div className="md:col-span-1">
-            <label
-              htmlFor="readingTime"
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
-            >
-              مدة القراءة
-            </label>
-            <input
-              id="readingTime"
-              type="number"
-              name="readingTime"
-              value={readingTime}
-              onChange={handleReadingTimeChange}
-              placeholder="مثال: 5"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input  py-2 px-4 placeholder-neutral-400  focus:bg-white focus:text-neutral-900 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
-              min="1"
             />
           </div>
           <div className="md:col-span-1 flex items-end">

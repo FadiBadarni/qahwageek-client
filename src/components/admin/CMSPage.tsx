@@ -14,13 +14,13 @@ const CMSDashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-light-background dark:bg-dark-background flex flex-col justify-start items-center px-4 py-8">
-      <h2 className="text-2xl md:text-3xl font-semibold text-neutral-700 dark:text-neutral-200 mb-8 text-center">
+      <h2 className="text-2xl md:text-3xl font-semibold text-neutral-700 dark:text-neutral-200 mb-4 text-center">
         لوحة التحكم
       </h2>
       <p className="text-md md:text-lg text-neutral-500 dark:text-neutral-400 max-w-2xl text-center mb-10">
         استخدم هذه الأدوات لإدارة المحتوى، المستخدمين، وتحليلات الموقع.
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 w-full max-w-6xl px-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 w-full max-w-6xl px-4">
         {dashboardItems.map(({ to, title, Icon }) => (
           <Link
             key={title}
