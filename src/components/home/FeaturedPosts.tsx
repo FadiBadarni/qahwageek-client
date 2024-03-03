@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
+import { LoadingStatus } from 'store/shared/commonState';
+import FeaturedPostSkeleton from './skeletons/FeaturedPostSkeleton';
 
 const responsive = {
   superLargeDesktop: {
@@ -37,8 +39,8 @@ const FeaturedPosts: React.FC = () => {
     dispatch(getFeaturedPosts());
   }, [dispatch]);
 
-  const posts = useSelector(
-    (state: RootState) => state.posts.featuredPosts.data
+  const { data: posts, status } = useSelector(
+    (state: RootState) => state.posts.featuredPosts
   );
 
   return (
@@ -46,82 +48,89 @@ const FeaturedPosts: React.FC = () => {
       <h2 className="text-xl sm:text-xl md:text-xl lg:text-2xl font-semibold text-gray-800 dark:text-white text-right ">
         المقالات المميزة
       </h2>
-      <Carousel
-        responsive={responsive}
-        infinite={true}
-        autoPlay={true}
-        arrows={false}
-        autoPlaySpeed={5000}
-        swipeable={true}
-        draggable={true}
-        showDots={false}
-        removeArrowOnDeviceType={['tablet', 'mobile', 'desktop']}
-        itemClass="carousel-item-padding-40-px"
-        className="rounded-lg shadow-lg"
-        rtl
-      >
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="p-4 bg-light-layer dark:bg-dark-layer transition duration-300 ease-in-out"
-            onClick={() => navigate(`/posts/${post.id}`)}
-            style={{ cursor: 'pointer' }}
-          >
-            <div className="relative bg-neutral-300 rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
-              {post.mainImageUrl && (
-                <div className="relative group">
-                  <img
-                    src={post.mainImageUrl}
-                    alt={post.title}
-                    className="w-full object-cover h-48 rounded-lg"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
-                    <h3 className="text-lg font-semibold leading-6 text-white">
-                      {post.title}
-                    </h3>
-                    <div className="flex justify-between items-center mt-4">
-                      <div className="flex items-center">
-                        <UserIcon
-                          className="h-5 w-5 text-gray-200 ml-1"
-                          aria-hidden="true"
-                        />
-                        <span className="text-sm text-gray-200">
-                          {post.author}
-                        </span>
-                      </div>
-                      <div className="flex items-center">
-                        <CalendarIcon
-                          className="h-5 w-5 text-gray-200 ml-1"
-                          aria-hidden="true"
-                        />
-                        <time
-                          dateTime={post.publishedAt}
-                          className="text-sm text-gray-200"
-                        >
-                          {format(
-                            parseISO(post.publishedAt),
-                            'dd MMMM - HH:mm',
-                            { locale: ar }
-                          )}
-                        </time>
-                      </div>
-                      {post.readingTime && (
-                        <div className="flex items-center text-gray-200">
-                          <ClockIcon
-                            className="h-5 w-5 ml-1 "
+      {status === LoadingStatus.Loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FeaturedPostSkeleton />
+          <FeaturedPostSkeleton />
+        </div>
+      ) : (
+        <Carousel
+          responsive={responsive}
+          infinite={true}
+          autoPlay={true}
+          arrows={false}
+          autoPlaySpeed={5000}
+          swipeable={true}
+          draggable={true}
+          showDots={false}
+          removeArrowOnDeviceType={['tablet', 'mobile', 'desktop']}
+          itemClass="carousel-item-padding-40-px"
+          className="rounded-lg shadow-lg"
+          rtl
+        >
+          {posts.map((post) => (
+            <div
+              key={post.id}
+              className="p-4 bg-light-layer dark:bg-dark-layer transition duration-300 ease-in-out"
+              onClick={() => navigate(`/posts/${post.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div className="relative bg-neutral-300 rounded-lg overflow-hidden transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
+                {post.mainImageUrl && (
+                  <div className="relative group">
+                    <img
+                      src={post.mainImageUrl}
+                      alt={post.title}
+                      className="w-full object-cover h-48 rounded-lg"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
+                      <h3 className="text-lg font-semibold leading-6 text-white">
+                        {post.title}
+                      </h3>
+                      <div className="flex justify-between items-center mt-4">
+                        <div className="flex items-center">
+                          <UserIcon
+                            className="h-5 w-5 text-gray-200 ml-1"
                             aria-hidden="true"
                           />
-                          <span>{post.readingTime} دقائق</span>
+                          <span className="text-sm text-gray-200">
+                            {post.author}
+                          </span>
                         </div>
-                      )}
+                        <div className="flex items-center">
+                          <CalendarIcon
+                            className="h-5 w-5 text-gray-200 ml-1"
+                            aria-hidden="true"
+                          />
+                          <time
+                            dateTime={post.publishedAt}
+                            className="text-sm text-gray-200"
+                          >
+                            {format(
+                              parseISO(post.publishedAt),
+                              'dd MMMM - HH:mm',
+                              { locale: ar }
+                            )}
+                          </time>
+                        </div>
+                        {post.readingTime && (
+                          <div className="flex items-center text-gray-200">
+                            <ClockIcon
+                              className="h-5 w-5 ml-1 "
+                              aria-hidden="true"
+                            />
+                            <span>{post.readingTime} دقائق</span>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </Carousel>
+          ))}
+        </Carousel>
+      )}
     </div>
   );
 };
