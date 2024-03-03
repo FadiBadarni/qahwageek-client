@@ -6,6 +6,7 @@ import { fetchPostsByCategory } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { PostsPagination } from './PostsPagination';
+import { useNavigate } from 'react-router-dom';
 
 type CategoryPostsProps = {
   newsComponent?: React.ReactNode;
@@ -17,6 +18,7 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
   categoryName,
 }) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const posts = useSelector(
     (state: RootState) => state.posts.categoryPosts.data.items
   );
@@ -37,6 +39,10 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
     dispatch(fetchPostsByCategory({ categoryName, page, size: 10 }));
   };
 
+  const handlePostClick = (postId: number) => {
+    navigate(`/posts/${postId}`);
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-8 mt-8 lg:mt-10">
@@ -44,7 +50,8 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
           {posts.map((post) => (
             <article
               key={post.id}
-              className="relative flex flex-row gap-4 items-center bg-light-layer dark:bg-dark-layer rounded-sm  p-2"
+              className="relative flex flex-row gap-4 items-center bg-light-layer dark:bg-dark-layer rounded-sm p-2 cursor-pointer"
+              onClick={() => handlePostClick(post.id)}
             >
               <div className="flex-shrink-0">
                 <div className="w-24 h-24 lg:w-32 lg:h-32 p-2">
