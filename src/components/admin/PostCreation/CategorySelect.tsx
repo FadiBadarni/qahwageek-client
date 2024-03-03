@@ -30,6 +30,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
           <button
             key={category.id}
             onClick={() => toggleCategory(category.id)}
+            type="button"
             className={`transition duration-150 ease-in-out flex items-center justify-center px-3 py-1 rounded-md text-xs md:text-sm font-medium 
     ${
       selectedCategoryIds.includes(category.id)
