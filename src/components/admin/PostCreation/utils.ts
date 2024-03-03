@@ -65,14 +65,12 @@ export function createNewPostData(
   title: string,
   content: string,
   mainImageUrl: string,
-  readingTime: string,
   categoryIds: number[]
 ): NewPost {
   return {
     title,
     content,
     mainImageUrl,
-    readingTime: readingTime ? parseInt(readingTime, 10) : undefined,
     categoryIds,
   };
 }

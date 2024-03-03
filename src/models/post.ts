@@ -13,7 +13,6 @@ export interface NewPost {
   title: string;
   content: string;
   mainImageUrl?: string;
-  readingTime?: number;
   categoryIds: number[];
 }
 

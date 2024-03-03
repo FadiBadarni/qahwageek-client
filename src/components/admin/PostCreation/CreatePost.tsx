@@ -18,7 +18,6 @@ const CreatePost = () => {
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
-  const [readingTime, setReadingTime] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
 
@@ -32,10 +31,6 @@ const CreatePost = () => {
 
   const handleContentChange = (content: string) => {
     setContent(content);
-  };
-
-  const handleReadingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setReadingTime(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,7 +48,6 @@ const CreatePost = () => {
         title,
         updatedContent,
         mainImagePresignedUrl,
-        readingTime,
         selectedCategoryIds
       );
       await saveNewPost(dispatch, newPostData);
@@ -65,11 +59,11 @@ const CreatePost = () => {
   return (
     <div className="p-4 mx-auto max-w-7xl px-6 lg:px-8">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-          <div className="md:col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
+          <div className="md:col-span-6 lg:col-span-4">
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
+              className="block text-sm font-medium text-light-text dark:text-dark-text mb-2"
             >
               عنوان المقال
             </label>
@@ -84,35 +78,10 @@ const CreatePost = () => {
               required
             />
           </div>
-          <div className="md:col-span-1">
-            <label
-              htmlFor="readingTime"
-              className="block text-sm font-medium text-neutral-700 dark:text-neutral-200"
-            >
-              مدة القراءة
-            </label>
-            <input
-              id="readingTime"
-              type="number"
-              name="readingTime"
-              value={readingTime}
-              onChange={handleReadingTimeChange}
-              placeholder="مثال: 5"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input  py-2 px-4 placeholder-neutral-400  focus:bg-white focus:text-neutral-900 dark:placeholder:text-neutral-500 dark:focus:bg-dark-800 dark:focus:text-neutral-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
-              min="1"
-            />
-          </div>
-          <div className="md:col-span-1 flex items-end">
-            <CategorySelect
-              categories={categories}
-              selectedCategoryIds={selectedCategoryIds}
-              onCategoryChange={setSelectedCategoryIds}
-            />
-          </div>
-          <div className="md:col-span-1">
+          <div className="md:col-span-6 lg:col-span-2">
             <label
               htmlFor="image"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
+              className="block text-sm font-medium text-light-text dark:text-dark-text mb-2"
             >
               اختر صورة الغلاف
             </label>
@@ -123,9 +92,16 @@ const CreatePost = () => {
               onChange={(e) =>
                 setSelectedImage(e.target.files ? e.target.files[0] : null)
               }
-              className="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border dark:file:border-neutral-700 file:text-sm file:font-semibold file:bg-light-input file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-input dark:file:text-neutral-200 dark:file:hover:bg-dark-layer focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="block w-full text-sm file:py-2 file:px-4 file:rounded-md file:border dark:file:border-neutral-700 file:text-sm file:font-semibold file:bg-light-input file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-input dark:file:text-neutral-200 dark:file:hover:bg-dark-layer focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
+        </div>
+        <div className="md:col-span-6">
+          <CategorySelect
+            categories={categories}
+            selectedCategoryIds={selectedCategoryIds}
+            onCategoryChange={setSelectedCategoryIds}
+          />
         </div>
         <div>
           <label
@@ -136,7 +112,6 @@ const CreatePost = () => {
           </label>
           <TextEditor onContentChange={handleContentChange} />
         </div>
-
         <div className="flex justify-center mt-4">
           <button
             type="submit"
