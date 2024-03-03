@@ -1,6 +1,7 @@
 import { LightPost } from 'models/post';
 import React, { ReactNode } from 'react';
 import './categoryPage.css';
+import { useNavigate } from 'react-router-dom';
 
 type CategoryHeaderProps = {
   bannerTitle: string;
@@ -15,6 +16,11 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   posts,
   PostsComponent,
 }) => {
+  const navigate = useNavigate();
+
+  const handlePostClick = (postId: number) => {
+    navigate(`/posts/${postId}`);
+  };
   return (
     <>
       <div className="relative bg-light-border dark:bg-dark-border py-8 sm:py-8 transition duration-300 ease-in-out text-center z-10 complex-border">
@@ -45,11 +51,12 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
             {posts.map((post, index) => (
               <div
                 key={post.id}
+                onClick={() => handlePostClick(post.id)}
                 className={`w-full md:w-1/2 lg:w-1/3 overflow-hidden shadow-lg bg-light-border dark:bg-dark-border ${
                   index > 0 ? 'hidden md:block' : ''
                 } ${
                   index % 2 === 0 ? 'md:border-l-2' : 'md:border-r-2'
-                } border-neutral-300 dark:border-neutral-600 relative`}
+                } border-neutral-300 dark:border-neutral-600 relative cursor-pointer`}
               >
                 <div className="w-full h-48 overflow-hidden relative">
                   <img

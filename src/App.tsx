@@ -15,6 +15,7 @@ import CodePosts from 'components/categories/code';
 import CareerPosts from 'components/categories/career';
 import TermsPosts from 'components/categories/terms';
 import UserProfile from 'components/user';
+import NotFoundPage from 'components/shared/NotFoundPage';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -63,6 +64,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
         <Footer />
