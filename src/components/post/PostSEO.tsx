@@ -12,7 +12,7 @@ const PostSEO: React.FC<PostSEOProps> = ({
   title = 'قهوة چيك - مقال غير موجود',
   description = 'استكشف مقالات تقنية وبرمجية باللغة العربية. تابع أحدث التطورات في عالم التكنولوجيا وشارك تجاربك وأفكارك مع مجتمع قهوة چيك.',
   imageUrl = 'URL_TO_A_DEFAULT_IMAGE',
-  url = 'https://qahwageek.netlify.app',
+  url = 'https://qahwageek.com',
 }) => (
   <Helmet>
     <title>{title}</title>

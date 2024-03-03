@@ -20,8 +20,8 @@ export const Home: React.FC = () => {
           content="موقعك المفضل لاستكشاف آخر الأخبار والمقالات حول التكنولوجيا، البرمجة، وأكثر من ذلك بكثير."
         />
         <meta property="og:image" content="URL_TO_A_HOME_PAGE_IMAGE" />
-        <meta property="og:url" content="https://qahwageek.netlify.app" />
-        <link rel="canonical" href="https://qahwageek.netlify.app" />
+        <meta property="og:url" content="https://qahwageek.com" />
+        <link rel="canonical" href="https://qahwageek.com" />
       </Helmet>
       <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-center mt-4 mb-4">
         أهلا وسهلا بقهوة چيك!
