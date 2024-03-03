@@ -59,11 +59,11 @@ const CreatePost = () => {
   return (
     <div className="p-4 mx-auto max-w-7xl px-6 lg:px-8">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-          <div className="md:col-span-3">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-4 items-end">
+          <div className="md:col-span-6 lg:col-span-4">
             <label
               htmlFor="title"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
+              className="block text-sm font-medium text-light-text dark:text-dark-text mb-2"
             >
               عنوان المقال
             </label>
@@ -78,17 +78,10 @@ const CreatePost = () => {
               required
             />
           </div>
-          <div className="md:col-span-1 flex items-end">
-            <CategorySelect
-              categories={categories}
-              selectedCategoryIds={selectedCategoryIds}
-              onCategoryChange={setSelectedCategoryIds}
-            />
-          </div>
-          <div className="md:col-span-1">
+          <div className="md:col-span-6 lg:col-span-2">
             <label
               htmlFor="image"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
+              className="block text-sm font-medium text-light-text dark:text-dark-text mb-2"
             >
               اختر صورة الغلاف
             </label>
@@ -99,9 +92,16 @@ const CreatePost = () => {
               onChange={(e) =>
                 setSelectedImage(e.target.files ? e.target.files[0] : null)
               }
-              className="mt-1 block w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border dark:file:border-neutral-700 file:text-sm file:font-semibold file:bg-light-input file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-input dark:file:text-neutral-200 dark:file:hover:bg-dark-layer focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="block w-full text-sm file:py-2 file:px-4 file:rounded-md file:border dark:file:border-neutral-700 file:text-sm file:font-semibold file:bg-light-input file:text-neutral-700 hover:file:bg-light-200 dark:file:bg-dark-input dark:file:text-neutral-200 dark:file:hover:bg-dark-layer focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
+        </div>
+        <div className="md:col-span-6">
+          <CategorySelect
+            categories={categories}
+            selectedCategoryIds={selectedCategoryIds}
+            onCategoryChange={setSelectedCategoryIds}
+          />
         </div>
         <div>
           <label
@@ -112,7 +112,6 @@ const CreatePost = () => {
           </label>
           <TextEditor onContentChange={handleContentChange} />
         </div>
-
         <div className="flex justify-center mt-4">
           <button
             type="submit"

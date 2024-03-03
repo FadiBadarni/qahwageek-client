@@ -1,7 +1,4 @@
-import { Fragment, useState } from 'react';
-import { Menu, Transition } from '@headlessui/react';
-import { ChevronDownIcon } from '@heroicons/react/20/solid';
-import { classNames } from 'utils/tailwindUtil';
+import React from 'react';
 import { Category } from 'models/post';
 
 interface CategorySelectProps {
@@ -10,62 +7,42 @@ interface CategorySelectProps {
   onCategoryChange: (selectedCategoryIds: number[]) => void;
 }
 
-export default function CategorySelect({
+const CategorySelect: React.FC<CategorySelectProps> = ({
   categories,
   selectedCategoryIds,
   onCategoryChange,
-}: CategorySelectProps) {
-  const [selectedCategories, setSelectedCategories] =
-    useState<number[]>(selectedCategoryIds);
-
-  const handleSelectCategory = (categoryId: number) => {
-    const newSelectedCategories = selectedCategories.includes(categoryId)
-      ? selectedCategories.filter((id) => id !== categoryId)
-      : [...selectedCategories, categoryId];
-    setSelectedCategories(newSelectedCategories);
+}) => {
+  const toggleCategory = (categoryId: number) => {
+    const isSelected = selectedCategoryIds.includes(categoryId);
+    const newSelectedCategories = isSelected
+      ? selectedCategoryIds.filter((id) => id !== categoryId)
+      : [...selectedCategoryIds, categoryId];
     onCategoryChange(newSelectedCategories);
   };
 
   return (
-    <Menu as="div" className="relative inline-block text-left w-full ">
-      <div>
-        <Menu.Button className="inline-flex w-full justify-between rounded-md border border-neutral-300 bg-light-100 px-4 py-2 text-sm font-medium text-neutral-700 dark:bg-dark-700 dark:text-neutral-200 shadow-sm hover:bg-light-200 dark:hover:bg-dark-800 focus:outline-none focus:ring-2 focus:ring-brand-500">
-          اختر تصنيفات
-          <ChevronDownIcon className="ml-2 -mr-1 h-5 w-5" aria-hidden="true" />
-        </Menu.Button>
+    <div className="mx-auto my-4">
+      <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-200 mb-2 text-right">
+        اختر التصنيفات المناسبة للمقال
+      </h3>
+      <div className="flex flex-wrap gap-2 p-4 bg-light-layer dark:bg-dark-layer rounded-md shadow">
+        {categories.map((category) => (
+          <button
+            key={category.id}
+            onClick={() => toggleCategory(category.id)}
+            className={`transition duration-150 ease-in-out flex items-center justify-center px-3 py-1 rounded-md text-xs md:text-sm font-medium 
+    ${
+      selectedCategoryIds.includes(category.id)
+        ? 'bg-primary text-white dark:bg-dark-primary border border-primary dark:border-dark-primary'
+        : 'bg-light-background dark:bg-dark-layer text-neutral-700 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-600'
+    } hover:bg-light-primary dark:hover:bg-dark-primary hover:text-light-text dark:hover:text-neutral-200 cursor-pointer`}
+          >
+            {category.name}
+          </button>
+        ))}
       </div>
-
-      <Transition
-        as={Fragment}
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        <Menu.Items className="absolute z-10 mt-2 w-full origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1 ">
-            {categories.map((category) => (
-              <Menu.Item key={category.id}>
-                {({ active }) => (
-                  <button
-                    type="button"
-                    className={classNames(
-                      active ? 'bg-gray-100' : '',
-                      'w-full text-right block px-4 py-2 text-sm text-gray-700'
-                    )}
-                    onClick={() => handleSelectCategory(category.id)}
-                  >
-                    {category.name}{' '}
-                    {selectedCategories.includes(category.id) && '✓'}
-                  </button>
-                )}
-              </Menu.Item>
-            ))}
-          </div>
-        </Menu.Items>
-      </Transition>
-    </Menu>
+    </div>
   );
-}
+};
+
+export default CategorySelect;
