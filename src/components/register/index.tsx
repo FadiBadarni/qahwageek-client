@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { MdPerson, MdEmail, MdLock } from 'react-icons/md';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { register } from 'store/user/userActions';
+import { displayError } from 'utils/alertUtils';
 
 export const RegistrationPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const user = useSelector((state: RootState) => state.user.data);
 
   const [username, setUsername] = useState<string>('');
@@ -13,12 +19,21 @@ export const RegistrationPage: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Replace 'register' with your registration action
-    // const registerResult = await dispatch(
-    //   register({ username, email, password })
-    // );
+    try {
+      await dispatch(register({ username, email, password }));
+      navigate('/login'); // Navigate to login page upon successful registration
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error
+          ? 'ما قدرنا نسجلك، جرب مرة تانية ولا تزعل مننا '
+          : 'يا دوبك حصل خطأ وما قدرنا نكمل التسجيل. جرب مرة تانية يا ريت ';
 
-    // Handle registration response (e.g., navigate, display message)
+      displayError({
+        icon: 'error',
+        title: 'يا عيني...',
+        text: errorMessage,
+      });
+    }
   };
 
   if (user) {
