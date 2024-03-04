@@ -18,6 +18,7 @@ import UserProfile from 'components/user';
 import NotFoundPage from 'components/shared/NotFoundPage';
 import { RegistrationPage } from 'components/register';
 import { ForgotPassword } from 'components/login/ForgotPassword';
+import CategoriesManagement from 'components/admin/Categories';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -65,6 +66,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreatePost />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cms/categories"
+              element={
+                <ProtectedRoute>
+                  <CategoriesManagement />
                 </ProtectedRoute>
               }
             />
