@@ -44,7 +44,11 @@ export const RegistrationPage: React.FC = () => {
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <form className="space-y-6" onSubmit={handleRegister}>
+        <form
+          className="space-y-6"
+          onSubmit={handleRegister}
+          autoComplete="off"
+        >
           <div>
             <label
               htmlFor="username"
@@ -62,6 +66,7 @@ export const RegistrationPage: React.FC = () => {
                 onChange={(e) => setUsername(e.target.value)}
                 className="block w-full pl-10 rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500"
                 placeholder="اسم المستخدم"
+                autoComplete="off"
               />
             </div>
           </div>
@@ -83,6 +88,7 @@ export const RegistrationPage: React.FC = () => {
                 onChange={(e) => setEmail(e.target.value)}
                 className="block w-full pl-10 rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500"
                 placeholder="البريد الإلكتروني"
+                autoComplete="off"
               />
             </div>
           </div>
@@ -104,6 +110,7 @@ export const RegistrationPage: React.FC = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="block w-full pl-10 rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500"
                 placeholder="كلمة المرور"
+                autoComplete="new-password"
               />
             </div>
           </div>
