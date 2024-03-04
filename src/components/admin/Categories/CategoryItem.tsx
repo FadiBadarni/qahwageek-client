@@ -14,12 +14,12 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
       <div
         className={`flex justify-between items-center p-4 rounded-lg shadow ${
           isSubCategory
-            ? 'bg-light-accent dark:bg-dark-accent mr-4'
+            ? 'bg-light-border dark:bg-dark-border mr-4'
             : 'bg-light-layer dark:bg-dark-layer'
-        }`}
+        } transition-colors duration-300 ease-in-out`}
       >
         {isSubCategory && (
-          <MdSubdirectoryArrowRight className="text-neutral-400 dark:text-neutral-600 mr-2" />
+          <MdSubdirectoryArrowRight className="text-neutral-400 dark:text-neutral-400 ml-2" />
         )}
         <span className="text-neutral-800 dark:text-neutral-200 flex-grow">
           {category.name}
@@ -29,11 +29,11 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({ category }) => {
             className="inline h-6 w-6 text-neutral-600 dark:text-neutral-400 hover:text-neutral-800 dark:hover:text-neutral-200 cursor-pointer"
             onClick={() => {}}
           />
-          <MdDelete className="inline h-6 w-6 ml-4 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-600 cursor-pointer" />
+          <MdDelete className="inline h-6 w-6 mr-4 text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-600 cursor-pointer" />
         </div>
       </div>
       {category.subCategories && category.subCategories.length > 0 && (
-        <div className="mt-2">
+        <div className="mt-4">
           {category.subCategories.map((subCategory) => (
             <CategoryItem key={subCategory.id} category={subCategory} />
           ))}
