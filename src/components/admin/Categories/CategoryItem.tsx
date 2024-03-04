@@ -1,6 +1,6 @@
 import { Category } from 'models/post';
 import React from 'react';
-import { MdEdit, MdDelete, MdSubdirectoryArrowRight } from 'react-icons/md';
+import { MdDelete, MdSubdirectoryArrowRight } from 'react-icons/md';
 
 interface CategoryItemProps {
   category: Category;
@@ -27,7 +27,6 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
         )}
         <span className="flex-grow">{category.name}</span>
         <div>
-          <MdEdit className="inline h-6 w-6 text-light-text dark:text-dark-text hover:text-neutral-800 dark:hover:text-neutral-200 cursor-pointer" />
           <MdDelete className="inline h-6 w-6 mr-4 text-light-text dark:text-dark-text hover:text-red-800 dark:hover:text-red-600 cursor-pointer" />
         </div>
       </div>
