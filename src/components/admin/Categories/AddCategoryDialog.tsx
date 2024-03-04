@@ -1,5 +1,9 @@
 import React, { useState, Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import ReactSelect from 'react-select';
+import { getCategorySelectStyles } from './getCategorySelectStyles';
 
 interface AddCategoryDialogProps {
   isOpen: boolean;
@@ -12,6 +16,16 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
 }) => {
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
+  const [parentCategoryId, setParentCategoryId] = useState<
+    string | number | null
+  >(null);
+  const categories = useSelector((state: RootState) => state.categories.data);
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
+  const categoryOptions = categories.map((category) => ({
+    value: category.id,
+    label: category.name,
+  }));
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,7 +40,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
         className="fixed inset-0 z-10 overflow-y-auto"
         onClose={onClose}
       >
-        <div className="flex min-h-screen items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div className="flex min-h-screen justify-center p-4 text-center items-center sm:p-0">
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -48,7 +62,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="relative inline-block transform overflow-hidden rounded-lg bg-white dark:bg-dark-layer px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+            <div className="relative inline-block transform overflow-hidden rounded-lg bg-white dark:bg-dark-layer px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 align-middle max-w-lg w-full">
               <Dialog.Title
                 as="h3"
                 className="text-lg font-medium leading-6 text-gray-900 dark:text-white text-center mb-4"
@@ -74,6 +88,35 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     rows={3}
                   ></textarea>
                 </div>
+
+                <div className="mt-4">
+                  <label
+                    htmlFor="parent-category-select"
+                    className="block text-sm font-medium text-gray-700 dark:text-gray-200 text-right mb-2"
+                  >
+                    الفئة الرئيسية
+                  </label>
+                  <ReactSelect
+                    id="parent-category-select"
+                    options={categoryOptions}
+                    value={categoryOptions.find(
+                      (option) => option.value === parentCategoryId
+                    )}
+                    onChange={(selectedOption) =>
+                      setParentCategoryId(
+                        selectedOption ? selectedOption.value : null
+                      )
+                    }
+                    styles={getCategorySelectStyles(currentTheme)}
+                    placeholder="اختر الفئة الرئيسية..."
+                    isRtl={true}
+                    className="react-select-container"
+                    classNamePrefix="react-select"
+                    menuPortalTarget={document.body}
+                    menuPosition="fixed"
+                  />
+                </div>
+
                 <div className="mt-5 sm:mt-6 flex justify-center space-x-reverse space-x-3">
                   <button
                     type="button"
