@@ -48,9 +48,14 @@ const CategoriesManagement: React.FC = () => {
               key={category.id}
               className="cursor-pointer"
               role="button"
-              aria-pressed="false"
+              aria-pressed={
+                selectedCategory?.id === category.id ? 'true' : 'false'
+              }
             >
-              <CategoryItem category={category} />
+              <CategoryItem
+                category={category}
+                selectedCategory={selectedCategory}
+              />
             </div>
           ))}
         </div>
