@@ -38,7 +38,7 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
     <div>
       <div
         className={`flex justify-between items-center p-4 rounded-lg shadow bg-light-layer dark:bg-dark-layer ${
-          isSubCategory ? 'mr-8' : ''
+          isSubCategory ? 'mr-8 ml-8' : ''
         } ${
           isSelected ? 'bg-light-primary dark:bg-dark-primary text-white' : ''
         } transition-colors duration-300 ease-in-out`}

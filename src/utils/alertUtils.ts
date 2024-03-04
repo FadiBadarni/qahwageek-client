@@ -36,5 +36,6 @@ export const displayConfirmation = (
       title: 'text-neutral-700 dark:text-neutral-200',
     },
     buttonsStyling: false,
+    reverseButtons: true,
   });
 };
