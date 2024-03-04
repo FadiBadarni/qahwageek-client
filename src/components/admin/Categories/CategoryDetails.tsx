@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Category } from 'models/post';
 import SubCategoriesDetails from './SubCategoriesDetails';
 
@@ -10,6 +10,11 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
 
   const [name, setName] = useState(category.name);
   const [description, setDescription] = useState(category.description || '');
+
+  useEffect(() => {
+    setName(category.name);
+    setDescription(category.description || '');
+  }, [category]);
 
   return (
     <div className="p-6 bg-light-layer dark:bg-dark-layer rounded-xl shadow-xl">
