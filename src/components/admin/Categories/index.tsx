@@ -7,6 +7,7 @@ import { CategoryItem } from './CategoryItem';
 import { Category } from 'models/post';
 import CategoryDetails from './CategoryDetails';
 import { fetchAllCategories } from 'store/category/categoryActions';
+import AddCategoryDialog from './AddCategoryDialog';
 
 const CategoriesManagement: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ const CategoriesManagement: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -23,6 +25,9 @@ const CategoriesManagement: React.FC = () => {
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category);
   };
+
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => setIsAddModalOpen(false);
 
   return (
     <div className="max-w-7xl mx-auto p-4 bg-white dark:bg-dark-background">
@@ -35,6 +40,7 @@ const CategoriesManagement: React.FC = () => {
             type="button"
             className="inline-flex items-center px-4 py-2 border rounded-md shadow-sm text-neutral-600 dark:text-neutral-200 transition duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-border dark:focus:ring-dark-border bg-light-layer dark:bg-dark-layer hover:bg-light-input dark:hover:bg-dark-input"
             aria-label="إضافة تصنيف جديد"
+            onClick={openAddModal}
           >
             <MdAddCircleOutline className="ml-2 h-5 w-5" aria-hidden="true" />
             إضافة تصنيف
@@ -69,6 +75,7 @@ const CategoriesManagement: React.FC = () => {
           )}
         </div>
       </div>
+      <AddCategoryDialog isOpen={isAddModalOpen} onClose={closeAddModal} />
     </div>
   );
 };
