@@ -1,7 +1,18 @@
-import { LoginRequest, SocialMediaHandle } from 'models/user';
+import { LoginRequest, RegisterRequest, SocialMediaHandle } from 'models/user';
 import axiosClient from './axiosClient';
 
 class UserService {
+  static async registerService(registerRequest: RegisterRequest) {
+    try {
+      const response = await axiosClient.post(
+        '/auth/register',
+        registerRequest
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async loginService(credentials: LoginRequest) {
     try {
       const response = await axiosClient.post('/auth/login', credentials);

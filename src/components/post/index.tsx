@@ -1,7 +1,7 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getPostById } from 'store/post/postActions';
 import { RootState } from 'store/store';
 import DOMPurify from 'dompurify';
@@ -75,7 +75,13 @@ const Post = (props: Props) => {
                 {/* Author, Date, and Reading Time */}
                 <div className="flex flex-wrap items-center flex-grow">
                   <span>كتب بواسطة - </span>
-                  <span className="font-semibold mr-2">{post.author}</span>
+                  <Link
+                    to={`/user/profile/${post.authorId}`}
+                    className="font-semibold mr-2"
+                  >
+                    {post.author}
+                  </Link>
+
                   <span className=" md:inline mx-2">|</span>
                   <time className="block" dateTime={post.publishedAt}>
                     {formattedDate}
@@ -96,20 +102,18 @@ const Post = (props: Props) => {
                   dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                   className="prose dark:prose-dark mx-auto max-w-none"
                 ></div>
-                <div className="mt-8 p-4 bg-light-background dark:bg-dark-background rounded-lg shadow">
-                  <h3 className="text-lg font-semibold mb-4 text-neutral-800 dark:text-neutral-200">
+                <div className="mt-8 p-4 bg-light-background dark:bg-dark-background rounded-lg shadow flex flex-wrap items-center">
+                  <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mr-2">
                     التصنيفات:
-                  </h3>
-                  <div className="flex flex-wrap">
-                    {post.categoryNames.map((category, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 border border-brand-300 bg-light-layer dark:bg-dark-layer text-neutral-800 dark:text-neutral-200 hover:bg-brand-200 dark:hover:bg-brand-700"
-                      >
-                        {category}
-                      </span>
-                    ))}
-                  </div>
+                  </h4>
+                  {post.categoryNames.map((category, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-semibold mr-2 border border-brand-300 bg-light-layer dark:bg-dark-layer text-neutral-800 dark:text-neutral-200 hover:bg-brand-200 dark:hover:bg-brand-700"
+                    >
+                      {category}
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>

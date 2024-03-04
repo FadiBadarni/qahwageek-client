@@ -6,16 +6,19 @@ import { getUserProfile } from 'store/user/userActions';
 import UserPosts from './UserPosts';
 import UserBasicInfo from './UserBasicInfo';
 import { Helmet } from 'react-helmet-async';
+import { useParams } from 'react-router-dom';
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const userProfile = useSelector((state: RootState) => state.userProfile.data);
   const status = useSelector((state: RootState) => state.userProfile.status);
-  const userId = useSelector((state: RootState) => state.user.data?.id);
+  const { userId } = useParams<{ userId: string }>();
 
   useEffect(() => {
     if (userId) {
-      dispatch(getUserProfile(userId));
+      const userIdNumber = Number(userId);
+
+      dispatch(getUserProfile(userIdNumber));
     }
   }, [dispatch, userId]);
 

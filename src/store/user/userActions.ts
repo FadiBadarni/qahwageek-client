@@ -1,8 +1,21 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginRequest, SocialMediaHandle } from 'models/user';
+import { LoginRequest, RegisterRequest, SocialMediaHandle } from 'models/user';
 import UserService from 'services/userService';
 import { clearUser } from './userReducer';
 import axios from 'axios';
+
+export const register = createAsyncThunk(
+  'user/register',
+  async (registerRequest: RegisterRequest, { rejectWithValue }) => {
+    try {
+      const data = await UserService.registerService(registerRequest);
+      return data;
+    } catch (error) {
+      const message = (error as Error).message || 'Failed to register';
+      return rejectWithValue(message);
+    }
+  }
+);
 
 export const login = createAsyncThunk(
   'user/login',

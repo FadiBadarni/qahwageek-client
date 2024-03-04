@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { searchPosts } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
@@ -6,17 +6,17 @@ import { RootState } from 'store/store';
 import { useNavigate } from 'react-router-dom';
 import { setSearchQuery, setSearchResults } from 'store/post/searchSlice';
 import ReactSelect, { components } from 'react-select';
-import { searchStyles } from './searchStyles';
+import { getSearchStyles } from './searchStyles';
 
 const SearchInput: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const searchResults = useSelector(
-    (state: RootState) => state.search.data.results
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+  const { results, query } = useSelector(
+    (state: RootState) => state.search.data
   );
-  const [inputValue, setInputValue] = useState('');
 
-  const options = searchResults.map((result) => ({
+  const options = results.map((result) => ({
     value: result.id,
     label: result.title,
     mainImageUrl: result.mainImageUrl,
@@ -31,12 +31,12 @@ const SearchInput: React.FC = () => {
   };
 
   const handleInputChange = (newValue: string) => {
-    setInputValue(newValue);
+    dispatch(setSearchQuery(newValue));
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLElement>) => {
-    if (event.key === 'Enter' && inputValue.trim() !== '') {
-      dispatch(searchPosts(inputValue.trim()));
+    if (event.key === 'Enter' && query.trim() !== '') {
+      dispatch(searchPosts(query.trim()));
     }
   };
 
@@ -62,12 +62,14 @@ const SearchInput: React.FC = () => {
         onChange={handleChange}
         onInputChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        styles={searchStyles}
+        styles={getSearchStyles(currentTheme)}
         components={{ Option: CustomOption }}
         placeholder="ابحث عن مقال"
         className="react-select-container"
         classNamePrefix="react-select"
-        inputValue={inputValue}
+        inputValue={query}
+        noOptionsMessage={() => 'لا توجد نتائج'}
+        isClearable={true}
       />
     </div>
   );

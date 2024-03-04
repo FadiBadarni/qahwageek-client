@@ -6,6 +6,7 @@ import { RootState } from 'store/store';
 import { login } from 'store/user/userActions';
 import logo from 'assets/logo.svg';
 import { displayError } from 'utils/alertUtils';
+import { MdLock, MdLockOpen, MdPerson, MdPersonAdd } from 'react-icons/md';
 
 export const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -14,6 +15,7 @@ export const LoginPage: React.FC = () => {
 
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,6 +34,10 @@ export const LoginPage: React.FC = () => {
   if (user) {
     return <Navigate to="/" replace />;
   }
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
@@ -57,18 +63,20 @@ export const LoginPage: React.FC = () => {
             >
               اسم المستخدم
             </label>
-            <div className="mt-2">
+            <div className="relative mt-2">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <MdPerson
+                  className="h-5 w-5 text-neutral-400"
+                  aria-hidden="true"
+                />
+              </div>
               <input
                 id="username"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 required
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 
-             bg-light-input dark:bg-dark-input 
-             text-light-text dark:text-dark-text 
-             ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 
-             focus:ring-2 focus:ring-inset focus:ring-brand-500"
+                className="block w-full pl-10 rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500"
               />
             </div>
           </div>
@@ -90,19 +98,24 @@ export const LoginPage: React.FC = () => {
                 </Link>
               </div>
             </div>
-            <div className="mt-2">
+            <div className="relative mt-2">
+              <div
+                className="absolute inset-y-0 left-0 pl-3 flex items-center cursor-pointer hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-200"
+                onClick={togglePasswordVisibility}
+              >
+                {passwordVisible ? (
+                  <MdLockOpen className="h-5 w-5 text-neutral-400 transition-transform duration-200" />
+                ) : (
+                  <MdLock className="h-5 w-5 text-neutral-400 transition-transform duration-200" />
+                )}
+              </div>
               <input
                 id="password"
-                type="password"
+                type={passwordVisible ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
                 required
-                className="block w-full rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 
-             bg-light-input dark:bg-dark-input 
-             text-light-text dark:text-dark-text 
-             ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 
-             focus:ring-2 focus:ring-inset focus:ring-brand-500"
+                className="block w-full pl-10 rounded-md border-0 py-1.5 shadow-sm sm:text-sm sm:leading-6 bg-light-input dark:bg-dark-input text-light-text dark:text-dark-text ring-1 ring-inset dark:ring-neutral-700 ring-neutral-300 focus:ring-2 focus:ring-inset focus:ring-brand-500"
               />
             </div>
           </div>
@@ -116,6 +129,17 @@ export const LoginPage: React.FC = () => {
             </button>
           </div>
         </form>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            بعدك مش عامِل حساب؟
+          </p>
+          <Link
+            to="/register"
+            className="inline-flex items-center justify-center mt-2 text-brand-600 hover:text-brand-500 dark:hover:text-brand-400"
+          >
+            <MdPersonAdd className="ml-2" /> تعال سَجِل
+          </Link>
+        </div>
       </div>
     </div>
   );
