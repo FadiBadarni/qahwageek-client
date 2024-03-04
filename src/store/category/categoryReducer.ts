@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchAllCategories } from './postActions';
-import { CategoryState } from './postState';
+import { CategoryState } from '../post/postState';
 import { LoadingStatus } from 'store/shared/commonState';
+import { fetchAllCategories } from './categoryActions';
 
 const initialState: CategoryState = {
   data: [],

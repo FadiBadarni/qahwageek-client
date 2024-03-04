@@ -14,7 +14,7 @@ import themeReducer from 'store/theme/themeReducer';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './user/userReducer';
 import postReducer from './post/postReducer';
-import categorySlice from './post/categoryReducer';
+import categorySlice from './category/categoryReducer';
 import eventSlice from './event/eventSlice';
 import searchSlice from './post/searchSlice';
 import profileSlice from './user/profileSlice';

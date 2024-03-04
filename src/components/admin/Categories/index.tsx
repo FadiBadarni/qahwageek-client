@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { MdAddCircleOutline } from 'react-icons/md';
-import { fetchAllCategories } from 'store/post/postActions';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { RootState } from 'store/store';
 import { CategoryItem } from './CategoryItem';
 import { Category } from 'models/post';
 import CategoryDetails from './CategoryDetails';
+import { fetchAllCategories } from 'store/category/categoryActions';
 
 const CategoriesManagement: React.FC = () => {
   const dispatch = useAppDispatch();
