@@ -89,7 +89,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
           <div className="mt-3 space-y-1 px-2">
             <Disclosure.Button
               as={Link}
-              to="/user/profile"
+              to={`/user/profile/${user.id}`}
               className="block w-full text-right rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
             >
               المنطقة الشخصية

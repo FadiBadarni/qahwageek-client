@@ -45,14 +45,6 @@ function App() {
             <Route path="/category/career" element={<CareerPosts />} />
             <Route path="/category/terms" element={<TermsPosts />} />
             <Route
-              path="/user/profile"
-              element={
-                <ProtectedRoute>
-                  <UserProfile />
-                </ProtectedRoute>
-              }
-            />
-            <Route
               path="/user/profile/:userId"
               element={
                 <ProtectedRoute>

@@ -157,7 +157,7 @@ export const Navbar: React.FC = () => {
                           <Menu.Item>
                             {({ active }) => (
                               <Link
-                                to="/user/profile"
+                                to={`/user/profile/${user.id}`}
                                 className={classNames(
                                   active
                                     ? 'bg-neutral-200 dark:bg-neutral-700'
