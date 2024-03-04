@@ -6,11 +6,13 @@ import { RootState } from 'store/store';
 import { useNavigate } from 'react-router-dom';
 import { setSearchQuery, setSearchResults } from 'store/post/searchSlice';
 import ReactSelect, { components } from 'react-select';
-import { searchStyles } from './searchStyles';
+import { getSearchStyles } from './searchStyles';
 
 const SearchInput: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
   const searchResults = useSelector(
     (state: RootState) => state.search.data.results
   );
@@ -62,12 +64,13 @@ const SearchInput: React.FC = () => {
         onChange={handleChange}
         onInputChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        styles={searchStyles}
+        styles={getSearchStyles(currentTheme)}
         components={{ Option: CustomOption }}
         placeholder="ابحث عن مقال"
         className="react-select-container"
         classNamePrefix="react-select"
         inputValue={inputValue}
+        noOptionsMessage={() => 'لا توجد نتائج'}
       />
     </div>
   );
