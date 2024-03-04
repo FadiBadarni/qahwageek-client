@@ -15,3 +15,19 @@ export const fetchAllCategories = createAsyncThunk(
     }
   }
 );
+
+export const deleteCategory = createAsyncThunk(
+  'categories/delete',
+  async (categoryId: number, { rejectWithValue }) => {
+    try {
+      const response = await CategoryService.deleteCategory(categoryId);
+      return response;
+    } catch (error: any) {
+      console.error(`Failed to delete category with ID ${categoryId}:`, error);
+      return rejectWithValue(
+        error.response?.data ||
+          `Unable to delete category with ID ${categoryId}`
+      );
+    }
+  }
+);
