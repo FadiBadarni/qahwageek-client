@@ -9,7 +9,7 @@ const CMSDashboard: React.FC = () => {
     { to: '/cms/create-post', title: 'إنشاء مقال جديد', Icon: MdPostAdd },
     { to: '/cms/manage-users', title: 'إدارة المستخدمين', Icon: FaUsers },
     { to: '/cms/posts', title: 'المقالات الإجمالية', Icon: FaChartBar },
-    { to: '/cms/analytics', title: 'تحليلات الموقع', Icon: BiAnalyse },
+    { to: '/cms/categories', title: 'الفئات', Icon: BiAnalyse },
   ];
 
   return (

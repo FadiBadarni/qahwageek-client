@@ -49,6 +49,14 @@ function App() {
               }
             />
             <Route
+              path="/user/profile/:userId"
+              element={
+                <ProtectedRoute>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/cms"
               element={
                 <ProtectedRoute>
