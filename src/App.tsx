@@ -16,6 +16,7 @@ import CareerPosts from 'components/categories/career';
 import TermsPosts from 'components/categories/terms';
 import UserProfile from 'components/user';
 import NotFoundPage from 'components/shared/NotFoundPage';
+import { RegistrationPage } from 'components/register';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -36,6 +37,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegistrationPage />} />
             <Route path="/posts/:postId" element={<Post />} />
             <Route path="/category/code" element={<CodePosts />} />
             <Route path="/category/career" element={<CareerPosts />} />

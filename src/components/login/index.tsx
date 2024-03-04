@@ -6,6 +6,7 @@ import { RootState } from 'store/store';
 import { login } from 'store/user/userActions';
 import logo from 'assets/logo.svg';
 import { displayError } from 'utils/alertUtils';
+import { MdPersonAdd } from 'react-icons/md';
 
 export const LoginPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -116,6 +117,17 @@ export const LoginPage: React.FC = () => {
             </button>
           </div>
         </form>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">
+            بعدك مش عامِل حساب؟
+          </p>
+          <Link
+            to="/register"
+            className="inline-flex items-center justify-center mt-2 text-brand-600 hover:text-brand-500 dark:hover:text-brand-400"
+          >
+            <MdPersonAdd className="ml-2" /> تعال سَجِل
+          </Link>
+        </div>
       </div>
     </div>
   );
