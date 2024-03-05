@@ -22,7 +22,7 @@ export const getCommentsByPostId = createAsyncThunk(
   async (postId: number, { rejectWithValue }) => {
     try {
       const comments = await CommentService.getCommentsByPostId(postId);
-      return comments;
+      return { postId, comments };
     } catch (error: any) {
       console.error(`Failed to fetch comments for post ID ${postId}:`, error);
       return rejectWithValue(
