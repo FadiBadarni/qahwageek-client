@@ -37,6 +37,18 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
         parentId: parentCategoryId,
       })
     );
+    resetDialog();
+    onClose();
+  };
+
+  const resetDialog = () => {
+    setCategoryName('');
+    setDescription('');
+    setParentCategoryId(null);
+  };
+
+  const handleClose = () => {
+    resetDialog();
     onClose();
   };
 
@@ -45,7 +57,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
       <Dialog
         as="div"
         className="fixed inset-0 z-10 overflow-y-auto"
-        onClose={onClose}
+        onClose={handleClose}
       >
         <div className="flex min-h-screen justify-center p-4 text-center items-center sm:p-0">
           <Transition.Child

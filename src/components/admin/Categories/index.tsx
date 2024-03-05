@@ -22,6 +22,13 @@ const CategoriesManagement: React.FC = () => {
     dispatch(fetchAllCategories());
   }, [dispatch]);
 
+  useEffect(() => {
+    // Automatically select the first category once categories are loaded
+    if (categories.length > 0 && !selectedCategory) {
+      setSelectedCategory(categories[0]);
+    }
+  }, [categories, selectedCategory]);
+
   const handleCategorySelect = (category: Category) => {
     setSelectedCategory(category);
   };
