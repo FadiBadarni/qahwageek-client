@@ -17,6 +17,9 @@ export const formatDate = (date: Date | string): string => {
 
   if (diffDays < 1) {
     if (diffHours < 1) {
+      if (diffMinutes < 1) {
+        return 'للتو';
+      }
       timeString = `${diffMinutes} ${diffMinutes === 1 ? 'دقيقة' : 'دقائق'}`;
     } else {
       timeString = `${diffHours} ${diffHours === 1 ? 'ساعة' : 'ساعات'}`;

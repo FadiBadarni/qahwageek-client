@@ -44,7 +44,7 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
   };
 
   return (
-    <div className="mt-4 bg-light-layer dark:bg-dark-layer p-4 rounded-md shadow mx-auto max-w-7xl mb-8">
+    <div className="bg-light-layer dark:bg-dark-layer p-4 rounded-md shadow mx-auto max-w-7xl mb-8">
       <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-4 text-right">
         أضف تعليقاً
       </h2>

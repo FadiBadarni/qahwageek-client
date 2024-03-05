@@ -123,9 +123,12 @@ const Post = (props: Props) => {
           <div>Post not found</div>
         )}
       </div>
-      <CommentsSection postId={Number(postId)} />
-
-      {/* <RecommendedPosts /> */}
+      <div className="mx-auto max-w-7xl px-4 lg:px-8 mt-4 flex flex-wrap">
+        <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+          <CommentsSection postId={Number(postId)} />
+        </div>
+        <div className="w-full lg:w-1/2 px-4">{/* <RecommendedPosts /> */}</div>
+      </div>
     </>
   );
 };
