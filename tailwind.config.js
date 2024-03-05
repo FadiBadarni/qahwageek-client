@@ -12,7 +12,7 @@ module.exports = {
           layer: '#1F2937',
           text: '#F9FAFB',
           border: '#374151',
-          input: '#1F2937',
+          input: '#293345',
         },
         light: {
           primary: '#2563EB',

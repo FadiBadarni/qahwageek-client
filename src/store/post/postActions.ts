@@ -119,21 +119,6 @@ export const getFeaturedPosts = createAsyncThunk(
   }
 );
 
-export const fetchAllCategories = createAsyncThunk(
-  'categories/fetchAll',
-  async (_, { rejectWithValue }) => {
-    try {
-      const categories = await PostService.getAllCategories();
-      return categories;
-    } catch (error: any) {
-      console.error('Failed to fetch categories:', error);
-      return rejectWithValue(
-        error.response?.data || 'Unable to fetch categories'
-      );
-    }
-  }
-);
-
 export const getNewestProgrammingPosts = createAsyncThunk(
   'posts/getNewestProgrammingPosts',
   async (_, { rejectWithValue }) => {

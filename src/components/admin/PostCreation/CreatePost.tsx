@@ -1,7 +1,6 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchAllCategories } from 'store/post/postActions';
 import { RootState } from 'store/store';
 import CategorySelect from './CategorySelect';
 import TextEditor from 'components/textEditor/TextEditor';
@@ -11,6 +10,7 @@ import {
   saveNewPost,
   uploadMainImageIfNeeded,
 } from './utils';
+import { fetchAllCategories } from 'store/category/categoryActions';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();

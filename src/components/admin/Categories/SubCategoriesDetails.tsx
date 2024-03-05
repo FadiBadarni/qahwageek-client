@@ -1,54 +1,93 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Category } from 'models/post';
 
 interface SubCategoriesProps {
   subCategories: Category[] | undefined;
+  onUpdate: (updatedSubCategories: Category[]) => void;
 }
 
 const SubCategoriesDetails: React.FC<SubCategoriesProps> = ({
   subCategories,
+  onUpdate,
 }) => {
-  if (!subCategories || subCategories.length === 0) {
+  const [currentPage, setCurrentPage] = useState(0);
+  const [editableSubCategories, setEditableSubCategories] = useState<
+    Category[]
+  >([]);
+
+  useEffect(() => {
+    setEditableSubCategories([...(subCategories || [])]);
+  }, [subCategories]);
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const handleNameChange = (id: number, newName: string) => {
+    const updatedSubCategories = editableSubCategories.map((subCategory) =>
+      subCategory.id === id ? { ...subCategory, name: newName } : subCategory
+    );
+    setEditableSubCategories(updatedSubCategories);
+    onUpdate(updatedSubCategories);
+  };
+
+  const handleDescriptionChange = (id: number, newDescription: string) => {
+    const updatedSubCategories = editableSubCategories.map((subCategory) =>
+      subCategory.id === id
+        ? { ...subCategory, description: newDescription }
+        : subCategory
+    );
+    setEditableSubCategories(updatedSubCategories);
+    onUpdate(updatedSubCategories);
+  };
+
+  const currentSubCategory = editableSubCategories[currentPage];
+
+  if (!editableSubCategories.length) {
     return <p className="text-right">لا توجد تصنيفات فرعية.</p>;
   }
 
   return (
-    <div className="space-y-4">
-      {subCategories.map((sub, index) => (
-        <div
-          key={sub.id}
-          className="flex flex-col space-y-2 text-sm text-neutral-600 dark:text-neutral-400"
+    <div>
+      <div className="flex flex-col space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+        <input
+          type="text"
+          value={currentSubCategory.name}
+          onChange={(e) =>
+            handleNameChange(currentSubCategory.id, e.target.value)
+          }
+          className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+        />
+
+        <textarea
+          value={currentSubCategory.description}
+          onChange={(e) =>
+            handleDescriptionChange(currentSubCategory.id, e.target.value)
+          }
+          className="form-textarea mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+          rows={3}
+        />
+      </div>
+
+      <div className="flex justify-between mt-4">
+        <button
+          disabled={currentPage === 0}
+          onClick={() => handlePageChange(currentPage - 1)}
+          className="disabled:opacity-50"
         >
-          <div>
-            <label
-              htmlFor={`subCategoryName-${sub.id}`}
-              className="block text-right mb-2"
-            >
-              اسم التصنيف الفرعي:
-            </label>
-            <input
-              type="text"
-              id={`subCategoryName-${sub.id}`}
-              defaultValue={sub.name}
-              className="form-input block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor={`subCategoryDescription-${sub.id}`}
-              className="block text-right mb-2"
-            >
-              الوصف:
-            </label>
-            <textarea
-              id={`subCategoryDescription-${sub.id}`}
-              defaultValue={sub.description}
-              className="form-textarea block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
-              rows={3}
-            ></textarea>
-          </div>
-        </div>
-      ))}
+          السابق
+        </button>
+        <span>
+          {editableSubCategories.length} / {currentPage + 1}
+        </span>
+        <button
+          disabled={currentPage >= editableSubCategories.length - 1}
+          onClick={() => handlePageChange(currentPage + 1)}
+          className="disabled:opacity-50"
+        >
+          التالي
+        </button>
+      </div>
     </div>
   );
 };

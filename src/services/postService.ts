@@ -52,15 +52,6 @@ class PostService {
     }
   }
 
-  static async getAllCategories(): Promise<any> {
-    try {
-      const response = await axiosClient.get(`/categories`);
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }
-
   static async getNewestProgrammingPosts(): Promise<any> {
     try {
       const response = await axiosClient.get(`/posts/programming/newest`);

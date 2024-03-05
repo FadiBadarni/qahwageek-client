@@ -10,6 +10,7 @@ import { ar } from 'date-fns/locale';
 import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
 import ShareContainer from './ShareContainer';
 import PostSEO from './PostSEO';
+import CommentsSection from './CommentsSection';
 
 type Props = {};
 
@@ -68,7 +69,7 @@ const Post = (props: Props) => {
               </div>
             )}
             <div
-              className="relative mb-6 p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
+              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
             -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8"
             >
               <div className="flex flex-wrap items-center text-sm justify-between mb-4">
@@ -122,8 +123,12 @@ const Post = (props: Props) => {
           <div>Post not found</div>
         )}
       </div>
-
-      {/* <RecommendedPosts /> */}
+      <div className="mx-auto max-w-7xl px-4 lg:px-8 mt-4 flex flex-wrap">
+        <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+          <CommentsSection postId={Number(postId)} />
+        </div>
+        <div className="w-full lg:w-1/2 px-4">{/* <RecommendedPosts /> */}</div>
+      </div>
     </>
   );
 };
