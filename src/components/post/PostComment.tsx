@@ -6,23 +6,25 @@ import DOMPurify from 'dompurify';
 
 interface PostCommentProps {
   comment: Comment;
-  marginRight?: number;
   setReplyingTo: Dispatch<React.SetStateAction<number | null>>;
 }
 
 const PostComment: React.FC<PostCommentProps> = ({
   comment,
-  marginRight = 0,
   setReplyingTo,
 }) => {
+  const isReply = Boolean(comment.parentCommentId);
+
   return (
-    <div style={{ marginRight: `${marginRight}px` }} className="my-2">
+    <div className={`my-2 ${isReply ? 'mr-6 mt-4' : ''}`}>
       <div className="flex items-start">
         <div className="flex-shrink-0">
           <img
             src={comment.profilePicture || 'default-avatar.png'}
             alt={comment.username}
-            className="w-12 h-12 rounded-full border border-gray-300 dark:border-gray-600"
+            className={`${
+              isReply ? 'w-10 h-10' : 'w-12 h-12'
+            } rounded-full border border-gray-300 dark:border-gray-600`}
           />
         </div>
         <div className="mr-4 w-full">
@@ -60,7 +62,6 @@ const PostComment: React.FC<PostCommentProps> = ({
             <PostComment
               key={reply.id}
               comment={reply}
-              marginRight={marginRight + 20}
               setReplyingTo={setReplyingTo}
             />
           ))}
