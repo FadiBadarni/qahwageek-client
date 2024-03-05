@@ -1,13 +1,11 @@
 import axiosClient from './axiosClient';
-import { Comment } from 'models/comment';
+import { Comment, NewComment } from 'models/comment';
 
 class CommentService {
-  static async createComment(
-    commentData: Omit<Comment, 'id' | 'replies'>
-  ): Promise<Comment> {
+  static async createComment(commentData: NewComment): Promise<Comment> {
     try {
       const response = await axiosClient.post<Comment>(
-        `/comments`,
+        '/comments',
         commentData
       );
       return response.data;

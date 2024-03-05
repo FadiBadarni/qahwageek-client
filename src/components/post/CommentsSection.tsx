@@ -1,12 +1,15 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { getCommentsByPostId } from 'store/comment/commentActions';
+import {
+  createComment,
+  getCommentsByPostId,
+} from 'store/comment/commentActions';
 import DOMPurify from 'dompurify';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { LoadingStatus } from 'store/shared/commonState';
 import { formatDate } from 'utils/dateFormatUtil';
-import { MdAccessTime } from 'react-icons/md';
+import { MdAccessTime, MdSend } from 'react-icons/md';
 
 interface CommentsSectionProps {
   postId: number;
@@ -14,6 +17,10 @@ interface CommentsSectionProps {
 
 const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
   const dispatch = useAppDispatch();
+
+  const [commentText, setCommentText] = useState('');
+  const [showSubmitButton, setShowSubmitButton] = useState(false);
+
   const { data: comments, status } = useSelector(
     (state: RootState) =>
       state.postComments.commentsByPostId[postId] || {
@@ -28,8 +35,48 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
     }
   }, [postId, dispatch]);
 
+  const handleCommentSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (commentText.trim()) {
+      dispatch(createComment({ postId, content: commentText }));
+      setCommentText('');
+    }
+  };
+
   return (
     <div className="mt-4 bg-light-layer dark:bg-dark-layer p-4 rounded-md shadow mx-auto max-w-7xl mb-8">
+      <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-4 text-right">
+        أضف تعليقاً
+      </h2>
+      <form className="mb-4" onSubmit={handleCommentSubmit}>
+        <div className="flex flex-col bg-light-input dark:bg-dark-input rounded-md border border-gray-300 dark:border-gray-700 overflow-hidden">
+          <textarea
+            className="w-full p-2 text-sm text-neutral-800 dark:text-neutral-200 rounded-t-md border-none bg-light-input dark:bg-dark-input resize-none focus:outline-none focus:ring focus:border-blue-300"
+            placeholder="كتابة تعليق..."
+            value={commentText}
+            onChange={(e) => setCommentText(e.target.value)}
+            onFocus={() => setShowSubmitButton(true)}
+            onBlur={() => setShowSubmitButton(commentText.trim() !== '')}
+          />
+          <div
+            className={`transition-all duration-500 ease-in-out ${
+              showSubmitButton
+                ? 'max-h-16 opacity-100'
+                : 'max-h-0 opacity-0 overflow-hidden'
+            }`}
+          >
+            <div className="flex justify-end px-2 py-1 mt-1">
+              <button
+                type="submit"
+                className="bg-brand-500 hover:bg-brand-600 dark:bg-brand-400 dark:hover:bg-brand-500 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline flex items-center justify-center text-xs"
+              >
+                إرسال <MdSend className="mr-1 h-4 w-4 rotate-180" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+
       <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-4 text-right">
         التعليقات
       </h2>

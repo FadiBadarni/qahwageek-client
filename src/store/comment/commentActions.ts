@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { Comment } from 'models/comment';
+import { NewComment } from 'models/comment';
 import CommentService from 'services/commentService';
 
 export const createComment = createAsyncThunk(
   'comments/createComment',
-  async (commentData: Omit<Comment, 'id' | 'replies'>, { rejectWithValue }) => {
+  async (commentData: NewComment, { rejectWithValue }) => {
     try {
       const newComment = await CommentService.createComment(commentData);
       return newComment;

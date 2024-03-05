@@ -9,3 +9,8 @@ export interface Comment {
   parentCommentId?: number;
   replies?: Comment[];
 }
+export interface NewComment {
+  postId: number;
+  content: string;
+  parentCommentId?: number;
+}
