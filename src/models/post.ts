@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export interface Post {
   id: number;
   title: string;
@@ -8,6 +10,7 @@ export interface Post {
   mainImageUrl?: string;
   readingTime?: number;
   categoryNames: string[];
+  comments: Comment[];
 }
 export interface NewPost {
   title: string;
