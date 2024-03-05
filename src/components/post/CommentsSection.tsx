@@ -5,12 +5,11 @@ import {
   createComment,
   getCommentsByPostId,
 } from 'store/comment/commentActions';
-import DOMPurify from 'dompurify';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { LoadingStatus } from 'store/shared/commonState';
-import { formatDate } from 'utils/dateFormatUtil';
-import { MdAccessTime, MdSend, MdReply } from 'react-icons/md';
+import { MdSend } from 'react-icons/md';
 import ReplyInput from './ReplyInput';
+import PostComment from './PostComment';
 
 interface CommentsSectionProps {
   postId: number;
@@ -85,48 +84,12 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
         <div className="text-center">جار التحميل...</div>
       )}
       {status === LoadingStatus.Succeeded && comments.length > 0 ? (
-        comments.map((comment, index) => (
+        comments.map((comment) => (
           <div
             key={comment.id}
-            className={`py-4 px-4 my-2 rounded-lg mx-4 ${
-              index % 2 === 0 ? 'bg-gray-50 dark:bg-dark-input' : ''
-            }`}
+            className={`py-4 px-4 my-2 rounded-lg mx-4 bg-gray-50 dark:bg-dark-input`}
           >
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <img
-                  src={comment.profilePicture || 'default-avatar.png'}
-                  alt={comment.username}
-                  className="w-12 h-12 rounded-full border border-gray-300 dark:border-gray-600"
-                />
-              </div>
-              <div className="mr-4 w-full">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center">
-                    <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
-                      {comment.username}
-                    </h3>
-                    <div className="flex items-center text-xs text-neutral-500 ml-4">
-                      <MdAccessTime className="mx-2" />
-                      {formatDate(comment.createdAt)}
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setReplyingTo(comment.id)}
-                    className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center"
-                  >
-                    رد <MdReply className="mr-1" />
-                  </button>
-                </div>
-                <div
-                  className="mt-2 text-neutral-600 dark:text-neutral-400 text-sm"
-                  dangerouslySetInnerHTML={{
-                    __html: DOMPurify.sanitize(comment.content),
-                  }}
-                />
-              </div>
-            </div>
+            <PostComment comment={comment} setReplyingTo={setReplyingTo} />
             {replyingTo === comment.id && (
               <ReplyInput
                 postId={postId}
