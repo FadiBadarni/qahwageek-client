@@ -50,26 +50,28 @@ const PostComment: React.FC<PostCommentProps> = ({
                 {formatDate(comment.createdAt)}
               </div>
             </div>
-            <div className="flex gap-2">
-              {comment.parentCommentId == null && (
-                <button
-                  type="button"
-                  onClick={() => setReplyingTo(comment.id)}
-                  className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center"
-                >
-                  رد <MdReply className="mr-1" />
-                </button>
-              )}
-              {isCurrentUserComment && (
-                <button
-                  type="button"
-                  onClick={handleDeleteComment}
-                  className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center ml-2"
-                >
-                  حذف <MdDelete className="mr-1" />
-                </button>
-              )}
-            </div>
+            {currentUser && (
+              <div className="flex gap-2">
+                {comment.parentCommentId == null && (
+                  <button
+                    type="button"
+                    onClick={() => setReplyingTo(comment.id)}
+                    className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center"
+                  >
+                    رد <MdReply className="mr-1" />
+                  </button>
+                )}
+                {isCurrentUserComment && (
+                  <button
+                    type="button"
+                    onClick={handleDeleteComment}
+                    className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center ml-2"
+                  >
+                    حذف <MdDelete className="mr-1" />
+                  </button>
+                )}
+              </div>
+            )}
           </div>
           <div
             className="mt-2 text-neutral-600 dark:text-neutral-400 text-sm"
