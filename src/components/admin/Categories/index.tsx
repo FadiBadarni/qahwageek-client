@@ -65,7 +65,7 @@ const CategoriesManagement: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="w-full md:w-1/2 md:pl-4 pt-4 md:pt-0 overflow-y-auto max-h-[calc(100vh-200px)]">
+        <div className="w-full md:w-1/2 md:pl-4 pt-4 md:pt-0 overflow-y-auto max-h-[calc(100vh-210px)]">
           {selectedCategory ? (
             <CategoryDetails category={selectedCategory} />
           ) : (

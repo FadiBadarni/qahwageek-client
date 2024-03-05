@@ -55,7 +55,7 @@ export const CategoryItem: React.FC<CategoryItemProps> = ({
         </div>
       </div>
       {category.subCategories && category.subCategories.length > 0 && (
-        <div className="space-y-2 mt-2">
+        <div className="space-y-2 mt-4">
           {category.subCategories.map((subCategory) => (
             <CategoryItem
               key={subCategory.id}

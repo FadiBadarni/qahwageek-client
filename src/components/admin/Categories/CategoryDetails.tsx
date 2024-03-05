@@ -40,7 +40,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
 
   return (
     <div className="p-6 bg-light-layer dark:bg-dark-layer rounded-xl shadow-xl">
-      <div className="mb-6">
+      <div className="mb-4">
         <input
           type="text"
           value={categoryDetails.name}
