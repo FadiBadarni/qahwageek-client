@@ -6,6 +6,7 @@ import DOMPurify from 'dompurify';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { LoadingStatus } from 'store/shared/commonState';
 import { formatDate } from 'utils/dateFormatUtil';
+import { MdAccessTime } from 'react-icons/md';
 
 interface CommentsSectionProps {
   postId: number;
@@ -56,9 +57,10 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
                   <h3 className="font-semibold text-neutral-900 dark:text-neutral-100">
                     {comment.username}
                   </h3>
-                  <span className="text-xs text-neutral-500">
+                  <div className="flex items-center text-xs text-neutral-500">
+                    <MdAccessTime className="mx-2" />{' '}
                     {formatDate(comment.createdAt)}
-                  </span>
+                  </div>
                 </div>
                 <div
                   className="mt-2 text-neutral-600 dark:text-neutral-400 text-sm"
