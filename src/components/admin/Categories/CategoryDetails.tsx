@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Category } from 'models/post';
 import SubCategoriesDetails from './SubCategoriesDetails';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { updateCategory } from 'store/category/categoryActions';
 
 interface CategoryDetailsProps {
   category: Category;
 }
 const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
+  const dispatch = useAppDispatch();
   const isSubCategory = Boolean(category.parentId);
 
   const [categoryDetails, setCategoryDetails] = useState({
+    id: category.id,
     name: category.name,
     description: category.description || '',
     subCategories: category.subCategories || [],
@@ -16,6 +20,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
 
   useEffect(() => {
     setCategoryDetails({
+      id: category.id,
       name: category.name,
       description: category.description || '',
       subCategories: category.subCategories || [],
@@ -34,8 +39,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
   };
 
   const handleSaveChanges = async () => {
-    console.log('Saving changes to the category:', categoryDetails);
-    // dispatch(updateCategory({ id: category.id, ...categoryDetails }));
+    dispatch(updateCategory(categoryDetails));
   };
 
   return (

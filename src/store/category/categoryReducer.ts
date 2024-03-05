@@ -5,6 +5,7 @@ import {
   addCategory,
   deleteCategory,
   fetchAllCategories,
+  updateCategory,
 } from './categoryActions';
 import { Category } from 'models/post';
 
@@ -84,6 +85,36 @@ const categorySlice = createSlice({
       .addCase(addCategory.rejected, (state, action) => {
         state.status = LoadingStatus.Failed;
         state.error = action.error.message ?? 'Failed to add the category';
+      })
+      .addCase(updateCategory.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+      })
+      .addCase(updateCategory.fulfilled, (state, action) => {
+        state.status = LoadingStatus.Succeeded;
+        const index = state.data.findIndex(
+          (category) => category.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.data[index] = action.payload;
+        } else {
+          const updateSubCategory = (categories: Category[]): Category[] => {
+            return categories.map((category) => {
+              if (category.subCategories) {
+                category.subCategories = updateSubCategory(
+                  category.subCategories
+                );
+              }
+              return category.id === action.payload.id
+                ? action.payload
+                : category;
+            });
+          };
+          state.data = updateSubCategory(state.data);
+        }
+      })
+      .addCase(updateCategory.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error = action.error.message ?? 'Failed to update the category';
       });
   },
 });

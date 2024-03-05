@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { Category } from 'models/post';
 import CategoryService from 'services/categoryService';
 
 export const fetchAllCategories = createAsyncThunk(
@@ -52,6 +53,21 @@ export const addCategory = createAsyncThunk(
     } catch (error: any) {
       console.error('Failed to add category:', error);
       return rejectWithValue(error.response?.data || 'Unable to add category');
+    }
+  }
+);
+
+export const updateCategory = createAsyncThunk(
+  'categories/update',
+  async (category: Category, { rejectWithValue }) => {
+    try {
+      const updatedCategory = await CategoryService.updateCategory(category);
+      return updatedCategory;
+    } catch (error: any) {
+      console.error(`Failed to update category:`, error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to update category'
+      );
     }
   }
 );
