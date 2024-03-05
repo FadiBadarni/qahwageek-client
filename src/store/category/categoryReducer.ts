@@ -6,6 +6,7 @@ import {
   deleteCategory,
   fetchAllCategories,
 } from './categoryActions';
+import { Category } from 'models/post';
 
 const initialState: CategoryState = {
   data: [],
@@ -36,9 +37,26 @@ const categorySlice = createSlice({
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
         state.status = LoadingStatus.Succeeded;
-        state.data = state.data.filter(
-          (category) => category.id !== action.meta.arg
-        );
+
+        const deleteSubCategory = (
+          categories: Category[],
+          categoryId: number
+        ) => {
+          return categories
+            .map((category) => {
+              if (category.subCategories) {
+                category.subCategories = deleteSubCategory(
+                  category.subCategories,
+                  categoryId
+                );
+              }
+              return category;
+            })
+            .filter((category) => category.id !== categoryId);
+        };
+
+        // Start the deletion process from the root categories
+        state.data = deleteSubCategory(state.data, action.meta.arg);
       })
       .addCase(deleteCategory.rejected, (state, action) => {
         state.status = LoadingStatus.Failed;
@@ -49,7 +67,19 @@ const categorySlice = createSlice({
       })
       .addCase(addCategory.fulfilled, (state, action) => {
         state.status = LoadingStatus.Succeeded;
-        state.data.push(action.payload);
+        if (action.payload.parentId) {
+          const parentIndex = state.data.findIndex(
+            (category) => category.id === action.payload.parentId
+          );
+          if (parentIndex !== -1) {
+            if (!state.data[parentIndex].subCategories) {
+              state.data[parentIndex].subCategories = [];
+            }
+            state.data[parentIndex].subCategories?.push(action.payload);
+          }
+        } else {
+          state.data.push(action.payload);
+        }
       })
       .addCase(addCategory.rejected, (state, action) => {
         state.status = LoadingStatus.Failed;

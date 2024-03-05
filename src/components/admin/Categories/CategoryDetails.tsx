@@ -8,29 +8,53 @@ interface CategoryDetailsProps {
 const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
   const isSubCategory = Boolean(category.parentId);
 
-  const [name, setName] = useState(category.name);
-  const [description, setDescription] = useState(category.description || '');
+  const [categoryDetails, setCategoryDetails] = useState({
+    name: category.name,
+    description: category.description || '',
+    subCategories: category.subCategories || [],
+  });
 
   useEffect(() => {
-    setName(category.name);
-    setDescription(category.description || '');
+    setCategoryDetails({
+      name: category.name,
+      description: category.description || '',
+      subCategories: category.subCategories || [],
+    });
   }, [category]);
+
+  const handleUpdateCategoryDetails = (key: string, value: any) => {
+    setCategoryDetails((prevDetails) => ({
+      ...prevDetails,
+      [key]: value,
+    }));
+  };
+
+  const handleUpdateSubCategories = (updatedSubCategories: Category[]) => {
+    handleUpdateCategoryDetails('subCategories', updatedSubCategories);
+  };
+
+  const handleSaveChanges = async () => {
+    console.log('Saving changes to the category:', categoryDetails);
+    // dispatch(updateCategory({ id: category.id, ...categoryDetails }));
+  };
 
   return (
     <div className="p-6 bg-light-layer dark:bg-dark-layer rounded-xl shadow-xl">
       <div className="mb-6">
         <input
           type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={categoryDetails.name}
+          onChange={(e) => handleUpdateCategoryDetails('name', e.target.value)}
           className="text-3xl font-bold text-neutral-800 dark:text-neutral-200 text-center w-full rounded-md shadow-sm bg-light-input dark:bg-dark-input"
           placeholder="اسم التصنيف"
         />
       </div>
-      <div className="mb-6">
+      <div className="mb-2">
         <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={categoryDetails.description}
+          onChange={(e) =>
+            handleUpdateCategoryDetails('description', e.target.value)
+          }
           className="text-neutral-600 dark:text-neutral-400 text-right w-full rounded-md shadow-sm bg-light-input dark:bg-dark-input"
           placeholder="وصف التصنيف"
         />
@@ -41,10 +65,21 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
         </p>
       )}
       <div>
-        <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300 mb-4 text-right">
-          التصنيفات الفرعية:
+        <h3 className="text-xl font-semibold text-neutral-700 dark:text-neutral-300 mb-2 text-center">
+          التصنيفات الفرعية
         </h3>
-        <SubCategoriesDetails subCategories={category.subCategories} />
+        <SubCategoriesDetails
+          subCategories={categoryDetails.subCategories}
+          onUpdate={handleUpdateSubCategories}
+        />
+      </div>
+      <div className="flex flex-col items-center mt-6">
+        <button
+          onClick={handleSaveChanges}
+          className="inline-flex justify-center rounded-md border border-transparent bg-brand-500 dark:bg-brand-400 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-brand-600 dark:hover:bg-brand-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-brand-400 transition-colors duration-150 ease-in-out w-full text-center"
+        >
+          حفظ التغييرات
+        </button>
       </div>
     </div>
   );
