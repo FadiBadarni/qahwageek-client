@@ -1,12 +1,11 @@
-import React, { FC, useEffect } from 'react';
+import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { getCommentsByPostId } from 'store/comment/commentActions';
 import DOMPurify from 'dompurify';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { LoadingStatus } from 'store/shared/commonState';
-import { formatDistanceToNowStrict } from 'date-fns';
-import { ar } from 'date-fns/locale';
+import { formatDate } from 'utils/dateFormatUtil';
 
 interface CommentsSectionProps {
   postId: number;
@@ -40,7 +39,7 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
         comments.map((comment, index) => (
           <div
             key={comment.id}
-            className={`py-4 px-2 my-2 rounded-lg ${
+            className={`py-4 px-8 my-2 rounded-lg mx-8 ${
               index % 2 === 0 ? 'bg-gray-50 dark:bg-dark-input' : ''
             }`}
           >
@@ -58,10 +57,7 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
                     {comment.username}
                   </h3>
                   <span className="text-xs text-neutral-500">
-                    {formatDistanceToNowStrict(new Date(comment.createdAt), {
-                      addSuffix: true,
-                      locale: ar,
-                    })}
+                    {formatDate(comment.createdAt)}
                   </span>
                 </div>
                 <div
