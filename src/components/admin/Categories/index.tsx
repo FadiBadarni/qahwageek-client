@@ -46,7 +46,7 @@ const CategoriesManagement: React.FC = () => {
             إضافة تصنيف
           </button>
 
-          <div className="mt-5 space-y-4 overflow-y-auto max-h-[calc(100vh-200px)]">
+          <div className="mt-5 space-y-4 overflow-y-auto max-h-[calc(90vh-200px)]">
             {categories.map((category) => (
               <div
                 onClick={() => handleCategorySelect(category)}
@@ -65,7 +65,7 @@ const CategoriesManagement: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="w-full md:w-1/2 md:pl-4 pt-4 md:pt-0">
+        <div className="w-full md:w-1/2 md:pl-4 pt-4 md:pt-0 overflow-y-auto max-h-[calc(100vh-200px)]">
           {selectedCategory ? (
             <CategoryDetails category={selectedCategory} />
           ) : (
