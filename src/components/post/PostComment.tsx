@@ -1,8 +1,12 @@
 import React, { Dispatch } from 'react';
 import { formatDate } from 'utils/dateFormatUtil';
-import { MdAccessTime, MdReply } from 'react-icons/md';
+import { MdAccessTime, MdReply, MdDelete } from 'react-icons/md';
 import { Comment } from 'models/comment';
 import DOMPurify from 'dompurify';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { deleteComment } from 'store/comment/commentActions';
 
 interface PostCommentProps {
   comment: Comment;
@@ -13,6 +17,14 @@ const PostComment: React.FC<PostCommentProps> = ({
   comment,
   setReplyingTo,
 }) => {
+  const dispatch = useAppDispatch();
+  const currentUser = useSelector((state: RootState) => state.user.data);
+
+  const handleDeleteComment = () => {
+    dispatch(deleteComment(comment.id));
+  };
+
+  const isCurrentUserComment = comment.userId === currentUser?.id;
   const isReply = Boolean(comment.parentCommentId);
 
   return (
@@ -38,15 +50,26 @@ const PostComment: React.FC<PostCommentProps> = ({
                 {formatDate(comment.createdAt)}
               </div>
             </div>
-            {comment.parentCommentId == null && (
-              <button
-                type="button"
-                onClick={() => setReplyingTo(comment.id)}
-                className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center"
-              >
-                رد <MdReply className="mr-1" />
-              </button>
-            )}
+            <div className="flex gap-2">
+              {comment.parentCommentId == null && (
+                <button
+                  type="button"
+                  onClick={() => setReplyingTo(comment.id)}
+                  className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center"
+                >
+                  رد <MdReply className="mr-1" />
+                </button>
+              )}
+              {isCurrentUserComment && (
+                <button
+                  type="button"
+                  onClick={handleDeleteComment}
+                  className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center ml-2"
+                >
+                  حذف <MdDelete className="mr-1" />
+                </button>
+              )}
+            </div>
           </div>
           <div
             className="mt-2 text-neutral-600 dark:text-neutral-400 text-sm"
