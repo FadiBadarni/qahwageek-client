@@ -31,3 +31,27 @@ export const deleteCategory = createAsyncThunk(
     }
   }
 );
+
+export const addCategory = createAsyncThunk(
+  'categories/add',
+  async (
+    {
+      name,
+      description,
+      parentId,
+    }: { name: string; description: string; parentId?: number | null },
+    { rejectWithValue }
+  ) => {
+    try {
+      const newCategory = await CategoryService.addCategory({
+        name,
+        description,
+        parentId,
+      });
+      return newCategory;
+    } catch (error: any) {
+      console.error('Failed to add category:', error);
+      return rejectWithValue(error.response?.data || 'Unable to add category');
+    }
+  }
+);

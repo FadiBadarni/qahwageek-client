@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CategoryState } from '../post/postState';
 import { LoadingStatus } from 'store/shared/commonState';
-import { deleteCategory, fetchAllCategories } from './categoryActions';
+import {
+  addCategory,
+  deleteCategory,
+  fetchAllCategories,
+} from './categoryActions';
 
 const initialState: CategoryState = {
   data: [],
@@ -39,6 +43,17 @@ const categorySlice = createSlice({
       .addCase(deleteCategory.rejected, (state, action) => {
         state.status = LoadingStatus.Failed;
         state.error = action.error.message ?? 'Failed to delete the category';
+      })
+      .addCase(addCategory.pending, (state) => {
+        state.status = LoadingStatus.Loading;
+      })
+      .addCase(addCategory.fulfilled, (state, action) => {
+        state.status = LoadingStatus.Succeeded;
+        state.data.push(action.payload);
+      })
+      .addCase(addCategory.rejected, (state, action) => {
+        state.status = LoadingStatus.Failed;
+        state.error = action.error.message ?? 'Failed to add the category';
       });
   },
 });

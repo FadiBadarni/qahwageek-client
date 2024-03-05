@@ -18,6 +18,19 @@ class CategoryService {
       throw error;
     }
   }
+
+  static async addCategory(data: {
+    name: string;
+    description: string;
+    parentId?: number | null;
+  }): Promise<any> {
+    try {
+      const response = await axiosClient.post(`/categories`, data);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default CategoryService;

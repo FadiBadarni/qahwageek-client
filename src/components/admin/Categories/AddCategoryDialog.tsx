@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import ReactSelect from 'react-select';
 import { getCategorySelectStyles } from './getCategorySelectStyles';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { addCategory } from 'store/category/categoryActions';
 
 interface AddCategoryDialogProps {
   isOpen: boolean;
@@ -14,11 +16,10 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
   isOpen,
   onClose,
 }) => {
+  const dispatch = useAppDispatch();
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('');
-  const [parentCategoryId, setParentCategoryId] = useState<
-    string | number | null
-  >(null);
+  const [parentCategoryId, setParentCategoryId] = useState<number | null>(null);
   const categories = useSelector((state: RootState) => state.categories.data);
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
@@ -29,7 +30,13 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // dispatch(addCategory({ name: categoryName, description }));
+    dispatch(
+      addCategory({
+        name: categoryName,
+        description,
+        parentId: parentCategoryId,
+      })
+    );
     onClose();
   };
 
@@ -102,11 +109,18 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     value={categoryOptions.find(
                       (option) => option.value === parentCategoryId
                     )}
-                    onChange={(selectedOption) =>
-                      setParentCategoryId(
-                        selectedOption ? selectedOption.value : null
-                      )
-                    }
+                    onChange={(selectedOption) => {
+                      if (selectedOption && selectedOption.value !== null) {
+                        const valueAsNumber = Number(selectedOption.value);
+                        if (!isNaN(valueAsNumber)) {
+                          setParentCategoryId(valueAsNumber);
+                        } else {
+                          setParentCategoryId(null);
+                        }
+                      } else {
+                        setParentCategoryId(null);
+                      }
+                    }}
                     styles={getCategorySelectStyles(currentTheme)}
                     placeholder="اختر الفئة الرئيسية..."
                     isRtl={true}
