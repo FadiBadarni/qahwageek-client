@@ -10,7 +10,7 @@ import { ar } from 'date-fns/locale';
 import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
 import ShareContainer from './ShareContainer';
 import PostSEO from './PostSEO';
-import { getCommentsByPostId } from 'store/comment/commentActions';
+import CommentsSection from './CommentsSection';
 
 type Props = {};
 
@@ -29,12 +29,6 @@ const Post = (props: Props) => {
       dispatch(getPostById(Number(postId)));
     }
   }, [postId, dispatch]);
-
-  useEffect(() => {
-    if (post && postId) {
-      dispatch(getCommentsByPostId(Number(postId)));
-    }
-  }, [post, postId, dispatch]);
 
   const sanitizedContent = post
     ? DOMPurify.sanitize(post.content, createDOMPurifyConfig())
@@ -75,7 +69,7 @@ const Post = (props: Props) => {
               </div>
             )}
             <div
-              className="relative mb-6 p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
+              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
             -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8"
             >
               <div className="flex flex-wrap items-center text-sm justify-between mb-4">
@@ -129,6 +123,7 @@ const Post = (props: Props) => {
           <div>Post not found</div>
         )}
       </div>
+      <CommentsSection postId={Number(postId)} />
 
       {/* <RecommendedPosts /> */}
     </>
