@@ -17,9 +17,13 @@ interface CommentsSectionProps {
 
 const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
   const dispatch = useAppDispatch();
-
+  const user = useSelector((state: RootState) => state.user.data);
   const [commentText, setCommentText] = useState('');
+  const [replyText, setReplyText] = useState<{ [commentId: number]: string }>(
+    {}
+  );
   const [showSubmitButton, setShowSubmitButton] = useState(false);
+  const [replyingTo, setReplyingTo] = useState<number | null>(null);
 
   const { data: comments, status } = useSelector(
     (state: RootState) =>
@@ -43,6 +47,20 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
     }
   };
 
+  const handleReplySubmit = (commentId: number) => {
+    const replyContent = replyText[commentId];
+    if (replyContent?.trim()) {
+      dispatch(
+        createComment({
+          postId,
+          content: replyContent,
+          parentCommentId: commentId,
+        })
+      );
+      setReplyText((prev) => ({ ...prev, [commentId]: '' }));
+      setReplyingTo(null);
+    }
+  };
   return (
     <div className="bg-light-layer dark:bg-dark-layer p-4 rounded-md shadow mx-auto max-w-7xl mb-8">
       <h2 className="text-xl font-semibold text-neutral-800 dark:text-neutral-200 mb-4 text-right">
@@ -112,8 +130,8 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
                   </div>
                   <button
                     type="button"
+                    onClick={() => setReplyingTo(comment.id)}
                     className="text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 flex items-center"
-                    onClick={() => {}}
                   >
                     رد <MdReply className="mr-1" />
                   </button>
@@ -126,6 +144,47 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
                 />
               </div>
             </div>
+            {replyingTo === comment.id && (
+              <div className="mt-4 w-full flex pr-6">
+                <div className="flex-shrink-0">
+                  <img
+                    src={user?.profilePicture || 'default-avatar.png'}
+                    alt="Replying User"
+                    className="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 ml-3"
+                  />
+                </div>
+                <div className="flex-grow">
+                  <textarea
+                    className="bg-light-layer dark:bg-dark-layer w-full p-2 text-sm text-neutral-800 dark:text-neutral-200 rounded-md border border-gray-300 dark:border-gray-700 resize-none focus:outline-none focus:ring focus:border-blue-300"
+                    placeholder="كتابة رد..."
+                    value={replyText[comment.id] || ''}
+                    onChange={(e) =>
+                      setReplyText({
+                        ...replyText,
+                        [comment.id]: e.target.value,
+                      })
+                    }
+                    onFocus={() => setShowSubmitButton(true)}
+                  />
+                  <div className="flex justify-end space-x-2 px-2 py-1 mt-1 space-x-reverse">
+                    <button
+                      type="button"
+                      onClick={() => setReplyingTo(null)}
+                      className="bg-gray-200 hover:bg-gray-300 dark:bg-gray-600 dark:hover:bg-gray-700 text-black dark:text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline flex items-center justify-center text-xs"
+                    >
+                      إلغاء
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleReplySubmit(comment.id)}
+                      className="bg-brand-500 hover:bg-brand-600 dark:bg-brand-400 dark:hover:bg-brand-500 text-white font-bold py-1 px-2 rounded focus:outline-none focus:shadow-outline flex items-center justify-center text-xs"
+                    >
+                      إرسال <MdSend className="mr-1 h-4 w-4 rotate-180" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         ))
       ) : (
