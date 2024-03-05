@@ -10,6 +10,7 @@ import { ar } from 'date-fns/locale';
 import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
 import ShareContainer from './ShareContainer';
 import PostSEO from './PostSEO';
+import { getCommentsByPostId } from 'store/comment/commentActions';
 
 type Props = {};
 
@@ -28,6 +29,12 @@ const Post = (props: Props) => {
       dispatch(getPostById(Number(postId)));
     }
   }, [postId, dispatch]);
+
+  useEffect(() => {
+    if (post && postId) {
+      dispatch(getCommentsByPostId(Number(postId)));
+    }
+  }, [post, postId, dispatch]);
 
   const sanitizedContent = post
     ? DOMPurify.sanitize(post.content, createDOMPurifyConfig())
