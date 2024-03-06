@@ -57,47 +57,50 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
           {posts.map((post) => (
             <article
               key={post.id}
-              className="relative flex flex-row gap-4 items-center bg-light-layer dark:bg-dark-layer rounded-sm p-2 cursor-pointer"
+              className="relative flex flex-row items-start bg-light-layer dark:bg-dark-layer rounded-sm p-4 cursor-pointer"
               onClick={() => handlePostClick(post.id)}
             >
               <div className="flex-shrink-0">
-                <div className="w-24 h-24 lg:w-32 lg:h-32 p-2">
-                  <img
-                    src={post.mainImageUrl}
-                    alt={post.title}
-                    className="w-full h-full rounded-xl object-cover"
-                  />
-                </div>
+                <img
+                  src={post.mainImageUrl}
+                  alt={post.title}
+                  className="w-24 h-24 lg:w-32 lg:h-32 rounded-xl object-cover"
+                />
               </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-x-4 text-xs">
-                  <time
-                    dateTime={post.publishedAt}
-                    className="text-neutral-400"
-                  >
-                    {format(parseISO(post.publishedAt), 'dd MMMM, yyyy', {
-                      locale: ar,
-                    })}
-                  </time>
+              <div className="flex-1 mr-4 h-28 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center gap-4 mb-2">
+                    <p className="text-sm text-neutral-400">{post.author}</p>
+
+                    <time
+                      dateTime={post.publishedAt}
+                      className="text-sm text-neutral-400"
+                    >
+                      {format(parseISO(post.publishedAt), 'dd MMMM, yyyy', {
+                        locale: ar,
+                      })}
+                    </time>
+                  </div>
+
+                  <h3 className="text-lg font-semibold leading-6 text-neutral-700 dark:text-neutral-100 group-hover:text-brand-500 line-clamp-2 mb-2">
+                    {post.title}
+                  </h3>
+                </div>
+                <div className="flex flex-wrap gap-1">
                   {post.categoryDetails.map(
                     (category: CategoryDetail, index: number) => (
                       <span
                         key={index}
                         className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
-                        onClick={(e) => handleCategoryClick(category.slug, e)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCategoryClick(category.slug, e);
+                        }}
                       >
                         {category.name}
                       </span>
                     )
                   )}
-                </div>
-                <div className="group relative">
-                  <h3 className="mt-3 text-lg font-semibold leading-6 text-neutral-700 dark:text-neutral-100 group-hover:text-brand-500 line-clamp-2">
-                    {post.title}
-                  </h3>
-                  <p className="hidden sm:block mt-3 text-sm leading-6 text-neutral-500 dark:text-neutral-400">
-                    تعلم المزيد حول التقنيات والممارسات الحديثة في مجال البرمجة.{' '}
-                  </p>
                 </div>
               </div>
             </article>
