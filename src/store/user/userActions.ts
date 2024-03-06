@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { LoginRequest, RegisterRequest, SocialMediaHandle } from 'models/user';
+import {
+  ContactForm,
+  LoginRequest,
+  RegisterRequest,
+  SocialMediaHandle,
+} from 'models/user';
 import UserService from 'services/userService';
 import { clearUser } from './userReducer';
 import axios from 'axios';
@@ -123,6 +128,20 @@ export const updateUserDetails = createAsyncThunk(
       const errorMessage =
         error.response?.data?.message || 'Unable to update user details';
       return rejectWithValue(errorMessage);
+    }
+  }
+);
+
+export const sendContactForm = createAsyncThunk(
+  'contact/sendContactForm',
+  async (formData: ContactForm, { rejectWithValue }) => {
+    try {
+      const response = await UserService.sendContactForm(formData);
+      return response;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to send contact form';
+      return rejectWithValue(message);
     }
   }
 );

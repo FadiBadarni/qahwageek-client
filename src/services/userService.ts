@@ -1,4 +1,9 @@
-import { LoginRequest, RegisterRequest, SocialMediaHandle } from 'models/user';
+import {
+  ContactForm,
+  LoginRequest,
+  RegisterRequest,
+  SocialMediaHandle,
+} from 'models/user';
 import axiosClient from './axiosClient';
 
 class UserService {
@@ -89,6 +94,15 @@ class UserService {
       );
       return response.data;
     } catch (error: any) {
+      throw error;
+    }
+  }
+
+  static async sendContactForm(formData: ContactForm): Promise<any> {
+    try {
+      const response = await axiosClient.post('/contact', formData);
+      return response.data;
+    } catch (error) {
       throw error;
     }
   }

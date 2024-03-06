@@ -33,3 +33,9 @@ export interface SocialMediaHandle {
   platform: string;
   handle: string;
 }
+
+export interface ContactForm {
+  email: string;
+  subject: string;
+  message: string;
+}
