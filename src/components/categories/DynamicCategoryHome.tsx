@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { fetchPostsByCategory } from 'store/post/postActions';
 import DynamicCategoryPosts from './DynamicCategoryPosts';
+import { fetchCategoryBySlug } from 'store/category/categoryActions';
 
 const DynamicCategoryHome: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,9 +14,14 @@ const DynamicCategoryHome: React.FC = () => {
 
   useEffect(() => {
     if (slug) {
+      dispatch(fetchCategoryBySlug(slug));
       dispatch(fetchPostsByCategory({ categorySlug: slug, page: 0, size: 10 }));
     }
   }, [slug, dispatch]);
+
+  const currentCategory = useSelector(
+    (state: RootState) => state.categories.currentCategory.data
+  );
 
   const { items: posts } = useSelector(
     (state: RootState) => state.posts.categoryPosts.data
@@ -23,8 +29,11 @@ const DynamicCategoryHome: React.FC = () => {
 
   return (
     <CategoryHeader
-      bannerTitle="test"
-      bannerSubtitle="test"
+      bannerTitle={currentCategory?.name || 'Loading Category...'}
+      bannerSubtitle={
+        currentCategory?.description ||
+        'Please wait while we load category details.'
+      }
       posts={posts}
       PostsComponent={<DynamicCategoryPosts />}
     />
