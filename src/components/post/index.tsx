@@ -86,20 +86,23 @@ const Post = (props: Props) => {
               <div className="flex flex-wrap items-center text-sm justify-between mb-4">
                 {/* Author, Date, and Reading Time */}
                 <div className="flex flex-wrap items-center flex-grow">
-                  <span>كتب بواسطة - </span>
+                  <span className="text-xs sm:text-sm">كتب بواسطة - </span>
                   <Link
                     to={`/user/profile/${post.authorId}`}
-                    className="font-semibold mr-2"
+                    className="font-semibold text-xs sm:text-sm ml-1 mr-1 sm:mr-2"
                   >
                     {post.author}
                   </Link>
 
-                  <span className=" md:inline mx-2">|</span>
-                  <time className="block" dateTime={post.publishedAt}>
+                  <span className=" sm:inline mx-1 sm:mx-2">|</span>
+                  <time
+                    className="text-xs sm:text-sm block ml-1 mr-1"
+                    dateTime={post.publishedAt}
+                  >
                     {formattedDate}
                   </time>
-                  <span className=" md:inline mx-2">|</span>
-                  <span className="block">{`${post.readingTime} دقائق قراءة`}</span>
+                  <span className=" sm:inline mx-1 sm:mx-2">|</span>
+                  <span className="text-xs sm:text-sm block">{`${post.readingTime} دقائق قراءة`}</span>
                 </div>
 
                 {post && (
