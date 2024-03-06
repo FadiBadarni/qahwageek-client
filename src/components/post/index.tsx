@@ -80,7 +80,7 @@ const Post = (props: Props) => {
               </div>
             )}
             <div
-              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
+              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-t-md 
             -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8"
             >
               <div className="flex flex-wrap items-center text-sm justify-between mb-4">
@@ -109,7 +109,7 @@ const Post = (props: Props) => {
                   />
                 )}
               </div>
-              <div className="mt-4 p-2 rounded-md md:px-32 px-0">
+              <div className="mt-4 p-2 rounded-t-md md:px-32 px-0">
                 <div
                   dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                   className="prose dark:prose-dark mx-auto max-w-none"
@@ -140,8 +140,8 @@ const Post = (props: Props) => {
           <div>Post not found</div>
         )}
       </div>
-      <div className="mx-auto max-w-7xl px-4 lg:px-8 mt-4 flex flex-wrap">
-        <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+      <div className="mx-auto max-w-7xl sm:px-4 lg:px-8 sm:mt-4 flex flex-wrap">
+        <div className="w-full lg:w-1/2 sm:px-4 mb-8 lg:mb-0">
           <CommentsSection postId={Number(postId)} />
         </div>
         <div className="w-full lg:w-1/2 px-4">
