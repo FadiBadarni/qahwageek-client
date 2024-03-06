@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { logout } from 'store/user/userActions';
 import { useSelector } from 'react-redux';
@@ -10,6 +10,7 @@ import {
   XMarkIcon,
   SunIcon,
   MoonIcon,
+  ChevronDownIcon,
 } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from 'assets/logo.svg';
@@ -18,12 +19,21 @@ import { toggleTheme } from 'store/theme/themeReducer';
 import { classNames } from 'utils/tailwindUtil';
 import './navbar.css';
 import SearchInput from './SearchInput';
+import { fetchAllCategories } from 'store/category/categoryActions';
 
 export const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [dispatch]);
+
   const user = useSelector((state: RootState) => state.user.data);
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
 
   const handleLogout = () => {
     dispatch(logout());
@@ -42,7 +52,6 @@ export const Navbar: React.FC = () => {
     : '';
 
   const isAdmin = user?.roles.includes('ROLE_ADMIN');
-
   return (
     <Disclosure
       as="nav"
@@ -54,42 +63,74 @@ export const Navbar: React.FC = () => {
             <div className="relative flex h-16 items-center justify-between">
               <div className="flex items-center px-2 lg:px-0">
                 <div className="flex-shrink-0">
-                  <img
-                    className={`h-8 w-auto ${
-                      currentTheme === 'dark'
-                        ? 'svg-light-theme'
-                        : 'svg-dark-theme'
-                    }`}
-                    src={logo}
-                    alt="Logo"
-                  />
+                  <Link
+                    to="/"
+                    className="flex-shrink-0 hover:opacity-75 transition-opacity duration-300"
+                  >
+                    <img
+                      className={`h-8 w-auto ${
+                        currentTheme === 'dark'
+                          ? 'svg-light-theme'
+                          : 'svg-dark-theme'
+                      }`}
+                      src={logo}
+                      alt="Logo"
+                    />
+                  </Link>
                 </div>
                 <div className="hidden lg:mr-6 lg:block">
                   <div className="flex space-x-4 rtl:space-x-reverse">
-                    <Link
-                      to="/"
-                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
-                    >
-                      الرئيسية
-                    </Link>
-                    <Link
-                      to="/category/terms"
-                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
-                    >
-                      دليل المصطلحات
-                    </Link>
-                    <Link
-                      to="/category/code"
-                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
-                    >
-                      اسبرسو كود
-                    </Link>
-                    <Link
-                      to="/category/career"
-                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
-                    >
-                      تطوير المهنة
-                    </Link>
+                    {categories.map((category) =>
+                      (category.subCategories?.length || 0) > 0 ? (
+                        <Menu as="div" className="relative" key={category.id}>
+                          <Menu.Button className="inline-flex justify-center w-full rounded-md shadow-sm px-4 py-2 text-sm font-medium hover:bg-neutral-200 dark:hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-light-layer focus:ring-dark-primary bg-light-layer dark:bg-dark-layer text-light-text dark:text-dark-text border-light-border dark:border-dark-border">
+                            {category.name}
+                            <ChevronDownIcon
+                              className="mr-2 h-5 w-5"
+                              aria-hidden="true"
+                            />
+                          </Menu.Button>
+                          <Transition
+                            as={Fragment}
+                            enter="transition ease-out duration-100"
+                            enterFrom="transform opacity-0 scale-95"
+                            enterTo="transform opacity-100 scale-100"
+                            leave="transition ease-in duration-75"
+                            leaveFrom="transform opacity-100 scale-100"
+                            leaveTo="transform opacity-0 scale-95"
+                          >
+                            <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-light-input dark:bg-dark-input ring-1 ring-black ring-opacity-5 focus:outline-none z-20">
+                              <div className="py-1">
+                                {category.subCategories?.map((subCategory) => (
+                                  <Menu.Item key={subCategory.id}>
+                                    {({ active }) => (
+                                      <Link
+                                        to={`/category/${subCategory.slug}`}
+                                        className={`block px-4 py-2 text-sm ${
+                                          active
+                                            ? 'bg-neutral-200 dark:bg-neutral-700'
+                                            : 'text-light-text dark:text-dark-text'
+                                        }`}
+                                      >
+                                        {subCategory.name}
+                                      </Link>
+                                    )}
+                                  </Menu.Item>
+                                ))}
+                              </div>
+                            </Menu.Items>
+                          </Transition>
+                        </Menu>
+                      ) : (
+                        <Link
+                          key={category.id}
+                          to={`/category/${category.slug}`}
+                          className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
+                        >
+                          {category.name}
+                        </Link>
+                      )
+                    )}
                     {isAdmin && (
                       <Link
                         to="/cms"

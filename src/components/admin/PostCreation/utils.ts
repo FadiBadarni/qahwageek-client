@@ -78,6 +78,7 @@ export function createNewPostData(
 export async function saveNewPost(
   dispatch: AppDispatch,
   newPostData: NewPost
-): Promise<void> {
-  await dispatch(savePost(newPostData)).unwrap();
+): Promise<any> {
+  const result = await dispatch(savePost(newPostData)).unwrap();
+  return result;
 }

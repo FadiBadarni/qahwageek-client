@@ -21,7 +21,7 @@ export const HomeCodePosts: React.FC = () => {
   );
 
   const handleViewMoreClick = () => {
-    navigate('/category/code');
+    navigate('/category/espresso-code');
   };
 
   return (

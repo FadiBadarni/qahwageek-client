@@ -80,13 +80,28 @@ class PostService {
   }
 
   static async getPostsByCategory(
-    categoryName: string,
+    categorySlug: string,
     page: number = 0,
     size: number = 10
   ): Promise<any> {
     try {
       const response = await axiosClient.get(`/posts/category`, {
-        params: { categoryName, page, size },
+        params: { categorySlug, page, size },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getRelatedPosts(
+    relatedPostId: number,
+    page: number = 0,
+    size: number = 10
+  ): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/posts/related`, {
+        params: { relatedPostId, page, size },
       });
       return response.data;
     } catch (error) {

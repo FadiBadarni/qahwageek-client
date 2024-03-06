@@ -12,7 +12,9 @@ import AddCategoryDialog from './AddCategoryDialog';
 const CategoriesManagement: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
@@ -72,7 +74,7 @@ const CategoriesManagement: React.FC = () => {
             ))}
           </div>
         </div>
-        <div className="w-full md:w-1/2 md:pl-4 pt-4 md:pt-0 overflow-y-auto max-h-[calc(100vh-210px)]">
+        <div className="w-full md:w-1/2 md:pl-4 pt-4 md:pt-0 overflow-y-auto max-h-[calc(100vh-110px)]">
           {selectedCategory ? (
             <CategoryDetails category={selectedCategory} />
           ) : (

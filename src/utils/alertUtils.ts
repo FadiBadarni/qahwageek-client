@@ -39,3 +39,36 @@ export const displayConfirmation = (
     reverseButtons: true,
   });
 };
+
+export const displayToast = (
+  title: string,
+  isSuccess: boolean,
+  theme: string
+) => {
+  Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    icon: isSuccess ? 'success' : 'error',
+    background: theme === 'dark' ? '#1f2937' : '#f3f4f6',
+
+    didOpen: (toast) => {
+      toast.addEventListener('mouseenter', Swal.stopTimer);
+      toast.addEventListener('mouseleave', Swal.resumeTimer);
+    },
+    customClass: {
+      popup:
+        'bg-light-layer dark:bg-dark-layer text-neutral-900 dark:text-neutral-100',
+      title: 'text-neutral-900 dark:text-neutral-100',
+      closeButton: 'text-neutral-600 dark:text-neutral-400',
+      timerProgressBar: isSuccess
+        ? 'bg-primary-500 dark:bg-primary-400'
+        : 'bg-error-500 dark:bg-error-400',
+    },
+    buttonsStyling: false,
+  }).fire({
+    title: title,
+  });
+};

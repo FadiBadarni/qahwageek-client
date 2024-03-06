@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { Category } from 'models/post';
+import { processApiError } from 'services/apiErrorUtils';
 import CategoryService from 'services/categoryService';
 
 export const fetchAllCategories = createAsyncThunk(
@@ -10,9 +11,20 @@ export const fetchAllCategories = createAsyncThunk(
       return categories;
     } catch (error: any) {
       console.error('Failed to fetch categories:', error);
-      return rejectWithValue(
-        error.response?.data || 'Unable to fetch categories'
-      );
+      return rejectWithValue(processApiError(error));
+    }
+  }
+);
+
+export const fetchCategoryBySlug = createAsyncThunk(
+  'categories/fetchBySlug',
+  async (slug: string, { rejectWithValue }) => {
+    try {
+      const category = await CategoryService.getCategoryBySlug(slug);
+      return category;
+    } catch (error) {
+      console.error(`Failed to fetch category with slug ${slug}:`, error);
+      return rejectWithValue(processApiError(error));
     }
   }
 );
@@ -25,10 +37,7 @@ export const deleteCategory = createAsyncThunk(
       return response;
     } catch (error: any) {
       console.error(`Failed to delete category with ID ${categoryId}:`, error);
-      return rejectWithValue(
-        error.response?.data ||
-          `Unable to delete category with ID ${categoryId}`
-      );
+      return rejectWithValue(processApiError(error));
     }
   }
 );
@@ -38,21 +47,28 @@ export const addCategory = createAsyncThunk(
   async (
     {
       name,
+      slug,
       description,
       parentId,
-    }: { name: string; description: string; parentId?: number | null },
+    }: {
+      name: string;
+      slug: string;
+      description: string;
+      parentId?: number | null;
+    },
     { rejectWithValue }
   ) => {
     try {
       const newCategory = await CategoryService.addCategory({
         name,
+        slug,
         description,
         parentId,
       });
       return newCategory;
     } catch (error: any) {
       console.error('Failed to add category:', error);
-      return rejectWithValue(error.response?.data || 'Unable to add category');
+      return rejectWithValue(processApiError(error));
     }
   }
 );
@@ -65,9 +81,7 @@ export const updateCategory = createAsyncThunk(
       return updatedCategory;
     } catch (error: any) {
       console.error(`Failed to update category:`, error);
-      return rejectWithValue(
-        error.response?.data || 'Unable to update category'
-      );
+      return rejectWithValue(processApiError(error));
     }
   }
 );

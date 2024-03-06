@@ -11,6 +11,15 @@ class CategoryService {
     }
   }
 
+  static async getCategoryBySlug(slug: string): Promise<Category> {
+    try {
+      const response = await axiosClient.get(`/categories/by-slug/${slug}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async deleteCategory(categoryId: number): Promise<any> {
     try {
       const response = await axiosClient.delete(`/categories/${categoryId}`);
@@ -22,6 +31,7 @@ class CategoryService {
 
   static async addCategory(data: {
     name: string;
+    slug: string;
     description: string;
     parentId?: number | null;
   }): Promise<any> {

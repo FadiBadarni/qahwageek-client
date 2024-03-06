@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchPostsByCategory,
+  fetchRelatedPosts,
   getFeaturedPosts,
   getNewestCareerPosts,
   getNewestProgrammingPosts,
@@ -114,16 +115,34 @@ const postSlice = createSlice({
       })
       .addCase(fetchPostsByCategory.fulfilled, (state, action) => {
         state.categoryPosts.status = LoadingStatus.Succeeded;
-        state.categoryPosts.data.items = action.payload.content;
-        state.categoryPosts.data.totalCount = action.payload.totalElements;
-        state.categoryPosts.data.currentPage =
-          action.payload.pageable.pageNumber;
-        state.categoryPosts.data.totalPages = action.payload.totalPages;
+        state.categoryPosts.data = {
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
+          totalPages: action.payload.totalPages,
+        };
       })
       .addCase(fetchPostsByCategory.rejected, (state, action) => {
         state.categoryPosts.status = LoadingStatus.Failed;
         state.categoryPosts.error =
           action.error.message ?? 'Unable to fetch posts for the category';
+      })
+      .addCase(fetchRelatedPosts.pending, (state) => {
+        state.relatedPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchRelatedPosts.fulfilled, (state, action) => {
+        state.relatedPosts.status = LoadingStatus.Succeeded;
+        state.relatedPosts.data = {
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
+          totalPages: action.payload.totalPages,
+        };
+      })
+      .addCase(fetchRelatedPosts.rejected, (state, action) => {
+        state.relatedPosts.status = LoadingStatus.Failed;
+        state.relatedPosts.error =
+          action.error.message ?? 'Failed to fetch related posts';
       });
   },
 });

@@ -14,6 +14,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
   const [categoryDetails, setCategoryDetails] = useState({
     id: category.id,
     name: category.name,
+    slug: category.slug,
     description: category.description || '',
     subCategories: category.subCategories || [],
   });
@@ -22,6 +23,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
     setCategoryDetails({
       id: category.id,
       name: category.name,
+      slug: category.slug,
       description: category.description || '',
       subCategories: category.subCategories || [],
     });
@@ -44,15 +46,46 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
 
   return (
     <div className="p-6 bg-light-layer dark:bg-dark-layer rounded-xl shadow-xl">
-      <div className="mb-4">
-        <input
-          type="text"
-          value={categoryDetails.name}
-          onChange={(e) => handleUpdateCategoryDetails('name', e.target.value)}
-          className="text-3xl font-bold text-neutral-800 dark:text-neutral-200 text-center w-full rounded-md shadow-sm bg-light-input dark:bg-dark-input"
-          placeholder="اسم التصنيف"
-        />
+      <div className="flex flex-wrap -mx-3 mb-4">
+        <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+          <label
+            htmlFor="categoryName"
+            className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-1"
+          >
+            اسم التصنيف
+          </label>
+          <input
+            id="categoryName"
+            type="text"
+            value={categoryDetails.name}
+            onChange={(e) =>
+              handleUpdateCategoryDetails('name', e.target.value)
+            }
+            className="text-lg font-medium text-neutral-800 dark:text-neutral-200 w-full rounded-md shadow-sm bg-light-input dark:bg-dark-input"
+            placeholder="مثال: تقنية المعلومات"
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3">
+          <label
+            htmlFor="categorySlug"
+            className="block text-sm font-medium text-neutral-600 dark:text-neutral-300 mb-1"
+          >
+            المعرف
+          </label>
+          <input
+            id="categorySlug"
+            type="text"
+            value={categoryDetails.slug}
+            onChange={(e) =>
+              handleUpdateCategoryDetails('slug', e.target.value)
+            }
+            className="text-lg font-medium text-neutral-800 dark:text-neutral-200 w-full rounded-md shadow-sm bg-light-input dark:bg-dark-input"
+            placeholder="مثال: tech-information"
+            dir="ltr"
+          />
+        </div>
       </div>
+
       <div className="mb-2">
         <textarea
           value={categoryDetails.description}

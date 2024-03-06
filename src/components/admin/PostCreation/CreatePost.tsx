@@ -11,15 +11,22 @@ import {
   uploadMainImageIfNeeded,
 } from './utils';
 import { fetchAllCategories } from 'store/category/categoryActions';
+import { displayToast } from 'utils/alertUtils';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const navigate = useNavigate();
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
   const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -35,6 +42,7 @@ const CreatePost = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const mainImagePresignedUrl = await uploadMainImageIfNeeded(
         dispatch,
@@ -50,9 +58,17 @@ const CreatePost = () => {
         mainImagePresignedUrl,
         selectedCategoryIds
       );
-      await saveNewPost(dispatch, newPostData);
-    } catch (error) {
-      console.error('Failed to process or save post:', error);
+      const result = await saveNewPost(dispatch, newPostData);
+      displayToast('يلا، نزلت المقالة بنجاح!', true, currentTheme);
+      navigate(`/posts/${result.id}`);
+    } catch (error: any) {
+      displayToast(
+        `واه، فشلنا بنشر المقالة: ${error.message}`,
+        false,
+        currentTheme
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -115,9 +131,10 @@ const CreatePost = () => {
         <div className="flex justify-center mt-4">
           <button
             type="submit"
+            disabled={loading}
             className="px-6 py-3 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-lg"
           >
-            إنشاء المقالة
+            {loading ? 'جاري الإنشاء...' : 'إنشاء المقالة'}
           </button>
         </div>
       </form>

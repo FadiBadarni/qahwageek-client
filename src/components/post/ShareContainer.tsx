@@ -23,7 +23,7 @@ const ShareContainer: React.FC<ShareContainerProps> = ({ url, title }) => {
   };
 
   return (
-    <div className="flex justify-center gap-4 p-4">
+    <div className="flex justify-end gap-2 sm:gap-4 p-2 sm:p-4">
       <a
         href={encodeShareMessage('whatsapp')}
         target="_blank"
@@ -31,7 +31,7 @@ const ShareContainer: React.FC<ShareContainerProps> = ({ url, title }) => {
         className="text-green-600 hover:text-green-700"
         title="مشاركة عبر واتساب"
       >
-        <FaWhatsapp className="text-3xl hover:scale-110 transition-transform duration-300" />
+        <FaWhatsapp className="text-2xl sm:text-3xl hover:scale-110 transition-transform duration-300" />
       </a>
       <a
         href={encodeShareMessage('linkedin')}
@@ -40,7 +40,7 @@ const ShareContainer: React.FC<ShareContainerProps> = ({ url, title }) => {
         className="text-blue-600 hover:text-blue-700"
         title="مشاركة عبر لينكدإن"
       >
-        <FaLinkedin className="text-3xl hover:scale-110 transition-transform duration-300" />
+        <FaLinkedin className="text-2xl sm:text-3xl hover:scale-110 transition-transform duration-300" />
       </a>
     </div>
   );

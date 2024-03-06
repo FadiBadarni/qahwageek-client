@@ -27,10 +27,12 @@ export const getCategorySelectStyles = (
     '&:hover': {
       borderColor: currentTheme === 'dark' ? '#60A5FA' : '#2563EB',
     },
+    textAlign: 'right',
   }),
   input: (provided) => ({
     ...provided,
     margin: '0px',
+    textAlign: 'right',
     color: currentTheme === 'dark' ? '#F9FAFB' : '#1F2937',
   }),
   menu: (provided) => ({
@@ -38,7 +40,6 @@ export const getCategorySelectStyles = (
     backgroundColor: currentTheme === 'dark' ? '#111827' : '#F9FAFB',
     borderRadius: '0.375rem',
     marginTop: '0.125rem',
-    textAlign: 'right',
   }),
   option: (provided, state) => ({
     ...provided,

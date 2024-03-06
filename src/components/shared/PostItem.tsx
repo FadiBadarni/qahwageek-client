@@ -3,7 +3,7 @@ import { ClockIcon, UserIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
-import { LightPost } from 'models/post';
+import { CategoryDetail, LightPost } from 'models/post';
 
 interface PostItemProps {
   post: LightPost;
@@ -18,7 +18,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
     publishedAt,
     mainImageUrl,
     readingTime,
-    categoryNames,
+    categoryDetails,
   } = post;
 
   const date = parseISO(publishedAt);
@@ -28,6 +28,15 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const handleClick = () => {
     navigate(`/posts/${id}`);
   };
+
+  const handleCategoryClick = (
+    e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>,
+    slug: string
+  ) => {
+    e.stopPropagation();
+    navigate(`/category/${slug}`);
+  };
+
   return (
     <div
       className="flex items-center p-3 mb-2 border-b border-neutral-300 last:border-b-0 dark:border-dark-500 bg-light-layer dark:bg-dark-layer rounded-md cursor-pointer transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-lg hover:bg-neutral-200 dark:hover:bg-dark-600"
@@ -40,12 +49,13 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             {title}
           </h3>
           <div className="flex flex-wrap gap-2 w-full">
-            {categoryNames.map((category, index) => (
+            {categoryDetails.map((category: CategoryDetail, index: number) => (
               <span
                 key={index}
-                className="inline-flex items-center justify-center rounded-md bg-neutral-200/10 px-2 py-1 text-xs font-medium text-neutral-400 ring-1 ring-inset ring-neutral-400/20"
+                className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
+                onClick={(e) => handleCategoryClick(e, category.slug)}
               >
-                {category}
+                {category.name}
               </span>
             ))}
           </div>

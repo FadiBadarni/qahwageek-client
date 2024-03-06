@@ -15,15 +15,25 @@ const posts: LightPost[] = [
     author: 'جين دو',
     publishedAt: '2023-01-01',
     mainImageUrl: 'https://via.placeholder.com/100',
-    categoryNames: [],
+    categoryDetails: [
+      {
+        name: 'React',
+        slug: 'react',
+      },
+    ],
   },
   {
     id: 4,
     title: 'مقدمة في TypeScript',
     author: 'جين دو',
     publishedAt: '2023-01-01',
-    categoryNames: [],
     mainImageUrl: 'https://via.placeholder.com/100',
+    categoryDetails: [
+      {
+        name: 'TypeScript',
+        slug: 'typescript',
+      },
+    ],
   },
 ];
 

@@ -1,7 +1,7 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPostById } from 'store/post/postActions';
 import { RootState } from 'store/store';
 import DOMPurify from 'dompurify';
@@ -11,11 +11,15 @@ import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
 import ShareContainer from './ShareContainer';
 import PostSEO from './PostSEO';
 import CommentsSection from './CommentsSection';
+import { CategoryDetail } from 'models/post';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import RelatedPosts from './related';
 
 type Props = {};
 
 const Post = (props: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
 
   const {
@@ -41,6 +45,13 @@ const Post = (props: Props) => {
     ? format(parseISO(post.publishedAt), 'dd MMMM, yyyy', { locale: ar })
     : '';
 
+  const handleCategoryClick = (
+    e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>,
+    slug: string
+  ) => {
+    e.stopPropagation();
+    navigate(`/category/${slug}`);
+  };
   return (
     <>
       <PostSEO
@@ -69,26 +80,29 @@ const Post = (props: Props) => {
               </div>
             )}
             <div
-              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-md 
+              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-t-md 
             -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8"
             >
               <div className="flex flex-wrap items-center text-sm justify-between mb-4">
                 {/* Author, Date, and Reading Time */}
                 <div className="flex flex-wrap items-center flex-grow">
-                  <span>كتب بواسطة - </span>
+                  <span className="text-xs sm:text-sm">كتب بواسطة - </span>
                   <Link
                     to={`/user/profile/${post.authorId}`}
-                    className="font-semibold mr-2"
+                    className="font-semibold text-xs sm:text-sm ml-1 mr-1 sm:mr-2"
                   >
                     {post.author}
                   </Link>
 
-                  <span className=" md:inline mx-2">|</span>
-                  <time className="block" dateTime={post.publishedAt}>
+                  <span className=" sm:inline mx-1 sm:mx-2">|</span>
+                  <time
+                    className="text-xs sm:text-sm block ml-1 mr-1"
+                    dateTime={post.publishedAt}
+                  >
                     {formattedDate}
                   </time>
-                  <span className=" md:inline mx-2">|</span>
-                  <span className="block">{`${post.readingTime} دقائق قراءة`}</span>
+                  <span className=" sm:inline mx-1 sm:mx-2">|</span>
+                  <span className="text-xs sm:text-sm block">{`${post.readingTime} دقائق قراءة`}</span>
                 </div>
 
                 {post && (
@@ -98,23 +112,29 @@ const Post = (props: Props) => {
                   />
                 )}
               </div>
-              <div className="mt-4 p-2 rounded-md md:px-32 px-0">
+              <div className="mt-4 p-2 rounded-t-md md:px-32 px-0">
                 <div
                   dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                   className="prose dark:prose-dark mx-auto max-w-none"
                 ></div>
                 <div className="mt-8 p-4 bg-light-background dark:bg-dark-background rounded-lg shadow flex flex-wrap items-center">
-                  <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mr-2">
-                    التصنيفات:
-                  </h4>
-                  {post.categoryNames.map((category, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-semibold mr-2 border border-brand-300 bg-light-layer dark:bg-dark-layer text-neutral-800 dark:text-neutral-200 hover:bg-brand-200 dark:hover:bg-brand-700"
-                    >
-                      {category}
-                    </span>
-                  ))}
+                  <div className="flex items-center ml-2">
+                    <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 ml-2">
+                      التصنيفات
+                    </h4>
+                    <ArrowLeftIcon className="w-5 h-5 text-neutral-800 dark:text-neutral-200" />
+                  </div>
+                  {post.categoryDetails.map(
+                    (category: CategoryDetail, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center mr-2 justify-center rounded-md px-2 py-1 text-sm font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
+                        onClick={(e) => handleCategoryClick(e, category.slug)}
+                      >
+                        {category.name}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             </div>
@@ -123,11 +143,13 @@ const Post = (props: Props) => {
           <div>Post not found</div>
         )}
       </div>
-      <div className="mx-auto max-w-7xl px-4 lg:px-8 mt-4 flex flex-wrap">
-        <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
+      <div className="mx-auto max-w-7xl sm:px-4 lg:px-8 sm:mt-4 flex flex-wrap">
+        <div className="w-full lg:w-1/2 sm:px-4 mb-8 lg:mb-0">
           <CommentsSection postId={Number(postId)} />
         </div>
-        <div className="w-full lg:w-1/2 px-4">{/* <RecommendedPosts /> */}</div>
+        <div className="w-full lg:w-1/2 px-4">
+          {postId && <RelatedPosts postId={Number(postId)} />}
+        </div>
       </div>
     </>
   );

@@ -11,14 +11,13 @@ import Footer from 'components/footer';
 import CMSPage from 'components/admin/CMSPage';
 import Post from 'components/post';
 import CreatePost from 'components/admin/PostCreation/CreatePost';
-import CodePosts from 'components/categories/code';
-import CareerPosts from 'components/categories/career';
-import TermsPosts from 'components/categories/terms';
 import UserProfile from 'components/user';
 import NotFoundPage from 'components/shared/NotFoundPage';
 import { RegistrationPage } from 'components/register';
 import { ForgotPassword } from 'components/login/ForgotPassword';
 import CategoriesManagement from 'components/admin/Categories';
+import DynamicCategoryHome from 'components/categories';
+import ContactPage from 'components/contact';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -38,13 +37,15 @@ function App() {
         <div className="flex-grow w-full mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/404" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/posts/:postId" element={<Post />} />
-            <Route path="/category/code" element={<CodePosts />} />
-            <Route path="/category/career" element={<CareerPosts />} />
-            <Route path="/category/terms" element={<TermsPosts />} />
+
+            <Route path="/category/:slug" element={<DynamicCategoryHome />} />
+
             <Route
               path="/user/profile/:userId"
               element={

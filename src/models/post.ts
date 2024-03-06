@@ -7,7 +7,7 @@ export interface Post {
   publishedAt: string;
   mainImageUrl?: string;
   readingTime?: number;
-  categoryNames: string[];
+  categoryDetails: CategoryDetail[];
 }
 export interface NewPost {
   title: string;
@@ -19,6 +19,7 @@ export interface NewPost {
 export interface Category {
   id: number;
   name: string;
+  slug: string;
   parentId?: number;
   subCategories?: Category[];
   description?: string;
@@ -31,7 +32,12 @@ export interface LightPost {
   publishedAt: string;
   mainImageUrl?: string;
   readingTime?: number;
-  categoryNames: string[];
+  categoryDetails: CategoryDetail[];
+}
+
+export interface CategoryDetail {
+  name: string;
+  slug: string;
 }
 
 export interface PostSearchResult {
