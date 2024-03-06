@@ -41,6 +41,14 @@ const SubCategoriesDetails: React.FC<SubCategoriesProps> = ({
     onUpdate(updatedSubCategories);
   };
 
+  const handleSlugChange = (id: number, newSlug: string) => {
+    const updatedSubCategories = editableSubCategories.map((subCategory) =>
+      subCategory.id === id ? { ...subCategory, slug: newSlug } : subCategory
+    );
+    setEditableSubCategories(updatedSubCategories);
+    onUpdate(updatedSubCategories);
+  };
+
   const currentSubCategory = editableSubCategories[currentPage];
 
   if (!editableSubCategories.length) {
@@ -49,22 +57,46 @@ const SubCategoriesDetails: React.FC<SubCategoriesProps> = ({
 
   return (
     <div>
-      <div className="flex flex-col space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
-        <input
-          type="text"
-          value={currentSubCategory.name}
-          onChange={(e) =>
-            handleNameChange(currentSubCategory.id, e.target.value)
-          }
-          className="form-input mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
-        />
+      <div className="flex flex-wrap -mx-3 mb-4">
+        <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+          <label className="block text-neutral-600 dark:text-neutral-400 text-sm font-medium mb-1">
+            اسم التصنيف الفرعي
+          </label>
+          <input
+            type="text"
+            value={currentSubCategory.name}
+            onChange={(e) =>
+              handleNameChange(currentSubCategory.id, e.target.value)
+            }
+            className="form-input mt-1 block w-full rounded-md shadow-sm dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+          />
+        </div>
+        <div className="w-full md:w-1/2 px-3">
+          <label className="block text-neutral-600 dark:text-neutral-400 text-sm font-medium mb-1">
+            المعرف
+          </label>
+          <input
+            type="text"
+            value={currentSubCategory.slug}
+            onChange={(e) =>
+              handleSlugChange(currentSubCategory.id, e.target.value)
+            }
+            className="form-input mt-1 block w-full rounded-md shadow-sm dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+            dir="ltr"
+          />
+        </div>
+      </div>
 
+      <div className="flex flex-col space-y-2 text-sm text-neutral-600 dark:text-neutral-400">
+        <label className="block text-neutral-600 dark:text-neutral-400 text-sm font-medium mb-1">
+          وصف التصنيف الفرعي
+        </label>
         <textarea
           value={currentSubCategory.description}
           onChange={(e) =>
             handleDescriptionChange(currentSubCategory.id, e.target.value)
           }
-          className="form-textarea mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-brand-500 focus:border-brand-500 dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
+          className="form-textarea mt-1 block w-full rounded-md shadow-sm dark:bg-neutral-700 dark:border-neutral-600 dark:text-white"
           rows={3}
         />
       </div>

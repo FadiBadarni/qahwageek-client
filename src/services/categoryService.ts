@@ -22,6 +22,7 @@ class CategoryService {
 
   static async addCategory(data: {
     name: string;
+    slug: string;
     description: string;
     parentId?: number | null;
   }): Promise<any> {

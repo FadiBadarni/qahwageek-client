@@ -18,6 +18,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const [categoryName, setCategoryName] = useState('');
+  const [slug, setSlug] = useState('');
   const [description, setDescription] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState<number | null>(null);
   const categories = useSelector((state: RootState) => state.categories.data);
@@ -33,6 +34,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
     dispatch(
       addCategory({
         name: categoryName,
+        slug,
         description,
         parentId: parentCategoryId,
       })
@@ -43,6 +45,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
 
   const resetDialog = () => {
     setCategoryName('');
+    setSlug('');
     setDescription('');
     setParentCategoryId(null);
   };
@@ -96,6 +99,16 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     placeholder="اسم التصنيف"
                     value={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
+                  />
+                </div>
+                <div className="mt-4">
+                  <input
+                    type="text"
+                    className="mt-1 block w-full rounded-md border shadow-sm bg-light-input dark:bg-dark-input text-neutral-700 dark:text-neutral-200"
+                    placeholder="المعرف"
+                    value={slug}
+                    onChange={(e) => setSlug(e.target.value)}
+                    dir="ltr"
                   />
                 </div>
                 <div className="mt-4">

@@ -38,14 +38,21 @@ export const addCategory = createAsyncThunk(
   async (
     {
       name,
+      slug,
       description,
       parentId,
-    }: { name: string; description: string; parentId?: number | null },
+    }: {
+      name: string;
+      slug: string;
+      description: string;
+      parentId?: number | null;
+    },
     { rejectWithValue }
   ) => {
     try {
       const newCategory = await CategoryService.addCategory({
         name,
+        slug,
         description,
         parentId,
       });
