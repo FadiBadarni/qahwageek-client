@@ -36,6 +36,7 @@ function App() {
         <div className="flex-grow w-full mx-auto">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/404" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/register" element={<RegistrationPage />} />
