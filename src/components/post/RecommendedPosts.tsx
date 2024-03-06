@@ -21,7 +21,12 @@ const RecommendedPosts: React.FC = () => {
           publishedAt: '2022-01-01T00:00:00Z',
           mainImageUrl: 'https://via.placeholder.com/300',
           readingTime: 5,
-          categoryNames: ['Coffee'],
+          categoryDetails: [
+            {
+              name: 'Coffee',
+              slug: 'coffee',
+            },
+          ],
         },
       ];
 

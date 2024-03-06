@@ -32,7 +32,12 @@ export interface LightPost {
   publishedAt: string;
   mainImageUrl?: string;
   readingTime?: number;
-  categoryNames: string[];
+  categoryDetails: CategoryDetail[];
+}
+
+export interface CategoryDetail {
+  name: string;
+  slug: string;
 }
 
 export interface PostSearchResult {

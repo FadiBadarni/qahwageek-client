@@ -1,4 +1,4 @@
-import { LightPost } from 'models/post';
+import { CategoryDetail, LightPost } from 'models/post';
 import React, { ReactNode } from 'react';
 import './categoryPage.css';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +23,12 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
   const handlePostClick = (postId: number) => {
     navigate(`/posts/${postId}`);
   };
+
+  const handleCategoryClick = (slug: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/category/${slug}`);
+  };
+
   return (
     <>
       <div className="relative bg-light-border dark:bg-dark-border py-8 sm:py-8 transition duration-300 ease-in-out text-center z-10 complex-border">
@@ -66,9 +72,19 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
                     src={post.mainImageUrl}
                     alt="Programming Post"
                   />
-                  <span className="absolute bottom-0 right-0 py-1 px-3 text-sm font-semibold text-neutral-800 bg-neutral-200 dark:bg-neutral-600 dark:text-neutral-200 rounded-tl-lg">
-                    {post.categoryNames.join(', ')}
-                  </span>
+                  <div className="flex flex-wrap gap-1 mt-1 mb-2 p-4">
+                    {post.categoryDetails.map(
+                      (category: CategoryDetail, index: number) => (
+                        <span
+                          key={index}
+                          onClick={(e) => handleCategoryClick(category.slug, e)}
+                          className="bg-neutral-400 dark:bg-dark-500 text-white px-2 py-1 rounded-full text-xs cursor-pointer hover:underline"
+                        >
+                          {category.name}
+                        </span>
+                      )
+                    )}
+                  </div>
                 </div>
                 <div className="p-4">
                   <h3 className="font-bold text-xl mb-2 text-neutral-700 dark:text-neutral-200 line-clamp-2">

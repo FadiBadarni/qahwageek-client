@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { PostsPagination } from './PostsPagination';
 import { useNavigate } from 'react-router-dom';
+import { CategoryDetail } from 'models/post';
 
 type CategoryPostsProps = {
   newsComponent?: React.ReactNode;
@@ -44,6 +45,11 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
     navigate(`/posts/${postId}`);
   };
 
+  const handleCategoryClick = (categorySlug: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    navigate(`/category/${categorySlug}`);
+  };
+
   return (
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-8 mt-8 lg:mt-10">
@@ -73,9 +79,17 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
                       locale: ar,
                     })}
                   </time>
-                  <span className="relative z-10 rounded-full bg-neutral-100 dark:bg-neutral-700 px-3 py-1.5 font-medium text-neutral-600 dark:text-neutral-300">
-                    {post.categoryNames.join(', ')}
-                  </span>
+                  {post.categoryDetails.map(
+                    (category: CategoryDetail, index: number) => (
+                      <span
+                        key={index}
+                        className="..."
+                        onClick={(e) => handleCategoryClick(category.slug, e)}
+                      >
+                        {category.name}
+                      </span>
+                    )
+                  )}
                 </div>
                 <div className="group relative">
                   <h3 className="mt-3 text-lg font-semibold leading-6 text-neutral-700 dark:text-neutral-100 group-hover:text-brand-500 line-clamp-2">

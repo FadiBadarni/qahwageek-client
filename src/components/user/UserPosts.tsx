@@ -1,6 +1,6 @@
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
-import { LightPost } from 'models/post';
+import { CategoryDetail, LightPost } from 'models/post';
 import React from 'react';
 import { ClockIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
@@ -14,6 +14,10 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
 
   const handlePostClick = (postId: number) => {
     navigate(`/posts/${postId}`);
+  };
+
+  const handleCategoryClick = (slug: string) => {
+    navigate(`/category/${slug}`);
   };
 
   return (
@@ -40,14 +44,17 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
                 {post.title}
               </h3>
               <div className="flex flex-wrap gap-1 mt-1 mb-2">
-                {post.categoryNames.map((category, index) => (
-                  <span
-                    key={index}
-                    className="bg-neutral-400 dark:bg-dark-500 text-white px-2 py-1 rounded-full text-xs"
-                  >
-                    {category}
-                  </span>
-                ))}
+                {post.categoryDetails.map(
+                  (category: CategoryDetail, index: number) => (
+                    <span
+                      key={index}
+                      className="bg-neutral-400 dark:bg-dark-500 text-white px-2 py-1 rounded-full text-xs cursor-pointer"
+                      onClick={() => handleCategoryClick(category.slug)}
+                    >
+                      {category.name}
+                    </span>
+                  )
+                )}
               </div>
               <div className="flex items-center text-neutral-500 dark:text-neutral-400 text-xs">
                 <CalendarIcon className="h-4 w-4 ml-2" />
