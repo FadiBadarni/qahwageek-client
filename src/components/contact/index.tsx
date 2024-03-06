@@ -108,7 +108,7 @@ const ContactPage = () => {
               className="inline-flex items-center justify-center py-3 px-8 text-sm font-medium text-center text-white rounded-lg bg-brand-500 hover:bg-brand-600 focus:ring-4 focus:outline-none focus:ring-brand-300 dark:bg-brand-600 dark:hover:bg-brand-700 dark:focus:ring-brand-800"
             >
               إبعت
-              <PaperAirplaneIcon className="w-4 h-4 ml-2 rotate-180" />
+              <PaperAirplaneIcon className="w-4 h-4 mr-2 rotate-180" />
             </button>
           </div>
         </form>
