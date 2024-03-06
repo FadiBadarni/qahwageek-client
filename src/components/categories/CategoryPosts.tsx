@@ -10,33 +10,34 @@ import { useNavigate } from 'react-router-dom';
 
 type CategoryPostsProps = {
   newsComponent?: React.ReactNode;
-  categoryName: string;
+  categorySlug: string;
 };
 
 const CategoryPosts: React.FC<CategoryPostsProps> = ({
   newsComponent,
-  categoryName,
+  categorySlug,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const posts = useSelector(
-    (state: RootState) => state.posts.categoryPosts.data.items
-  );
-  const totalPages = useSelector(
-    (state: RootState) => state.posts.categoryPosts.data.totalPages
-  );
-  const currentPage = useSelector(
-    (state: RootState) => state.posts.categoryPosts.data.currentPage
-  );
+
+  const {
+    items: posts,
+    totalPages,
+    currentPage,
+  } = useSelector((state: RootState) => state.posts.categoryPosts.data);
 
   useEffect(() => {
-    dispatch(
-      fetchPostsByCategory({ categoryName, page: currentPage, size: 10 })
-    );
-  }, [dispatch, currentPage, categoryName]);
+    if (categorySlug) {
+      dispatch(
+        fetchPostsByCategory({ categorySlug, page: currentPage, size: 10 })
+      );
+    }
+  }, [dispatch, currentPage, categorySlug]);
 
   const handlePageChange = (page: number) => {
-    dispatch(fetchPostsByCategory({ categoryName, page, size: 10 }));
+    if (categorySlug) {
+      dispatch(fetchPostsByCategory({ categorySlug, page, size: 10 }));
+    }
   };
 
   const handlePostClick = (postId: number) => {

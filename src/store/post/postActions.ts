@@ -168,27 +168,27 @@ export const fetchPostsByCategory = createAsyncThunk(
   'posts/fetchByCategory',
   async (
     {
-      categoryName,
+      categorySlug,
       page,
       size,
-    }: { categoryName: string; page: number; size: number },
+    }: { categorySlug: string; page: number; size: number },
     { rejectWithValue }
   ) => {
     try {
       const posts = await PostService.getPostsByCategory(
-        categoryName,
+        categorySlug,
         page,
         size
       );
       return posts;
     } catch (error: any) {
       console.error(
-        `Failed to fetch posts for category ${categoryName}:`,
+        `Failed to fetch posts for category ${categorySlug}:`,
         error
       );
       return rejectWithValue(
         error.response?.data ||
-          `Unable to fetch posts for category ${categoryName}`
+          `Unable to fetch posts for category ${categorySlug}`
       );
     }
   }

@@ -114,11 +114,12 @@ const postSlice = createSlice({
       })
       .addCase(fetchPostsByCategory.fulfilled, (state, action) => {
         state.categoryPosts.status = LoadingStatus.Succeeded;
-        state.categoryPosts.data.items = action.payload.content;
-        state.categoryPosts.data.totalCount = action.payload.totalElements;
-        state.categoryPosts.data.currentPage =
-          action.payload.pageable.pageNumber;
-        state.categoryPosts.data.totalPages = action.payload.totalPages;
+        state.categoryPosts.data = {
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
+          totalPages: action.payload.totalPages,
+        };
       })
       .addCase(fetchPostsByCategory.rejected, (state, action) => {
         state.categoryPosts.status = LoadingStatus.Failed;
