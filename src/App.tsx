@@ -17,6 +17,7 @@ import { RegistrationPage } from 'components/register';
 import { ForgotPassword } from 'components/login/ForgotPassword';
 import CategoriesManagement from 'components/admin/Categories';
 import DynamicCategoryHome from 'components/categories';
+import ContactPage from 'components/contact';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -38,6 +39,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/404" element={<NotFoundPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/posts/:postId" element={<Post />} />
