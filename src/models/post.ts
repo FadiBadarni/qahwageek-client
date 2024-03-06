@@ -7,7 +7,7 @@ export interface Post {
   publishedAt: string;
   mainImageUrl?: string;
   readingTime?: number;
-  categoryNames: string[];
+  categoryDetails: CategoryDetail[];
 }
 export interface NewPost {
   title: string;

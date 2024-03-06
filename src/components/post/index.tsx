@@ -1,7 +1,7 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPostById } from 'store/post/postActions';
 import { RootState } from 'store/store';
 import DOMPurify from 'dompurify';
@@ -11,11 +11,14 @@ import { createDOMPurifyConfig } from 'utils/domPurifyConfig';
 import ShareContainer from './ShareContainer';
 import PostSEO from './PostSEO';
 import CommentsSection from './CommentsSection';
+import { CategoryDetail } from 'models/post';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 type Props = {};
 
 const Post = (props: Props) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { postId } = useParams<{ postId: string }>();
 
   const {
@@ -41,6 +44,13 @@ const Post = (props: Props) => {
     ? format(parseISO(post.publishedAt), 'dd MMMM, yyyy', { locale: ar })
     : '';
 
+  const handleCategoryClick = (
+    e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>,
+    slug: string
+  ) => {
+    e.stopPropagation();
+    navigate(`/category/${slug}`);
+  };
   return (
     <>
       <PostSEO
@@ -104,17 +114,23 @@ const Post = (props: Props) => {
                   className="prose dark:prose-dark mx-auto max-w-none"
                 ></div>
                 <div className="mt-8 p-4 bg-light-background dark:bg-dark-background rounded-lg shadow flex flex-wrap items-center">
-                  <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 mr-2">
-                    التصنيفات:
-                  </h4>
-                  {post.categoryNames.map((category, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center justify-center rounded-full px-3 py-1 text-sm font-semibold mr-2 border border-brand-300 bg-light-layer dark:bg-dark-layer text-neutral-800 dark:text-neutral-200 hover:bg-brand-200 dark:hover:bg-brand-700"
-                    >
-                      {category}
-                    </span>
-                  ))}
+                  <div className="flex items-center ml-2">
+                    <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 ml-2">
+                      التصنيفات
+                    </h4>
+                    <ArrowLeftIcon className="w-5 h-5 text-neutral-800 dark:text-neutral-200" />
+                  </div>
+                  {post.categoryDetails.map(
+                    (category: CategoryDetail, index: number) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center mr-2 justify-center rounded-md px-2 py-1 text-sm font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
+                        onClick={(e) => handleCategoryClick(e, category.slug)}
+                      >
+                        {category.name}
+                      </span>
+                    )
+                  )}
                 </div>
               </div>
             </div>
