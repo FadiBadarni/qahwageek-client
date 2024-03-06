@@ -53,7 +53,7 @@ const SearchInput: React.FC = () => {
   );
 
   return (
-    <div className="w-full max-w-lg lg:max-w-xs">
+    <div className="w-full max-w-lg lg:max-w-72">
       <label htmlFor="search" className="sr-only">
         ابحث عن مقال
       </label>
