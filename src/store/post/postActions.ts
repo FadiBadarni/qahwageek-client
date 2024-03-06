@@ -194,6 +194,32 @@ export const fetchPostsByCategory = createAsyncThunk(
   }
 );
 
+export const fetchRelatedPosts = createAsyncThunk(
+  'posts/fetchRelatedPosts',
+  async (
+    {
+      relatedPostId,
+      page,
+      size,
+    }: { relatedPostId: number; page: number; size: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const posts = await PostService.getRelatedPosts(
+        relatedPostId,
+        page,
+        size
+      );
+      return posts;
+    } catch (error: any) {
+      console.error(`Failed to fetch related posts:`, error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch related posts'
+      );
+    }
+  }
+);
+
 export const searchPosts = createAsyncThunk(
   'posts/search',
   async (query: string, { rejectWithValue }) => {

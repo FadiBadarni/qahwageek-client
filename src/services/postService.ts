@@ -94,6 +94,21 @@ class PostService {
     }
   }
 
+  static async getRelatedPosts(
+    relatedPostId: number,
+    page: number = 0,
+    size: number = 10
+  ): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/posts/related`, {
+        params: { relatedPostId, page, size },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async searchPosts(query: string): Promise<PostSearchResult[]> {
     try {
       const response = await axiosClient.get(`/posts/search`, {

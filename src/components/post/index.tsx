@@ -13,6 +13,7 @@ import PostSEO from './PostSEO';
 import CommentsSection from './CommentsSection';
 import { CategoryDetail } from 'models/post';
 import { ArrowLeftIcon } from '@heroicons/react/24/outline';
+import RelatedPosts from './related';
 
 type Props = {};
 
@@ -143,7 +144,9 @@ const Post = (props: Props) => {
         <div className="w-full lg:w-1/2 px-4 mb-8 lg:mb-0">
           <CommentsSection postId={Number(postId)} />
         </div>
-        <div className="w-full lg:w-1/2 px-4">{/* <RecommendedPosts /> */}</div>
+        <div className="w-full lg:w-1/2 px-4">
+          {postId && <RelatedPosts postId={Number(postId)} />}
+        </div>
       </div>
     </>
   );

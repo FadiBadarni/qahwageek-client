@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   fetchPostsByCategory,
+  fetchRelatedPosts,
   getFeaturedPosts,
   getNewestCareerPosts,
   getNewestProgrammingPosts,
@@ -125,6 +126,23 @@ const postSlice = createSlice({
         state.categoryPosts.status = LoadingStatus.Failed;
         state.categoryPosts.error =
           action.error.message ?? 'Unable to fetch posts for the category';
+      })
+      .addCase(fetchRelatedPosts.pending, (state) => {
+        state.relatedPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchRelatedPosts.fulfilled, (state, action) => {
+        state.relatedPosts.status = LoadingStatus.Succeeded;
+        state.relatedPosts.data = {
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
+          totalPages: action.payload.totalPages,
+        };
+      })
+      .addCase(fetchRelatedPosts.rejected, (state, action) => {
+        state.relatedPosts.status = LoadingStatus.Failed;
+        state.relatedPosts.error =
+          action.error.message ?? 'Failed to fetch related posts';
       });
   },
 });
