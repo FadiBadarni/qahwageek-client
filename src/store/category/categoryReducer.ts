@@ -1,43 +1,51 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CategoryState } from '../post/postState';
 import { LoadingStatus } from 'store/shared/commonState';
 import {
   addCategory,
   deleteCategory,
   fetchAllCategories,
+  fetchCategoryBySlug,
   updateCategory,
 } from './categoryActions';
 import { Category } from 'models/post';
+import { initialCategoryState } from './categoryState';
 
-const initialState: CategoryState = {
-  data: [],
-  status: LoadingStatus.Idle,
-  error: null,
-};
 const categorySlice = createSlice({
   name: 'categories',
-  initialState,
+  initialState: initialCategoryState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllCategories.pending, (state) => {
-        state.status = LoadingStatus.Loading;
+        state.categories.status = LoadingStatus.Loading;
       })
       .addCase(fetchAllCategories.fulfilled, (state, action) => {
-        state.status = LoadingStatus.Succeeded;
-        state.data = action.payload;
+        state.categories.status = LoadingStatus.Succeeded;
+        state.categories.data = action.payload;
       })
       .addCase(fetchAllCategories.rejected, (state, action) => {
-        state.status = LoadingStatus.Failed;
-        state.error =
+        state.categories.status = LoadingStatus.Failed;
+        state.categories.error =
           action.error.message ??
           'An unexpected error occurred fetching categories';
       })
+      .addCase(fetchCategoryBySlug.pending, (state) => {
+        state.currentCategory.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchCategoryBySlug.fulfilled, (state, action) => {
+        state.currentCategory.status = LoadingStatus.Succeeded;
+        state.currentCategory.data = action.payload;
+      })
+      .addCase(fetchCategoryBySlug.rejected, (state, action) => {
+        state.currentCategory.status = LoadingStatus.Failed;
+        state.currentCategory.error =
+          action.error.message ?? 'Unable to fetch category';
+      })
       .addCase(deleteCategory.pending, (state) => {
-        state.status = LoadingStatus.Loading;
+        state.categories.status = LoadingStatus.Loading;
       })
       .addCase(deleteCategory.fulfilled, (state, action) => {
-        state.status = LoadingStatus.Succeeded;
+        state.categories.status = LoadingStatus.Succeeded;
 
         const deleteSubCategory = (
           categories: Category[],
@@ -57,45 +65,52 @@ const categorySlice = createSlice({
         };
 
         // Start the deletion process from the root categories
-        state.data = deleteSubCategory(state.data, action.meta.arg);
+        state.categories.data = deleteSubCategory(
+          state.categories.data,
+          action.meta.arg
+        );
       })
       .addCase(deleteCategory.rejected, (state, action) => {
-        state.status = LoadingStatus.Failed;
-        state.error = action.error.message ?? 'Failed to delete the category';
+        state.categories.status = LoadingStatus.Failed;
+        state.categories.error =
+          action.error.message ?? 'Failed to delete the category';
       })
       .addCase(addCategory.pending, (state) => {
-        state.status = LoadingStatus.Loading;
+        state.categories.status = LoadingStatus.Loading;
       })
       .addCase(addCategory.fulfilled, (state, action) => {
-        state.status = LoadingStatus.Succeeded;
+        state.categories.status = LoadingStatus.Succeeded;
         if (action.payload.parentId) {
-          const parentIndex = state.data.findIndex(
+          const parentIndex = state.categories.data.findIndex(
             (category) => category.id === action.payload.parentId
           );
           if (parentIndex !== -1) {
-            if (!state.data[parentIndex].subCategories) {
-              state.data[parentIndex].subCategories = [];
+            if (!state.categories.data[parentIndex].subCategories) {
+              state.categories.data[parentIndex].subCategories = [];
             }
-            state.data[parentIndex].subCategories?.push(action.payload);
+            state.categories.data[parentIndex].subCategories?.push(
+              action.payload
+            );
           }
         } else {
-          state.data.push(action.payload);
+          state.categories.data.push(action.payload);
         }
       })
       .addCase(addCategory.rejected, (state, action) => {
-        state.status = LoadingStatus.Failed;
-        state.error = action.error.message ?? 'Failed to add the category';
+        state.categories.status = LoadingStatus.Failed;
+        state.categories.error =
+          action.error.message ?? 'Failed to add the category';
       })
       .addCase(updateCategory.pending, (state) => {
-        state.status = LoadingStatus.Loading;
+        state.categories.status = LoadingStatus.Loading;
       })
       .addCase(updateCategory.fulfilled, (state, action) => {
-        state.status = LoadingStatus.Succeeded;
-        const index = state.data.findIndex(
+        state.categories.status = LoadingStatus.Succeeded;
+        const index = state.categories.data.findIndex(
           (category) => category.id === action.payload.id
         );
         if (index !== -1) {
-          state.data[index] = action.payload;
+          state.categories.data[index] = action.payload;
         } else {
           const updateSubCategory = (categories: Category[]): Category[] => {
             return categories.map((category) => {
@@ -109,12 +124,13 @@ const categorySlice = createSlice({
                 : category;
             });
           };
-          state.data = updateSubCategory(state.data);
+          state.categories.data = updateSubCategory(state.categories.data);
         }
       })
       .addCase(updateCategory.rejected, (state, action) => {
-        state.status = LoadingStatus.Failed;
-        state.error = action.error.message ?? 'Failed to update the category';
+        state.categories.status = LoadingStatus.Failed;
+        state.categories.error =
+          action.error.message ?? 'Failed to update the category';
       });
   },
 });

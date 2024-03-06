@@ -12,7 +12,9 @@ import AddCategoryDialog from './AddCategoryDialog';
 const CategoriesManagement: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );

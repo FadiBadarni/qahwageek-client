@@ -31,7 +31,9 @@ export const Navbar: React.FC = () => {
 
   const user = useSelector((state: RootState) => state.user.data);
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
 
   const handleLogout = () => {
     dispatch(logout());

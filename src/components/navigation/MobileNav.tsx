@@ -21,7 +21,9 @@ const MobileNav: React.FC<MobileNavProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
 
   useEffect(() => {
     dispatch(fetchAllCategories());

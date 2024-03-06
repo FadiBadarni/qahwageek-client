@@ -21,7 +21,9 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
   const [slug, setSlug] = useState('');
   const [description, setDescription] = useState('');
   const [parentCategoryId, setParentCategoryId] = useState<number | null>(null);
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const categoryOptions = categories.map((category) => ({

@@ -1,4 +1,4 @@
-import { Category, LightPost, Post } from 'models/post';
+import { LightPost, Post } from 'models/post';
 import {
   CommonState,
   LoadingStatus,
@@ -14,8 +14,6 @@ export interface PostState {
   latestTermsPosts: CommonState<LightPost[]>;
   categoryPosts: CommonState<PaginatedData<LightPost[]>>;
 }
-
-export interface CategoryState extends CommonState<Category[]> {}
 
 export const initialPostsState: PostState = {
   currentPost: {

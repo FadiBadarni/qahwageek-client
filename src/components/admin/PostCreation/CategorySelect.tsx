@@ -17,7 +17,7 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
   onCategoryChange,
 }) => {
   const loadingStatus = useSelector(
-    (state: RootState) => state.categories.status
+    (state: RootState) => state.categories.categories.status
   );
 
   const toggleCategory = (categoryId: number) => {

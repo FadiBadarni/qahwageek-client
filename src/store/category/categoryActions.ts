@@ -17,6 +17,21 @@ export const fetchAllCategories = createAsyncThunk(
   }
 );
 
+export const fetchCategoryBySlug = createAsyncThunk(
+  'categories/fetchBySlug',
+  async (slug: string, { rejectWithValue }) => {
+    try {
+      const category = await CategoryService.getCategoryBySlug(slug);
+      return category;
+    } catch (error: any) {
+      console.error(`Failed to fetch category with slug ${slug}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to fetch category with slug ${slug}`
+      );
+    }
+  }
+);
+
 export const deleteCategory = createAsyncThunk(
   'categories/delete',
   async (categoryId: number, { rejectWithValue }) => {

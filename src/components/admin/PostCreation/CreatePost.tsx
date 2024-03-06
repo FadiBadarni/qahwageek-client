@@ -14,7 +14,9 @@ import { fetchAllCategories } from 'store/category/categoryActions';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
-  const categories = useSelector((state: RootState) => state.categories.data);
+  const categories = useSelector(
+    (state: RootState) => state.categories.categories.data
+  );
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
