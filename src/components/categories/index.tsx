@@ -72,20 +72,25 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
                     src={post.mainImageUrl}
                     alt="Programming Post"
                   />
-                  <div className="flex flex-wrap gap-1 mt-1 mb-2 p-4">
-                    {post.categoryDetails.map(
-                      (category: CategoryDetail, index: number) => (
-                        <span
-                          key={index}
-                          onClick={(e) => handleCategoryClick(category.slug, e)}
-                          className="bg-neutral-400 dark:bg-dark-500 text-white px-2 py-1 rounded-full text-xs cursor-pointer hover:underline"
-                        >
-                          {category.name}
-                        </span>
-                      )
-                    )}
+                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                    <div className="flex flex-wrap gap-1">
+                      {post.categoryDetails.map(
+                        (category: CategoryDetail, index: number) => (
+                          <span
+                            key={index}
+                            onClick={(e) =>
+                              handleCategoryClick(category.slug, e)
+                            }
+                            className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-300 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer hover:underline transition-colors duration-200 ease-in-out"
+                          >
+                            {category.name}
+                          </span>
+                        )
+                      )}
+                    </div>
                   </div>
                 </div>
+
                 <div className="p-4">
                   <h3 className="font-bold text-xl mb-2 text-neutral-700 dark:text-neutral-200 line-clamp-2">
                     {post.title}

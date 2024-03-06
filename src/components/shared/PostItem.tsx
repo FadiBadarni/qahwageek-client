@@ -52,7 +52,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             {categoryDetails.map((category: CategoryDetail, index: number) => (
               <span
                 key={index}
-                className="inline-flex items-center justify-center rounded-md bg-neutral-200/10 px-2 py-1 text-xs font-medium text-neutral-400 ring-1 ring-inset ring-neutral-400/20 hover:bg-neutral-300 dark:hover:bg-dark-500 cursor-pointer"
+                className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
                 onClick={(e) => handleCategoryClick(e, category.slug)}
               >
                 {category.name}

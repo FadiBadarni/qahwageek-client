@@ -48,7 +48,7 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
                   (category: CategoryDetail, index: number) => (
                     <span
                       key={index}
-                      className="bg-neutral-400 dark:bg-dark-500 text-white px-2 py-1 rounded-full text-xs cursor-pointer"
+                      className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
                       onClick={() => handleCategoryClick(category.slug)}
                     >
                       {category.name}
