@@ -1,10 +1,10 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import CategoryHeader from '..';
-import ExpressionPosts from './TermsPosts';
 import { getNewestTermsPosts } from 'store/post/postActions';
+import DynamicCategoryPosts from '../DynamicCategoryPosts';
 
 type Props = {};
 
@@ -24,7 +24,7 @@ const TermsCategoryHome = (props: Props) => {
       bannerTitle="تطوير المصطلحات"
       bannerSubtitle="دليل المصطلحات 📖"
       posts={latestCareerPosts}
-      PostsComponent={<ExpressionPosts />}
+      PostsComponent={<DynamicCategoryPosts />}
     />
   );
 };

@@ -45,6 +45,7 @@ function App() {
             <Route path="/category/code" element={<CodePosts />} />
             <Route path="/category/career" element={<CareerPosts />} />
             <Route path="/category/terms" element={<TermsPosts />} />
+
             <Route
               path="/user/profile/:userId"
               element={

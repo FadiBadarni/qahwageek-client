@@ -3,8 +3,8 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getNewestProgrammingPosts } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import ProgrammingPosts from './ProgrammingPosts';
 import CategoryHeader from '..';
+import DynamicCategoryPosts from '../DynamicCategoryPosts';
 
 type Props = {};
 
@@ -24,7 +24,7 @@ const CodeCategoryHome = (props: Props) => {
       bannerTitle="اسبرسو كود"
       bannerSubtitle="هنا تجد مقالات برمجية تعليمية ومفيدة."
       posts={latestProgrammingPosts}
-      PostsComponent={<ProgrammingPosts />}
+      PostsComponent={<DynamicCategoryPosts />}
     />
   );
 };

@@ -103,7 +103,7 @@ export const Navbar: React.FC = () => {
                                   <Menu.Item key={subCategory.id}>
                                     {({ active }) => (
                                       <Link
-                                        to={`/category/${subCategory.id}`}
+                                        to={`/category/${subCategory.slug}`}
                                         className={`block px-4 py-2 text-sm ${
                                           active
                                             ? 'bg-neutral-200 dark:bg-neutral-700'
@@ -122,7 +122,7 @@ export const Navbar: React.FC = () => {
                       ) : (
                         <Link
                           key={category.id}
-                          to={`/category/${category.id}`}
+                          to={`/category/${category.slug}`}
                           className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
                         >
                           {category.name}

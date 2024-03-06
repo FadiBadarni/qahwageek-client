@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { getNewestCareerPosts } from 'store/post/postActions';
 import { RootState } from 'store/store';
 import CategoryHeader from '..';
-import CareerPosts from './CareerPosts';
+import DynamicCategoryPosts from '../DynamicCategoryPosts';
 
 type Props = {};
 
@@ -24,7 +24,7 @@ const CareerCategoryHome = (props: Props) => {
       bannerTitle="تطوير المهنة"
       bannerSubtitle="تطوير الـ Career 💼"
       posts={latestCareerPosts}
-      PostsComponent={<CareerPosts />}
+      PostsComponent={<DynamicCategoryPosts />}
     />
   );
 };
