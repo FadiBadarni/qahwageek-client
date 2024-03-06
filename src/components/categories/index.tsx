@@ -2,8 +2,6 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import CategoryHeader from './CategoryHeader';
-import { useSelector } from 'react-redux';
-import { RootState } from 'store/store';
 import { fetchPostsByCategory } from 'store/post/postActions';
 import DynamicCategoryPosts from './DynamicCategoryPosts';
 import { fetchCategoryBySlug } from 'store/category/categoryActions';
@@ -27,13 +25,7 @@ const DynamicCategoryHome: React.FC = () => {
     }
   }, [slug, dispatch, navigate]);
 
-  const { items: posts } = useSelector(
-    (state: RootState) => state.posts.categoryPosts.data
-  );
-
-  return (
-    <CategoryHeader posts={posts} PostsComponent={<DynamicCategoryPosts />} />
-  );
+  return <CategoryHeader PostsComponent={<DynamicCategoryPosts />} />;
 };
 
 export default DynamicCategoryHome;

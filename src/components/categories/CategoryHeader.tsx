@@ -1,20 +1,23 @@
-import { CategoryDetail, LightPost } from 'models/post';
+import { CategoryDetail } from 'models/post';
 import React, { ReactNode } from 'react';
 import './categoryPage.css';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { LoadingStatus } from 'store/shared/commonState';
+import CategoryPageSkeleton from './skeletons/CategoryPageSkeleton';
 
 type CategoryHeaderProps = {
-  posts: LightPost[];
   PostsComponent?: ReactNode;
 };
 
-const CategoryHeader: React.FC<CategoryHeaderProps> = ({
-  posts,
-  PostsComponent,
-}) => {
+const CategoryHeader: React.FC<CategoryHeaderProps> = ({ PostsComponent }) => {
   const navigate = useNavigate();
+
+  const {
+    data: { items: posts },
+    status: postsStatus,
+  } = useSelector((state: RootState) => state.posts.categoryPosts);
 
   const currentCategory = useSelector(
     (state: RootState) => state.categories.currentCategory.data
@@ -55,51 +58,56 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
       </div>
       <div className="max-w-7xl mx-auto">
         <div className="relative mt-[-10%] px-4 md:px-6 lg:px-8 z-20 ">
-          <div className="flex justify-center items-start flex-wrap">
-            {posts.map((post, index) => (
-              <div
-                key={post.id}
-                onClick={() => handlePostClick(post.id)}
-                className={`w-full md:w-1/2 lg:w-1/3 overflow-hidden shadow-lg bg-light-border dark:bg-dark-border ${
-                  index > 0 ? 'hidden md:block' : ''
-                } ${
-                  index % 2 === 0 ? 'md:border-l-2' : 'md:border-r-2'
-                } border-neutral-300 dark:border-neutral-600 relative cursor-pointer`}
-              >
-                <div className="w-full h-48 overflow-hidden relative">
-                  <img
-                    className="w-full h-full object-cover"
-                    src={post.mainImageUrl}
-                    alt="Programming Post"
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
-                    <div className="flex flex-wrap gap-1">
-                      {post.categoryDetails.map(
-                        (category: CategoryDetail, index: number) => (
-                          <span
-                            key={index}
-                            onClick={(e) =>
-                              handleCategoryClick(category.slug, e)
-                            }
-                            className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-300 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer hover:underline transition-colors duration-200 ease-in-out"
-                          >
-                            {category.name}
-                          </span>
-                        )
-                      )}
+          {postsStatus === LoadingStatus.Loading ? (
+            <CategoryPageSkeleton />
+          ) : (
+            <div className="flex justify-center items-start flex-wrap">
+              {posts.map((post, index) => (
+                <div
+                  key={post.id}
+                  onClick={() => handlePostClick(post.id)}
+                  className={`w-full md:w-1/2 lg:w-1/3 overflow-hidden shadow-lg bg-light-border dark:bg-dark-border ${
+                    index > 0 ? 'hidden md:block' : ''
+                  } ${
+                    index % 2 === 0 ? 'md:border-l-2' : 'md:border-r-2'
+                  } border-neutral-300 dark:border-neutral-600 relative cursor-pointer`}
+                >
+                  <div className="w-full h-48 overflow-hidden relative">
+                    <img
+                      className="w-full h-full object-cover"
+                      src={post.mainImageUrl}
+                      alt="Programming Post"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/80 to-transparent">
+                      <div className="flex flex-wrap gap-1">
+                        {post.categoryDetails.map(
+                          (category: CategoryDetail, index: number) => (
+                            <span
+                              key={index}
+                              onClick={(e) =>
+                                handleCategoryClick(category.slug, e)
+                              }
+                              className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-300 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer hover:underline transition-colors duration-200 ease-in-out"
+                            >
+                              {category.name}
+                            </span>
+                          )
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <div className="p-4">
-                  <h3 className="font-bold text-xl mb-2 text-neutral-700 dark:text-neutral-200 line-clamp-2">
-                    {post.title}
-                  </h3>
+                  <div className="p-4">
+                    <h3 className="font-bold text-xl mb-2 text-neutral-700 dark:text-neutral-200 line-clamp-2">
+                      {post.title}
+                    </h3>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
+
         <hr className="my-8 border-t border-neutral-300 dark:border-neutral-600" />
         {PostsComponent && PostsComponent}
       </div>
