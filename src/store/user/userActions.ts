@@ -8,6 +8,7 @@ import {
 import UserService from 'services/userService';
 import { clearUser } from './userReducer';
 import axios from 'axios';
+import ContactService from 'services/contactService';
 
 export const register = createAsyncThunk(
   'user/register',
@@ -136,7 +137,7 @@ export const sendContactForm = createAsyncThunk(
   'contact/sendContactForm',
   async (formData: ContactForm, { rejectWithValue }) => {
     try {
-      const response = await UserService.sendContactForm(formData);
+      const response = await ContactService.sendContactForm(formData);
       return response;
     } catch (error: any) {
       const message =
