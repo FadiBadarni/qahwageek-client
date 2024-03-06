@@ -19,6 +19,7 @@ export interface NewPost {
 export interface Category {
   id: number;
   name: string;
+  slug: string;
   parentId?: number;
   subCategories?: Category[];
   description?: string;

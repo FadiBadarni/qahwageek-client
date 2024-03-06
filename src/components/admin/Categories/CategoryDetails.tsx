@@ -14,6 +14,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
   const [categoryDetails, setCategoryDetails] = useState({
     id: category.id,
     name: category.name,
+    slug: category.slug,
     description: category.description || '',
     subCategories: category.subCategories || [],
   });
@@ -22,6 +23,7 @@ const CategoryDetails: React.FC<CategoryDetailsProps> = ({ category }) => {
     setCategoryDetails({
       id: category.id,
       name: category.name,
+      slug: category.slug,
       description: category.description || '',
       subCategories: category.subCategories || [],
     });
