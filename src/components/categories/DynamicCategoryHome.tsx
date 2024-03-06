@@ -19,24 +19,12 @@ const DynamicCategoryHome: React.FC = () => {
     }
   }, [slug, dispatch]);
 
-  const currentCategory = useSelector(
-    (state: RootState) => state.categories.currentCategory.data
-  );
-
   const { items: posts } = useSelector(
     (state: RootState) => state.posts.categoryPosts.data
   );
 
   return (
-    <CategoryHeader
-      bannerTitle={currentCategory?.name || 'Loading Category...'}
-      bannerSubtitle={
-        currentCategory?.description ||
-        'Please wait while we load category details.'
-      }
-      posts={posts}
-      PostsComponent={<DynamicCategoryPosts />}
-    />
+    <CategoryHeader posts={posts} PostsComponent={<DynamicCategoryPosts />} />
   );
 };
 

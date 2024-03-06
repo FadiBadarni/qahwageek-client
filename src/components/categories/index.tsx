@@ -2,21 +2,23 @@ import { LightPost } from 'models/post';
 import React, { ReactNode } from 'react';
 import './categoryPage.css';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 type CategoryHeaderProps = {
-  bannerTitle: string;
-  bannerSubtitle: string;
   posts: LightPost[];
   PostsComponent?: ReactNode;
 };
 
 const CategoryHeader: React.FC<CategoryHeaderProps> = ({
-  bannerTitle,
-  bannerSubtitle,
   posts,
   PostsComponent,
 }) => {
   const navigate = useNavigate();
+
+  const currentCategory = useSelector(
+    (state: RootState) => state.categories.currentCategory.data
+  );
 
   const handlePostClick = (postId: number) => {
     navigate(`/posts/${postId}`);
@@ -38,10 +40,10 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({
           </svg>
         </div>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-light-text dark:text-dark-text">
-          {bannerTitle}
+          {currentCategory?.name}
         </h2>
         <p className="mt-4 text-base sm:text-lg md:text-xl leading-8 text-neutral-700 dark:text-neutral-100">
-          {bannerSubtitle}
+          {currentCategory?.description}
         </p>
         <div className="pb-20 md:pb-32"></div>
       </div>
