@@ -19,6 +19,7 @@ import CategoriesManagement from 'components/admin/Categories';
 import DynamicCategoryHome from 'components/categories';
 import ContactPage from 'components/contact';
 import { ResetPassword } from 'components/login/ResetPassword';
+import { UsersManagement } from 'components/admin/Users';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -44,7 +45,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/posts/:postId" element={<Post />} />
-
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/category/:slug" element={<DynamicCategoryHome />} />
 
             <Route
@@ -79,7 +80,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/reset-password" element={<ResetPassword />} />
+            <Route
+              path="/cms/manage-users"
+              element={
+                <ProtectedRoute>
+                  <UsersManagement />
+                </ProtectedRoute>
+              }
+            />
 
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
