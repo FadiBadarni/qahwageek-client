@@ -160,3 +160,23 @@ export const sendPasswordResetEmail = createAsyncThunk(
     }
   }
 );
+
+export const resetPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (
+    { token, newPassword }: { token: string; newPassword: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await UserService.resetPasswordService(
+        token,
+        newPassword
+      );
+      return response;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to reset password';
+      return rejectWithValue(message);
+    }
+  }
+);

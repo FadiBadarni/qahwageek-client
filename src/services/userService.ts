@@ -103,6 +103,18 @@ class UserService {
       throw error;
     }
   }
+
+  static async resetPasswordService(token: string, newPassword: string) {
+    try {
+      const response = await axiosClient.post('/user/reset-password', {
+        token,
+        newPassword,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

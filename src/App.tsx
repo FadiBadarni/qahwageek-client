@@ -18,6 +18,7 @@ import { ForgotPassword } from 'components/login/ForgotPassword';
 import CategoriesManagement from 'components/admin/Categories';
 import DynamicCategoryHome from 'components/categories';
 import ContactPage from 'components/contact';
+import { ResetPassword } from 'components/login/ResetPassword';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -78,6 +79,8 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/reset-password" element={<ResetPassword />} />
+
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
