@@ -1,32 +1,19 @@
 import { TrashIcon, XCircleIcon } from '@heroicons/react/24/outline';
-import { UserData } from 'models/user';
-import React, { useEffect, useState } from 'react';
-
-const fetchUsers = async (): Promise<UserData[]> => {
-  return Promise.resolve([
-    {
-      id: 1,
-      email: 'user1@example.com',
-      username: 'user1',
-      roles: ['Admin'],
-      profilePicture: '',
-    },
-    {
-      id: 2,
-      email: 'user2@example.com',
-      username: 'user2',
-      roles: ['User'],
-      profilePicture: '',
-    },
-  ]);
-};
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { fetchAllUsers } from 'store/user/userActions';
 
 export const UsersManagement: React.FC = () => {
-  const [users, setUsers] = useState<UserData[]>([]);
+  const dispatch = useAppDispatch();
+  const { data, status, error } = useSelector(
+    (state: RootState) => state.admin.users
+  );
 
   useEffect(() => {
-    fetchUsers().then(setUsers);
-  }, []);
+    dispatch(fetchAllUsers({ page: 1, size: 10 }));
+  }, [dispatch]);
 
   return (
     <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 rtl">
@@ -72,7 +59,7 @@ export const UsersManagement: React.FC = () => {
                 </tr>
               </thead>
               <tbody className="bg-light-layer dark:bg-dark-layer divide-y divide-light-border dark:divide-dark-border">
-                {users.map((user) => (
+                {data.items.map((user) => (
                   <tr key={user.id} className="align-center">
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <img

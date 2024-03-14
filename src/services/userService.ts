@@ -115,6 +115,17 @@ class UserService {
       throw error;
     }
   }
+
+  static async fetchAllUsers(page: number = 1, size: number = 10) {
+    try {
+      const response = await axiosClient.get('/users', {
+        params: { page, size },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

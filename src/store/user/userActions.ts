@@ -180,3 +180,19 @@ export const resetPassword = createAsyncThunk(
     }
   }
 );
+
+export const fetchAllUsers = createAsyncThunk(
+  'users/fetchAll',
+  async (
+    { page, size }: { page: number; size: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const users = await UserService.fetchAllUsers(page, size);
+      return users;
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to fetch users';
+      return rejectWithValue(message);
+    }
+  }
+);
