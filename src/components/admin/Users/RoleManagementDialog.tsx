@@ -19,9 +19,11 @@ const RoleManagementDialog: React.FC<RoleManagementDialogProps> = ({
   const [selectedRoles, setSelectedRoles] = useState<MultiValue<RoleOption>>(
     []
   );
+  const [initialRoles, setInitialRoles] = useState<MultiValue<RoleOption>>([]);
 
   useEffect(() => {
     setSelectedRoles(userRoles);
+    setInitialRoles(userRoles);
   }, [userRoles]);
 
   const handleRoleChange = (
@@ -30,6 +32,9 @@ const RoleManagementDialog: React.FC<RoleManagementDialogProps> = ({
   ) => {
     setSelectedRoles(selectedOptions);
   };
+
+  const hasChanges =
+    JSON.stringify(selectedRoles) !== JSON.stringify(initialRoles);
 
   return (
     <Transition.Root show={isOpen} as={Fragment}>
@@ -63,7 +68,7 @@ const RoleManagementDialog: React.FC<RoleManagementDialogProps> = ({
             <div className="inline-block align-bottom bg-white dark:bg-dark-layer rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
               <Dialog.Title
                 as="h3"
-                className="text-lg leading-6 font-medium text-gray-900 dark:text-white"
+                className="text-lg leading-6 font-medium text-gray-900 dark:text-white text-center"
               >
                 إدارة الأدوار
               </Dialog.Title>
@@ -88,10 +93,25 @@ const RoleManagementDialog: React.FC<RoleManagementDialogProps> = ({
                   }}
                 />
               </div>
-              <div className="mt-5 sm:mt-6">
+              <div className="mt-5 sm:mt-6 space-x-3 flex justify-around">
                 <button
                   type="button"
-                  className="inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 text-base font-medium text-white hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:text-sm"
+                  className="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:text-sm"
+                  onClick={onClose}
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="button"
+                  className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white sm:text-sm ${
+                    hasChanges
+                      ? 'bg-brand-500 hover:bg-brand-700 focus:ring-brand-500'
+                      : 'bg-gray-500'
+                  }`}
+                  onClick={() =>
+                    hasChanges && onRolesUpdate([...selectedRoles])
+                  }
+                  disabled={!hasChanges}
                 >
                   حفظ التغييرات
                 </button>

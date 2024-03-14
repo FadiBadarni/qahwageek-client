@@ -112,7 +112,7 @@ export const UsersManagement: React.FC = () => {
                         {user.username}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                        <div className="flex gap-2">
+                        <div className="flex items-center gap-2">
                           {user.roles.map((role, index) => (
                             <span
                               key={index}
@@ -122,7 +122,7 @@ export const UsersManagement: React.FC = () => {
                             </span>
                           ))}
                           <PencilIcon
-                            className="h-5 w-5 text-green-500 cursor-pointer"
+                            className="h-5 w-5 text-green-500 cursor-pointer mr-4" // Adjusted for margin left
                             onClick={() =>
                               handleOpenDialog(
                                 user.id,
