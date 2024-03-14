@@ -118,7 +118,7 @@ class UserService {
 
   static async fetchAllUsers(page: number = 1, size: number = 10) {
     try {
-      const response = await axiosClient.get('/users', {
+      const response = await axiosClient.get('/user/all', {
         params: { page, size },
       });
       return response.data;

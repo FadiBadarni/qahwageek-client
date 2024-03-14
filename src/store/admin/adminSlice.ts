@@ -13,7 +13,10 @@ export const adminSlice = createSlice({
         state.users.status = LoadingStatus.Loading;
       })
       .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        state.users.data = action.payload;
+        state.users.data.items = action.payload.content;
+        state.users.data.totalCount = action.payload.totalElements;
+        state.users.data.currentPage = action.payload.number;
+        state.users.data.totalPages = action.payload.totalPages;
         state.users.status = LoadingStatus.Succeeded;
       })
       .addCase(fetchAllUsers.rejected, (state, action) => {

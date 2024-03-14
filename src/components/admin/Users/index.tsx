@@ -2,6 +2,7 @@ import { TrashIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { LoadingStatus } from 'store/shared/commonState';
 import { RootState } from 'store/store';
 import { fetchAllUsers } from 'store/user/userActions';
 
@@ -12,8 +13,16 @@ export const UsersManagement: React.FC = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchAllUsers({ page: 1, size: 10 }));
+    dispatch(fetchAllUsers({ page: 0, size: 10 }));
   }, [dispatch]);
+
+  if (status === LoadingStatus.Loading) {
+    return <div>Loading users...</div>;
+  }
+
+  if (error) {
+    return <div>Error fetching users: {error}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 rtl">
