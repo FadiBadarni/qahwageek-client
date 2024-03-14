@@ -97,13 +97,17 @@ export const UsersManagement: React.FC = () => {
                   {data.items.map((user) => (
                     <tr key={user.id} className="align-center">
                       <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        <img
-                          src={
-                            user.profilePicture || 'default-profile-picture-url'
-                          }
-                          alt="Profile"
-                          className="h-10 w-10 rounded-full object-cover mx-auto"
-                        />
+                        {user.profilePicture ? (
+                          <img
+                            src={user.profilePicture}
+                            alt="Profile"
+                            className="h-10 w-10 rounded-full object-cover mx-auto"
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-full flex items-center justify-center mx-auto bg-brand-500 text-white uppercase font-semibold">
+                            {user.username.charAt(0)}
+                          </div>
+                        )}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
                         {user.email}
@@ -122,7 +126,7 @@ export const UsersManagement: React.FC = () => {
                             </span>
                           ))}
                           <PencilIcon
-                            className="h-5 w-5 text-green-500 cursor-pointer mr-4" // Adjusted for margin left
+                            className="h-5 w-5 text-green-500 cursor-pointer mr-4"
                             onClick={() =>
                               handleOpenDialog(
                                 user.id,
