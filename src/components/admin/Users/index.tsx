@@ -12,6 +12,7 @@ import {
 import { RoleOption, translateRole } from 'utils/roleTranslationUtil';
 import RoleManagementDialog from './RoleManagementDialog';
 import { displayConfirmation, displayToast } from 'utils/alertUtils';
+import { PaginationComponent } from 'components/categories/PaginationComponent';
 
 export const UsersManagement: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,10 +23,19 @@ export const UsersManagement: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUserRoles, setEditingUserRoles] = useState<RoleOption[]>([]);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchAllUsers({ page: 0, size: 10 }));
-  }, [dispatch]);
+    dispatch(fetchAllUsers({ page: currentPage, size: 10 }));
+  }, [dispatch, currentPage]);
+
+  useEffect(() => {
+    if (data.totalPages !== undefined && data.currentPage !== undefined) {
+      setTotalPages(data.totalPages);
+      setCurrentPage(data.currentPage);
+    }
+  }, [data.totalPages, data.currentPage]);
 
   const handleOpenDialog = (userId: number, userRoles: RoleOption[]) => {
     setEditingUserId(userId);
@@ -63,6 +73,10 @@ export const UsersManagement: React.FC = () => {
       dispatch(fetchAllUsers({ page: 0, size: 10 }));
       displayToast('تم حذف المستخدم بنجاح', true, currentTheme);
     }
+  };
+
+  const handlePageChange = (newPage: number) => {
+    dispatch(fetchAllUsers({ page: newPage, size: 10 }));
   };
 
   return (
@@ -198,6 +212,11 @@ export const UsersManagement: React.FC = () => {
             </div>
           </div>
         </div>
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
       <RoleManagementDialog
         isOpen={isDialogOpen}

@@ -5,7 +5,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { fetchPostsByCategory } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { PostsPagination } from './PostsPagination';
+import { PaginationComponent } from './PaginationComponent';
 import { useNavigate } from 'react-router-dom';
 import { CategoryDetail } from 'models/post';
 
@@ -105,7 +105,7 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
               </div>
             </article>
           ))}
-          <PostsPagination
+          <PaginationComponent
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={handlePageChange}
