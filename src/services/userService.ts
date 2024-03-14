@@ -135,6 +135,15 @@ class UserService {
       throw error;
     }
   }
+
+  static async deleteUser(userId: number) {
+    try {
+      const response = await axiosClient.delete(`/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

@@ -1,22 +1,24 @@
-import {
-  PencilIcon,
-  TrashIcon,
-  XCircleIcon,
-} from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LoadingStatus } from 'store/shared/commonState';
 import { RootState } from 'store/store';
-import { fetchAllUsers, updateUserRoles } from 'store/user/userActions';
+import {
+  deleteUser,
+  fetchAllUsers,
+  updateUserRoles,
+} from 'store/user/userActions';
 import { RoleOption, translateRole } from 'utils/roleTranslationUtil';
 import RoleManagementDialog from './RoleManagementDialog';
+import { displayConfirmation, displayToast } from 'utils/alertUtils';
 
 export const UsersManagement: React.FC = () => {
   const dispatch = useAppDispatch();
   const { data, status, error } = useSelector(
     (state: RootState) => state.admin.users
   );
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingUserRoles, setEditingUserRoles] = useState<RoleOption[]>([]);
   const [editingUserId, setEditingUserId] = useState<number | null>(null);
@@ -44,6 +46,22 @@ export const UsersManagement: React.FC = () => {
         updateUserRoles({ userId: editingUserId, roles: roleStrings })
       );
       handleCloseDialog();
+    }
+  };
+
+  const handleDeleteUser = async (userId: number) => {
+    const result = await displayConfirmation({
+      title: 'هل أنت متأكد؟',
+      text: 'هل ترغب حقًا في حذف هذا المستخدم؟ لا يمكن التراجع عن هذا الإجراء.',
+      icon: 'warning',
+      confirmButtonText: 'نعم، احذفه!',
+      cancelButtonText: 'لا، إلغاء الأمر!',
+    });
+
+    if (result.isConfirmed) {
+      await dispatch(deleteUser(userId));
+      dispatch(fetchAllUsers({ page: 0, size: 10 }));
+      displayToast('تم حذف المستخدم بنجاح', true, currentTheme);
     }
   };
 
@@ -153,26 +171,17 @@ export const UsersManagement: React.FC = () => {
 
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative border-r border-light-border dark:border-dark-border">
                           <div className="flex justify-center items-center gap-4 h-full absolute inset-0">
-                            <a
-                              href="/cms/manage-users"
-                              className="text-yellow-600 hover:text-yellow-400 dark:hover:text-yellow-300 flex items-center"
-                            >
-                              <XCircleIcon
-                                className="h-5 w-5 ml-2"
-                                aria-hidden="true"
-                              />
-                              حظر
-                            </a>
-                            <a
-                              href="/cms/manage-users"
-                              className="text-red-600 hover:text-red-400 dark:hover:text-red-300 flex items-center"
+                            <button
+                              type="button"
+                              onClick={() => handleDeleteUser(user.id)}
+                              className="text-red-600 hover:text-red-400 dark:hover:text-red-300 flex items-center focus:outline-none"
                             >
                               <TrashIcon
                                 className="h-5 w-5 ml-2"
                                 aria-hidden="true"
                               />
                               حذف
-                            </a>
+                            </button>
                           </div>
                         </td>
                       </tr>

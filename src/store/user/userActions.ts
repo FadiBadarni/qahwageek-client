@@ -213,3 +213,16 @@ export const updateUserRoles = createAsyncThunk(
     }
   }
 );
+
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      await UserService.deleteUser(userId);
+      return userId;
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to delete user';
+      return rejectWithValue(message);
+    }
+  }
+);

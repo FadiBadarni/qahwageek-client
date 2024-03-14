@@ -1,7 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { UserData } from 'models/user';
 import { LoadingStatus } from 'store/shared/commonState';
-import { fetchAllUsers, updateUserRoles } from 'store/user/userActions';
+import {
+  deleteUser,
+  fetchAllUsers,
+  updateUserRoles,
+} from 'store/user/userActions';
 import { initialUsersState } from 'store/user/userState';
 
 export const adminSlice = createSlice({
@@ -43,6 +47,20 @@ export const adminSlice = createSlice({
         state.users.status = LoadingStatus.Failed;
         state.users.error =
           action.error.message || 'Could not update user roles';
+      })
+      .addCase(deleteUser.pending, (state) => {
+        state.users.status = LoadingStatus.Loading;
+      })
+      .addCase(deleteUser.fulfilled, (state, action: PayloadAction<number>) => {
+        state.users.data.items = state.users.data.items.filter(
+          (user) => user.id !== action.payload
+        );
+        state.users.data.totalCount -= 1;
+        state.users.status = LoadingStatus.Succeeded;
+      })
+      .addCase(deleteUser.rejected, (state, action) => {
+        state.users.status = LoadingStatus.Failed;
+        state.users.error = action.error.message || 'Could not delete user';
       });
   },
 });
