@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { LoadingStatus } from 'store/shared/commonState';
 import { RootState } from 'store/store';
-import { fetchAllUsers } from 'store/user/userActions';
+import { fetchAllUsers, updateUserRoles } from 'store/user/userActions';
 import { RoleOption, translateRole } from 'utils/roleTranslationUtil';
 import RoleManagementDialog from './RoleManagementDialog';
 
@@ -37,8 +37,14 @@ export const UsersManagement: React.FC = () => {
     setEditingUserRoles([]);
   };
 
-  const handleRolesUpdate = (newRoles: RoleOption[]) => {
-    console.log(`Update roles for user ${editingUserId}:`, newRoles);
+  const handleRolesUpdate = async (newRoles: RoleOption[]) => {
+    if (editingUserId) {
+      const roleStrings = newRoles.map((role) => role.value);
+      await dispatch(
+        updateUserRoles({ userId: editingUserId, roles: roleStrings })
+      );
+      handleCloseDialog();
+    }
   };
 
   return (

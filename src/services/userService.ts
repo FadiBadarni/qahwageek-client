@@ -126,6 +126,15 @@ class UserService {
       throw error;
     }
   }
+
+  static async updateUserRoles(userId: number, roles: string[]) {
+    try {
+      const response = await axiosClient.put(`/user/${userId}/roles`, roles);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

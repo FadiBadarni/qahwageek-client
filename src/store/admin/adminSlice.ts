@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { UserData } from 'models/user';
 import { LoadingStatus } from 'store/shared/commonState';
-import { fetchAllUsers } from 'store/user/userActions';
+import { fetchAllUsers, updateUserRoles } from 'store/user/userActions';
 import { initialUsersState } from 'store/user/userState';
 
 export const adminSlice = createSlice({
@@ -22,6 +23,26 @@ export const adminSlice = createSlice({
       .addCase(fetchAllUsers.rejected, (state, action) => {
         state.users.status = LoadingStatus.Failed;
         state.users.error = action.error.message || 'Could not fetch users';
+      })
+      .addCase(updateUserRoles.pending, (state) => {
+        state.users.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        updateUserRoles.fulfilled,
+        (state, action: PayloadAction<UserData>) => {
+          const index = state.users.data.items.findIndex(
+            (user) => user.id === action.payload.id
+          );
+          if (index !== -1) {
+            state.users.data.items[index] = action.payload;
+          }
+          state.users.status = LoadingStatus.Succeeded;
+        }
+      )
+      .addCase(updateUserRoles.rejected, (state, action) => {
+        state.users.status = LoadingStatus.Failed;
+        state.users.error =
+          action.error.message || 'Could not update user roles';
       });
   },
 });

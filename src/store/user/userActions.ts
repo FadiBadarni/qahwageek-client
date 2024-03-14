@@ -196,3 +196,20 @@ export const fetchAllUsers = createAsyncThunk(
     }
   }
 );
+
+export const updateUserRoles = createAsyncThunk(
+  'user/updateUserRoles',
+  async (
+    { userId, roles }: { userId: number; roles: string[] },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedUser = await UserService.updateUserRoles(userId, roles);
+      return updatedUser;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to update user roles';
+      return rejectWithValue(message);
+    }
+  }
+);
