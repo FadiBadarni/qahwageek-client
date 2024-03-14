@@ -25,14 +25,6 @@ export const UsersManagement: React.FC = () => {
     dispatch(fetchAllUsers({ page: 0, size: 10 }));
   }, [dispatch]);
 
-  if (status === LoadingStatus.Loading) {
-    return <div>Loading users...</div>;
-  }
-
-  if (error) {
-    return <div>Error fetching users: {error}</div>;
-  }
-
   const handleOpenDialog = (userId: number, userRoles: RoleOption[]) => {
     setEditingUserId(userId);
     setEditingUserRoles(userRoles);
@@ -94,78 +86,98 @@ export const UsersManagement: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="bg-light-layer dark:bg-dark-layer divide-y divide-light-border dark:divide-dark-border">
-                  {data.items.map((user) => (
-                    <tr key={user.id} className="align-center">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm">
-                        {user.profilePicture ? (
-                          <img
-                            src={user.profilePicture}
-                            alt="Profile"
-                            className="h-10 w-10 rounded-full object-cover mx-auto"
-                          />
-                        ) : (
-                          <div className="h-10 w-10 rounded-full flex items-center justify-center mx-auto bg-brand-500 text-white uppercase font-semibold">
-                            {user.username.charAt(0)}
-                          </div>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                        {user.email}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                        {user.username}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                        <div className="flex items-center gap-2">
-                          {user.roles.map((role, index) => (
-                            <span
-                              key={index}
-                              className="px-2 py-1 rounded bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text"
-                            >
-                              {translateRole(role)}
-                            </span>
-                          ))}
-                          <PencilIcon
-                            className="h-5 w-5 text-green-500 cursor-pointer mr-4"
-                            onClick={() =>
-                              handleOpenDialog(
-                                user.id,
-                                user.roles.map((role) => ({
-                                  label: translateRole(role),
-                                  value: role,
-                                }))
-                              )
-                            }
-                          />
-                        </div>
-                      </td>
-
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative border-r border-light-border dark:border-dark-border">
-                        <div className="flex justify-center items-center gap-4 h-full absolute inset-0">
-                          <a
-                            href="/cms/manage-users"
-                            className="text-yellow-600 hover:text-yellow-400 dark:hover:text-yellow-300 flex items-center"
-                          >
-                            <XCircleIcon
-                              className="h-5 w-5 ml-2"
-                              aria-hidden="true"
-                            />
-                            حظر
-                          </a>
-                          <a
-                            href="/cms/manage-users"
-                            className="text-red-600 hover:text-red-400 dark:hover:text-red-300 flex items-center"
-                          >
-                            <TrashIcon
-                              className="h-5 w-5 ml-2"
-                              aria-hidden="true"
-                            />
-                            حذف
-                          </a>
-                        </div>
+                  {status === LoadingStatus.Loading ? (
+                    <tr>
+                      <td colSpan={5} className="text-center py-4">
+                        جاري التحميل...
                       </td>
                     </tr>
-                  ))}
+                  ) : error ? (
+                    <tr>
+                      <td colSpan={5} className="text-center py-4 text-red-600">
+                        حدث خطأ: {error}
+                      </td>
+                    </tr>
+                  ) : data.items.length > 0 ? (
+                    data.items.map((user) => (
+                      <tr key={user.id} className="align-center">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          {user.profilePicture ? (
+                            <img
+                              src={user.profilePicture}
+                              alt="Profile"
+                              className="h-10 w-10 rounded-full object-cover mx-auto"
+                            />
+                          ) : (
+                            <div className="h-10 w-10 rounded-full flex items-center justify-center mx-auto bg-brand-500 text-white uppercase font-semibold">
+                              {user.username.charAt(0)}
+                            </div>
+                          )}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
+                          {user.email}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
+                          {user.username}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
+                          <div className="flex items-center gap-2">
+                            {user.roles.map((role, index) => (
+                              <span
+                                key={index}
+                                className="px-2 py-1 rounded bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text"
+                              >
+                                {translateRole(role)}
+                              </span>
+                            ))}
+                            <PencilIcon
+                              className="h-5 w-5 text-green-500 cursor-pointer mr-4"
+                              onClick={() =>
+                                handleOpenDialog(
+                                  user.id,
+                                  user.roles.map((role) => ({
+                                    label: translateRole(role),
+                                    value: role,
+                                  }))
+                                )
+                              }
+                            />
+                          </div>
+                        </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative border-r border-light-border dark:border-dark-border">
+                          <div className="flex justify-center items-center gap-4 h-full absolute inset-0">
+                            <a
+                              href="/cms/manage-users"
+                              className="text-yellow-600 hover:text-yellow-400 dark:hover:text-yellow-300 flex items-center"
+                            >
+                              <XCircleIcon
+                                className="h-5 w-5 ml-2"
+                                aria-hidden="true"
+                              />
+                              حظر
+                            </a>
+                            <a
+                              href="/cms/manage-users"
+                              className="text-red-600 hover:text-red-400 dark:hover:text-red-300 flex items-center"
+                            >
+                              <TrashIcon
+                                className="h-5 w-5 ml-2"
+                                aria-hidden="true"
+                              />
+                              حذف
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="text-center py-4">
+                        لم يتم العثور على مستخدمين.
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
