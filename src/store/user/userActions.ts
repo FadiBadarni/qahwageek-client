@@ -146,3 +146,83 @@ export const sendContactForm = createAsyncThunk(
     }
   }
 );
+
+export const sendPasswordResetEmail = createAsyncThunk(
+  'user/sendPasswordResetEmail',
+  async (email: string, { rejectWithValue }) => {
+    try {
+      const response = await UserService.sendPasswordResetEmail(email);
+      return response;
+    } catch (error) {
+      const message =
+        (error as Error).message || 'Failed to send password reset email';
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'user/resetPassword',
+  async (
+    { token, newPassword }: { token: string; newPassword: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await UserService.resetPasswordService(
+        token,
+        newPassword
+      );
+      return response;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to reset password';
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const fetchAllUsers = createAsyncThunk(
+  'users/fetchAll',
+  async (
+    { page, size }: { page: number; size: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const users = await UserService.fetchAllUsers(page, size);
+      return users;
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to fetch users';
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const updateUserRoles = createAsyncThunk(
+  'user/updateUserRoles',
+  async (
+    { userId, roles }: { userId: number; roles: string[] },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedUser = await UserService.updateUserRoles(userId, roles);
+      return updatedUser;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to update user roles';
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  'user/deleteUser',
+  async (userId: number, { rejectWithValue }) => {
+    try {
+      await UserService.deleteUser(userId);
+      return userId;
+    } catch (error: any) {
+      const message = error.response?.data?.message || 'Failed to delete user';
+      return rejectWithValue(message);
+    }
+  }
+);

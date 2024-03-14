@@ -92,6 +92,58 @@ class UserService {
       throw error;
     }
   }
+
+  static async sendPasswordResetEmail(email: string) {
+    try {
+      const response = await axiosClient.post('/user/password-reset', {
+        email,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async resetPasswordService(token: string, newPassword: string) {
+    try {
+      const response = await axiosClient.post('/user/reset-password', {
+        token,
+        newPassword,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async fetchAllUsers(page: number = 1, size: number = 10) {
+    try {
+      const response = await axiosClient.get('/user/all', {
+        params: { page, size },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updateUserRoles(userId: number, roles: string[]) {
+    try {
+      const response = await axiosClient.put(`/user/${userId}/roles`, roles);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async deleteUser(userId: number) {
+    try {
+      const response = await axiosClient.delete(`/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

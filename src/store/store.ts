@@ -19,6 +19,7 @@ import eventSlice from './event/eventSlice';
 import searchSlice from './post/searchSlice';
 import profileSlice from './user/profileSlice';
 import commentsSlice from './comment/commentSlice';
+import adminSlice from './admin/adminSlice';
 export interface RootState {
   user: ReturnType<typeof userReducer>;
   userProfile: ReturnType<typeof profileSlice>;
@@ -29,6 +30,7 @@ export interface RootState {
   events: ReturnType<typeof eventSlice>;
   search: ReturnType<typeof searchSlice>;
   postComments: ReturnType<typeof commentsSlice>;
+  admin: ReturnType<typeof adminSlice>;
 }
 
 const rootReducer = combineReducers({
@@ -41,6 +43,7 @@ const rootReducer = combineReducers({
   events: eventSlice,
   search: searchSlice,
   postComments: commentsSlice,
+  admin: adminSlice,
 });
 
 const persistConfig = {

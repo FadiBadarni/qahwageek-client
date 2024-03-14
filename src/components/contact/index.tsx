@@ -6,15 +6,20 @@ import {
 } from '@heroicons/react/24/outline';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 import { sendContactForm } from 'store/user/userActions';
+import { displayToast } from 'utils/alertUtils';
 
 const ContactPage = () => {
   const dispatch = useAppDispatch();
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
   const [formData, setFormData] = useState({
     email: '',
     subject: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -23,9 +28,22 @@ const ContactPage = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(sendContactForm(formData));
+    setIsSubmitting(true);
+    try {
+      await dispatch(sendContactForm(formData)).unwrap();
+      displayToast('تم إرسال الرسالة بنجاح', true, currentTheme);
+      setFormData({
+        email: '',
+        subject: '',
+        message: '',
+      });
+    } catch (error) {
+      displayToast('حدث خطأ أثناء إرسال الرسالة', false, currentTheme);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -105,7 +123,10 @@ const ContactPage = () => {
           <div className="text-center">
             <button
               type="submit"
-              className="inline-flex items-center justify-center py-3 px-8 text-sm font-medium text-center text-white rounded-lg bg-brand-500 hover:bg-brand-600 focus:ring-4 focus:outline-none focus:ring-brand-300 dark:bg-brand-600 dark:hover:bg-brand-700 dark:focus:ring-brand-800"
+              disabled={isSubmitting}
+              className={`inline-flex items-center justify-center py-3 px-8 text-sm font-medium text-center text-white rounded-lg bg-brand-500 hover:bg-brand-600 focus:ring-4 focus:outline-none focus:ring-brand-300 dark:bg-brand-600 dark:hover:bg-brand-700 dark:focus:ring-brand-800 ${
+                isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
             >
               إبعت
               <PaperAirplaneIcon className="w-4 h-4 mr-2 rotate-180" />

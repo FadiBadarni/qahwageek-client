@@ -3,13 +3,13 @@ import {
   ArrowLongRightIcon,
 } from '@heroicons/react/20/solid';
 
-interface PostsPaginationProps {
+interface PaginationComponentProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
 }
 
-export const PostsPagination: React.FC<PostsPaginationProps> = ({
+export const PaginationComponent: React.FC<PaginationComponentProps> = ({
   currentPage,
   totalPages,
   onPageChange,
