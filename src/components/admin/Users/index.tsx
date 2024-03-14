@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { LoadingStatus } from 'store/shared/commonState';
 import { RootState } from 'store/store';
 import { fetchAllUsers } from 'store/user/userActions';
+import { translateRole } from 'utils/roleTranslationUtil';
 
 export const UsersManagement: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -86,8 +87,18 @@ export const UsersManagement: React.FC = () => {
                       {user.username}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                      {user.roles.join(', ')}
+                      <div className="flex flex-wrap gap-2">
+                        {user.roles.map((role, index) => (
+                          <span
+                            key={index}
+                            className="px-2 py-1 rounded bg-light-background dark:bg-dark-background text-light-text dark:text-dark-text"
+                          >
+                            {translateRole(role)}
+                          </span>
+                        ))}
+                      </div>
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium relative border-r border-light-border dark:border-dark-border">
                       <div className="flex justify-center items-center gap-4 h-full absolute inset-0">
                         <a
