@@ -1,13 +1,17 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { RootState } from 'store/store';
 import { resetPassword } from 'store/user/userActions';
+import { displayError, displayToast } from 'utils/alertUtils';
 
 export const ResetPassword: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const queryParams = new URLSearchParams(location.search);
   const token = queryParams.get('token');
@@ -15,16 +19,25 @@ export const ResetPassword: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!token) {
-      alert('Invalid or missing token.');
+      displayError({
+        icon: 'error',
+        title: 'خطأ',
+        text: 'الرمز غير صالح أو مفقود.',
+      });
       return;
     }
     dispatch(resetPassword({ token, newPassword }))
       .unwrap()
       .then(() => {
+        displayToast('تمت إعادة تعيين كلمة المرور بنجاح.', true, currentTheme);
         navigate('/login');
       })
       .catch((error) => {
-        console.error('Password reset error:', error);
+        displayError({
+          icon: 'error',
+          title: 'خطأ في إعادة تعيين كلمة المرور',
+          text: 'حدث خطأ أثناء محاولة إعادة تعيين كلمة المرور. الرجاء المحاولة مرة أخرى.',
+        });
       });
   };
 
