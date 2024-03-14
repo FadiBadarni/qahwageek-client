@@ -1,16 +1,47 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { MdEmail } from 'react-icons/md';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { sendPasswordResetEmail } from 'store/user/userActions';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
+import { displayError, displayToast } from 'utils/alertUtils';
 
 export const ForgotPassword: React.FC = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(sendPasswordResetEmail(email));
+    if (!email) {
+      displayError({
+        icon: 'error',
+        title: 'خطأ',
+        text: 'الرجاء إدخال البريد الإلكتروني.',
+      });
+      return;
+    }
+
+    dispatch(sendPasswordResetEmail(email))
+      .unwrap()
+      .then(() => {
+        navigate('/login', { replace: true });
+
+        displayToast(
+          'تم إرسال تعليمات إعادة تعيين كلمة المرور إلى بريدك الإلكتروني.',
+          true,
+          currentTheme
+        );
+      })
+      .catch((error) => {
+        displayError({
+          icon: 'error',
+          title: 'خطأ في إرسال البريد الإلكتروني',
+          text: 'لم نتمكن من إرسال تعليمات إعادة تعيين كلمة المرور. يرجى التحقق من صحة البريد الإلكتروني والمحاولة مرة أخرى.',
+        });
+      });
   };
 
   return (
