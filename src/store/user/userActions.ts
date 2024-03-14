@@ -146,3 +146,17 @@ export const sendContactForm = createAsyncThunk(
     }
   }
 );
+
+export const sendPasswordResetEmail = createAsyncThunk(
+  'user/sendPasswordResetEmail',
+  async (email: string, { rejectWithValue }) => {
+    try {
+      const response = await UserService.sendPasswordResetEmail(email);
+      return response;
+    } catch (error) {
+      const message =
+        (error as Error).message || 'Failed to send password reset email';
+      return rejectWithValue(message);
+    }
+  }
+);

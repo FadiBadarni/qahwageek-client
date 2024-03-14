@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MdEmail } from 'react-icons/md';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { sendPasswordResetEmail } from 'store/user/userActions';
 
 export const ForgotPassword: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Dispatch an action to request a password reset
-    //await dispatch(requestPasswordReset(email));
+    dispatch(sendPasswordResetEmail(email));
   };
 
   return (

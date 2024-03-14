@@ -92,6 +92,17 @@ class UserService {
       throw error;
     }
   }
+
+  static async sendPasswordResetEmail(email: string) {
+    try {
+      const response = await axiosClient.post('/user/password-reset', {
+        email,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;
