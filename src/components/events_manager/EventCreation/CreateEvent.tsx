@@ -2,16 +2,18 @@ import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactDatePicker from 'react-datepicker';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { getAllEventCategories } from 'store/event/eventActions';
+import { createEvent, getAllEventCategories } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { NewEvent } from 'models/event';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent: React.FC = () => {
   const dispatch = useAppDispatch();
   const eventsCategories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
+  const navigate = useNavigate();
 
   const [newEvent, setNewEvent] = useState<NewEvent>({
     title: '',
@@ -64,10 +66,28 @@ const CreateEvent: React.FC = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(newEvent);
-    //setLoading(true);
+    setLoading(true);
+
+    try {
+      const createdEvent = await dispatch(createEvent(newEvent)).unwrap();
+      setNewEvent({
+        title: '',
+        description: '',
+        dateTime: new Date().toISOString(),
+        imageUrl: '',
+        eventLink: '',
+        isOnlineEvent: false,
+        location: '',
+        category: { id: 0, name: '', description: '' },
+      });
+      navigate(`/events/${createdEvent.id}`);
+    } catch (error) {
+      console.error('Error creating event:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

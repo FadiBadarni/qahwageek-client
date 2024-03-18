@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { NewEvent } from 'models/event';
 import EventService from 'services/eventService';
 
 export const getUpcomingEvents = createAsyncThunk(
@@ -27,6 +28,19 @@ export const getAllEventCategories = createAsyncThunk(
       return rejectWithValue(
         error.response?.data || 'Unable to fetch event categories'
       );
+    }
+  }
+);
+
+export const createEvent = createAsyncThunk(
+  'events/createEvent',
+  async (eventData: NewEvent, { rejectWithValue }) => {
+    try {
+      const newEvent = await EventService.createEvent(eventData);
+      return newEvent;
+    } catch (error: any) {
+      console.error('Failed to create event:', error);
+      return rejectWithValue(error.response?.data || 'Unable to create event');
     }
   }
 );
