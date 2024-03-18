@@ -46,7 +46,7 @@ export const UpcomingEvents: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1 gap-4">
           {events.map((event) => (
             <div
-              key={event.eventId}
+              key={event.id}
               className="bg-light-layer dark:bg-dark-layer rounded-lg shadow p-4 relative group transition duration-300 ease-in-out"
             >
               <div className="relative block overflow-hidden">
@@ -78,7 +78,7 @@ export const UpcomingEvents: React.FC = () => {
               <div className="flex items-center space-x-reverse space-x-2 mb-2">
                 <CalendarIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {formatDateWithTime(event.date)}
+                  {formatDateWithTime(event.dateTime)}
                 </span>
               </div>
             </div>

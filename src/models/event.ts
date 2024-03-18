@@ -1,8 +1,16 @@
 export interface MeetupEvent {
-  eventId: string;
+  id: number;
   title: string;
-  date: string;
+  description: string;
+  dateTime: string;
   imageUrl: string;
   eventLink: string;
   isOnlineEvent: boolean;
+  location?: string;
+  category: EventCategory;
+}
+export interface EventCategory {
+  id: number;
+  name: string;
+  description?: string;
 }
