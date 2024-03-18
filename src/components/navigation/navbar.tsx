@@ -139,6 +139,14 @@ export const Navbar: React.FC = () => {
                         ادارة المحتوى
                       </Link>
                     )}
+                    {user?.roles.includes('ROLE_EVENTS_MANAGER') && (
+                      <Link
+                        to="/events/cms"
+                        className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
+                      >
+                        إدارة الأحداث
+                      </Link>
+                    )}
                   </div>
                 </div>
               </div>

@@ -20,6 +20,7 @@ import DynamicCategoryHome from 'components/categories';
 import ContactPage from 'components/contact';
 import { ResetPassword } from 'components/login/ResetPassword';
 import { UsersManagement } from 'components/admin/Users';
+import EventsManagerDashboard from 'components/events_manager';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -85,6 +86,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <UsersManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/cms"
+              element={
+                <ProtectedRoute>
+                  <EventsManagerDashboard />
                 </ProtectedRoute>
               }
             />

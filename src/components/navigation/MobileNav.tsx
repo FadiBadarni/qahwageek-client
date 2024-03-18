@@ -95,6 +95,14 @@ const MobileNav: React.FC<MobileNavProps> = ({
             ادارة المحتوى
           </Link>
         )}
+        {user?.roles.includes('ROLE_EVENTS_MANAGER') && (
+          <Link
+            to="/events/cms"
+            className="block px-4 py-2 text-sm rounded hover:bg-light-accent dark:hover:bg-dark-accent text-light-text dark:text-dark-text"
+          >
+            إدارة الأحداث
+          </Link>
+        )}
       </div>
       {user ? (
         <div className="border-t border-gray-700 pb-3 pt-4">
