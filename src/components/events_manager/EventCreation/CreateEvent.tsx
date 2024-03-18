@@ -5,6 +5,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getAllEventCategories } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
+import { NewEvent } from 'models/event';
 
 const CreateEvent: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,23 +13,61 @@ const CreateEvent: React.FC = () => {
     (state: RootState) => state.events.eventsCategories.data
   );
 
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [imageUrl, setImageUrl] = useState('');
-  const [eventLink, setEventLink] = useState('');
-  const [isOnlineEvent, setIsOnlineEvent] = useState(false);
-  const [location, setLocation] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [newEvent, setNewEvent] = useState<NewEvent>({
+    title: '',
+    description: '',
+    dateTime: new Date().toISOString(),
+    imageUrl: '',
+    eventLink: '',
+    isOnlineEvent: false,
+    location: '',
+    category: { id: 0, name: '', description: '' },
+  });
+
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getAllEventCategories());
   }, [dispatch]);
 
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value, type } = e.target;
+    const isCheckbox = type === 'checkbox';
+
+    if (name === 'category') {
+      const selectedCategory = eventsCategories.find(
+        (category) => category.id === Number(value)
+      );
+      setNewEvent((prev) => ({
+        ...prev,
+        category: selectedCategory || prev.category,
+      }));
+    } else {
+      const newValue = isCheckbox
+        ? (e.target as HTMLInputElement).checked
+        : value;
+      setNewEvent((prev) => ({
+        ...prev,
+        [name]: newValue,
+      }));
+    }
+  };
+
+  const handleDateChange = (date: Date | null) => {
+    setNewEvent((prev) => ({
+      ...prev,
+      dateTime: date?.toISOString() ?? '',
+    }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    console.log(newEvent);
+    //setLoading(true);
   };
 
   return (
@@ -47,9 +86,10 @@ const CreateEvent: React.FC = () => {
             </label>
             <input
               id="title"
+              name="title"
               type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              value={newEvent.title}
+              onChange={(e) => handleInputChange(e)}
               required
               className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
               placeholder="أدخل عنوان الفعالية هنا"
@@ -64,10 +104,9 @@ const CreateEvent: React.FC = () => {
             </label>
             <select
               id="category"
-              value={selectedCategory ?? ''}
-              onChange={(e) =>
-                setSelectedCategory(Number(e.target.value) || null)
-              }
+              name="category"
+              value={newEvent.category.name}
+              onChange={(e) => handleInputChange(e)}
               className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 pr-8 pl-2"
             >
               <option disabled value="">
@@ -90,21 +129,23 @@ const CreateEvent: React.FC = () => {
             >
               <input
                 id="isOnlineEvent"
+                name="isOnlineEvent"
                 type="checkbox"
-                checked={isOnlineEvent}
-                onChange={(e) => setIsOnlineEvent(e.target.checked)}
+                checked={newEvent.isOnlineEvent}
+                onChange={(e) => handleInputChange(e)}
                 className="rounded border-neutral-300 text-brand-500 shadow-sm focus:border-brand-300 focus:ring focus:ring-offset-0 focus:ring-brand-500 ml-2"
               />
               هل الفعالية عبر الإنترنت؟
             </label>
             <input
               id="location"
+              name="location"
               type="text"
-              value={location}
-              onChange={(e) => setLocation(e.target.value)}
+              value={newEvent.location}
+              onChange={(e) => handleInputChange(e)}
               className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
               placeholder={
-                isOnlineEvent
+                newEvent.isOnlineEvent
                   ? 'أدخل رابط الحدث عبر الإنترنت (مثل Zoom)'
                   : 'أدخل موقع الفعالية هنا'
               }
@@ -119,9 +160,10 @@ const CreateEvent: React.FC = () => {
             </label>
             <input
               id="eventLink"
+              name="eventLink"
               type="text"
-              value={eventLink}
-              onChange={(e) => setEventLink(e.target.value)}
+              value={newEvent.eventLink}
+              onChange={(e) => handleInputChange(e)}
               className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
               placeholder="أدخل رابط الفعالية إذا كان متاحًا"
             />
@@ -137,8 +179,10 @@ const CreateEvent: React.FC = () => {
               تاريخ ووقت الفعالية
             </label>
             <ReactDatePicker
-              selected={startDate}
-              onChange={(date: Date) => setStartDate(date)}
+              selected={
+                newEvent.dateTime ? new Date(newEvent.dateTime) : new Date()
+              }
+              onChange={(date: Date) => handleDateChange(date)}
               showTimeSelect
               timeFormat="HH:mm"
               timeIntervals={15}
@@ -157,9 +201,10 @@ const CreateEvent: React.FC = () => {
             </label>
             <input
               id="imageUrl"
+              name="imageUrl"
               type="text"
-              value={imageUrl}
-              onChange={(e) => setImageUrl(e.target.value)}
+              value={newEvent.imageUrl}
+              onChange={(e) => handleInputChange(e)}
               className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
               placeholder="أدخل رابط صورة الفعالية هنا"
             />
@@ -175,8 +220,9 @@ const CreateEvent: React.FC = () => {
           </label>
           <textarea
             id="description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            name="description"
+            value={newEvent.description}
+            onChange={(e) => handleInputChange(e)}
             required
             className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
             placeholder="أدخل وصف الفعالية هنا"

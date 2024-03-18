@@ -14,3 +14,14 @@ export interface EventCategory {
   name: string;
   description?: string;
 }
+
+export interface NewEvent {
+  title: string;
+  description: string;
+  dateTime: string;
+  imageUrl: string;
+  eventLink: string;
+  isOnlineEvent: boolean;
+  location?: string;
+  category: EventCategory;
+}
