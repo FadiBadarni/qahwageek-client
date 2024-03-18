@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import ReactDatePicker from 'react-datepicker';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { getAllEventCategories } from 'store/event/eventActions';
+import { RootState } from 'store/store';
+import { useSelector } from 'react-redux';
 
 const CreateEvent: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const eventsCategories = useSelector(
+    (state: RootState) => state.events.eventsCategories.data
+  );
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [startDate, setStartDate] = useState<Date | null>(new Date());
@@ -13,9 +22,9 @@ const CreateEvent: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
-  //   useEffect(() => {
-  //     dispatch(fetchEventCategories());
-  //   }, [dispatch]);
+  useEffect(() => {
+    dispatch(getAllEventCategories());
+  }, [dispatch]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -59,14 +68,16 @@ const CreateEvent: React.FC = () => {
               onChange={(e) =>
                 setSelectedCategory(Number(e.target.value) || null)
               }
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 pr-8 pl-2"
             >
               <option disabled value="">
                 اختر تصنيفاً...
               </option>
-              {/* categories.map((category) => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            )) */}
+              {eventsCategories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>

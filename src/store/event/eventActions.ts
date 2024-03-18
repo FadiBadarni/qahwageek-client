@@ -15,3 +15,18 @@ export const getUpcomingEvents = createAsyncThunk(
     }
   }
 );
+
+export const getAllEventCategories = createAsyncThunk(
+  'events/fetchEventCategories',
+  async (_, { rejectWithValue }) => {
+    try {
+      const categories = await EventService.getAllEventCategories();
+      return categories;
+    } catch (error: any) {
+      console.error('Failed to fetch event categories:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch event categories'
+      );
+    }
+  }
+);
