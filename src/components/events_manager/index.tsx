@@ -10,7 +10,7 @@ import { FaTags } from 'react-icons/fa';
 const EventsManagerDashboard: React.FC = () => {
   const dashboardItems = [
     {
-      to: '/events/add-event',
+      to: '/events/create-event',
       title: 'إضافة حدث',
       Icon: IoIosAddCircleOutline,
     },

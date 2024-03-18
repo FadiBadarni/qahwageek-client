@@ -21,6 +21,7 @@ import ContactPage from 'components/contact';
 import { ResetPassword } from 'components/login/ResetPassword';
 import { UsersManagement } from 'components/admin/Users';
 import EventsManagerDashboard from 'components/events_manager';
+import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -97,7 +98,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/events/create-event"
+              element={
+                <ProtectedRoute>
+                  <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>

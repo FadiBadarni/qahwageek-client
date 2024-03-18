@@ -1,0 +1,189 @@
+import React, { useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
+import ReactDatePicker from 'react-datepicker';
+
+const CreateEvent: React.FC = () => {
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [imageUrl, setImageUrl] = useState('');
+  const [eventLink, setEventLink] = useState('');
+  const [isOnlineEvent, setIsOnlineEvent] = useState(false);
+  const [location, setLocation] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  //   useEffect(() => {
+  //     dispatch(fetchEventCategories());
+  //   }, [dispatch]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+  };
+
+  return (
+    <div className="p-4 mx-auto max-w-7xl px-6 lg:px-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div>
+          <label
+            htmlFor="title"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            عنوان الفعالية
+          </label>
+          <input
+            id="title"
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+            placeholder="أدخل عنوان الفعالية هنا"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="description"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            وصف الفعالية
+          </label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+            placeholder="أدخل وصف الفعالية هنا"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="dateTime"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            تاريخ ووقت الفعالية
+          </label>
+          <ReactDatePicker
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)}
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="MMMM d, yyyy h:mm aa"
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="imageUrl"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            رابط صورة الفعالية
+          </label>
+          <input
+            id="imageUrl"
+            type="text"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+            placeholder="أدخل رابط صورة الفعالية هنا"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="isOnlineEvent"
+            className="flex items-center space-x-2 rtl:space-x-reverse text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            <input
+              id="isOnlineEvent"
+              type="checkbox"
+              checked={isOnlineEvent}
+              onChange={(e) => setIsOnlineEvent(e.target.checked)}
+              className="rounded border-neutral-300 text-brand-500 shadow-sm focus:border-brand-300 focus:ring focus:ring-offset-0 focus:ring-brand-500"
+            />
+            <span>هل الفعالية عبر الإنترنت؟</span>
+          </label>
+        </div>
+
+        <div>
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            موقع الفعالية
+          </label>
+          <input
+            id="location"
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            disabled={isOnlineEvent}
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+            placeholder="أدخل موقع الفعالية هنا"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="category"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            تصنيف الفعالية
+          </label>
+          <select
+            id="category"
+            value={selectedCategory ?? ''}
+            onChange={(e) =>
+              setSelectedCategory(Number(e.target.value) || null)
+            }
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+          >
+            <option disabled value="">
+              اختر تصنيفاً...
+            </option>
+            {/* Map over your categories here */}
+            {/* categories.map(category => (
+            <option key={category.id} value={category.id}>{category.name}</option>
+          )) */}
+          </select>
+        </div>
+
+        <div>
+          <label
+            htmlFor="eventLink"
+            className="block text-sm font-medium text-light-text dark:text-dark-text"
+          >
+            رابط الفعالية
+          </label>
+          <input
+            id="eventLink"
+            type="text"
+            value={eventLink}
+            onChange={(e) => setEventLink(e.target.value)}
+            className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+            placeholder="أدخل رابط الفعالية إذا كان متاحًا"
+          />
+        </div>
+
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            disabled={loading}
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+          >
+            {loading ? 'جارٍ الإنشاء...' : 'إنشاء الفعالية'}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default CreateEvent;
