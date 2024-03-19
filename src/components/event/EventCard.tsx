@@ -25,7 +25,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
       </div>
       <div className="flex-1 p-4 flex flex-col justify-between">
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+          <h3 className="text-xl font-semibold text-gray-900 dark:text-white line-clamp-1 overflow-hidden overflow-ellipsis">
             {event.title}
           </h3>
           <p className="mt-3 text-base text-gray-500 dark:text-gray-400 line-clamp-2">
@@ -47,7 +47,9 @@ const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
               event.location && (
                 <>
                   <MapPinIcon className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-                  <span>{event.location}</span>
+                  <span className="overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[150px]">
+                    {event.location}
+                  </span>
                 </>
               )
             )}

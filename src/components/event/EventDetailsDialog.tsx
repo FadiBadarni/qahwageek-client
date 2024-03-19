@@ -4,6 +4,11 @@ import { Fragment } from 'react';
 import { MeetupEvent } from 'models/event';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
+import {
+  CalendarIcon,
+  GlobeAltIcon,
+  MapPinIcon,
+} from '@heroicons/react/24/outline';
 
 interface EventDetailsDialogProps {
   isOpen: boolean;
@@ -30,58 +35,78 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <div className="fixed inset-0 bg-neutral-700 bg-opacity-75 transition-opacity dark:bg-neutral-900 dark:bg-opacity-75"></div>
+              <Dialog.Overlay className="fixed inset-0 bg-neutral-700 bg-opacity-75 transition-opacity dark:bg-neutral-900 dark:bg-opacity-75" />
             </Transition.Child>
+
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
-              enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-              enterTo="opacity-100 translate-y-0 sm:scale-100"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
               leave="ease-in duration-200"
-              leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-              leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-light-layer dark:bg-dark-layer p-6 text-light-text dark:text-dark-text shadow-xl transition-all sm:my-8 sm:max-w-4xl sm:w-full">
-                <Dialog.Title as="h3" className="text-lg font-medium leading-6">
-                  {event.title}
-                </Dialog.Title>
-                <div className="mt-4">
-                  <img
-                    src={event.imageUrl || '/default-event-image.jpg'}
-                    alt={event.title}
-                    className="h-48 w-full object-cover rounded-md mb-4"
-                  />
-                  <p className="text-sm">{event.description}</p>
-                  <p className="mt-2 text-sm">
-                    <strong>تاريخ:</strong>{' '}
-                    {format(parseISO(event.dateTime), 'EEEE, d MMMM yyyy', {
-                      locale: ar,
-                    })}
-                  </p>
-                  {event.onlineEvent ? (
-                    <p className="mt-2 text-sm">
-                      <strong>الحدث عبر الإنترنت</strong>
+              <Dialog.Panel className="relative bg-white dark:bg-dark-layer rounded-lg p-6 text-left overflow-hidden shadow-xl transform transition-all sm:w-full sm:max-w-4xl">
+                <div className="text-center mb-4">
+                  <Dialog.Title
+                    as="h3"
+                    className="text-2xl font-bold text-gray-900 dark:text-white"
+                  >
+                    {event.title}
+                  </Dialog.Title>
+                </div>
+
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-center gap-4">
+                  <div className="flex-shrink-0">
+                    <img
+                      src={event.imageUrl || '/default-event-image.jpg'}
+                      alt={event.title}
+                      className="w-40 h-40 object-cover rounded-full"
+                    />
+                  </div>
+
+                  <div className="flex-1">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      {event.description}
                     </p>
-                  ) : (
-                    <p className="mt-2 text-sm">
-                      <strong>الموقع:</strong> {event.location}
-                    </p>
-                  )}
-                  <div className="mt-4 flex justify-end">
-                    <a
-                      href={event.eventLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-500 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-                    >
-                      زيارة الرابط
-                    </a>
+
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2">
+                      <CalendarIcon className="h-5 w-5 text-neutral-500 dark:text-neutral-400 mr-2" />
+                      {format(parseISO(event.dateTime), 'EEEE, d MMMM yyyy', {
+                        locale: ar,
+                      })}
+                    </div>
+
+                    <div className="flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      {event.onlineEvent ? (
+                        <>
+                          <GlobeAltIcon className="h-5 w-5 text-neutral-500 dark:text-neutral-400 mr-2" />
+                          الحدث عبر الإنترنت
+                        </>
+                      ) : (
+                        <>
+                          <MapPinIcon className="h-5 w-5 text-neutral-500 dark:text-neutral-400 mr-2" />
+                          {event.location}
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
-                <div className="mt-5 sm:mt-6">
+
+                <div className="mt-5 flex justify-between items-center">
+                  <a
+                    href={event.eventLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-brand-500 hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
+                  >
+                    زيارة الرابط
+                  </a>
+
                   <button
                     type="button"
-                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-200 dark:bg-neutral-600 text-base font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 sm:text-sm"
+                    className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-200 dark:bg-neutral-600 text-base font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 sm:text-sm"
                     onClick={onClose}
                   >
                     إغلاق
