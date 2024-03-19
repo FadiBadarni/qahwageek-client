@@ -22,6 +22,7 @@ import { ResetPassword } from 'components/login/ResetPassword';
 import { UsersManagement } from 'components/admin/Users';
 import EventsManagerDashboard from 'components/events_manager';
 import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
+import EventsPage from 'components/event';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -49,7 +50,7 @@ function App() {
             <Route path="/posts/:postId" element={<Post />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/category/:slug" element={<DynamicCategoryHome />} />
-
+            <Route path="/events" element={<EventsPage />} />
             <Route
               path="/user/profile/:userId"
               element={

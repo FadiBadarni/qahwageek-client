@@ -50,9 +50,9 @@ const eventSlice = createSlice({
       .addCase(getEventsByCategory.fulfilled, (state, action) => {
         state.eventsByCategory.status = LoadingStatus.Succeeded;
         state.eventsByCategory.data = {
-          items: action.payload.items,
-          totalCount: action.payload.totalCount,
-          currentPage: action.payload.currentPage,
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
           totalPages: action.payload.totalPages,
         };
       })

@@ -5,7 +5,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { fetchPostsByCategory } from 'store/post/postActions';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { PaginationComponent } from './PaginationComponent';
+import { PaginationComponent } from '../shared/PaginationComponent';
 import { useNavigate } from 'react-router-dom';
 import { CategoryDetail } from 'models/post';
 
