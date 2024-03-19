@@ -42,5 +42,19 @@ class EventService {
       throw error;
     }
   }
+
+  static async getEventPresignedUrl(
+    filename: string,
+    contentType: string
+  ): Promise<string> {
+    try {
+      const response = await axiosClient.get(`/events/generate-presigned-url`, {
+        params: { filename, contentType },
+      });
+      return response.data.url;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 export default EventService;

@@ -49,10 +49,10 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
           رابط صورة الفعالية
         </label>
         <input
-          id="imageUrl"
-          name="imageUrl"
-          type="text"
-          value={newEvent.imageUrl}
+          id="eventImage"
+          name="eventImage"
+          type="file"
+          accept="image/*"
           onChange={handleInputChange}
           className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
           placeholder="أدخل رابط صورة الفعالية هنا"

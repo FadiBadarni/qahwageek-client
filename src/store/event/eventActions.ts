@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
 import { NewEvent } from 'models/event';
 import EventService from 'services/eventService';
 
@@ -72,6 +73,35 @@ export const getEventsByCategory = createAsyncThunk(
       return rejectWithValue(
         error.response?.data ||
           `Unable to fetch ${categoryId ? 'category events' : 'all events'}`
+      );
+    }
+  }
+);
+
+export const uploadEventImageToS3 = createAsyncThunk(
+  'post/uploadEventImage',
+  async (
+    { file, filename }: { file: File; filename: string },
+    { dispatch, rejectWithValue }
+  ) => {
+    try {
+      const contentType = file.type;
+      const presignedUrl = await EventService.getEventPresignedUrl(
+        filename,
+        contentType
+      );
+      await axios.put(presignedUrl, file, {
+        headers: {
+          'Content-Type': contentType,
+        },
+      });
+
+      const imageUrl = presignedUrl.split('?')[0];
+      return imageUrl;
+    } catch (error: any) {
+      console.error('Failed to upload event image to S3:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to upload event image to S3'
       );
     }
   }
