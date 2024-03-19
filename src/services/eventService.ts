@@ -26,5 +26,21 @@ class EventService {
       throw error;
     }
   }
+  static async getEventsByCategory(
+    categoryId?: number,
+    page = 0,
+    size = 10,
+    sort = 'dateTime,desc'
+  ): Promise<any> {
+    try {
+      const params = categoryId
+        ? { page, size, sort, categoryId }
+        : { page, size, sort };
+      const response = await axiosClient.get(`/events`, { params });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 export default EventService;

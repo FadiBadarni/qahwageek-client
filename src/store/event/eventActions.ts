@@ -44,3 +44,35 @@ export const createEvent = createAsyncThunk(
     }
   }
 );
+
+export const getEventsByCategory = createAsyncThunk(
+  'events/getEventsByCategory',
+  async (
+    {
+      categoryId,
+      page,
+      size,
+      sort,
+    }: { categoryId?: number; page?: number; size?: number; sort?: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const events = await EventService.getEventsByCategory(
+        categoryId,
+        page,
+        size,
+        sort
+      );
+      return events;
+    } catch (error: any) {
+      console.error(
+        `Failed to fetch ${categoryId ? 'category events' : 'all events'}:`,
+        error
+      );
+      return rejectWithValue(
+        error.response?.data ||
+          `Unable to fetch ${categoryId ? 'category events' : 'all events'}`
+      );
+    }
+  }
+);
