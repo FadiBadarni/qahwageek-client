@@ -1,10 +1,12 @@
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getEventsByCategory } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import EventCard from './EventCard';
+import { MeetupEvent } from 'models/event';
+import EventDetailsDialog from './EventDetailsDialog';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +15,8 @@ const EventsPage: React.FC = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.eventsByCategory.data);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<MeetupEvent | null>(null);
 
   useEffect(() => {
     dispatch(getEventsByCategory({ page: currentPage, size: 10 }));
@@ -20,6 +24,16 @@ const EventsPage: React.FC = () => {
 
   const handlePageChange = (page: number) => {
     dispatch(getEventsByCategory({ page, size: 10 }));
+  };
+
+  const onViewDetails = (event: MeetupEvent) => {
+    setSelectedEvent(event);
+    setIsDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+    setSelectedEvent(null);
   };
 
   return (
@@ -35,7 +49,13 @@ const EventsPage: React.FC = () => {
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {events.length > 0 ? (
-          events.map((event) => <EventCard key={event.id} event={event} />)
+          events.map((event) => (
+            <EventCard
+              key={event.id}
+              event={event}
+              onViewDetails={() => onViewDetails(event)}
+            />
+          ))
         ) : (
           <div className="text-center col-span-full">
             <p className="text-xl text-gray-900 dark:text-white">
@@ -52,6 +72,13 @@ const EventsPage: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
+      {selectedEvent && (
+        <EventDetailsDialog
+          isOpen={isDialogOpen}
+          onClose={closeDialog}
+          event={selectedEvent}
+        />
+      )}
     </div>
   );
 };
