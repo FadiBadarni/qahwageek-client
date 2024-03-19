@@ -41,7 +41,18 @@ const CreateEvent: React.FC = () => {
     const { name, value, type } = e.target;
     const isCheckbox = type === 'checkbox';
 
-    if (name === 'category') {
+    if (name === 'isOnlineEvent') {
+      const isChecked = isCheckbox
+        ? (e.target as HTMLInputElement).checked
+        : false;
+      setNewEvent((prev) => ({
+        ...prev,
+        [name]: isChecked,
+        // Clear the location if the event is marked as online
+        location: isChecked ? '' : prev.location,
+      }));
+    } else if (name === 'category') {
+      // Handling category selection
       const selectedCategory = eventsCategories.find(
         (category) => category.id === Number(value)
       );
@@ -50,6 +61,7 @@ const CreateEvent: React.FC = () => {
         category: selectedCategory || prev.category,
       }));
     } else {
+      // Handling changes for all other inputs
       const newValue = isCheckbox
         ? (e.target as HTMLInputElement).checked
         : value;
@@ -58,6 +70,13 @@ const CreateEvent: React.FC = () => {
         [name]: newValue,
       }));
     }
+  };
+
+  const updateLocation = (location: string) => {
+    setNewEvent((prev) => ({
+      ...prev,
+      location,
+    }));
   };
 
   const handleDateChange = (date: Date | null) => {
@@ -84,6 +103,7 @@ const CreateEvent: React.FC = () => {
         category: { id: 0, name: '', description: '' },
       });
       navigate(`/events/${createdEvent.id}`);
+      console.log(newEvent);
     } catch (error) {
       console.error('Error creating event:', error);
     } finally {
@@ -106,6 +126,7 @@ const CreateEvent: React.FC = () => {
         <EventOnlineDetails
           newEvent={newEvent}
           handleInputChange={handleInputChange}
+          updateLocation={updateLocation}
         />
 
         <EventDateTimeAndImage
