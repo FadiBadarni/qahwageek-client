@@ -23,6 +23,7 @@ import { UsersManagement } from 'components/admin/Users';
 import EventsManagerDashboard from 'components/events_manager';
 import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
 import EventsPage from 'components/event';
+import EventsTable from 'components/events_manager/EventsManagement';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -104,6 +105,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/all"
+              element={
+                <ProtectedRoute>
+                  <EventsTable />
                 </ProtectedRoute>
               }
             />

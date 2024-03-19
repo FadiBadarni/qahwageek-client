@@ -14,7 +14,7 @@ const EventsManagerDashboard: React.FC = () => {
       title: 'إضافة حدث',
       Icon: IoIosAddCircleOutline,
     },
-    { to: '/events', title: 'عرض كل الأحداث', Icon: IoMdCalendar },
+    { to: '/events/all', title: 'عرض كل الأحداث', Icon: IoMdCalendar },
     {
       to: '/events/review-requests',
       title: 'مراجعة طلبات الأحداث',
