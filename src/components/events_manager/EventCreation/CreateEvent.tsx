@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
-import ReactDatePicker from 'react-datepicker';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { createEvent, getAllEventCategories } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { NewEvent } from 'models/event';
 import { useNavigate } from 'react-router-dom';
+import { EventBasicDetails } from './EventBasicDetails';
+import { EventOnlineDetails } from './EventOnlineDetails';
+import { EventDateTimeAndImage } from './EventDateTimeAndImage';
 
 const CreateEvent: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -96,140 +97,22 @@ const CreateEvent: React.FC = () => {
         إنشاء حدث جديد
       </h2>
       <form onSubmit={handleSubmit} className="space-y-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="title"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
-            >
-              عنوان الفعالية
-            </label>
-            <input
-              id="title"
-              name="title"
-              type="text"
-              value={newEvent.title}
-              onChange={(e) => handleInputChange(e)}
-              required
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
-              placeholder="أدخل عنوان الفعالية هنا"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="category"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
-            >
-              تصنيف الفعالية
-            </label>
-            <select
-              id="category"
-              name="category"
-              value={newEvent.category.name}
-              onChange={(e) => handleInputChange(e)}
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 pr-8 pl-2"
-            >
-              <option disabled value="">
-                اختر تصنيفاً...
-              </option>
-              {eventsCategories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+        <EventBasicDetails
+          newEvent={newEvent}
+          eventsCategories={eventsCategories}
+          handleInputChange={handleInputChange}
+        />
 
-        <div className="flex flex-col md:flex-row justify-between gap-6">
-          <div className="md:w-1/2">
-            <label
-              htmlFor="isOnlineEvent"
-              className="flex items-center text-sm font-medium text-light-text dark:text-dark-text"
-            >
-              <input
-                id="isOnlineEvent"
-                name="isOnlineEvent"
-                type="checkbox"
-                checked={newEvent.isOnlineEvent}
-                onChange={(e) => handleInputChange(e)}
-                className="rounded border-neutral-300 text-brand-500 shadow-sm focus:border-brand-300 focus:ring focus:ring-offset-0 focus:ring-brand-500 ml-2"
-              />
-              هل الفعالية عبر الإنترنت؟
-            </label>
-            <input
-              id="location"
-              name="location"
-              type="text"
-              value={newEvent.location}
-              onChange={(e) => handleInputChange(e)}
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
-              placeholder={
-                newEvent.isOnlineEvent
-                  ? 'أدخل رابط الحدث عبر الإنترنت (مثل Zoom)'
-                  : 'أدخل موقع الفعالية هنا'
-              }
-            />
-          </div>
-          <div className="md:w-1/2">
-            <label
-              htmlFor="eventLink"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
-            >
-              رابط الفعالية
-            </label>
-            <input
-              id="eventLink"
-              name="eventLink"
-              type="text"
-              value={newEvent.eventLink}
-              onChange={(e) => handleInputChange(e)}
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
-              placeholder="أدخل رابط الفعالية إذا كان متاحًا"
-            />
-          </div>
-        </div>
+        <EventOnlineDetails
+          newEvent={newEvent}
+          handleInputChange={handleInputChange}
+        />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="dateTime"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
-            >
-              تاريخ ووقت الفعالية
-            </label>
-            <ReactDatePicker
-              selected={
-                newEvent.dateTime ? new Date(newEvent.dateTime) : new Date()
-              }
-              onChange={(date: Date) => handleDateChange(date)}
-              showTimeSelect
-              timeFormat="HH:mm"
-              timeIntervals={15}
-              timeCaption="time"
-              dateFormat="MMMM d, yyyy h:mm aa"
-              wrapperClassName="datePicker"
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="imageUrl"
-              className="block text-sm font-medium text-light-text dark:text-dark-text"
-            >
-              رابط صورة الفعالية
-            </label>
-            <input
-              id="imageUrl"
-              name="imageUrl"
-              type="text"
-              value={newEvent.imageUrl}
-              onChange={(e) => handleInputChange(e)}
-              className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
-              placeholder="أدخل رابط صورة الفعالية هنا"
-            />
-          </div>
-        </div>
+        <EventDateTimeAndImage
+          newEvent={newEvent}
+          handleDateChange={handleDateChange}
+          handleInputChange={handleInputChange}
+        />
 
         <div>
           <label
