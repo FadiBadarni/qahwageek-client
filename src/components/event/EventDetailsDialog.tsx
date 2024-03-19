@@ -58,7 +58,7 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
                       locale: ar,
                     })}
                   </p>
-                  {event.isOnlineEvent ? (
+                  {event.onlineEvent ? (
                     <p className="mt-2 text-sm">
                       <strong>الحدث عبر الإنترنت</strong>
                     </p>

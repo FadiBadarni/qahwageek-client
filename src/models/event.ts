@@ -5,7 +5,7 @@ export interface MeetupEvent {
   dateTime: string;
   imageUrl: string;
   eventLink: string;
-  isOnlineEvent: boolean;
+  onlineEvent: boolean;
   location?: string;
   category: EventCategory;
 }

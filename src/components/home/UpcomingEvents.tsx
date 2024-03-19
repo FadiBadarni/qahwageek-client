@@ -64,7 +64,7 @@ export const UpcomingEvents: React.FC = () => {
                     <LinkIcon className="h-8 w-8 text-white opacity-0 group-hover:opacity-100" />
                   </div>
                 </a>
-                {event.isOnlineEvent && (
+                {event.onlineEvent && (
                   <div className="absolute top-0 left-0 bg-brand-500 text-white text-sm font-semibold px-2 py-1 rounded-md">
                     أونلاين
                     <GlobeAltIcon className="h-4 w-4 inline-block ml-1" />
