@@ -13,7 +13,18 @@ import {
 const eventSlice = createSlice({
   name: 'events',
   initialState: initialEventState,
-  reducers: {},
+  reducers: {
+    setSelectedEvent(state, action: PayloadAction<MeetupEvent>) {
+      state.selectedEvent.data = action.payload;
+      state.selectedEvent.status = LoadingStatus.Idle;
+      state.selectedEvent.error = null;
+    },
+    clearSelectedEvent(state) {
+      state.selectedEvent.data = null;
+      state.selectedEvent.status = LoadingStatus.Idle;
+      state.selectedEvent.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(getUpcomingEvents.pending, (state) => {
@@ -104,5 +115,7 @@ const eventSlice = createSlice({
       });
   },
 });
+
+export const { setSelectedEvent, clearSelectedEvent } = eventSlice.actions;
 
 export default eventSlice.reducer;

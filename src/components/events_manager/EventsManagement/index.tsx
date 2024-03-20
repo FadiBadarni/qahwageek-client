@@ -3,22 +3,32 @@ import { PaginationComponent } from 'components/shared/PaginationComponent';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { translateStatus } from 'models/event';
-import React, { useEffect } from 'react';
+import { MeetupEvent, translateStatus } from 'models/event';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getAllEvents, updateEventStatus } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import EventActions from './EventActions';
+import { clearSelectedEvent, setSelectedEvent } from 'store/event/eventSlice';
+import { displayToast } from 'utils/alertUtils';
 
 type Props = {};
 
 const EventsTable: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
+
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
   const {
     items: events,
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.allEvents.data);
+
+  const { data: selectedEventData } = useSelector(
+    (state: RootState) => state.events.selectedEvent
+  );
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     dispatch(getAllEvents({ page: currentPage, size: 10 }));
@@ -28,12 +38,42 @@ const EventsTable: React.FC<Props> = () => {
     dispatch(getAllEvents({ page, size: 10 }));
   };
 
-  const handlePublish = (eventId: number) => {
-    dispatch(updateEventStatus({ eventId, status: 'PUBLISHED' }));
+  const handlePublish = (event: MeetupEvent) => {
+    setIsUpdating(true);
+
+    dispatch(setSelectedEvent(event));
+    dispatch(updateEventStatus({ eventId: event.id, status: 'PUBLISHED' }))
+      .unwrap()
+      .then((updatedEvent) => {
+        dispatch(setSelectedEvent(updatedEvent));
+        displayToast('الحدث نُشر بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        displayToast('فشل في نشر الحدث', false, currentTheme);
+      })
+      .finally(() => {
+        setIsUpdating(false);
+        dispatch(clearSelectedEvent());
+      });
   };
 
-  const handleReject = (eventId: number) => {
-    dispatch(updateEventStatus({ eventId, status: 'REJECTED' }));
+  const handleReject = (event: MeetupEvent) => {
+    setIsUpdating(true);
+
+    dispatch(setSelectedEvent(event));
+    dispatch(updateEventStatus({ eventId: event.id, status: 'REJECTED' }))
+      .unwrap()
+      .then((updatedEvent) => {
+        dispatch(setSelectedEvent(updatedEvent));
+        displayToast('تم رفض الحدث بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        displayToast('فشل في رفض الحدث', false, currentTheme);
+      })
+      .finally(() => {
+        dispatch(clearSelectedEvent());
+        setIsUpdating(false);
+      });
   };
 
   return (
@@ -119,8 +159,12 @@ const EventsTable: React.FC<Props> = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
                       <EventActions
                         eventId={event.id}
-                        onPublish={() => handlePublish(event.id)}
-                        onReject={() => handleReject(event.id)}
+                        onPublish={() => handlePublish(event)}
+                        onReject={() => handleReject(event)}
+                        isLoading={
+                          selectedEventData?.id === event.id && isUpdating
+                        }
+                        isGlobalUpdating={isUpdating}
                       />
                     </td>
                   </tr>
