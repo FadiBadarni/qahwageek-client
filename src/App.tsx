@@ -23,8 +23,8 @@ import { UsersManagement } from 'components/admin/Users';
 import EventsManagerDashboard from 'components/events_manager';
 import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
 import EventsPage from 'components/event';
-import UsersEventsTable from 'components/events_manager/EventsManagement/ReviewEvents';
-import EventsManagement from 'components/events_manager/EventsManagement/ManageEvents';
+import UsersEventsTable from 'components/events_manager/ReviewEvents';
+import EventsManagement from 'components/events_manager/ManageEvents';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
