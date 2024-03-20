@@ -17,6 +17,8 @@ const UsersEventsTable: React.FC<Props> = () => {
 
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
+  const [sort, setSort] = useState<string>('');
+
   const {
     items: events,
     totalPages,
@@ -29,11 +31,11 @@ const UsersEventsTable: React.FC<Props> = () => {
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllEvents({ page: currentPage, size: 10 }));
-  }, [dispatch, currentPage]);
+    dispatch(getAllEvents({ page: currentPage, size: 6, sort }));
+  }, [dispatch, currentPage, sort]);
 
   const handlePageChange = (page: number) => {
-    dispatch(getAllEvents({ page, size: 10 }));
+    dispatch(getAllEvents({ page, size: 6, sort }));
   };
 
   const handlePublish = (event: MeetupEvent) => {
@@ -85,10 +87,24 @@ const UsersEventsTable: React.FC<Props> = () => {
   );
 
   return (
-    <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 max-w-7xl mx-auto">
+    <div className="bg-light-background dark:bg-dark-background p-4 max-w-7xl mx-auto">
       <h1 className="text-2xl font-semibold text-neutral-700 dark:text-neutral-200 mb-8 text-center">
         إدارة الأحداث المقترحة
       </h1>
+      <div className="text-right mb-4">
+        <select
+          id="sortingCriteria"
+          className="dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
+          value={sort}
+          onChange={(e) => setSort(e.target.value)}
+        >
+          <option value="">اختر معيار الترتيب</option>
+          <option value="dateTime,asc">التاريخ (تصاعدي)</option>
+          <option value="dateTime,desc">التاريخ (تنازلي)</option>
+          <option value="createdAt,asc">تاريخ الإنشاء (تصاعدي)</option>
+          <option value="createdAt,desc">تاريخ الإنشاء (تنازلي)</option>
+        </select>
+      </div>
       <div className="overflow-x-auto rounded-lg shadow">
         <div className="align-middle inline-block min-w-full">
           <div className="overflow-hidden border-b border-light-border dark:border-dark-border rounded-lg">

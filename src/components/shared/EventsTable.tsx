@@ -96,13 +96,13 @@ const EventsTable: React.FC<EventTableProps> = ({ events, renderActions }) => {
                   : event.title}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                {format(new Date(event.dateTime), 'PPpp', { locale: ar })}
+                {format(new Date(event.dateTime), 'PP، HH:mm', { locale: ar })}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
                 {event.creator}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                {format(new Date(event.createdAt), 'PPpp', {
+                {format(new Date(event.createdAt), 'PP، HH:mm', {
                   locale: ar,
                 })}
               </td>
