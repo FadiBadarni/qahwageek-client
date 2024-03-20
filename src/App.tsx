@@ -23,7 +23,7 @@ import { UsersManagement } from 'components/admin/Users';
 import EventsManagerDashboard from 'components/events_manager';
 import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
 import EventsPage from 'components/event';
-import EventsTable from 'components/events_manager/EventsManagement/ReviewEvents';
+import UsersEventsTable from 'components/events_manager/EventsManagement/ReviewEvents';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -112,7 +112,7 @@ function App() {
               path="/events/review-requests"
               element={
                 <ProtectedRoute>
-                  <EventsTable />
+                  <UsersEventsTable />
                 </ProtectedRoute>
               }
             />

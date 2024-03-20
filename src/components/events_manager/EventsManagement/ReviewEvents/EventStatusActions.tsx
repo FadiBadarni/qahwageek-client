@@ -2,7 +2,7 @@ import React from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { MeetupEvent } from 'models/event';
 
-interface EventActionsProps {
+interface EventStatusActionsProps {
   event: MeetupEvent;
   onPublish: (eventId: number) => void;
   onReject: (eventId: number) => void;
@@ -10,7 +10,7 @@ interface EventActionsProps {
   isGlobalUpdating: boolean;
 }
 
-const EventActions: React.FC<EventActionsProps> = ({
+const EventStatusActions: React.FC<EventStatusActionsProps> = ({
   event,
   onPublish,
   onReject,
@@ -82,4 +82,4 @@ const EventActions: React.FC<EventActionsProps> = ({
   );
 };
 
-export default EventActions;
+export default EventStatusActions;
