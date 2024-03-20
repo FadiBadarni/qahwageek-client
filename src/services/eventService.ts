@@ -60,7 +60,7 @@ class EventService {
   static async getAllEvents(
     page = 0,
     size = 10,
-    sort = 'dateTime,desc'
+    sort = 'createdAt,desc'
   ): Promise<any> {
     try {
       const params = { page, size, sort };

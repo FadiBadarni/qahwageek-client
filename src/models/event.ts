@@ -11,6 +11,7 @@ export interface MeetupEvent {
   status: EventStatus;
   userId: number;
   creator: string;
+  createdAt: string;
 }
 export interface EventCategory {
   id: number;

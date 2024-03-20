@@ -102,17 +102,18 @@ const EventsTable: React.FC<Props> = () => {
                   >
                     التاريخ والوقت
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
-                  >
-                    الفئة
-                  </th>
+
                   <th
                     scope="col"
                     className="w-1/6 px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
                   >
                     المنشئ
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
+                  >
+                    تاريخ انشاء الطلب
                   </th>
                   <th
                     scope="col"
@@ -141,17 +142,24 @@ const EventsTable: React.FC<Props> = () => {
                         </button>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                      {event.title}
+                    <td
+                      className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border"
+                      title={event.title}
+                    >
+                      {event.title.length > 35
+                        ? `${event.title.substring(0, 35)}...`
+                        : event.title}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
                       {format(new Date(event.dateTime), 'PPpp', { locale: ar })}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
-                      {event.category.name}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
                       {event.creator}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
+                      {format(new Date(event.createdAt), 'PPpp', {
+                        locale: ar,
+                      })}
                     </td>
                     <td
                       className={`px-6 py-4 whitespace-nowrap text-sm border-r border-light-border dark:border-dark-border text-center ${
