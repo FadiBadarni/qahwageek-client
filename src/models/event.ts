@@ -18,8 +18,8 @@ export interface EventCategory {
 
 export enum EventStatus {
   Pending = 'PENDING',
-  PUBLISHED = 'PUBLISHED',
-  REJECTED = 'REJECTED',
+  Published = 'PUBLISHED',
+  Rejected = 'REJECTED',
 }
 
 export interface NewEvent {
@@ -32,3 +32,13 @@ export interface NewEvent {
   location?: string;
   category: EventCategory;
 }
+
+export const translateStatus = (status: EventStatus) => {
+  const statusTranslations: { [key in EventStatus]: string } = {
+    [EventStatus.Pending]: 'قيد الانتظار',
+    [EventStatus.Published]: 'منشور',
+    [EventStatus.Rejected]: 'مرفوض',
+  };
+
+  return statusTranslations[status];
+};

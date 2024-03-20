@@ -1,7 +1,13 @@
+import {
+  ArrowsPointingOutIcon,
+  CheckIcon,
+  XMarkIcon,
+} from '@heroicons/react/24/outline';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { useAppDispatch } from 'hooks/useAppDispatch';
+import { translateStatus } from 'models/event';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getAllEvents } from 'store/event/eventActions';
@@ -28,7 +34,7 @@ const EventsTable: React.FC<Props> = () => {
   return (
     <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 max-w-7xl mx-auto">
       <h1 className="text-2xl font-semibold text-neutral-700 dark:text-neutral-200 mb-8 text-center">
-        إدارة الفعاليات
+        إدارة الأحداث
       </h1>
       <div className="overflow-x-auto rounded-lg shadow">
         <div className="align-middle inline-block min-w-full">
@@ -36,9 +42,12 @@ const EventsTable: React.FC<Props> = () => {
             <table className="min-w-full divide-y divide-light-border dark:divide-dark-border">
               <thead className="bg-light-layer dark:bg-dark-layer">
                 <tr>
+                  <th scope="col" className="relative px-6 py-3">
+                    <span className="sr-only">Expand</span>
+                  </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+                    className="w-1/4 px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
                   >
                     العنوان
                   </th>
@@ -56,9 +65,15 @@ const EventsTable: React.FC<Props> = () => {
                   </th>
                   <th
                     scope="col"
-                    className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
+                    className="w-1/6 px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
                   >
                     الموقع
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
+                  >
+                    الحالة
                   </th>
                   <th
                     scope="col"
@@ -71,35 +86,56 @@ const EventsTable: React.FC<Props> = () => {
               <tbody className="bg-light-layer dark:bg-dark-layer divide-y divide-light-border dark:divide-dark-border">
                 {events.map((event) => (
                   <tr key={event.id}>
-                    <td className="px-6 py-4 whitespace-normal text-sm text-neutral-700 dark:text-neutral-200 break-words">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-700 dark:text-neutral-200">
+                      <div className="flex justify-center items-center gap-4">
+                        <button className="text-gray-500 hover:text-gray-700">
+                          <ArrowsPointingOutIcon
+                            className="w-5 h-5"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
                       {event.title}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                      <div className="flex items-center">
-                        {format(new Date(event.dateTime), 'PPpp', {
-                          locale: ar,
-                        })}
-                      </div>
+                      {format(new Date(event.dateTime), 'PPpp', { locale: ar })}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
                       {event.category.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-normal text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border break-words">
-                      {event.onlineEvent ? 'أونلاين' : event.location}
+                    <td className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
+                      {event.onlineEvent
+                        ? 'أونلاين'
+                        : event.location && event.location.length > 30
+                        ? `${event.location.substring(0, 30)}...`
+                        : event.location}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
+                      {translateStatus(event.status)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
                       <div className="flex justify-center items-center gap-4">
                         <button
-                          onClick={() => console.log('Edit Event', event.id)}
-                          className="text-indigo-600 hover:text-indigo-800 dark:hover:text-indigo-400"
+                          onClick={() => console.log('Publish Event', event.id)}
+                          className="flex items-center justify-center text-green-600 hover:text-green-800 dark:hover:text-green-400"
                         >
-                          تعديل
+                          <CheckIcon
+                            className="w-5 h-5 ml-1"
+                            aria-hidden="true"
+                          />
+                          نشر
                         </button>
                         <button
-                          onClick={() => console.log('Delete Event', event.id)}
-                          className="text-red-600 hover:text-red-800 dark:hover:text-red-400"
+                          onClick={() => console.log('Reject Event', event.id)}
+                          className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
                         >
-                          حذف
+                          <XMarkIcon
+                            className="w-5 h-5 ml-1"
+                            aria-hidden="true"
+                          />
+                          رفض
                         </button>
                       </div>
                     </td>
@@ -110,11 +146,13 @@ const EventsTable: React.FC<Props> = () => {
           </div>
         </div>
       </div>
-      <PaginationComponent
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
+      <div className="mt-4">
+        <PaginationComponent
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      </div>
     </div>
   );
 };
