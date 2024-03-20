@@ -82,13 +82,6 @@ const CreateEvent: React.FC = () => {
     }
   };
 
-  const updateLocation = (location: string) => {
-    setNewEvent((prev) => ({
-      ...prev,
-      location,
-    }));
-  };
-
   const handleDateChange = (date: Date | null) => {
     setNewEvent((prev) => ({
       ...prev,
@@ -166,7 +159,6 @@ const CreateEvent: React.FC = () => {
         <EventOnlineDetails
           newEvent={newEvent}
           handleInputChange={handleInputChange}
-          updateLocation={updateLocation}
         />
 
         <EventDateTimeAndImage
