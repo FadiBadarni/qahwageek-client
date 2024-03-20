@@ -68,10 +68,11 @@ class EventService {
   static async getAllEvents(
     page = 0,
     size = 10,
-    sort = 'createdAt,desc'
+    sort = 'createdAt,desc',
+    status?: string
   ): Promise<any> {
     try {
-      const params = { page, size, sort };
+      const params = { page, size, sort, status };
       const response = await axiosClient.get(`/events/all`, { params });
       return response.data;
     } catch (error) {

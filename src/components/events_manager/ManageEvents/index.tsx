@@ -19,7 +19,9 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.allEvents.data);
+
   const [sort, setSort] = useState<string>('');
+  const [status, setStatus] = useState<string | undefined>(undefined);
 
   const { data: selectedEventData } = useSelector(
     (state: RootState) => state.events.selectedEvent
@@ -29,11 +31,11 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllEvents({ page: currentPage, size: 6, sort }));
-  }, [dispatch, currentPage, sort]);
+    dispatch(getAllEvents({ page: currentPage, size: 6, sort, status }));
+  }, [dispatch, currentPage, sort, status]);
 
   const handlePageChange = (page: number) => {
-    dispatch(getAllEvents({ page, size: 6, sort }));
+    dispatch(getAllEvents({ page, size: 6, sort, status }));
   };
 
   const handleDelete = (event: MeetupEvent) => {
@@ -69,10 +71,10 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
         إدارة كل الأحداث
       </h1>
 
-      <div className="text-right mb-4">
+      <div className="text-right mb-4 flex justify-start space-x-4 space-x-reverse">
         <select
           id="sortingCriteria"
-          className="dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
+          className="pr-8 pl-2 dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
           value={sort}
           onChange={(e) => setSort(e.target.value)}
         >
@@ -81,6 +83,17 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
           <option value="dateTime,desc">التاريخ (تنازلي)</option>
           <option value="createdAt,asc">تاريخ الإنشاء (تصاعدي)</option>
           <option value="createdAt,desc">تاريخ الإنشاء (تنازلي)</option>
+        </select>
+        <select
+          id="statusFilter"
+          className="pr-8 pl-2 dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
+          value={status}
+          onChange={(e) => setStatus(e.target.value || undefined)}
+        >
+          <option value="">فلتر حسب الحالة</option>
+          <option value="PENDING">قيد الانتظار</option>
+          <option value="REJECTED">مرفوض</option>
+          <option value="PUBLISHED">منشور</option>
         </select>
       </div>
 

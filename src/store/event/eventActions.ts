@@ -125,11 +125,16 @@ export const uploadEventImageToS3 = createAsyncThunk(
 export const getAllEvents = createAsyncThunk(
   'events/getAllEvents',
   async (
-    { page, size, sort }: { page?: number; size?: number; sort?: string } = {},
+    {
+      page,
+      size,
+      sort,
+      status,
+    }: { page?: number; size?: number; sort?: string; status?: string } = {},
     { rejectWithValue }
   ) => {
     try {
-      const events = await EventService.getAllEvents(page, size, sort);
+      const events = await EventService.getAllEvents(page, size, sort, status);
       return events;
     } catch (error: any) {
       console.error('Failed to fetch all events:', error);
