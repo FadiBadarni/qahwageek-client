@@ -1,8 +1,9 @@
 import React from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { MeetupEvent } from 'models/event';
 
 interface EventActionsProps {
-  eventId: number;
+  event: MeetupEvent;
   onPublish: (eventId: number) => void;
   onReject: (eventId: number) => void;
   isLoading: boolean;
@@ -10,7 +11,7 @@ interface EventActionsProps {
 }
 
 const EventActions: React.FC<EventActionsProps> = ({
-  eventId,
+  event,
   onPublish,
   onReject,
   isLoading,
@@ -37,10 +38,10 @@ const EventActions: React.FC<EventActionsProps> = ({
             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.009 8.009 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
           ></path>
         </svg>
-      ) : (
+      ) : event.status === 'PENDING' ? (
         <>
           <button
-            onClick={() => onPublish(eventId)}
+            onClick={() => onPublish(event.id)}
             disabled={isGlobalUpdating && !isLoading}
             className="flex items-center justify-center text-green-600 hover:text-green-800 dark:hover:text-green-400"
           >
@@ -48,7 +49,7 @@ const EventActions: React.FC<EventActionsProps> = ({
             نشر
           </button>
           <button
-            onClick={() => onReject(eventId)}
+            onClick={() => onReject(event.id)}
             disabled={isGlobalUpdating && !isLoading}
             className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
           >
@@ -56,7 +57,27 @@ const EventActions: React.FC<EventActionsProps> = ({
             رفض
           </button>
         </>
-      )}
+      ) : event.status === 'PUBLISHED' ? (
+        <>
+          <button
+            onClick={() => onReject(event.id)}
+            disabled={isGlobalUpdating && !isLoading}
+            className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
+          >
+            <XMarkIcon className="w-5 h-5 ml-1" aria-hidden="true" />
+            رفض
+          </button>
+        </>
+      ) : event.status === 'REJECTED' ? (
+        <button
+          onClick={() => onPublish(event.id)}
+          disabled={isGlobalUpdating && !isLoading}
+          className="flex items-center justify-center text-green-600 hover:text-green-800 dark:hover:text-green-400"
+        >
+          <CheckIcon className="w-5 h-5 ml-1" aria-hidden="true" />
+          نشر
+        </button>
+      ) : null}
     </div>
   );
 };

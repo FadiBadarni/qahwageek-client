@@ -153,12 +153,23 @@ const EventsTable: React.FC<Props> = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
                       {event.creator}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
+                    <td
+                      className={`px-6 py-4 whitespace-nowrap text-sm border-r border-light-border dark:border-dark-border text-center ${
+                        event.status === 'PENDING'
+                          ? 'text-orange-500'
+                          : event.status === 'PUBLISHED'
+                          ? 'text-green-500'
+                          : event.status === 'REJECTED'
+                          ? 'text-red-500'
+                          : 'text-neutral-700 dark:text-neutral-200'
+                      }`}
+                    >
                       {translateStatus(event.status)}
                     </td>
+
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
                       <EventActions
-                        eventId={event.id}
+                        event={event}
                         onPublish={() => handlePublish(event)}
                         onReject={() => handleReject(event)}
                         isLoading={
