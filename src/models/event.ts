@@ -9,6 +9,8 @@ export interface MeetupEvent {
   location?: string;
   category: EventCategory;
   status: EventStatus;
+  userId: number;
+  creator: string;
 }
 export interface EventCategory {
   id: number;

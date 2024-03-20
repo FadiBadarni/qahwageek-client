@@ -67,7 +67,7 @@ const EventsTable: React.FC<Props> = () => {
                     scope="col"
                     className="w-1/6 px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
                   >
-                    الموقع
+                    المنشئ
                   </th>
                   <th
                     scope="col"
@@ -105,12 +105,8 @@ const EventsTable: React.FC<Props> = () => {
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
                       {event.category.name}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap overflow-hidden text-ellipsis text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                      {event.onlineEvent
-                        ? 'أونلاين'
-                        : event.location && event.location.length > 30
-                        ? `${event.location.substring(0, 30)}...`
-                        : event.location}
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
+                      {event.creator}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border text-center">
                       {translateStatus(event.status)}
