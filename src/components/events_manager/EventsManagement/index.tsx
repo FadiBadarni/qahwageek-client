@@ -1,8 +1,4 @@
-import {
-  ArrowsPointingOutIcon,
-  CheckIcon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline';
+import { ArrowsPointingOutIcon } from '@heroicons/react/24/outline';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
@@ -10,8 +6,9 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { translateStatus } from 'models/event';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getAllEvents } from 'store/event/eventActions';
+import { getAllEvents, updateEventStatus } from 'store/event/eventActions';
 import { RootState } from 'store/store';
+import EventActions from './EventActions';
 
 type Props = {};
 
@@ -29,6 +26,14 @@ const EventsTable: React.FC<Props> = () => {
 
   const handlePageChange = (page: number) => {
     dispatch(getAllEvents({ page, size: 10 }));
+  };
+
+  const handlePublish = (eventId: number) => {
+    dispatch(updateEventStatus({ eventId, status: 'PUBLISHED' }));
+  };
+
+  const handleReject = (eventId: number) => {
+    dispatch(updateEventStatus({ eventId, status: 'REJECTED' }));
   };
 
   return (
@@ -112,28 +117,11 @@ const EventsTable: React.FC<Props> = () => {
                       {translateStatus(event.status)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border">
-                      <div className="flex justify-center items-center gap-4">
-                        <button
-                          onClick={() => console.log('Publish Event', event.id)}
-                          className="flex items-center justify-center text-green-600 hover:text-green-800 dark:hover:text-green-400"
-                        >
-                          <CheckIcon
-                            className="w-5 h-5 ml-1"
-                            aria-hidden="true"
-                          />
-                          نشر
-                        </button>
-                        <button
-                          onClick={() => console.log('Reject Event', event.id)}
-                          className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
-                        >
-                          <XMarkIcon
-                            className="w-5 h-5 ml-1"
-                            aria-hidden="true"
-                          />
-                          رفض
-                        </button>
-                      </div>
+                      <EventActions
+                        eventId={event.id}
+                        onPublish={() => handlePublish(event.id)}
+                        onReject={() => handleReject(event.id)}
+                      />
                     </td>
                   </tr>
                 ))}
