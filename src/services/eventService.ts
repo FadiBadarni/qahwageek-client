@@ -70,5 +70,19 @@ class EventService {
       throw error;
     }
   }
+
+  static async updateEventStatus(
+    eventId: number,
+    status: 'REJECTED' | 'PUBLISHED'
+  ): Promise<any> {
+    try {
+      const response = await axiosClient.patch(`/events/${eventId}/status`, {
+        status,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 export default EventService;

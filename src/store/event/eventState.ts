@@ -10,6 +10,7 @@ export interface EventState {
   eventsCategories: CommonState<EventCategory[]>;
   eventsByCategory: CommonState<PaginatedData<MeetupEvent[]>>;
   allEvents: CommonState<PaginatedData<MeetupEvent[]>>;
+  selectedEvent: CommonState<MeetupEvent | null>;
 }
 
 export const initialEventState: EventState = {
@@ -40,6 +41,11 @@ export const initialEventState: EventState = {
       currentPage: 0,
       totalPages: 0,
     },
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  selectedEvent: {
+    data: null,
     status: LoadingStatus.Idle,
     error: null,
   },

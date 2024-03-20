@@ -7,6 +7,7 @@ import {
   getAllEvents,
   getEventsByCategory,
   getUpcomingEvents,
+  updateEventStatus,
 } from './eventActions';
 
 const eventSlice = createSlice({
@@ -78,6 +79,28 @@ const eventSlice = createSlice({
         state.allEvents.status = LoadingStatus.Failed;
         state.allEvents.error =
           action.error.message ?? 'Unable to fetch events';
+      })
+      .addCase(updateEventStatus.pending, (state) => {
+        state.selectedEvent.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        updateEventStatus.fulfilled,
+        (state, action: PayloadAction<MeetupEvent>) => {
+          state.selectedEvent.status = LoadingStatus.Succeeded;
+          state.selectedEvent.data = action.payload;
+          // Update the event in allEvents
+          const updatedEventIndex = state.allEvents.data.items.findIndex(
+            (event) => event.id === action.payload.id
+          );
+          if (updatedEventIndex !== -1) {
+            state.allEvents.data.items[updatedEventIndex] = action.payload;
+          }
+        }
+      )
+      .addCase(updateEventStatus.rejected, (state, action) => {
+        state.selectedEvent.status = LoadingStatus.Failed;
+        state.selectedEvent.error =
+          action.error.message ?? 'Failed to update event status';
       });
   },
 });

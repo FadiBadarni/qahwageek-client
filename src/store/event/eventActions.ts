@@ -124,3 +124,27 @@ export const getAllEvents = createAsyncThunk(
     }
   }
 );
+
+export const updateEventStatus = createAsyncThunk(
+  'events/updateEventStatus',
+  async (
+    { eventId, status }: { eventId: number; status: 'REJECTED' | 'PUBLISHED' },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedEvent = await EventService.updateEventStatus(
+        eventId,
+        status
+      );
+      return updatedEvent;
+    } catch (error: any) {
+      console.error(
+        `Failed to update status for event with ID ${eventId}:`,
+        error
+      );
+      return rejectWithValue(
+        error.response?.data || `Unable to update event status to ${status}`
+      );
+    }
+  }
+);
