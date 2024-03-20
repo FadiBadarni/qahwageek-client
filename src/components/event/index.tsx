@@ -6,7 +6,7 @@ import { getEventsByCategory } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import EventCard from './EventCard';
 import { MeetupEvent } from 'models/event';
-import EventDetailsDialog from './EventDetailsDialog';
+import EventDetailsDialog from 'components/shared/EventDetailsDialog';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
