@@ -95,7 +95,7 @@ const UsersEventsTable: React.FC<Props> = () => {
       <div className="text-right mb-4 flex justify-start space-x-4 space-x-reverse">
         <select
           id="sortingCriteria"
-          className="pr-8 pl-2 dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
+          className="pr-8 text-sm dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
           value={sort}
           onChange={(e) => setSort(e.target.value)}
         >
@@ -107,7 +107,7 @@ const UsersEventsTable: React.FC<Props> = () => {
         </select>
         <select
           id="statusFilter"
-          className="pr-8 pl-2 dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
+          className="pr-8 text-sm dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2"
           value={status}
           onChange={(e) => setStatus(e.target.value || undefined)}
         >
