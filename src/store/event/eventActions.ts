@@ -46,6 +46,21 @@ export const createEvent = createAsyncThunk(
   }
 );
 
+export const deleteEvent = createAsyncThunk(
+  'events/deleteEvent',
+  async (eventId: number, { rejectWithValue }) => {
+    try {
+      await EventService.deleteEvent(eventId);
+      return eventId;
+    } catch (error: any) {
+      console.error(`Failed to delete event with ID ${eventId}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to delete event with ID ${eventId}`
+      );
+    }
+  }
+);
+
 export const getEventsByCategory = createAsyncThunk(
   'events/getEventsByCategory',
   async (

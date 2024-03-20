@@ -4,9 +4,11 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import { MeetupEvent } from 'models/event';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getAllEvents } from 'store/event/eventActions';
+import { deleteEvent, getAllEvents } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import EventManagementActions from './EventManagementActions';
+import { clearSelectedEvent, setSelectedEvent } from 'store/event/eventSlice';
+import { displayToast } from 'utils/alertUtils';
 
 interface EventsManagementProps {}
 
@@ -17,6 +19,7 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.allEvents.data);
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   useEffect(() => {
     dispatch(getAllEvents({ page: currentPage, size: 10 }));
@@ -26,7 +29,21 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
     dispatch(getAllEvents({ page, size: 10 }));
   };
 
-  const handleDelete = (event: MeetupEvent) => {};
+  const handleDelete = (event: MeetupEvent) => {
+    dispatch(setSelectedEvent(event));
+    dispatch(deleteEvent(event.id))
+      .unwrap()
+      .then(() => {
+        displayToast('تم حذف الحدث بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        console.error('Failed to delete the event:', error);
+        displayToast('فشل في حذف الحدث', false, currentTheme);
+      })
+      .finally(() => {
+        dispatch(clearSelectedEvent());
+      });
+  };
 
   const renderActions = (event: MeetupEvent) => (
     <EventManagementActions

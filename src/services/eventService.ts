@@ -26,6 +26,14 @@ class EventService {
       throw error;
     }
   }
+  static async deleteEvent(eventId: number): Promise<any> {
+    try {
+      const response = await axiosClient.delete(`/events/${eventId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async getEventsByCategory(
     categoryId?: number,
     page = 0,

@@ -3,6 +3,7 @@ import { initialEventState } from './eventState';
 import { LoadingStatus } from 'store/shared/commonState';
 import { EventCategory, MeetupEvent } from 'models/event';
 import {
+  deleteEvent,
   getAllEventCategories,
   getAllEvents,
   getEventsByCategory,
@@ -112,6 +113,23 @@ const eventSlice = createSlice({
         state.selectedEvent.status = LoadingStatus.Failed;
         state.selectedEvent.error =
           action.error.message ?? 'Failed to update event status';
+      })
+      .addCase(deleteEvent.pending, (state) => {
+        state.selectedEvent.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        deleteEvent.fulfilled,
+        (state, action: PayloadAction<number>) => {
+          state.selectedEvent.status = LoadingStatus.Succeeded;
+          state.allEvents.data.items = state.allEvents.data.items.filter(
+            (event) => event.id !== action.payload
+          );
+        }
+      )
+      .addCase(deleteEvent.rejected, (state, action) => {
+        state.selectedEvent.status = LoadingStatus.Failed;
+        state.selectedEvent.error =
+          action.error.message ?? 'Failed to delete event';
       });
   },
 });
