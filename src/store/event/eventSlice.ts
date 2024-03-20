@@ -4,6 +4,7 @@ import { LoadingStatus } from 'store/shared/commonState';
 import { EventCategory, MeetupEvent } from 'models/event';
 import {
   getAllEventCategories,
+  getAllEvents,
   getEventsByCategory,
   getUpcomingEvents,
 } from './eventActions';
@@ -59,6 +60,23 @@ const eventSlice = createSlice({
       .addCase(getEventsByCategory.rejected, (state, action) => {
         state.eventsByCategory.status = LoadingStatus.Failed;
         state.eventsByCategory.error =
+          action.error.message ?? 'Unable to fetch events';
+      })
+      .addCase(getAllEvents.pending, (state) => {
+        state.allEvents.status = LoadingStatus.Loading;
+      })
+      .addCase(getAllEvents.fulfilled, (state, action) => {
+        state.allEvents.status = LoadingStatus.Succeeded;
+        state.allEvents.data = {
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
+          totalPages: action.payload.totalPages,
+        };
+      })
+      .addCase(getAllEvents.rejected, (state, action) => {
+        state.allEvents.status = LoadingStatus.Failed;
+        state.allEvents.error =
           action.error.message ?? 'Unable to fetch events';
       });
   },

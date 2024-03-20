@@ -56,5 +56,19 @@ class EventService {
       throw error;
     }
   }
+
+  static async getAllEvents(
+    page = 0,
+    size = 10,
+    sort = 'dateTime,desc'
+  ): Promise<any> {
+    try {
+      const params = { page, size, sort };
+      const response = await axiosClient.get(`/events/all`, { params });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 export default EventService;

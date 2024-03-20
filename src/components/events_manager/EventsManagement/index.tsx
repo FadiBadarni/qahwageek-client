@@ -4,7 +4,7 @@ import { ar } from 'date-fns/locale';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { getEventsByCategory } from 'store/event/eventActions';
+import { getAllEvents } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 
 type Props = {};
@@ -15,14 +15,14 @@ const EventsTable: React.FC<Props> = () => {
     items: events,
     totalPages,
     currentPage,
-  } = useSelector((state: RootState) => state.events.eventsByCategory.data);
+  } = useSelector((state: RootState) => state.events.allEvents.data);
 
   useEffect(() => {
-    dispatch(getEventsByCategory({ page: currentPage, size: 10 }));
+    dispatch(getAllEvents({ page: currentPage, size: 10 }));
   }, [dispatch, currentPage]);
 
   const handlePageChange = (page: number) => {
-    dispatch(getEventsByCategory({ page, size: 10 }));
+    dispatch(getAllEvents({ page, size: 10 }));
   };
 
   return (

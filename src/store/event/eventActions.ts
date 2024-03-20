@@ -106,3 +106,21 @@ export const uploadEventImageToS3 = createAsyncThunk(
     }
   }
 );
+
+export const getAllEvents = createAsyncThunk(
+  'events/getAllEvents',
+  async (
+    { page, size, sort }: { page?: number; size?: number; sort?: string } = {},
+    { rejectWithValue }
+  ) => {
+    try {
+      const events = await EventService.getAllEvents(page, size, sort);
+      return events;
+    } catch (error: any) {
+      console.error('Failed to fetch all events:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch all events'
+      );
+    }
+  }
+);
