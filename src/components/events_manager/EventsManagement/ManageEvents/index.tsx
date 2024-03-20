@@ -2,7 +2,7 @@ import EventsTable from 'components/shared/EventsTable';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { MeetupEvent } from 'models/event';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { deleteEvent, getAllEvents } from 'store/event/eventActions';
 import { RootState } from 'store/store';
@@ -19,7 +19,13 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.allEvents.data);
+
+  const { data: selectedEventData } = useSelector(
+    (state: RootState) => state.events.selectedEvent
+  );
+
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     dispatch(getAllEvents({ page: currentPage, size: 10 }));
@@ -30,6 +36,7 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
   };
 
   const handleDelete = (event: MeetupEvent) => {
+    setIsUpdating(true);
     dispatch(setSelectedEvent(event));
     dispatch(deleteEvent(event.id))
       .unwrap()
@@ -42,6 +49,7 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
       })
       .finally(() => {
         dispatch(clearSelectedEvent());
+        setIsUpdating(false);
       });
   };
 
@@ -49,6 +57,8 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
     <EventManagementActions
       event={event}
       onDelete={() => handleDelete(event)}
+      isLoading={selectedEventData?.id === event.id && isUpdating}
+      isGlobalUpdating={isUpdating}
     />
   );
 
