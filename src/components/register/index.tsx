@@ -19,14 +19,17 @@ export const RegistrationPage: React.FC = () => {
 
   const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      await dispatch(register({ username, email, password }));
-      navigate('/login'); // Navigate to login page upon successful registration
-    } catch (error) {
+    const actionResult = await dispatch(
+      register({ username, email, password })
+    );
+
+    if (register.fulfilled.match(actionResult)) {
+      navigate('/login');
+    } else if (register.rejected.match(actionResult)) {
       const errorMessage =
-        error instanceof Error
-          ? 'ما قدرنا نسجلك، جرب مرة تانية ولا تزعل مننا '
-          : 'يا دوبك حصل خطأ وما قدرنا نكمل التسجيل. جرب مرة تانية يا ريت ';
+        typeof actionResult.payload === 'string'
+          ? actionResult.payload
+          : 'يا دوبك حصل خطأ وما قدرنا نكمل التسجيل. جرب مرة تانية يا ريت';
 
       displayError({
         icon: 'error',
