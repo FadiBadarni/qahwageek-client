@@ -5,7 +5,6 @@ import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { NewEvent } from 'models/event';
 import { EventBasicDetails } from './EventBasicDetails';
-import { EventOnlineDetails } from './EventOnlineDetails';
 import { EventDateTimeAndImage } from './EventDateTimeAndImage';
 import { handleEventInputChange, handleEventSubmit } from 'utils/eventHelpers';
 
@@ -50,28 +49,19 @@ const CreateEvent: React.FC = () => {
       <h2 className="text-2xl font-semibold text-center text-light-text dark:text-dark-text mb-6">
         إنشاء حدث جديد
       </h2>
-      <form onSubmit={onSubmit} className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-2">
         <EventBasicDetails
           newEvent={newEvent}
           eventsCategories={eventsCategories}
           setNewEvent={setNewEvent}
           setEventImage={setEventImage}
         />
-
-        <EventOnlineDetails
-          newEvent={newEvent}
-          setNewEvent={setNewEvent}
-          eventsCategories={eventsCategories}
-          setEventImage={setEventImage}
-        />
-
         <EventDateTimeAndImage
           newEvent={newEvent}
           setNewEvent={setNewEvent}
           eventsCategories={eventsCategories}
           setEventImage={setEventImage}
         />
-
         <div>
           <label
             htmlFor="description"

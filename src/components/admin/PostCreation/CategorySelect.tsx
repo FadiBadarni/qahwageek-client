@@ -28,6 +28,33 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
     onCategoryChange(newSelectedCategories);
   };
 
+  const renderCategoryWithSubcategories = (
+    category: Category,
+    parentId: number = 0
+  ): React.ReactNode => {
+    const uniqueKey = `${parentId}-${category.id}`;
+
+    return (
+      <React.Fragment key={uniqueKey}>
+        <button
+          onClick={() => toggleCategory(category.id)}
+          type="button"
+          className={`transition duration-150 ease-in-out flex items-center justify-center px-3 py-1 rounded-md text-xs md:text-sm font-medium 
+            ${
+              selectedCategoryIds.includes(category.id)
+                ? 'bg-primary text-white dark:bg-dark-primary border border-primary dark:border-dark-primary'
+                : 'bg-light-background dark:bg-dark-layer text-neutral-700 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-600'
+            } hover:bg-light-primary dark:hover:bg-dark-primary hover:text-light-text dark:hover:text-neutral-200 cursor-pointer`}
+        >
+          {category.name}
+        </button>
+        {category.subCategories?.map((subCategory) =>
+          renderCategoryWithSubcategories(subCategory, category.id)
+        )}
+      </React.Fragment>
+    );
+  };
+
   return (
     <div className="mx-auto my-4">
       <h3 className="text-sm font-semibold text-neutral-700 dark:text-neutral-200 mb-2 text-right">
@@ -37,21 +64,9 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
         {loadingStatus === LoadingStatus.Loading ? (
           <CategorySkeleton />
         ) : (
-          categories.map((category) => (
-            <button
-              key={category.id}
-              onClick={() => toggleCategory(category.id)}
-              type="button"
-              className={`transition duration-150 ease-in-out flex items-center justify-center px-3 py-1 rounded-md text-xs md:text-sm font-medium 
-                ${
-                  selectedCategoryIds.includes(category.id)
-                    ? 'bg-primary text-white dark:bg-dark-primary border border-primary dark:border-dark-primary'
-                    : 'bg-light-background dark:bg-dark-layer text-neutral-700 dark:text-neutral-200 border border-neutral-300 dark:border-neutral-600'
-                } hover:bg-light-primary dark:hover:bg-dark-primary hover:text-light-text dark:hover:text-neutral-200 cursor-pointer`}
-            >
-              {category.name}
-            </button>
-          ))
+          categories.map((category) =>
+            renderCategoryWithSubcategories(category)
+          )
         )}
       </div>
     </div>

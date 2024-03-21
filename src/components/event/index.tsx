@@ -25,8 +25,10 @@ const EventsPage: React.FC = () => {
   const categories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
+  const ITEMS_PER_PAGE = 6;
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<MeetupEvent | null>(null);
   const [sort, setSort] = useState<string>('dateTime,asc');
   const [selectedCategoryId, setSelectedCategoryId] = useState<
@@ -39,7 +41,7 @@ const EventsPage: React.FC = () => {
       getEventsByCategory({
         categoryId: selectedCategoryId,
         page: currentPage,
-        size: 10,
+        size: ITEMS_PER_PAGE,
         sort,
       })
     );
@@ -50,7 +52,7 @@ const EventsPage: React.FC = () => {
       getEventsByCategory({
         categoryId: selectedCategoryId,
         page,
-        size: 10,
+        size: ITEMS_PER_PAGE,
         sort,
       })
     );
@@ -58,16 +60,20 @@ const EventsPage: React.FC = () => {
 
   const onViewDetails = (event: MeetupEvent) => {
     setSelectedEvent(event);
-    setIsDialogOpen(true);
+    setIsDetailsDialogOpen(true);
   };
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
+  const closeDetailsDialog = () => {
+    setIsDetailsDialogOpen(false);
     setSelectedEvent(null);
   };
 
   const handleAddEvent = () => {
-    setIsDialogOpen(true);
+    setIsCreateDialogOpen(true);
+  };
+
+  const closeCreateDialog = () => {
+    setIsCreateDialogOpen(false);
   };
 
   const handleSortChange = (newSort: string) => {
@@ -113,17 +119,20 @@ const EventsPage: React.FC = () => {
       </div>
 
       <div className="mt-12">
-        <PaginationComponent
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {totalPages > 1 && (
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            itemsPerPage={ITEMS_PER_PAGE}
+          />
+        )}
       </div>
 
       {selectedEvent && (
         <EventDetailsDialog
-          isOpen={isDialogOpen}
-          onClose={closeDialog}
+          isOpen={isDetailsDialogOpen}
+          onClose={closeDetailsDialog}
           event={selectedEvent}
         />
       )}
@@ -137,7 +146,10 @@ const EventsPage: React.FC = () => {
         <PlusIcon className="h-6 w-6" />
       </button>
       <Tooltip id="addEventTooltip" />
-      <CreateEventDialog isOpen={isDialogOpen} onClose={closeDialog} />
+      <CreateEventDialog
+        isOpen={isCreateDialogOpen}
+        onClose={closeCreateDialog}
+      />
     </div>
   );
 };

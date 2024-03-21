@@ -16,7 +16,11 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
     navigate(`/posts/${postId}`);
   };
 
-  const handleCategoryClick = (slug: string) => {
+  const handleCategoryClick = (
+    e: React.MouseEvent<HTMLSpanElement>,
+    slug: string
+  ) => {
+    e.stopPropagation();
     navigate(`/category/${slug}`);
   };
 
@@ -49,7 +53,7 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
                     <span
                       key={index}
                       className="inline-flex items-center justify-center rounded-md px-2 py-1 text-xs font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
-                      onClick={() => handleCategoryClick(category.slug)}
+                      onClick={(e) => handleCategoryClick(e, category.slug)}
                     >
                       {category.name}
                     </span>

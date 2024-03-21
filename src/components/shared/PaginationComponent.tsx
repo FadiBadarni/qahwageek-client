@@ -7,22 +7,19 @@ interface PaginationComponentProps {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  itemsPerPage?: number;
 }
 
 export const PaginationComponent: React.FC<PaginationComponentProps> = ({
   currentPage,
   totalPages,
   onPageChange,
+  itemsPerPage = 5,
 }) => {
-  const MAX_PAGES_SHOWN = 5;
-
   const getPaginationRange = (): (number | string)[] => {
     let range: (number | string)[] = [];
-    const startPage = Math.max(
-      0,
-      currentPage - Math.floor(MAX_PAGES_SHOWN / 2)
-    );
-    let endPage = Math.min(totalPages - 1, startPage + MAX_PAGES_SHOWN - 1);
+    const startPage = Math.max(0, currentPage - Math.floor(itemsPerPage / 2));
+    let endPage = Math.min(totalPages - 1, startPage + itemsPerPage - 1);
 
     if (startPage > 0) range.push('...');
     for (let i = startPage; i <= endPage; i++) {
