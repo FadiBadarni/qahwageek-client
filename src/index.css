@@ -24,3 +24,7 @@ textarea[id^='form-field_'] {
 .svg-dark-theme {
   filter: brightness(0);
 }
+
+.datePicker {
+  width: 100%;
+}

@@ -12,7 +12,7 @@ import {
 import { RoleOption, translateRole } from 'utils/roleTranslationUtil';
 import RoleManagementDialog from './RoleManagementDialog';
 import { displayConfirmation, displayToast } from 'utils/alertUtils';
-import { PaginationComponent } from 'components/categories/PaginationComponent';
+import { PaginationComponent } from 'components/shared/PaginationComponent';
 
 export const UsersManagement: React.FC = () => {
   const dispatch = useAppDispatch();

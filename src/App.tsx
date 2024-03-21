@@ -20,6 +20,11 @@ import DynamicCategoryHome from 'components/categories';
 import ContactPage from 'components/contact';
 import { ResetPassword } from 'components/login/ResetPassword';
 import { UsersManagement } from 'components/admin/Users';
+import EventsManagerDashboard from 'components/events_manager';
+import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
+import EventsPage from 'components/event';
+import UsersEventsTable from 'components/events_manager/ReviewEvents';
+import EventsManagement from 'components/events_manager/ManageEvents';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -47,7 +52,7 @@ function App() {
             <Route path="/posts/:postId" element={<Post />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/category/:slug" element={<DynamicCategoryHome />} />
-
+            <Route path="/events" element={<EventsPage />} />
             <Route
               path="/user/profile/:userId"
               element={
@@ -88,7 +93,38 @@ function App() {
                 </ProtectedRoute>
               }
             />
-
+            <Route
+              path="/events/cms"
+              element={
+                <ProtectedRoute>
+                  <EventsManagerDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/create-event"
+              element={
+                <ProtectedRoute>
+                  <CreateEvent />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/review-requests"
+              element={
+                <ProtectedRoute>
+                  <UsersEventsTable />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/events/all"
+              element={
+                <ProtectedRoute>
+                  <EventsManagement />
+                </ProtectedRoute>
+              }
+            />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </div>
