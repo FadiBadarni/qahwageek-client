@@ -2,7 +2,10 @@ import { PaginationComponent } from 'components/shared/PaginationComponent';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getEventsByCategory } from 'store/event/eventActions';
+import {
+  getAllEventCategories,
+  getEventsByCategory,
+} from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import EventCard from './EventCard';
 import { MeetupEvent } from 'models/event';
@@ -18,15 +21,38 @@ const EventsPage: React.FC = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.eventsByCategory.data);
+  const categories = useSelector(
+    (state: RootState) => state.events.eventsCategories.data
+  );
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<MeetupEvent | null>(null);
+  const [sort, setSort] = useState<string>('dateTime,asc');
+  const [selectedCategoryId, setSelectedCategoryId] = useState<
+    number | undefined
+  >(undefined);
 
   useEffect(() => {
-    dispatch(getEventsByCategory({ page: currentPage, size: 10 }));
-  }, [dispatch, currentPage]);
+    dispatch(getAllEventCategories());
+    dispatch(
+      getEventsByCategory({
+        categoryId: selectedCategoryId,
+        page: currentPage,
+        size: 10,
+        sort,
+      })
+    );
+  }, [dispatch, currentPage, sort, selectedCategoryId]);
 
   const handlePageChange = (page: number) => {
-    dispatch(getEventsByCategory({ page, size: 10 }));
+    dispatch(
+      getEventsByCategory({
+        categoryId: selectedCategoryId,
+        page,
+        size: 10,
+        sort,
+      })
+    );
   };
 
   const onViewDetails = (event: MeetupEvent) => {
@@ -54,6 +80,37 @@ const EventsPage: React.FC = () => {
         </p>
       </div>
 
+      <div className="mb-4 flex gap-4">
+        <div className="relative">
+          <select
+            className=" pr-8 pl-4 text-sm dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2 w-full"
+            value={sort}
+            onChange={(e) => setSort(e.target.value)}
+          >
+            <option value="dateTime,asc">التاريخ (تصاعدي)</option>
+            <option value="dateTime,desc">التاريخ (تنازلي)</option>
+            <option value="createdAt,asc">تاريخ الإنشاء (تصاعدي)</option>
+            <option value="createdAt,desc">تاريخ الإنشاء (تنازلي)</option>
+          </select>
+        </div>
+
+        <div className="relative">
+          <select
+            className=" pr-8 pl-4 text-sm dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2 w-full"
+            value={selectedCategoryId}
+            onChange={(e) =>
+              setSelectedCategoryId(Number(e.target.value) || undefined)
+            }
+          >
+            <option value="">كل الفئات</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {events.length > 0 ? (
           events.map((event) => (
