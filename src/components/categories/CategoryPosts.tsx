@@ -20,7 +20,7 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const ITEMS_PER_PAGE = 5;
+  const ITEMS_PER_PAGE = 3;
 
   const {
     items: posts,
@@ -58,7 +58,7 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-6 lg:px-8">
+    <div className="mx-auto max-w-7xl px-6 lg:px-8 mb-6">
       <div className="grid grid-cols-1 lg:grid-cols-8 gap-8 mt-8 lg:mt-10">
         <div className="lg:col-span-5 space-y-4">
           {posts.map((post) => (
@@ -112,12 +112,14 @@ const CategoryPosts: React.FC<CategoryPostsProps> = ({
               </div>
             </article>
           ))}
-          <PaginationComponent
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            itemsPerPage={ITEMS_PER_PAGE}
-          />
+          {totalPages > 1 && (
+            <PaginationComponent
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              itemsPerPage={ITEMS_PER_PAGE}
+            />
+          )}
         </div>
         {newsComponent && <div className="lg:col-span-3">{newsComponent}</div>}
       </div>

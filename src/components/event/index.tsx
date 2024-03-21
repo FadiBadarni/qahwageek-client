@@ -25,6 +25,7 @@ const EventsPage: React.FC = () => {
   const categories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
+  const ITEMS_PER_PAGE = 6;
 
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
@@ -40,7 +41,7 @@ const EventsPage: React.FC = () => {
       getEventsByCategory({
         categoryId: selectedCategoryId,
         page: currentPage,
-        size: 10,
+        size: ITEMS_PER_PAGE,
         sort,
       })
     );
@@ -51,7 +52,7 @@ const EventsPage: React.FC = () => {
       getEventsByCategory({
         categoryId: selectedCategoryId,
         page,
-        size: 10,
+        size: ITEMS_PER_PAGE,
         sort,
       })
     );
@@ -118,11 +119,14 @@ const EventsPage: React.FC = () => {
       </div>
 
       <div className="mt-12">
-        <PaginationComponent
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
+        {totalPages > 1 && (
+          <PaginationComponent
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            itemsPerPage={ITEMS_PER_PAGE}
+          />
+        )}
       </div>
 
       {selectedEvent && (
