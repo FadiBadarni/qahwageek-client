@@ -22,7 +22,9 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
   } = useSelector((state: RootState) => state.events.allEvents.data);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<MeetupEvent | null>(null);
+  const selectedEvent = useSelector(
+    (state: RootState) => state.events.selectedEvent.data
+  );
 
   const [sort, setSort] = useState<string>('');
   const [status, setStatus] = useState<string | undefined>(undefined);
@@ -43,7 +45,7 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
   };
 
   const handleEdit = (event: MeetupEvent) => {
-    setEditingEvent(event);
+    dispatch(setSelectedEvent(event));
     setIsEditDialogOpen(true);
   };
 
@@ -67,7 +69,7 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
 
   const closeEditDialog = () => {
     setIsEditDialogOpen(false);
-    setEditingEvent(null);
+    dispatch(clearSelectedEvent());
   };
 
   const renderActions = (event: MeetupEvent) => (
@@ -126,12 +128,8 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
           onPageChange={handlePageChange}
         />
       </div>
-      {editingEvent && (
-        <EventEditDialog
-          isOpen={isEditDialogOpen}
-          onClose={closeEditDialog}
-          event={editingEvent}
-        />
+      {isEditDialogOpen && selectedEvent && (
+        <EventEditDialog isOpen={isEditDialogOpen} onClose={closeEditDialog} />
       )}
     </div>
   );

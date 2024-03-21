@@ -122,6 +122,24 @@ export const uploadEventImageToS3 = createAsyncThunk(
   }
 );
 
+export const updateEvent = createAsyncThunk(
+  'events/updateEvent',
+  async (
+    { eventId, eventData }: { eventId: number; eventData: FormData },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedEvent = await EventService.updateEvent(eventId, eventData);
+      return updatedEvent;
+    } catch (error: any) {
+      console.error(`Failed to update event with ID ${eventId}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to update event with ID ${eventId}`
+      );
+    }
+  }
+);
+
 export const getAllEvents = createAsyncThunk(
   'events/getAllEvents',
   async (

@@ -8,6 +8,7 @@ import {
   getAllEvents,
   getEventsByCategory,
   getUpcomingEvents,
+  updateEvent,
   updateEventStatus,
 } from './eventActions';
 
@@ -130,6 +131,28 @@ const eventSlice = createSlice({
         state.selectedEvent.status = LoadingStatus.Failed;
         state.selectedEvent.error =
           action.error.message ?? 'Failed to delete event';
+      })
+      .addCase(updateEvent.pending, (state) => {
+        state.selectedEvent.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        updateEvent.fulfilled,
+        (state, action: PayloadAction<MeetupEvent>) => {
+          state.selectedEvent.status = LoadingStatus.Succeeded;
+          state.selectedEvent.data = action.payload;
+          // Update the event in allEvents list
+          const index = state.allEvents.data.items.findIndex(
+            (event) => event.id === action.payload.id
+          );
+          if (index !== -1) {
+            state.allEvents.data.items[index] = action.payload;
+          }
+        }
+      )
+      .addCase(updateEvent.rejected, (state, action) => {
+        state.selectedEvent.status = LoadingStatus.Failed;
+        state.selectedEvent.error =
+          action.error.message ?? 'Failed to update event';
       });
   },
 });

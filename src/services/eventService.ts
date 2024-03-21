@@ -34,6 +34,22 @@ class EventService {
       throw error;
     }
   }
+  static async updateEvent(eventId: number, eventData: FormData): Promise<any> {
+    try {
+      const response = await axiosClient.patch(
+        `/events/${eventId}`,
+        eventData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
   static async getEventsByCategory(
     categoryId?: number,
     page = 0,
