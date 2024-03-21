@@ -1,7 +1,7 @@
 import { CommonState, LoadingStatus } from 'store/shared/commonState';
 import { Comment } from 'models/comment';
 
-interface CommentsByPostId {
+export interface CommentsByPostId {
   [key: number]: CommonState<Comment[]>;
 }
 

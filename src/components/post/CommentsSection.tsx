@@ -11,6 +11,7 @@ import { MdSend } from 'react-icons/md';
 import ReplyInput from './ReplyInput';
 import PostComment from './PostComment';
 import { Link } from 'react-router-dom';
+import { selectCommentsByPostId } from 'store/comment/commentSelectors';
 
 interface CommentsSectionProps {
   postId: number;
@@ -24,12 +25,8 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
   const [showSubmitButton, setShowSubmitButton] = useState(false);
   const [replyingTo, setReplyingTo] = useState<number | null>(null);
 
-  const { data: comments, status } = useSelector(
-    (state: RootState) =>
-      state.postComments.commentsByPostId[postId] || {
-        data: [],
-        status: 'idle',
-      }
+  const { data: comments, status } = useSelector((state: RootState) =>
+    selectCommentsByPostId(state, postId)
   );
 
   useEffect(() => {
