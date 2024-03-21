@@ -3,7 +3,7 @@ export const translateRole = (role: string): string => {
     ROLE_USER: 'مستخدم',
     ROLE_ADMIN: 'مدير',
     ROLE_WRITER: 'كاتب',
-    ROLE_MEETUP_MANAGER: 'مدير اللقاءات',
+    ROLE_EVENTS_MANAGER: 'مدير اللقاءات',
   };
 
   return roleTranslations[role] || role;
@@ -18,5 +18,5 @@ export const roleOptions: RoleOption[] = [
   { value: 'ROLE_USER', label: 'مستخدم' },
   { value: 'ROLE_ADMIN', label: 'مدير' },
   { value: 'ROLE_WRITER', label: 'كاتب' },
-  { value: 'ROLE_MEETUP_MANAGER', label: 'مدير اللقاءات' },
+  { value: 'ROLE_EVENTS_MANAGER', label: 'مدير اللقاءات' },
 ];
