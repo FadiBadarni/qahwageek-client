@@ -26,7 +26,8 @@ const EventsPage: React.FC = () => {
     (state: RootState) => state.events.eventsCategories.data
   );
 
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<MeetupEvent | null>(null);
   const [sort, setSort] = useState<string>('dateTime,asc');
   const [selectedCategoryId, setSelectedCategoryId] = useState<
@@ -58,16 +59,20 @@ const EventsPage: React.FC = () => {
 
   const onViewDetails = (event: MeetupEvent) => {
     setSelectedEvent(event);
-    setIsDialogOpen(true);
+    setIsDetailsDialogOpen(true);
   };
 
-  const closeDialog = () => {
-    setIsDialogOpen(false);
+  const closeDetailsDialog = () => {
+    setIsDetailsDialogOpen(false);
     setSelectedEvent(null);
   };
 
   const handleAddEvent = () => {
-    setIsDialogOpen(true);
+    setIsCreateDialogOpen(true);
+  };
+
+  const closeCreateDialog = () => {
+    setIsCreateDialogOpen(false);
   };
 
   const handleSortChange = (newSort: string) => {
@@ -122,8 +127,8 @@ const EventsPage: React.FC = () => {
 
       {selectedEvent && (
         <EventDetailsDialog
-          isOpen={isDialogOpen}
-          onClose={closeDialog}
+          isOpen={isDetailsDialogOpen}
+          onClose={closeDetailsDialog}
           event={selectedEvent}
         />
       )}
@@ -137,7 +142,10 @@ const EventsPage: React.FC = () => {
         <PlusIcon className="h-6 w-6" />
       </button>
       <Tooltip id="addEventTooltip" />
-      <CreateEventDialog isOpen={isDialogOpen} onClose={closeDialog} />
+      <CreateEventDialog
+        isOpen={isCreateDialogOpen}
+        onClose={closeCreateDialog}
+      />
     </div>
   );
 };
