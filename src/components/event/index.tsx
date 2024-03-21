@@ -7,6 +7,8 @@ import { RootState } from 'store/store';
 import EventCard from './EventCard';
 import { MeetupEvent } from 'models/event';
 import EventDetailsDialog from 'components/shared/EventDetailsDialog';
+import { PlusIcon } from '@heroicons/react/24/outline';
+import { Tooltip } from 'react-tooltip';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,6 +36,11 @@ const EventsPage: React.FC = () => {
   const closeDialog = () => {
     setIsDialogOpen(false);
     setSelectedEvent(null);
+  };
+
+  const handleAddEvent = () => {
+    console.log('Add event clicked');
+    // set state here to open a modal or navigate to a form page
   };
 
   return (
@@ -72,6 +79,7 @@ const EventsPage: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
+
       {selectedEvent && (
         <EventDetailsDialog
           isOpen={isDialogOpen}
@@ -79,6 +87,16 @@ const EventsPage: React.FC = () => {
           event={selectedEvent}
         />
       )}
+      <button
+        onClick={handleAddEvent}
+        className="fixed bottom-6 left-6 inline-flex items-center justify-center p-4 bg-light-border dark:bg-dark-input rounded-full shadow-lg cursor-pointer text-white"
+        data-tooltip-content="إضافة حدث"
+        data-tooltip-id="addEventTooltip"
+        aria-label="إضافة حدث"
+      >
+        <PlusIcon className="h-6 w-6" />
+      </button>
+      <Tooltip id="addEventTooltip" />
     </div>
   );
 };
