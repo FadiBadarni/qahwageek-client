@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { MeetupEvent } from 'models/event';
@@ -7,6 +7,8 @@ import {
   GlobeAltIcon,
   MapPinIcon,
 } from '@heroicons/react/24/outline';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface EventCardProps {
   event: MeetupEvent;
@@ -14,13 +16,25 @@ interface EventCardProps {
 }
 
 const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
+  const [imageUrl, setImageUrl] = useState(
+    event.imageUrl || '/missing-image-dark.png'
+  );
+
+  const handleImageError = () => {
+    if (currentTheme === 'light') setImageUrl('/missing-image-light.png');
+    else setImageUrl('/missing-image-dark.png');
+  };
+
   return (
     <div className="flex flex-col rounded-lg shadow-lg overflow-hidden bg-white dark:bg-dark-layer transition duration-300 ease-in-out transform hover:-translate-y-1 hover:shadow-xl relative">
       <div className="flex-shrink-0">
         <img
           className="h-40 w-full object-cover"
-          src={event.imageUrl || '/default-event-image.jpg'}
+          src={imageUrl}
           alt={event.title}
+          onError={handleImageError}
         />
       </div>
       <div className="flex-1 p-4 flex flex-col justify-between">
