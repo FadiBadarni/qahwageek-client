@@ -1,5 +1,5 @@
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import CategorySelect from './CategorySelect';
@@ -14,6 +14,7 @@ import { fetchAllCategories } from 'store/category/categoryActions';
 import { displayToast } from 'utils/alertUtils';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
+import { useDropzoneHandler } from 'utils/dropzoneUtils';
 
 const CreatePost = () => {
   const dispatch = useAppDispatch();
@@ -75,11 +76,10 @@ const CreatePost = () => {
     }
   };
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const file = acceptedFiles[0];
-    setSelectedImage(file);
-    setImagePreviewUrl(URL.createObjectURL(file));
-  }, []);
+  const onDrop = useDropzoneHandler({
+    setSelectedImage,
+    setImagePreviewUrl,
+  });
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*' as any,
