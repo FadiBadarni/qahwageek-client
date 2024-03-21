@@ -46,7 +46,7 @@ export const EventOnlineDetails: React.FC<EventOnlineDetailsProps> = ({
           type="text"
           value={newEvent.location}
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 text-light-text dark:text-dark-text"
           placeholder={
             newEvent.isOnlineEvent
               ? 'أدخل رابط الحدث عبر الإنترنت (مثل Zoom)'
@@ -67,7 +67,7 @@ export const EventOnlineDetails: React.FC<EventOnlineDetailsProps> = ({
           type="text"
           value={newEvent.eventLink}
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 text-light-text dark:text-dark-text"
           placeholder="أدخل رابط الفعالية إذا كان متاحًا"
         />
       </div>
