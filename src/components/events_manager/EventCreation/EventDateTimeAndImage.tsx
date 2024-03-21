@@ -1,23 +1,37 @@
-import { NewEvent } from 'models/event';
+import { EventCategory, NewEvent } from 'models/event';
 import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import {
+  handleEventDateChange,
+  handleEventInputChange,
+} from 'utils/eventHelpers';
 
 interface EventDateTimeAndImageProps {
   newEvent: NewEvent;
-  handleDateChange: (date: Date | null) => void;
-  handleInputChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => void;
+  setNewEvent: React.Dispatch<React.SetStateAction<NewEvent>>;
+  eventsCategories: EventCategory[];
+  setEventImage: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
 export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
   newEvent,
-  handleDateChange,
-  handleInputChange,
+  setNewEvent,
+  eventsCategories,
+  setEventImage,
 }) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    handleEventInputChange(e, setNewEvent, eventsCategories, setEventImage);
+  };
+
+  const handleDateChange = (date: Date | null) => {
+    handleEventDateChange(date, setNewEvent);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>

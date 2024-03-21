@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import {
-  createEvent,
-  getAllEventCategories,
-  uploadEventImageToS3,
-} from 'store/event/eventActions';
-import { AppDispatch, RootState } from 'store/store';
+import { getAllEventCategories } from 'store/event/eventActions';
+import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { NewEvent } from 'models/event';
 import { useNavigate } from 'react-router-dom';
 import { EventBasicDetails } from './EventBasicDetails';
 import { EventOnlineDetails } from './EventOnlineDetails';
 import { EventDateTimeAndImage } from './EventDateTimeAndImage';
+import { handleEventInputChange, handleEventSubmit } from 'utils/eventHelpers';
 
 const CreateEvent: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const eventsCategories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
-  const navigate = useNavigate();
 
   const [newEvent, setNewEvent] = useState<NewEvent>({
     title: '',
@@ -38,110 +36,16 @@ const CreateEvent: React.FC = () => {
     dispatch(getAllEventCategories());
   }, [dispatch]);
 
-  const handleInputChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
-    const { name, value, type } = e.target;
-    const isCheckbox = type === 'checkbox';
-    if (type === 'file') {
-      // Handle file inputs for the image upload
-      const files = (e.target as HTMLInputElement).files;
-      if (files) {
-        setEventImage(files[0]);
-      }
-    } else if (name === 'isOnlineEvent') {
-      const isChecked = isCheckbox
-        ? (e.target as HTMLInputElement).checked
-        : false;
-      setNewEvent((prev) => ({
-        ...prev,
-        [name]: isChecked,
-        // Clear the location if the event is marked as online
-        location: isChecked ? '' : prev.location,
-      }));
-    } else if (name === 'category') {
-      // Handling category selection
-      const selectedCategory = eventsCategories.find(
-        (category) => category.id === Number(value)
-      );
-      setNewEvent((prev) => ({
-        ...prev,
-        category: selectedCategory || prev.category,
-      }));
-    } else {
-      // Handling changes for all other inputs
-      const newValue = isCheckbox
-        ? (e.target as HTMLInputElement).checked
-        : value;
-      setNewEvent((prev) => ({
-        ...prev,
-        [name]: newValue,
-      }));
-    }
-  };
-
-  const handleDateChange = (date: Date | null) => {
-    setNewEvent((prev) => ({
-      ...prev,
-      dateTime: date?.toISOString() ?? '',
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const imageUrl = await uploadEventImage(eventImage, dispatch);
-
-      const eventDetailsWithImage = {
-        ...newEvent,
-        imageUrl,
-      };
-
-      const createdEvent = await dispatch(
-        createEvent(eventDetailsWithImage)
-      ).unwrap();
-
-      setNewEvent({
-        title: '',
-        description: '',
-        dateTime: new Date().toISOString(),
-        imageUrl: '',
-        eventLink: '',
-        isOnlineEvent: false,
-        location: '',
-        category: { id: 0, name: '', description: '' },
-      });
-
-      navigate(`/events/${createdEvent.id}`);
-    } catch (error) {
-      console.error('Error creating event:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const uploadEventImage = async (
-    imageFile: File | null,
-    dispatch: AppDispatch
-  ): Promise<string> => {
-    if (!imageFile) return '';
-
-    const filename = `event-image-${Date.now()}.${
-      imageFile.type.split('/')[1]
-    }`;
-    try {
-      const imageUrl = await dispatch(
-        uploadEventImageToS3({ file: imageFile, filename })
-      ).unwrap();
-      return imageUrl;
-    } catch (error) {
-      console.error('Error uploading event image:', error);
-      throw error;
-    }
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    await handleEventSubmit(
+      e,
+      newEvent,
+      eventImage,
+      setLoading,
+      dispatch,
+      navigate,
+      setNewEvent
+    );
   };
 
   return (
@@ -149,22 +53,26 @@ const CreateEvent: React.FC = () => {
       <h2 className="text-2xl font-semibold text-center text-light-text dark:text-dark-text mb-6">
         إنشاء حدث جديد
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-8">
         <EventBasicDetails
           newEvent={newEvent}
           eventsCategories={eventsCategories}
-          handleInputChange={handleInputChange}
+          setNewEvent={setNewEvent}
+          setEventImage={setEventImage}
         />
 
         <EventOnlineDetails
           newEvent={newEvent}
-          handleInputChange={handleInputChange}
+          setNewEvent={setNewEvent}
+          eventsCategories={eventsCategories}
+          setEventImage={setEventImage}
         />
 
         <EventDateTimeAndImage
           newEvent={newEvent}
-          handleDateChange={handleDateChange}
-          handleInputChange={handleInputChange}
+          setNewEvent={setNewEvent}
+          eventsCategories={eventsCategories}
+          setEventImage={setEventImage}
         />
 
         <div>
@@ -178,7 +86,14 @@ const CreateEvent: React.FC = () => {
             id="description"
             name="description"
             value={newEvent.description}
-            onChange={(e) => handleInputChange(e)}
+            onChange={(e) =>
+              handleEventInputChange(
+                e,
+                setNewEvent,
+                eventsCategories,
+                setEventImage
+              )
+            }
             required
             className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
             placeholder="أدخل وصف الفعالية هنا"

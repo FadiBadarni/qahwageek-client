@@ -1,21 +1,28 @@
 import { EventCategory, NewEvent } from 'models/event';
 import React from 'react';
+import { handleEventInputChange } from 'utils/eventHelpers';
 
 interface EventBasicDetailsProps {
   newEvent: NewEvent;
+  setNewEvent: React.Dispatch<React.SetStateAction<NewEvent>>;
+  setEventImage: React.Dispatch<React.SetStateAction<File | null>>;
   eventsCategories: EventCategory[];
-  handleInputChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => void;
 }
 
 export const EventBasicDetails: React.FC<EventBasicDetailsProps> = ({
   newEvent,
+  setNewEvent,
+  setEventImage,
   eventsCategories,
-  handleInputChange,
 }) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    handleEventInputChange(e, setNewEvent, eventsCategories, setEventImage);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div>

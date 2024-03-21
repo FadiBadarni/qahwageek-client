@@ -1,19 +1,28 @@
-import { NewEvent } from 'models/event';
+import { EventCategory, NewEvent } from 'models/event';
 import React from 'react';
+import { handleEventInputChange } from 'utils/eventHelpers';
 
 interface EventOnlineDetailsProps {
   newEvent: NewEvent;
-  handleInputChange: (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => void;
+  setNewEvent: React.Dispatch<React.SetStateAction<NewEvent>>;
+  eventsCategories: EventCategory[];
+  setEventImage: React.Dispatch<React.SetStateAction<File | null>>;
 }
 
 export const EventOnlineDetails: React.FC<EventOnlineDetailsProps> = ({
   newEvent,
-  handleInputChange,
+  setNewEvent,
+  eventsCategories,
+  setEventImage,
 }) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    handleEventInputChange(e, setNewEvent, eventsCategories, setEventImage);
+  };
+
   return (
     <div className="flex flex-col md:flex-row justify-between gap-6">
       <div className="md:w-1/2">
