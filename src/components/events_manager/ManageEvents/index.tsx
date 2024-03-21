@@ -9,6 +9,7 @@ import { RootState } from 'store/store';
 import EventManagementActions from './EventManagementActions';
 import { clearSelectedEvent, setSelectedEvent } from 'store/event/eventSlice';
 import { displayToast } from 'utils/alertUtils';
+import EventEditDialog from './EventEditDialog';
 
 interface EventsManagementProps {}
 
@@ -19,6 +20,9 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.allEvents.data);
+
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<MeetupEvent | null>(null);
 
   const [sort, setSort] = useState<string>('');
   const [status, setStatus] = useState<string | undefined>(undefined);
@@ -36,6 +40,11 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
 
   const handlePageChange = (page: number) => {
     dispatch(getAllEvents({ page, size: 6, sort, status }));
+  };
+
+  const handleEdit = (event: MeetupEvent) => {
+    setEditingEvent(event);
+    setIsEditDialogOpen(true);
   };
 
   const handleDelete = (event: MeetupEvent) => {
@@ -56,10 +65,16 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
       });
   };
 
+  const closeEditDialog = () => {
+    setIsEditDialogOpen(false);
+    setEditingEvent(null);
+  };
+
   const renderActions = (event: MeetupEvent) => (
     <EventManagementActions
       event={event}
       onDelete={() => handleDelete(event)}
+      onEdit={() => handleEdit(event)}
       isLoading={selectedEventData?.id === event.id && isUpdating}
       isGlobalUpdating={isUpdating}
     />
@@ -111,6 +126,13 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
           onPageChange={handlePageChange}
         />
       </div>
+      {editingEvent && (
+        <EventEditDialog
+          isOpen={isEditDialogOpen}
+          onClose={closeEditDialog}
+          event={editingEvent}
+        />
+      )}
     </div>
   );
 };

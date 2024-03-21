@@ -1,10 +1,11 @@
 import React from 'react';
-import { TrashIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { MeetupEvent } from 'models/event';
 
 interface EventManagementActionsProps {
   event: MeetupEvent;
   onDelete: (eventId: number) => void;
+  onEdit: (eventId: number) => void;
   isLoading: boolean;
   isGlobalUpdating: boolean;
 }
@@ -12,6 +13,7 @@ interface EventManagementActionsProps {
 const EventManagementActions: React.FC<EventManagementActionsProps> = ({
   event,
   onDelete,
+  onEdit,
   isLoading,
   isGlobalUpdating,
 }) => {
@@ -37,15 +39,26 @@ const EventManagementActions: React.FC<EventManagementActionsProps> = ({
           ></path>
         </svg>
       ) : (
-        <button
-          onClick={() => onDelete(event.id)}
-          disabled={isGlobalUpdating}
-          className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
-          title="ازالة الحدث"
-        >
-          <TrashIcon className="w-5 h-5 ml-1" aria-hidden="true" />
-          ازالة
-        </button>
+        <>
+          <button
+            onClick={() => onEdit(event.id)}
+            disabled={isGlobalUpdating}
+            className="flex items-center justify-center text-blue-600 hover:text-blue-800 dark:hover:text-blue-400"
+            title="تعديل الحدث"
+          >
+            <PencilIcon className="w-5 h-5 ml-1" aria-hidden="true" />
+            تعديل
+          </button>
+          <button
+            onClick={() => onDelete(event.id)}
+            disabled={isGlobalUpdating}
+            className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
+            title="ازالة الحدث"
+          >
+            <TrashIcon className="w-5 h-5 ml-1" aria-hidden="true" />
+            ازالة
+          </button>
+        </>
       )}
     </div>
   );
