@@ -4,7 +4,6 @@ import { getAllEventCategories } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import { useSelector } from 'react-redux';
 import { NewEvent } from 'models/event';
-import { useNavigate } from 'react-router-dom';
 import { EventBasicDetails } from './EventBasicDetails';
 import { EventOnlineDetails } from './EventOnlineDetails';
 import { EventDateTimeAndImage } from './EventDateTimeAndImage';
@@ -12,7 +11,6 @@ import { handleEventInputChange, handleEventSubmit } from 'utils/eventHelpers';
 
 const CreateEvent: React.FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const eventsCategories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
@@ -43,7 +41,6 @@ const CreateEvent: React.FC = () => {
       eventImage,
       setLoading,
       dispatch,
-      navigate,
       setNewEvent
     );
   };

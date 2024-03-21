@@ -4,22 +4,22 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AppDispatch, RootState } from 'store/store';
 import { getAllEventCategories } from 'store/event/eventActions';
 import { NewEvent } from 'models/event';
-import { useNavigate } from 'react-router-dom';
 import { handleEventInputChange, handleEventSubmit } from 'utils/eventHelpers';
 import { EventDateTimeAndImage } from 'components/events_manager/EventCreation/EventDateTimeAndImage';
 import { EventOnlineDetails } from 'components/events_manager/EventCreation/EventOnlineDetails';
 import { EventBasicDetails } from 'components/events_manager/EventCreation/EventBasicDetails';
 import AddEventGuidelines from './AddEventGuidelines';
+import { displayToast } from 'utils/alertUtils';
 
 const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const eventsCategories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const [newEvent, setNewEvent] = useState<NewEvent>({
     title: '',
@@ -42,16 +42,28 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await handleEventSubmit(
-      e,
-      newEvent,
-      eventImage,
-      setLoading,
-      dispatch,
-      navigate,
-      setNewEvent
-    );
-    onClose();
+    setLoading(true);
+    try {
+      await handleEventSubmit(
+        e,
+        newEvent,
+        eventImage,
+        setLoading,
+        dispatch,
+        setNewEvent
+      );
+      displayToast(
+        'تم إرسال الفعالية بنجاح وسيتم مراجعتها قريباً',
+        true,
+        currentTheme
+      );
+      onClose();
+    } catch (error) {
+      console.error('Event submission failed:', error);
+      displayToast('حدث خطأ أثناء إنشاء الفعالية', false, currentTheme);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -118,24 +130,24 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                     placeholder="أدخل وصف الفعالية هنا"
                   />
                 </div>
+                <div className="bg-light-background dark:bg-dark-background px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-between">
+                  <button
+                    type="button"
+                    className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 dark:bg-brand-400 text-base font-medium text-white hover:bg-brand-600 dark:hover:bg-dark-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-dark-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                    onClick={() => onClose()}
+                    disabled={loading}
+                  >
+                    إغلاق
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 dark:bg-brand-500 text-base font-medium text-white hover:bg-brand-600 dark:hover:bg-dark-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-dark-primary sm:ml-3 sm:w-auto sm:text-sm"
+                  >
+                    {loading ? 'جارٍ الإنشاء...' : 'إنشاء الفعالية'}
+                  </button>
+                </div>
               </form>
-              <div className="bg-light-background dark:bg-dark-background px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-between">
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 dark:bg-brand-400 text-base font-medium text-white hover:bg-brand-600 dark:hover:bg-dark-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-dark-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                  onClick={() => onClose()}
-                  disabled={loading}
-                >
-                  إغلاق
-                </button>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 dark:bg-brand-500 text-base font-medium text-white hover:bg-brand-600 dark:hover:bg-dark-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-dark-primary sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  {loading ? 'جارٍ الإنشاء...' : 'إنشاء الفعالية'}
-                </button>
-              </div>
             </div>
             <div className="w-full md:w-1/3 p-6 text-light-text dark:text-dark-text bg-light-layer dark:bg-dark-layer rounded-lg shadow-lg">
               <AddEventGuidelines />

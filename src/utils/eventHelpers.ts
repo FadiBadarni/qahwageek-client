@@ -65,7 +65,6 @@ export const handleEventSubmit = async (
   eventImage: File | null,
   setLoading: React.Dispatch<React.SetStateAction<boolean>>,
   dispatch: AppDispatch,
-  navigate: (path: string) => void,
   setNewEvent: React.Dispatch<React.SetStateAction<NewEvent>>
 ) => {
   e.preventDefault();
@@ -79,9 +78,7 @@ export const handleEventSubmit = async (
       imageUrl,
     };
 
-    const createdEvent = await dispatch(
-      createEvent(eventDetailsWithImage)
-    ).unwrap();
+    await dispatch(createEvent(eventDetailsWithImage)).unwrap();
 
     setNewEvent({
       title: '',
@@ -93,8 +90,6 @@ export const handleEventSubmit = async (
       location: '',
       category: { id: 0, name: '', description: '' },
     });
-
-    navigate(`/events/${createdEvent.id}`);
   } catch (error) {
     console.error('Error creating event:', error);
   } finally {
