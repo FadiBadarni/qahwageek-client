@@ -10,7 +10,8 @@ import {
 import { format, parseISO } from 'date-fns';
 import ReactDatePicker from 'react-datepicker';
 import { useAppDispatch } from 'hooks/useAppDispatch';
-import { getAllEventCategories } from 'store/event/eventActions';
+import { getAllEventCategories, updateEvent } from 'store/event/eventActions';
+import { displayToast } from 'utils/alertUtils';
 
 interface EventEditDialogProps {
   isOpen: boolean;
@@ -23,6 +24,8 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
   const selectedEvent = useSelector(
     (state: RootState) => state.events.selectedEvent.data
   );
@@ -30,6 +33,8 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
   const eventsCategories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
+
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     dispatch(getAllEventCategories());
@@ -68,7 +73,7 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
     }
   });
 
-  const [, setEventImage] = useState<File | null>(null);
+  const [eventImage, setEventImage] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -102,10 +107,48 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
     handleEventDateChange(date, setNewEvent);
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(newEvent);
-    onClose();
+
+    setIsUpdating(true);
+
+    if (!selectedEvent) {
+      console.error('Selected event is undefined.');
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append('title', newEvent.title || '');
+    formData.append('description', newEvent.description || '');
+    formData.append('dateTime', newEvent.dateTime || '');
+    formData.append('location', newEvent.location || '');
+    formData.append('eventLink', newEvent.eventLink || '');
+    formData.append('isOnlineEvent', newEvent.isOnlineEvent.toString());
+
+    if (newEvent.category && newEvent.category.id !== undefined) {
+      formData.append('category', newEvent.category.id.toString());
+    } else {
+      console.error('Category ID is undefined.');
+      return;
+    }
+
+    if (eventImage) {
+      formData.append('image', eventImage, eventImage.name);
+    }
+
+    try {
+      await dispatch(
+        updateEvent({ eventId: selectedEvent.id, eventData: formData })
+      ).unwrap();
+      displayToast('تم تحديث الحدث بنجاح.', true, currentTheme);
+      onClose();
+    } catch (error) {
+      console.error('Failed to update the event:', error);
+      displayToast('فشل في تحديث الحدث.', false, currentTheme);
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   if (!isOpen || !selectedEvent) {
@@ -283,15 +326,21 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
                 <button
                   type="button"
                   onClick={onClose}
+                  disabled={isUpdating}
                   className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-neutral-500 text-base font-medium text-white hover:bg-neutral-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-neutral-400 sm:text-sm"
                 >
                   إلغاء
                 </button>
                 <button
                   type="submit"
-                  className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 text-base font-medium text-white hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:text-sm"
+                  disabled={isUpdating}
+                  className={`inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 sm:text-sm ${
+                    isUpdating
+                      ? 'bg-brand-400'
+                      : 'bg-brand-500 hover:bg-brand-600 focus:ring-brand-500'
+                  }`}
                 >
-                  حفظ التغييرات
+                  {isUpdating ? 'جارٍ التحديث...' : 'حفظ التغييرات'}
                 </button>
               </div>
             </form>
