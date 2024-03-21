@@ -82,7 +82,11 @@ const CreatePost = () => {
   });
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: 'image/*' as any,
+    accept: {
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpg', '.jpeg'],
+      'image/webp': ['.webp'],
+    },
     onDrop,
   });
 
@@ -90,7 +94,6 @@ const CreatePost = () => {
     <div className="p-4 mx-auto max-w-7xl px-6 lg:px-8">
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-6 gap-4">
-          {/* Title input */}
           <div className="md:col-span-4">
             <label
               htmlFor="title"
@@ -115,9 +118,11 @@ const CreatePost = () => {
             />
           </div>
 
-          {/* Dropzone for image upload */}
           <div className="md:col-span-6 lg:col-span-2 flex flex-col">
-            <label className="text-sm font-medium text-light-text dark:text-dark-text mb-2">
+            <label
+              htmlFor="eventImage"
+              className="text-sm font-medium text-light-text dark:text-dark-text mb-2"
+            >
               صورة الغلاف
             </label>
             <div
@@ -127,7 +132,7 @@ const CreatePost = () => {
                 style: { minHeight: '200px' },
               })}
             >
-              <input {...getInputProps()} />
+              <input id="eventImage" {...getInputProps()} />
               <p className="text-sm font-medium text-light-text dark:text-dark-text">
                 قم بالسحب والإفلات هنا، أو انقر لتحديد الملفات
               </p>
@@ -142,7 +147,6 @@ const CreatePost = () => {
           </div>
         </div>
 
-        {/* Content editor */}
         <div>
           <label
             htmlFor="content"
@@ -153,7 +157,6 @@ const CreatePost = () => {
           <TextEditor onContentChange={handleContentChange} />
         </div>
 
-        {/* Submit button */}
         <div className="flex justify-center mt-4">
           <button
             type="submit"

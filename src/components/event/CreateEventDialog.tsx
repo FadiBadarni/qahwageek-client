@@ -6,7 +6,6 @@ import { getAllEventCategories } from 'store/event/eventActions';
 import { NewEvent } from 'models/event';
 import { handleEventInputChange, handleEventSubmit } from 'utils/eventHelpers';
 import { EventDateTimeAndImage } from 'components/events_manager/EventCreation/EventDateTimeAndImage';
-import { EventOnlineDetails } from 'components/events_manager/EventCreation/EventOnlineDetails';
 import { EventBasicDetails } from 'components/events_manager/EventCreation/EventBasicDetails';
 import AddEventGuidelines from './AddEventGuidelines';
 import { displayToast } from 'utils/alertUtils';
@@ -89,13 +88,6 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                   newEvent={newEvent}
                   eventsCategories={eventsCategories}
                   setNewEvent={setNewEvent}
-                  setEventImage={setEventImage}
-                />
-
-                <EventOnlineDetails
-                  newEvent={newEvent}
-                  setNewEvent={setNewEvent}
-                  eventsCategories={eventsCategories}
                   setEventImage={setEventImage}
                 />
 
