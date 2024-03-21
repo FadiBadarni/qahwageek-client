@@ -13,6 +13,7 @@ import EventDetailsDialog from 'components/shared/EventDetailsDialog';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { Tooltip } from 'react-tooltip';
 import CreateEventDialog from './CreateEventDialog';
+import FilterSortOptions from './FilterSortOptions';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -69,48 +70,30 @@ const EventsPage: React.FC = () => {
     setIsDialogOpen(true);
   };
 
+  const handleSortChange = (newSort: string) => {
+    setSort(newSort);
+  };
+
+  const handleCategoryChange = (newCategoryId: number | undefined) => {
+    setSelectedCategoryId(newCategoryId);
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-6">
         <h2 className="text-3xl font-extrabold text-brand-500 dark:text-accent-500">
           كل الأحداث
         </h2>
-        <p className="mt-3 max-w-2xl mx-auto text-xl text-gray-500 dark:text-gray-400">
-          استكشف الأحداث القادمة وسجل الآن
-        </p>
       </div>
 
-      <div className="mb-4 flex gap-4">
-        <div className="relative">
-          <select
-            className=" pr-8 pl-4 text-sm dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2 w-full"
-            value={sort}
-            onChange={(e) => setSort(e.target.value)}
-          >
-            <option value="dateTime,asc">التاريخ (تصاعدي)</option>
-            <option value="dateTime,desc">التاريخ (تنازلي)</option>
-            <option value="createdAt,asc">تاريخ الإنشاء (تصاعدي)</option>
-            <option value="createdAt,desc">تاريخ الإنشاء (تنازلي)</option>
-          </select>
-        </div>
+      <FilterSortOptions
+        sort={sort}
+        selectedCategoryId={selectedCategoryId}
+        categories={categories}
+        onSortChange={handleSortChange}
+        onCategoryChange={handleCategoryChange}
+      />
 
-        <div className="relative">
-          <select
-            className=" pr-8 pl-4 text-sm dark:text-neutral-200 bg-light-layer dark:bg-dark-layer border border-light-border dark:border-dark-border rounded-md p-2 w-full"
-            value={selectedCategoryId}
-            onChange={(e) =>
-              setSelectedCategoryId(Number(e.target.value) || undefined)
-            }
-          >
-            <option value="">كل الفئات</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {events.length > 0 ? (
           events.map((event) => (
