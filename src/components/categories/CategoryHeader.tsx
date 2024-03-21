@@ -62,7 +62,7 @@ const CategoryHeader: React.FC<CategoryHeaderProps> = ({ PostsComponent }) => {
             <CategoryPageSkeleton />
           ) : (
             <div className="flex justify-center items-start flex-wrap">
-              {posts.map((post, index) => (
+              {posts.slice(0, 2).map((post, index) => (
                 <div
                   key={post.id}
                   onClick={() => handlePostClick(post.id)}
