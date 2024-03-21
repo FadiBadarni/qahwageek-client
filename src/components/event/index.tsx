@@ -9,6 +9,7 @@ import { MeetupEvent } from 'models/event';
 import EventDetailsDialog from 'components/shared/EventDetailsDialog';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { Tooltip } from 'react-tooltip';
+import CreateEventDialog from './CreateEventDialog';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,8 +40,7 @@ const EventsPage: React.FC = () => {
   };
 
   const handleAddEvent = () => {
-    console.log('Add event clicked');
-    // set state here to open a modal or navigate to a form page
+    setIsDialogOpen(true);
   };
 
   return (
@@ -97,6 +97,7 @@ const EventsPage: React.FC = () => {
         <PlusIcon className="h-6 w-6" />
       </button>
       <Tooltip id="addEventTooltip" />
+      <CreateEventDialog isOpen={isDialogOpen} onClose={closeDialog} />
     </div>
   );
 };
