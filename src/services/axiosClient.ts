@@ -26,9 +26,6 @@ export const injectStore = (
 
 const axiosClient = axios.create({
   baseURL: `${BASE_URL}`,
-  headers: {
-    'Content-Type': 'application/json',
-  },
   withCredentials: true,
 });
 
