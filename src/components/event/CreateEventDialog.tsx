@@ -121,28 +121,18 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
                         )
                       }
                       required
-                      className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+                      className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 text-light-text dark:text-dark-text"
                       placeholder="أدخل وصف الفعالية هنا"
                     />
-                  </div>
-
-                  <div className="flex justify-center">
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-brand-500 hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500"
-                    >
-                      {loading ? 'جارٍ الإنشاء...' : 'إنشاء الفعالية'}
-                    </button>
                   </div>
                 </form>
               </div>
             </div>
           </div>
-          <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+          <div className="bg-light-background dark:bg-dark-background px-4 py-3 sm:px-6 sm:flex sm:flex-row justify-between">
             <button
               type="button"
-              className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 text-base font-medium text-white hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+              className="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 dark:bg-brand-400 text-base font-medium text-white hover:bg-brand-600 dark:hover:bg-dark-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-dark-primary sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
               onClick={() => onClose()}
               disabled={loading}
             >
@@ -151,7 +141,7 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
             <button
               type="submit"
               disabled={loading}
-              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 text-base font-medium text-white hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 sm:ml-3 sm:w-auto sm:text-sm"
+              className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-brand-500 dark:bg-brand-500 text-base font-medium text-white hover:bg-brand-600 dark:hover:bg-dark-accent focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 dark:focus:ring-dark-primary sm:ml-3 sm:w-auto sm:text-sm"
             >
               {loading ? 'جارٍ الإنشاء...' : 'إنشاء الفعالية'}
             </button>

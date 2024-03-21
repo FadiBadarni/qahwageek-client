@@ -52,7 +52,7 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
           timeCaption="time"
           dateFormat="MMMM d, yyyy h:mm aa"
           wrapperClassName="datePicker"
-          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer text-light-text dark:text-dark-text"
         />
       </div>
       <div>
@@ -68,7 +68,7 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
           type="file"
           accept="image/*"
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 text-light-text dark:text-dark-text"
           placeholder="أدخل رابط صورة الفعالية هنا"
         />
       </div>

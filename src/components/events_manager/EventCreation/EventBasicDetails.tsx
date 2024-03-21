@@ -39,7 +39,7 @@ export const EventBasicDetails: React.FC<EventBasicDetailsProps> = ({
           value={newEvent.title}
           onChange={handleInputChange}
           required
-          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 "
           placeholder="أدخل عنوان الفعالية هنا"
         />
       </div>
@@ -55,7 +55,7 @@ export const EventBasicDetails: React.FC<EventBasicDetailsProps> = ({
           name="category"
           value={newEvent.category.name}
           onChange={handleInputChange}
-          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 pr-8 pl-2"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 pr-8 pl-2 text-light-text dark:text-dark-text"
         >
           <option disabled value="">
             اختر تصنيفاً...
