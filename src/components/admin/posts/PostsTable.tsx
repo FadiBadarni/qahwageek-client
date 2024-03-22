@@ -1,8 +1,10 @@
+import { InformationCircleIcon } from '@heroicons/react/24/outline';
 import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { translatePostStatus } from 'models/event';
 import { Post, PostStatus } from 'models/post';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 type PostsTableProps = {
   posts: Post[];
@@ -15,17 +17,10 @@ const PostsTable: React.FC<PostsTableProps> = ({
   renderPublishRejectActions,
   renderEditDeleteActions,
 }) => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const navigate = useNavigate();
 
-  const handleIconClick = (post: Post) => {
-    setSelectedPost(post);
-    setIsDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setIsDialogOpen(false);
-    setSelectedPost(null);
+  const handleNavigateToPost = (postId: number) => {
+    navigate(`/post/${postId}`);
   };
 
   return (
@@ -36,6 +31,10 @@ const PostsTable: React.FC<PostsTableProps> = ({
             <th
               scope="col"
               className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+            ></th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               العنوان
             </th>
@@ -80,7 +79,17 @@ const PostsTable: React.FC<PostsTableProps> = ({
         <tbody className="bg-light-layer dark:bg-dark-layer divide-y divide-light-border dark:divide-dark-border">
           {posts.map((post) => (
             <tr key={post.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 overflow-hidden text-ellipsis max-w-[240px]">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200">
+                <div className="flex justify-center items-center">
+                  <button onClick={() => handleNavigateToPost(post.id)}>
+                    <InformationCircleIcon
+                      className="w-5 h-5 text-gray-500 hover:text-gray-700"
+                      aria-hidden="true"
+                    />
+                  </button>
+                </div>
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 overflow-hidden text-ellipsis max-w-[240px] border-r border-light-border dark:border-dark-border">
                 {post.title.length > 40
                   ? `${post.title.substring(0, 40)}...`
                   : post.title}
