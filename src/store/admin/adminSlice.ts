@@ -67,12 +67,13 @@ export const adminSlice = createSlice({
         state.posts.status = LoadingStatus.Loading;
       })
       .addCase(fetchAllPosts.fulfilled, (state, action) => {
-        state.posts.data.items = action.payload.items;
-        state.posts.data.totalCount = action.payload.totalCount;
-        state.posts.data.currentPage = action.payload.currentPage;
+        state.posts.data.items = action.payload.content;
+        state.posts.data.totalCount = action.payload.totalElements;
+        state.posts.data.currentPage = action.payload.pageable.pageNumber;
         state.posts.data.totalPages = action.payload.totalPages;
         state.posts.status = LoadingStatus.Succeeded;
       })
+
       .addCase(fetchAllPosts.rejected, (state, action) => {
         state.posts.status = LoadingStatus.Failed;
         state.posts.error = action.error.message || 'Could not fetch posts';

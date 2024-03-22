@@ -25,6 +25,7 @@ import CreateEvent from 'components/events_manager/EventCreation/CreateEvent';
 import EventsPage from 'components/event';
 import UsersEventsTable from 'components/events_manager/ReviewEvents';
 import EventsManagement from 'components/events_manager/ManageEvents';
+import PostsManagement from 'components/admin/posts';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -82,6 +83,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <CategoriesManagement />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cms/posts"
+              element={
+                <ProtectedRoute>
+                  <PostsManagement />
                 </ProtectedRoute>
               }
             />
