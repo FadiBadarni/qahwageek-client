@@ -18,18 +18,7 @@ const EditDeleteActions: React.FC<EditDeleteActionsProps> = ({
   isGlobalUpdating,
 }) => {
   return (
-    <div className="flex items-center gap-2">
-      <button
-        onClick={() => onDelete(postId)}
-        disabled={isGlobalUpdating || isLoading}
-        className="flex items-center justify-center text-gray-600 hover:text-gray-800 dark:hover:text-gray-400"
-        data-tooltip-content="حذف"
-        data-tooltip-id={`delete-tooltip-${postId}`}
-      >
-        <TrashIcon className="w-5 h-5" aria-hidden="true" />
-      </button>
-      <Tooltip id={`delete-tooltip-${postId}`} />
-
+    <div className="flex items-center justify-center gap-4">
       <button
         onClick={() => onEdit(postId)}
         disabled={isGlobalUpdating || isLoading}
@@ -40,6 +29,17 @@ const EditDeleteActions: React.FC<EditDeleteActionsProps> = ({
         <PencilIcon className="w-5 h-5" aria-hidden="true" />
       </button>
       <Tooltip id={`edit-tooltip-${postId}`} />
+
+      <button
+        onClick={() => onDelete(postId)}
+        disabled={isGlobalUpdating || isLoading}
+        className="flex items-center justify-center text-gray-600 hover:text-gray-800 dark:hover:text-gray-400"
+        data-tooltip-content="حذف"
+        data-tooltip-id={`delete-tooltip-${postId}`}
+      >
+        <TrashIcon className="w-5 h-5" aria-hidden="true" />
+      </button>
+      <Tooltip id={`delete-tooltip-${postId}`} />
     </div>
   );
 };
