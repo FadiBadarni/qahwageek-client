@@ -119,6 +119,32 @@ class PostService {
       throw error;
     }
   }
+
+  static async getAllPosts({
+    page = 0,
+    size = 10,
+    status,
+    sort,
+  }: {
+    page?: number;
+    size?: number;
+    status?: string;
+    sort?: string;
+  }): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/posts`, {
+        params: {
+          page,
+          size,
+          ...(status ? { status } : {}),
+          ...(sort ? { sort } : {}),
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default PostService;

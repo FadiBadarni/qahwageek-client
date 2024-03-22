@@ -6,11 +6,12 @@ import {
   fetchAllUsers,
   updateUserRoles,
 } from 'store/user/userActions';
-import { initialUsersState } from 'store/user/userState';
+import { initialAdminState } from './adminState';
+import { fetchAllPosts } from 'store/post/postActions';
 
 export const adminSlice = createSlice({
   name: 'search',
-  initialState: initialUsersState,
+  initialState: initialAdminState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -61,6 +62,20 @@ export const adminSlice = createSlice({
       .addCase(deleteUser.rejected, (state, action) => {
         state.users.status = LoadingStatus.Failed;
         state.users.error = action.error.message || 'Could not delete user';
+      })
+      .addCase(fetchAllPosts.pending, (state) => {
+        state.posts.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchAllPosts.fulfilled, (state, action) => {
+        state.posts.data.items = action.payload.items;
+        state.posts.data.totalCount = action.payload.totalCount;
+        state.posts.data.currentPage = action.payload.currentPage;
+        state.posts.data.totalPages = action.payload.totalPages;
+        state.posts.status = LoadingStatus.Succeeded;
+      })
+      .addCase(fetchAllPosts.rejected, (state, action) => {
+        state.posts.status = LoadingStatus.Failed;
+        state.posts.error = action.error.message || 'Could not fetch posts';
       });
   },
 });
