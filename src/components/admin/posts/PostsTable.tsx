@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { translatePostStatus } from 'models/event';
 import { Post, PostStatus } from 'models/post';
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 type PostsTableProps = {

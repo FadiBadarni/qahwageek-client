@@ -145,6 +145,20 @@ class PostService {
       throw error;
     }
   }
+
+  static async updatePostStatus(
+    postId: number,
+    status: 'REJECTED' | 'PUBLISHED'
+  ): Promise<any> {
+    try {
+      const response = await axiosClient.patch(`/posts/${postId}/status`, {
+        status,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default PostService;

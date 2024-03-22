@@ -7,12 +7,24 @@ import {
   updateUserRoles,
 } from 'store/user/userActions';
 import { initialAdminState } from './adminState';
-import { fetchAllPosts } from 'store/post/postActions';
+import { fetchAllPosts, updatePostStatus } from 'store/post/postActions';
+import { Post } from 'models/post';
 
 export const adminSlice = createSlice({
   name: 'search',
   initialState: initialAdminState,
-  reducers: {},
+  reducers: {
+    setSelectedPost(state, action: PayloadAction<Post>) {
+      state.selectedPost.data = action.payload;
+      state.selectedPost.status = LoadingStatus.Idle;
+      state.selectedPost.error = null;
+    },
+    clearSelectedPost(state) {
+      state.selectedPost.data = null;
+      state.selectedPost.status = LoadingStatus.Idle;
+      state.selectedPost.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAllUsers.pending, (state) => {
@@ -73,10 +85,30 @@ export const adminSlice = createSlice({
         state.posts.data.totalPages = action.payload.totalPages;
         state.posts.status = LoadingStatus.Succeeded;
       })
-
       .addCase(fetchAllPosts.rejected, (state, action) => {
         state.posts.status = LoadingStatus.Failed;
         state.posts.error = action.error.message || 'Could not fetch posts';
+      })
+      .addCase(updatePostStatus.pending, (state) => {
+        state.selectedPost.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        updatePostStatus.fulfilled,
+        (state, action: PayloadAction<Post>) => {
+          state.selectedPost.status = LoadingStatus.Succeeded;
+          // Find and update the post in the state
+          const index = state.posts.data.items.findIndex(
+            (post) => post.id === action.payload.id
+          );
+          if (index !== -1) {
+            state.posts.data.items[index] = action.payload;
+          }
+        }
+      )
+      .addCase(updatePostStatus.rejected, (state, action) => {
+        state.selectedPost.status = LoadingStatus.Failed;
+        state.selectedPost.error =
+          action.error.message || 'Failed to update post status';
       });
   },
 });

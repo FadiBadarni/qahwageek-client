@@ -40,8 +40,6 @@ const PostsManagement: React.FC<Props> = () => {
   const renderPublishRejectActions = (post: Post) => (
     <PublishRejectActions
       postId={post.id}
-      onPublish={dummyHandler}
-      onReject={dummyHandler}
       isLoading={false}
       isGlobalUpdating={false}
     />

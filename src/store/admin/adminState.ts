@@ -9,6 +9,7 @@ import {
 export interface AdminState {
   users: CommonState<PaginatedData<UserData[]>>;
   posts: CommonState<PaginatedData<Post[]>>;
+  selectedPost: CommonState<Post | null>;
 }
 
 export const initialAdminState: AdminState = {
@@ -29,6 +30,11 @@ export const initialAdminState: AdminState = {
       currentPage: 0,
       totalPages: 0,
     },
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  selectedPost: {
+    data: null,
     status: LoadingStatus.Idle,
     error: null,
   },

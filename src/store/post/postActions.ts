@@ -265,3 +265,24 @@ export const fetchAllPosts = createAsyncThunk(
     }
   }
 );
+
+export const updatePostStatus = createAsyncThunk(
+  'posts/updateStatus',
+  async (
+    { postId, status }: { postId: number; status: 'REJECTED' | 'PUBLISHED' },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedPost = await PostService.updatePostStatus(postId, status);
+      return updatedPost;
+    } catch (error: any) {
+      console.error(
+        `Failed to update status for post with ID ${postId}:`,
+        error
+      );
+      return rejectWithValue(
+        error.response?.data || `Unable to update post status to ${status}`
+      );
+    }
+  }
+);
