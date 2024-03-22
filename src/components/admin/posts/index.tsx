@@ -3,25 +3,34 @@ import { Post } from 'models/post';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { fetchAllPosts } from 'store/post/postActions';
+import { fetchAllPosts, updatePostStatus } from 'store/post/postActions';
 import PostsTable from './PostsTable';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import PublishRejectActions from './PublishRejectActions';
 import EditDeleteActions from './EditDeleteActions';
+import { displayToast } from 'utils/alertUtils';
+import { clearSelectedPost, setSelectedPost } from 'store/admin/adminSlice';
 
 type Props = {};
 
 const PostsManagement: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
   const POSTS_PER_PAGE = 6;
   const [sort, setSort] = useState<string>('');
   const [status, setStatus] = useState<string | undefined>(undefined);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const {
     items: posts,
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.admin.posts.data);
+
+  const { data: selectedPost } = useSelector(
+    (state: RootState) => state.admin.selectedPost
+  );
 
   useEffect(() => {
     dispatch(
@@ -37,11 +46,53 @@ const PostsManagement: React.FC<Props> = () => {
     console.log(`Action on post ID: ${postId}`);
   };
 
+  const handlePublish = (post: Post) => {
+    setIsUpdating(true);
+
+    dispatch(setSelectedPost(post));
+
+    dispatch(updatePostStatus({ postId: post.id, status: 'PUBLISHED' }))
+      .unwrap()
+      .then((updatedPost) => {
+        dispatch(setSelectedPost(updatedPost));
+        displayToast('تم نشر المنشور بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        displayToast('فشل في نشر المنشور', false, currentTheme);
+      })
+      .finally(() => {
+        setIsUpdating(false);
+        dispatch(clearSelectedPost());
+      });
+  };
+
+  const handleReject = (post: Post) => {
+    setIsUpdating(true);
+
+    dispatch(setSelectedPost(post));
+
+    dispatch(updatePostStatus({ postId: post.id, status: 'REJECTED' }))
+      .unwrap()
+      .then((updatedPost) => {
+        dispatch(setSelectedPost(updatedPost));
+        displayToast('تم رفض المنشور بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        displayToast('فشل في رفض المنشور', false, currentTheme);
+      })
+      .finally(() => {
+        dispatch(clearSelectedPost());
+        setIsUpdating(false);
+      });
+  };
+
   const renderPublishRejectActions = (post: Post) => (
     <PublishRejectActions
-      postId={post.id}
-      isLoading={false}
-      isGlobalUpdating={false}
+      post={post}
+      isLoading={selectedPost?.id === post.id && isUpdating}
+      isGlobalUpdating={isUpdating}
+      onPublish={() => handlePublish(post)}
+      onReject={() => handleReject(post)}
     />
   );
 

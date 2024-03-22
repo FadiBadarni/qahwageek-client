@@ -113,4 +113,6 @@ export const adminSlice = createSlice({
   },
 });
 
+export const { setSelectedPost, clearSelectedPost } = adminSlice.actions;
+
 export default adminSlice.reducer;
