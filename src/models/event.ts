@@ -1,3 +1,5 @@
+import { PostStatus } from './post';
+
 export interface MeetupEvent {
   id: number;
   title: string;
@@ -41,6 +43,16 @@ export const translateStatus = (status: EventStatus) => {
     [EventStatus.Pending]: 'قيد الانتظار',
     [EventStatus.Published]: 'منشور',
     [EventStatus.Rejected]: 'مرفوض',
+  };
+
+  return statusTranslations[status];
+};
+
+export const translatePostStatus = (status: PostStatus) => {
+  const statusTranslations: { [key in PostStatus]: string } = {
+    [PostStatus.Pending]: 'قيد الانتظار',
+    [PostStatus.Published]: 'منشور',
+    [PostStatus.Rejected]: 'مرفوض',
   };
 
   return statusTranslations[status];

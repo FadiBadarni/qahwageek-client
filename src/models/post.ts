@@ -9,6 +9,7 @@ export interface Post {
   readingTime?: number;
   categoryDetails: CategoryDetail[];
   status: PostStatus;
+  createdAt: string;
 }
 export interface NewPost {
   title: string;
