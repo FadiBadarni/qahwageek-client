@@ -232,3 +232,57 @@ export const searchPosts = createAsyncThunk(
     }
   }
 );
+
+export const fetchAllPosts = createAsyncThunk(
+  'posts/fetchAll',
+  async (
+    {
+      page,
+      size,
+      status,
+      sort,
+    }: {
+      page: number;
+      size: number;
+      status?: string;
+      sort?: string;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const posts = await PostService.getAllPosts({
+        page,
+        size,
+        status,
+        sort,
+      });
+      return posts;
+    } catch (error: any) {
+      console.error('Failed to fetch all posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch all posts'
+      );
+    }
+  }
+);
+
+export const updatePostStatus = createAsyncThunk(
+  'posts/updateStatus',
+  async (
+    { postId, status }: { postId: number; status: 'REJECTED' | 'PUBLISHED' },
+    { rejectWithValue }
+  ) => {
+    try {
+      const updatedPost = await PostService.updatePostStatus(postId, status);
+      return updatedPost;
+    } catch (error: any) {
+      console.error(
+        `Failed to update status for post with ID ${postId}:`,
+        error
+      );
+      return rejectWithValue(
+        error.response?.data || `Unable to update post status to ${status}`
+      );
+    }
+  }
+);

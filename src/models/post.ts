@@ -8,6 +8,8 @@ export interface Post {
   mainImageUrl?: string;
   readingTime?: number;
   categoryDetails: CategoryDetail[];
+  status: PostStatus;
+  createdAt: string;
 }
 export interface NewPost {
   title: string;
@@ -44,4 +46,10 @@ export interface PostSearchResult {
   id: string;
   title: string;
   mainImageUrl: string;
+}
+
+export enum PostStatus {
+  Pending = 'PENDING',
+  Published = 'PUBLISHED',
+  Rejected = 'REJECTED',
 }
