@@ -41,37 +41,37 @@ const PostsTable: React.FC<PostsTableProps> = ({
             </th>
             <th
               scope="col"
-              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               الكاتب
             </th>
             <th
               scope="col"
-              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               تاريخ الانشاء
             </th>
             <th
               scope="col"
-              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               الفئات
             </th>
             <th
               scope="col"
-              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               الحالة
             </th>
             <th
               scope="col"
-              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               إجراءات النشر
             </th>
             <th
               scope="col"
-              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider"
+              className="px-6 py-4 text-xs font-medium text-light-text dark:text-dark-text tracking-wider border-r border-light-border dark:border-dark-border"
             >
               إجراءات التعديل
             </th>
