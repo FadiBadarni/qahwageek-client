@@ -80,12 +80,12 @@ const PostsTable: React.FC<PostsTableProps> = ({
         <tbody className="bg-light-layer dark:bg-dark-layer divide-y divide-light-border dark:divide-dark-border">
           {posts.map((post) => (
             <tr key={post.id}>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 overflow-hidden text-ellipsis max-w-[240px]">
                 {post.title.length > 40
                   ? `${post.title.substring(0, 40)}...`
                   : post.title}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 text-center border-r border-light-border dark:border-dark-border ">
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 text-center border-r border-light-border dark:border-dark-border overflow-hidden text-ellipsis max-w-[160px]">
                 {post.author}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 text-center border-r border-light-border dark:border-dark-border ">
@@ -93,8 +93,17 @@ const PostsTable: React.FC<PostsTableProps> = ({
                   locale: ar,
                 })}
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border ">
-                {post.categoryDetails.map((detail) => detail.name).join(', ')}
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border overflow-hidden text-ellipsis max-w-[120px]">
+                <div
+                  className="overflow-hidden text-ellipsis"
+                  title={post.categoryDetails
+                    .map((detail) => detail.name)
+                    .join(', ')}
+                >
+                  {post.categoryDetails.map((detail, index) => (
+                    <span key={index}>{(index ? ', ' : '') + detail.name}</span>
+                  ))}
+                </div>
               </td>
               <td
                 className={`px-6 py-4 whitespace-nowrap text-sm border-r border-light-border dark:border-dark-border text-center ${
@@ -109,7 +118,6 @@ const PostsTable: React.FC<PostsTableProps> = ({
               >
                 {translatePostStatus(post.status)}
               </td>
-
               <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700 dark:text-neutral-200 border-r border-light-border dark:border-dark-border ">
                 {renderPublishRejectActions(post)}
               </td>
