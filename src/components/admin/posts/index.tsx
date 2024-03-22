@@ -12,7 +12,7 @@ type Props = {};
 
 const PostsManagement: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
-
+  const POSTS_PER_PAGE = 6;
   const [sort, setSort] = useState<string>('');
   const [status, setStatus] = useState<string | undefined>(undefined);
 
@@ -23,11 +23,13 @@ const PostsManagement: React.FC<Props> = () => {
   } = useSelector((state: RootState) => state.admin.posts.data);
 
   useEffect(() => {
-    dispatch(fetchAllPosts({ page: currentPage, size: 10, status, sort }));
+    dispatch(
+      fetchAllPosts({ page: currentPage, size: POSTS_PER_PAGE, status, sort })
+    );
   }, [dispatch, currentPage, sort, status]);
 
   const handlePageChange = (page: number) => {
-    dispatch(fetchAllPosts({ page, size: 10, status, sort }));
+    dispatch(fetchAllPosts({ page, size: POSTS_PER_PAGE, status, sort }));
   };
 
   const dummyHandler = (postId: number) => {
@@ -86,6 +88,7 @@ const PostsManagement: React.FC<Props> = () => {
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
+          itemsPerPage={POSTS_PER_PAGE}
         />
       </div>
     </div>
