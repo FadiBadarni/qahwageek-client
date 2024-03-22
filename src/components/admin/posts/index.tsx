@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import PostActions from './PostActions';
 import { Post } from 'models/post';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
@@ -7,6 +6,8 @@ import { RootState } from 'store/store';
 import { fetchAllPosts } from 'store/post/postActions';
 import PostsTable from './PostsTable';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
+import PublishRejectActions from './PublishRejectActions';
+import EditDeleteActions from './EditDeleteActions';
 
 type Props = {};
 
@@ -36,11 +37,19 @@ const PostsManagement: React.FC<Props> = () => {
     console.log(`Action on post ID: ${postId}`);
   };
 
-  const renderActions = (post: Post) => (
-    <PostActions
-      post={post}
+  const renderPublishRejectActions = (post: Post) => (
+    <PublishRejectActions
+      postId={post.id}
       onPublish={dummyHandler}
       onReject={dummyHandler}
+      isLoading={false}
+      isGlobalUpdating={false}
+    />
+  );
+
+  const renderEditDeleteActions = (post: Post) => (
+    <EditDeleteActions
+      postId={post.id}
       onDelete={dummyHandler}
       onEdit={dummyHandler}
       isLoading={false}
@@ -79,7 +88,11 @@ const PostsManagement: React.FC<Props> = () => {
       <div className="overflow-x-auto rounded-lg shadow">
         <div className="align-middle inline-block min-w-full">
           <div className="overflow-hidden border-b border-light-border dark:border-dark-border rounded-lg">
-            <PostsTable posts={posts} renderActions={renderActions} />
+            <PostsTable
+              posts={posts}
+              renderEditDeleteActions={renderEditDeleteActions}
+              renderPublishRejectActions={renderPublishRejectActions}
+            />
           </div>
         </div>
       </div>
