@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { Tooltip } from 'react-tooltip';
 
 interface PublishRejectActionsProps {
   postId: number;
@@ -22,16 +23,23 @@ const PublishRejectActions: React.FC<PublishRejectActionsProps> = ({
         onClick={() => onPublish(postId)}
         disabled={isGlobalUpdating || isLoading}
         className="flex items-center justify-center text-green-600 hover:text-green-800 dark:hover:text-green-400"
+        data-tooltip-content="نشر"
+        data-tooltip-id={`publish-tooltip-${postId}`}
       >
         <CheckIcon className="w-5 h-5" aria-hidden="true" />
       </button>
+      <Tooltip id={`publish-tooltip-${postId}`} />
+
       <button
         onClick={() => onReject(postId)}
         disabled={isGlobalUpdating || isLoading}
         className="flex items-center justify-center text-red-600 hover:text-red-800 dark:hover:text-red-400"
+        data-tooltip-content="رفض"
+        data-tooltip-id={`reject-tooltip-${postId}`}
       >
         <XMarkIcon className="w-5 h-5" aria-hidden="true" />
       </button>
+      <Tooltip id={`reject-tooltip-${postId}`} />
     </div>
   );
 };
