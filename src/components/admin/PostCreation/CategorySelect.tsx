@@ -9,12 +9,14 @@ interface CategorySelectProps {
   categories: Category[];
   selectedCategoryIds: number[];
   onCategoryChange: (selectedCategoryIds: number[]) => void;
+  errorMessage?: string;
 }
 
 const CategorySelect: React.FC<CategorySelectProps> = ({
   categories,
   selectedCategoryIds,
   onCategoryChange,
+  errorMessage,
 }) => {
   const loadingStatus = useSelector(
     (state: RootState) => state.categories.categories.status
@@ -69,6 +71,9 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
           )
         )}
       </div>
+      {errorMessage && (
+        <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+      )}
     </div>
   );
 };

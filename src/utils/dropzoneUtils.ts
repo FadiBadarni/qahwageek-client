@@ -1,21 +1,21 @@
 import { useCallback } from 'react';
 
 interface UseDropzoneHandlerParams {
-  setSelectedImage: (file: File | null) => void;
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void;
   setImagePreviewUrl: (url: string | null) => void;
 }
 
 export const useDropzoneHandler = ({
-  setSelectedImage,
+  setFieldValue,
   setImagePreviewUrl,
 }: UseDropzoneHandlerParams) => {
   return useCallback(
     (acceptedFiles: File[]) => {
       const file = acceptedFiles[0];
-      setSelectedImage(file);
+      setFieldValue('selectedImage', file);
       const previewUrl = URL.createObjectURL(file);
       setImagePreviewUrl(previewUrl);
     },
-    [setSelectedImage, setImagePreviewUrl]
+    [setFieldValue, setImagePreviewUrl]
   );
 };
