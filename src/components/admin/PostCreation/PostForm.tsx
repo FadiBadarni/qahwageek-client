@@ -5,9 +5,9 @@ import { RootState } from 'store/store';
 import CategorySelect from './CategorySelect';
 import TextEditor from 'components/textEditor/TextEditor';
 import {
-  createNewPostData,
   replaceInlineImagesWithS3Urls,
   saveNewPost,
+  updatePost,
   uploadMainImageIfNeeded,
 } from './utils';
 import { fetchAllCategories } from 'store/category/categoryActions';
@@ -85,21 +85,27 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
         dispatch,
         content
       );
-      const newPostData = createNewPostData(
+      const postData = {
         title,
-        updatedContent,
-        mainImagePresignedUrl,
-        selectedCategoryIds
-      );
-      const result = await saveNewPost(dispatch, newPostData);
-      displayToast('يلا، نزلت المقالة بنجاح!', true, currentTheme);
+        content: updatedContent,
+        mainImageUrl: mainImagePresignedUrl,
+        categoryIds: selectedCategoryIds,
+      };
+
+      let result;
+      if (mode === 'create') {
+        result = await saveNewPost(dispatch, postData);
+        displayToast('تم إنشاء المنشور بنجاح!', true, currentTheme);
+      } else if (mode === 'edit' && postId) {
+        // Extend postData for edit, including postId
+        const updatePostData = { ...postData, id: Number(postId) };
+        result = await updatePost(dispatch, updatePostData);
+        displayToast('تم تحديث المنشور بنجاح!', true, currentTheme);
+      }
+
       navigate(`/posts/${result.id}`);
     } catch (error: any) {
-      displayToast(
-        `واه، فشلنا بنشر المقالة: ${error.message}`,
-        false,
-        currentTheme
-      );
+      displayToast(`حدث خطأ: ${error.message}`, false, currentTheme);
     } finally {
       setLoading(false);
     }

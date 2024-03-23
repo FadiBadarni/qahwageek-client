@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { NewPost } from 'models/post';
+import { EditedPost, NewPost } from 'models/post';
 import PostService from 'services/postService';
 import { convertBase64ToBlob } from 'utils/fileUpload';
 
@@ -85,6 +85,21 @@ export const savePost = createAsyncThunk(
     } catch (error: any) {
       console.error('Failed to save post:', error);
       return rejectWithValue(error.response?.data || 'Unable to save post');
+    }
+  }
+);
+
+export const editPost = createAsyncThunk(
+  'posts/editPost',
+  async ({ postData }: { postData: EditedPost }, { rejectWithValue }) => {
+    try {
+      const updatedPost = await PostService.updatePost(postData.id, postData);
+      return updatedPost;
+    } catch (error: any) {
+      console.error(`Failed to update post with ID ${postData.id}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to update post with ID ${postData.id}`
+      );
     }
   }
 );

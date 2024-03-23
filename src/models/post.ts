@@ -18,6 +18,14 @@ export interface NewPost {
   categoryIds: number[];
 }
 
+export interface EditedPost {
+  id: number;
+  title: string;
+  content: string;
+  mainImageUrl?: string;
+  categoryIds: number[];
+}
+
 export interface Category {
   id: number;
   name: string;
