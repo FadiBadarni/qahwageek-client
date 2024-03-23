@@ -16,6 +16,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useDropzoneHandler } from 'utils/dropzoneUtils';
 import { getPostById } from 'store/post/postActions';
+import LoadingSpinner from 'utils/LoadingSpinner';
 
 interface PostFormProps {
   mode: 'create' | 'edit';
@@ -75,12 +76,17 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     setLoading(true);
+
+    let mainImagePresignedUrl = imagePreviewUrl || undefined;
     try {
-      const mainImagePresignedUrl = await uploadMainImageIfNeeded(
-        dispatch,
-        selectedImage
-      );
+      if (selectedImage) {
+        mainImagePresignedUrl = await uploadMainImageIfNeeded(
+          dispatch,
+          selectedImage
+        );
+      }
       const updatedContent = await replaceInlineImagesWithS3Urls(
         dispatch,
         content
@@ -199,9 +205,17 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
           <button
             type="submit"
             disabled={loading}
-            className="px-6 py-3 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-lg"
+            className="flex items-center justify-center px-6 py-3 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2 transition duration-150 ease-in-out shadow-lg"
           >
-            {loading ? 'جاري الإنشاء...' : 'إنشاء المقالة'}
+            {loading ? (
+              <>
+                <LoadingSpinner />
+              </>
+            ) : mode === 'edit' ? (
+              'تحديث المقالة'
+            ) : (
+              'إنشاء المقالة'
+            )}
           </button>
         </div>
       </form>
