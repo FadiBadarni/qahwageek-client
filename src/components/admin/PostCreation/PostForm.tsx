@@ -15,8 +15,14 @@ import { displayToast } from 'utils/alertUtils';
 import { useNavigate } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useDropzoneHandler } from 'utils/dropzoneUtils';
+import { Post } from 'models/post';
 
-const CreatePost = () => {
+interface PostFormProps {
+  mode: 'create' | 'edit';
+  initialPostData?: Post;
+}
+
+const PostForm: React.FC<PostFormProps> = ({ mode, initialPostData }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const categories = useSelector(
@@ -24,13 +30,22 @@ const CreatePost = () => {
   );
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [title, setTitle] = useState(initialPostData?.title || '');
+  const [content, setContent] = useState(initialPostData?.content || '');
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>(
+    initialPostData?.categoryDetails.map((category) => category.id) || []
+  );
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
+
   const [loading, setLoading] = useState(false);
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (mode === 'edit' && initialPostData?.mainImageUrl) {
+      setImagePreviewUrl(initialPostData.mainImageUrl);
+    }
+  }, [mode, initialPostData]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -171,4 +186,4 @@ const CreatePost = () => {
   );
 };
 
-export default CreatePost;
+export default PostForm;

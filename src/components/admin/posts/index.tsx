@@ -14,11 +14,13 @@ import PublishRejectActions from './PublishRejectActions';
 import EditDeleteActions from './EditDeleteActions';
 import { displayToast } from 'utils/alertUtils';
 import { clearSelectedPost, setSelectedPost } from 'store/admin/adminSlice';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {};
 
 const PostsManagement: React.FC<Props> = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
   const POSTS_PER_PAGE = 6;
@@ -45,10 +47,6 @@ const PostsManagement: React.FC<Props> = () => {
 
   const handlePageChange = (page: number) => {
     dispatch(fetchAllPosts({ page, size: POSTS_PER_PAGE, status, sort }));
-  };
-
-  const dummyHandler = (postId: number) => {
-    console.log(`Action on post ID: ${postId}`);
   };
 
   const handlePublish = (post: Post) => {
@@ -110,6 +108,10 @@ const PostsManagement: React.FC<Props> = () => {
       });
   };
 
+  const handleEdit = (postId: number) => {
+    navigate(`/cms/posts/edit/${postId}`);
+  };
+
   const renderPublishRejectActions = (post: Post) => (
     <PublishRejectActions
       post={post}
@@ -124,7 +126,7 @@ const PostsManagement: React.FC<Props> = () => {
     <EditDeleteActions
       postId={post.id}
       onDelete={() => handleDelete(post)}
-      onEdit={dummyHandler}
+      onEdit={() => handleEdit(post.id)}
       isLoading={selectedPost?.id === post.id && isPostDeleting}
       isGlobalUpdating={isPostDeleting || isPostUpdating}
     />

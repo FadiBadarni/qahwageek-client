@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import Footer from 'components/footer';
 import CMSPage from 'components/admin/CMSPage';
 import Post from 'components/post';
-import CreatePost from 'components/admin/PostCreation/CreatePost';
 import UserProfile from 'components/user';
 import NotFoundPage from 'components/shared/NotFoundPage';
 import { RegistrationPage } from 'components/register';
@@ -26,6 +25,7 @@ import EventsPage from 'components/event';
 import UsersEventsTable from 'components/events_manager/ReviewEvents';
 import EventsManagement from 'components/events_manager/ManageEvents';
 import PostsManagement from 'components/admin/posts';
+import PostForm from 'components/admin/PostCreation/PostForm';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -71,10 +71,18 @@ function App() {
               }
             />
             <Route
-              path="/cms/create-post"
+              path="/cms/posts/new"
               element={
                 <ProtectedRoute>
-                  <CreatePost />
+                  <PostForm mode="create" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/cms/posts/edit/:postId"
+              element={
+                <ProtectedRoute>
+                  <PostForm mode="edit" />
                 </ProtectedRoute>
               }
             />
