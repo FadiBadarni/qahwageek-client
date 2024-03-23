@@ -12,40 +12,54 @@ import {
 } from './utils';
 import { fetchAllCategories } from 'store/category/categoryActions';
 import { displayToast } from 'utils/alertUtils';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import { useDropzoneHandler } from 'utils/dropzoneUtils';
-import { Post } from 'models/post';
+import { getPostById } from 'store/post/postActions';
 
 interface PostFormProps {
   mode: 'create' | 'edit';
-  initialPostData?: Post;
 }
 
-const PostForm: React.FC<PostFormProps> = ({ mode, initialPostData }) => {
+const PostForm: React.FC<PostFormProps> = ({ mode }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { postId } = useParams();
+
   const categories = useSelector(
     (state: RootState) => state.categories.categories.data
   );
   const currentTheme = useSelector((state: RootState) => state.theme.theme);
 
-  const [title, setTitle] = useState(initialPostData?.title || '');
-  const [content, setContent] = useState(initialPostData?.content || '');
-  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>(
-    initialPostData?.categoryDetails.map((category) => category.id) || []
-  );
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
 
   const [loading, setLoading] = useState(false);
 
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
   useEffect(() => {
-    if (mode === 'edit' && initialPostData?.mainImageUrl) {
-      setImagePreviewUrl(initialPostData.mainImageUrl);
+    if (mode === 'edit' && postId) {
+      const numericPostId = Number(postId);
+      dispatch(getPostById(numericPostId))
+        .unwrap()
+        .then((post) => {
+          setTitle(post.title);
+          setContent(post.content);
+          setSelectedCategoryIds(
+            post.categoryDetails.map(
+              (categoryDetail: { id: number }) => categoryDetail.id
+            )
+          );
+          setImagePreviewUrl(post.mainImageUrl);
+        })
+        .catch((error) => {
+          console.error('Error fetching post:', error);
+        });
     }
-  }, [mode, initialPostData]);
+  }, [dispatch, mode, postId]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
@@ -169,7 +183,10 @@ const PostForm: React.FC<PostFormProps> = ({ mode, initialPostData }) => {
           >
             محتوى المقال
           </label>
-          <TextEditor onContentChange={handleContentChange} />
+          <TextEditor
+            onContentChange={handleContentChange}
+            initialContent={content}
+          />
         </div>
 
         <div className="flex justify-center mt-4">
