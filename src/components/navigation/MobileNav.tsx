@@ -12,12 +12,14 @@ interface MobileNavProps {
   handleLogout: () => void;
   user: UserData | null;
   isAdmin: boolean | undefined;
+  closeMenu: () => void;
 }
 
 const MobileNav: React.FC<MobileNavProps> = ({
   handleLogout,
   user,
   isAdmin,
+  closeMenu,
 }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -53,7 +55,8 @@ const MobileNav: React.FC<MobileNavProps> = ({
                     {category.subCategories?.map((subCategory) => (
                       <Link
                         key={subCategory.id}
-                        to={`/category/${subCategory.id}`}
+                        to={`/category/${subCategory.slug}`}
+                        onClick={closeMenu}
                         className=" pl-4 pr-2 py-1 rounded hover:bg-light-layer dark:hover:bg-dark-layer flex items-center"
                       >
                         <svg
@@ -80,7 +83,8 @@ const MobileNav: React.FC<MobileNavProps> = ({
           ) : (
             <Link
               key={category.id}
-              to={`/category/${category.id}`}
+              to={`/category/${category.slug}`}
+              onClick={closeMenu}
               className="block px-4 py-2 text-sm rounded hover:bg-light-layer dark:hover:bg-dark-layer text-light-text dark:text-dark-text"
             >
               {category.name}

@@ -11,6 +11,8 @@ import {
   SunIcon,
   MoonIcon,
   ChevronDownIcon,
+  ShieldCheckIcon,
+  CalendarIcon,
 } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from 'assets/logo.svg';
@@ -57,7 +59,7 @@ export const Navbar: React.FC = () => {
       as="nav"
       className="bg-light-layer dark:bg-dark-layer text-neutral-900 dark:text-neutral-100 transition duration-300 ease-in-out"
     >
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
@@ -131,22 +133,6 @@ export const Navbar: React.FC = () => {
                         </Link>
                       )
                     )}
-                    {isAdmin && (
-                      <Link
-                        to="/cms"
-                        className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
-                      >
-                        ادارة المحتوى
-                      </Link>
-                    )}
-                    {user?.roles.includes('ROLE_EVENTS_MANAGER') && (
-                      <Link
-                        to="/events/cms"
-                        className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
-                      >
-                        إدارة الأحداث
-                      </Link>
-                    )}
                   </div>
                 </div>
               </div>
@@ -202,7 +188,43 @@ export const Navbar: React.FC = () => {
                         leaveFrom="transform opacity-100 scale-100"
                         leaveTo="transform opacity-0 scale-95"
                       >
-                        <Menu.Items className="absolute left-0 z-20 mt-2 w-48 origin-top-left rounded-md bg-light-background dark:bg-dark-background py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                        <Menu.Items className="absolute left-0 z-20 mt-2 w-48 origin-top-left rounded-md bg-light-background dark:bg-dark-input py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                          {isAdmin && (
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link
+                                  to="/cms"
+                                  className={classNames(
+                                    active
+                                      ? 'bg-brand-500 dark:bg-brand-700'
+                                      : '',
+                                    'px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text flex items-center justify-between'
+                                  )}
+                                >
+                                  <span>ادارة المحتوى</span>
+                                  <ShieldCheckIcon className="w-5 h-5 ml-2 text-neutral-200 dark:text-neutral-500" />
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          )}
+                          {user?.roles.includes('ROLE_EVENTS_MANAGER') && (
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link
+                                  to="/events/cms"
+                                  className={classNames(
+                                    active
+                                      ? 'bg-brand-500 dark:bg-brand-700'
+                                      : '',
+                                    'px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text flex items-center justify-between'
+                                  )}
+                                >
+                                  <span>إدارة الأحداث</span>
+                                  <CalendarIcon className="w-5 h-5 ml-2 text-neutral-200 dark:text-neutral-500" />
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          )}
                           <Menu.Item>
                             {({ active }) => (
                               <Link
@@ -253,6 +275,7 @@ export const Navbar: React.FC = () => {
             handleLogout={handleLogout}
             user={user}
             isAdmin={isAdmin}
+            closeMenu={close}
           />
         </>
       )}
