@@ -4,7 +4,7 @@ export interface Post {
   content: string;
   author: string;
   authorId: number;
-  publishedAt: string;
+  publishedAt?: string;
   mainImageUrl?: string;
   readingTime?: number;
   categoryDetails: CategoryDetail[];
