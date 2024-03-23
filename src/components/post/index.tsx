@@ -41,9 +41,10 @@ const Post = (props: Props) => {
   if (status === 'loading') return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
-  const formattedDate = post
-    ? format(parseISO(post.publishedAt), 'dd MMMM, yyyy', { locale: ar })
-    : '';
+  const formattedDate =
+    post && post.publishedAt
+      ? format(parseISO(post.publishedAt), 'dd MMMM, yyyy', { locale: ar })
+      : 'لم يتم النشر بعد';
 
   const handleCategoryClick = (
     e: React.MouseEvent<HTMLSpanElement, globalThis.MouseEvent>,

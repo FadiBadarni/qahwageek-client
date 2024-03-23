@@ -1,5 +1,6 @@
-import { NewPost } from 'models/post';
+import { EditedPost, NewPost } from 'models/post';
 import {
+  editPost,
   savePost,
   uploadImageToS3,
   uploadMainImage,
@@ -80,5 +81,15 @@ export async function saveNewPost(
   newPostData: NewPost
 ): Promise<any> {
   const result = await dispatch(savePost(newPostData)).unwrap();
+  return result;
+}
+
+export async function updatePost(
+  dispatch: AppDispatch,
+  updatePostData: EditedPost
+): Promise<any> {
+  const result = await dispatch(
+    editPost({ postData: updatePostData })
+  ).unwrap();
   return result;
 }

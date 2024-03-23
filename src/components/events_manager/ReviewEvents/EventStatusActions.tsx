@@ -1,6 +1,6 @@
 import React from 'react';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
-import { MeetupEvent } from 'models/event';
+import { EventStatus, MeetupEvent } from 'models/event';
 import LoadingSpinner from 'utils/LoadingSpinner';
 
 interface EventStatusActionsProps {
@@ -22,7 +22,7 @@ const EventStatusActions: React.FC<EventStatusActionsProps> = ({
     <div className="flex justify-center items-center gap-4">
       {isLoading ? (
         <LoadingSpinner />
-      ) : event.status === 'PENDING' ? (
+      ) : event.status === EventStatus.Pending ? (
         <>
           <button
             onClick={() => onPublish(event.id)}
@@ -41,7 +41,7 @@ const EventStatusActions: React.FC<EventStatusActionsProps> = ({
             رفض
           </button>
         </>
-      ) : event.status === 'PUBLISHED' ? (
+      ) : event.status === EventStatus.Published ? (
         <>
           <button
             onClick={() => onReject(event.id)}
@@ -52,7 +52,7 @@ const EventStatusActions: React.FC<EventStatusActionsProps> = ({
             رفض
           </button>
         </>
-      ) : event.status === 'REJECTED' ? (
+      ) : event.status === EventStatus.Rejected ? (
         <button
           onClick={() => onPublish(event.id)}
           disabled={isGlobalUpdating && !isLoading}

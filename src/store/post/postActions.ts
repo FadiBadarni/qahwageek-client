@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { NewPost } from 'models/post';
+import { EditedPost, NewPost } from 'models/post';
 import PostService from 'services/postService';
 import { convertBase64ToBlob } from 'utils/fileUpload';
 
@@ -85,6 +85,21 @@ export const savePost = createAsyncThunk(
     } catch (error: any) {
       console.error('Failed to save post:', error);
       return rejectWithValue(error.response?.data || 'Unable to save post');
+    }
+  }
+);
+
+export const editPost = createAsyncThunk(
+  'posts/editPost',
+  async ({ postData }: { postData: EditedPost }, { rejectWithValue }) => {
+    try {
+      const updatedPost = await PostService.updatePost(postData);
+      return updatedPost;
+    } catch (error: any) {
+      console.error(`Failed to update post with ID ${postData.id}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to update post with ID ${postData.id}`
+      );
     }
   }
 );
@@ -282,6 +297,21 @@ export const updatePostStatus = createAsyncThunk(
       );
       return rejectWithValue(
         error.response?.data || `Unable to update post status to ${status}`
+      );
+    }
+  }
+);
+
+export const deletePost = createAsyncThunk(
+  'posts/deletePost',
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      await PostService.deletePost(postId);
+      return postId;
+    } catch (error: any) {
+      console.error(`Failed to delete post with ID ${postId}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to delete post with ID ${postId}`
       );
     }
   }

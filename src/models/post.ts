@@ -4,7 +4,7 @@ export interface Post {
   content: string;
   author: string;
   authorId: number;
-  publishedAt: string;
+  publishedAt?: string;
   mainImageUrl?: string;
   readingTime?: number;
   categoryDetails: CategoryDetail[];
@@ -12,6 +12,14 @@ export interface Post {
   createdAt: string;
 }
 export interface NewPost {
+  title: string;
+  content: string;
+  mainImageUrl?: string;
+  categoryIds: number[];
+}
+
+export interface EditedPost {
+  id: number;
   title: string;
   content: string;
   mainImageUrl?: string;
@@ -38,6 +46,7 @@ export interface LightPost {
 }
 
 export interface CategoryDetail {
+  id: number;
   name: string;
   slug: string;
 }

@@ -19,7 +19,7 @@ const PostsTable: React.FC<PostsTableProps> = ({
   const navigate = useNavigate();
 
   const handleNavigateToPost = (postId: number) => {
-    navigate(`/post/${postId}`);
+    navigate(`/posts/${postId}`);
   };
 
   return (

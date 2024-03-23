@@ -1,4 +1,4 @@
-import { NewPost, PostSearchResult } from 'models/post';
+import { EditedPost, NewPost, PostSearchResult } from 'models/post';
 import axiosClient from './axiosClient';
 
 class PostService {
@@ -154,6 +154,23 @@ class PostService {
       const response = await axiosClient.patch(`/posts/${postId}/status`, {
         status,
       });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async deletePost(postId: number): Promise<void> {
+    try {
+      await axiosClient.delete(`/posts/${postId}`);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async updatePost(postData: EditedPost): Promise<any> {
+    try {
+      const response = await axiosClient.put(`/posts/${postData.id}`, postData);
       return response.data;
     } catch (error) {
       throw error;
