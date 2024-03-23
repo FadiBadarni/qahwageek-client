@@ -93,7 +93,7 @@ export const editPost = createAsyncThunk(
   'posts/editPost',
   async ({ postData }: { postData: EditedPost }, { rejectWithValue }) => {
     try {
-      const updatedPost = await PostService.updatePost(postData.id, postData);
+      const updatedPost = await PostService.updatePost(postData);
       return updatedPost;
     } catch (error: any) {
       console.error(`Failed to update post with ID ${postData.id}:`, error);

@@ -168,9 +168,9 @@ class PostService {
     }
   }
 
-  static async updatePost(id: number, postData: EditedPost): Promise<any> {
+  static async updatePost(postData: EditedPost): Promise<any> {
     try {
-      const response = await axiosClient.put(`/posts/${id}`, postData);
+      const response = await axiosClient.put(`/posts/${postData.id}`, postData);
       return response.data;
     } catch (error) {
       throw error;
