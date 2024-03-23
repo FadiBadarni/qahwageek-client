@@ -144,6 +144,21 @@ class UserService {
       throw error;
     }
   }
+
+  static async getUserPosts(
+    userId: number,
+    page: number = 0,
+    size: number = 10
+  ) {
+    try {
+      const response = await axiosClient.get(`/user/posts/${userId}`, {
+        params: { page, size },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default UserService;

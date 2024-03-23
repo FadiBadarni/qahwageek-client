@@ -2,7 +2,7 @@ import { useAppDispatch } from 'hooks/useAppDispatch';
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { getUserProfile } from 'store/user/userActions';
+import { getUserPosts, getUserProfile } from 'store/user/userActions';
 import UserPosts from './UserPosts';
 import UserBasicInfo from './UserBasicInfo';
 import { Helmet } from 'react-helmet-async';
@@ -10,15 +10,31 @@ import { useParams } from 'react-router-dom';
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
-  const userProfile = useSelector((state: RootState) => state.userProfile.data);
-  const status = useSelector((state: RootState) => state.userProfile.status);
+  const userProfile = useSelector(
+    (state: RootState) => state.userProfile.userProfile.data
+  );
+  const userPosts = useSelector(
+    (state: RootState) => state.userProfile.userPosts.data
+  );
+  const status = useSelector(
+    (state: RootState) => state.userProfile.userProfile.status
+  );
   const { userId } = useParams<{ userId: string }>();
+  const USER_POSTS_LIMIT = 3;
 
   useEffect(() => {
     if (userId) {
       const userIdNumber = Number(userId);
 
       dispatch(getUserProfile(userIdNumber));
+
+      dispatch(
+        getUserPosts({
+          userId: userIdNumber,
+          page: 0,
+          size: USER_POSTS_LIMIT,
+        })
+      );
     }
   }, [dispatch, userId]);
 
@@ -71,7 +87,7 @@ const UserProfile: React.FC = () => {
 
         {/* User's Posts */}
         <div className="md:flex-2 md:w-2/3 space-y-4">
-          <UserPosts posts={userProfile.posts} />
+          <UserPosts posts={userPosts.items} />
         </div>
       </div>
     </div>

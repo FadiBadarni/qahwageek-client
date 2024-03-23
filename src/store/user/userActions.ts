@@ -226,3 +226,20 @@ export const deleteUser = createAsyncThunk(
     }
   }
 );
+
+export const getUserPosts = createAsyncThunk(
+  'user/getUserPosts',
+  async (
+    { userId, page, size }: { userId: number; page: number; size: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const posts = await UserService.getUserPosts(userId, page, size);
+      return posts;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to fetch user posts';
+      return rejectWithValue(message);
+    }
+  }
+);
