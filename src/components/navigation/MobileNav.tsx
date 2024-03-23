@@ -33,6 +33,12 @@ const MobileNav: React.FC<MobileNavProps> = ({
 
   const handleLogin = () => {
     navigate('/login');
+    closeMenu();
+  };
+
+  const logout = () => {
+    handleLogout();
+    closeMenu();
   };
 
   return (
@@ -91,10 +97,18 @@ const MobileNav: React.FC<MobileNavProps> = ({
             </Link>
           )
         )}
+        <Link
+          to="/events"
+          className="block px-4 py-2 text-sm rounded hover:bg-light-layer dark:hover:bg-dark-layer text-light-text dark:text-dark-text"
+          onClick={closeMenu}
+        >
+          الأحداث
+        </Link>
         {isAdmin && (
           <Link
             to="/cms"
             className="block px-4 py-2 text-sm rounded hover:bg-light-accent dark:hover:bg-dark-accent text-light-text dark:text-dark-text"
+            onClick={closeMenu}
           >
             ادارة المحتوى
           </Link>
@@ -103,6 +117,7 @@ const MobileNav: React.FC<MobileNavProps> = ({
           <Link
             to="/events/cms"
             className="block px-4 py-2 text-sm rounded hover:bg-light-accent dark:hover:bg-dark-accent text-light-text dark:text-dark-text"
+            onClick={closeMenu}
           >
             إدارة الأحداث
           </Link>
@@ -137,13 +152,14 @@ const MobileNav: React.FC<MobileNavProps> = ({
             <Disclosure.Button
               as={Link}
               to={`/user/profile/${user.id}`}
+              onClick={closeMenu}
               className="block w-full text-right rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
             >
               المنطقة الشخصية
             </Disclosure.Button>
             <button
               className="block w-full text-left rounded-md px-3 py-2 text-base font-medium text-gray-900 hover:bg-gray-400 dark:hover:bg-gray-500 dark:text-white"
-              onClick={handleLogout}
+              onClick={logout}
             >
               تسجيل الخروج
             </button>

@@ -133,6 +133,12 @@ export const Navbar: React.FC = () => {
                         </Link>
                       )
                     )}
+                    <Link
+                      to="/events"
+                      className="rounded-md px-3 py-2 text-sm font-medium hover:bg-gray-400 dark:hover:bg-gray-700"
+                    >
+                      الأحداث
+                    </Link>
                   </div>
                 </div>
               </div>
