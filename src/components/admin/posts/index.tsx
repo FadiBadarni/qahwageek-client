@@ -3,7 +3,11 @@ import { Post } from 'models/post';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
-import { fetchAllPosts, updatePostStatus } from 'store/post/postActions';
+import {
+  deletePost,
+  fetchAllPosts,
+  updatePostStatus,
+} from 'store/post/postActions';
 import PostsTable from './PostsTable';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import PublishRejectActions from './PublishRejectActions';
@@ -20,7 +24,8 @@ const PostsManagement: React.FC<Props> = () => {
   const POSTS_PER_PAGE = 6;
   const [sort, setSort] = useState<string>('');
   const [status, setStatus] = useState<string | undefined>(undefined);
-  const [isUpdating, setIsUpdating] = useState(false);
+  const [isPostUpdating, setIsPostUpdating] = useState(false);
+  const [isPostDeleting, setIsPostDeleting] = useState(false);
 
   const {
     items: posts,
@@ -47,7 +52,7 @@ const PostsManagement: React.FC<Props> = () => {
   };
 
   const handlePublish = (post: Post) => {
-    setIsUpdating(true);
+    setIsPostUpdating(true);
 
     dispatch(setSelectedPost(post));
 
@@ -61,13 +66,13 @@ const PostsManagement: React.FC<Props> = () => {
         displayToast('فشل في نشر المنشور', false, currentTheme);
       })
       .finally(() => {
-        setIsUpdating(false);
+        setIsPostUpdating(false);
         dispatch(clearSelectedPost());
       });
   };
 
   const handleReject = (post: Post) => {
-    setIsUpdating(true);
+    setIsPostUpdating(true);
 
     dispatch(setSelectedPost(post));
 
@@ -82,15 +87,34 @@ const PostsManagement: React.FC<Props> = () => {
       })
       .finally(() => {
         dispatch(clearSelectedPost());
-        setIsUpdating(false);
+        setIsPostUpdating(false);
+      });
+  };
+
+  const handleDelete = (post: Post) => {
+    setIsPostDeleting(true);
+
+    dispatch(setSelectedPost(post));
+
+    dispatch(deletePost(post.id))
+      .unwrap()
+      .then(() => {
+        displayToast('تم حذف المنشور بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        displayToast('فشل في حذف المنشور', false, currentTheme);
+      })
+      .finally(() => {
+        dispatch(clearSelectedPost());
+        setIsPostDeleting(false);
       });
   };
 
   const renderPublishRejectActions = (post: Post) => (
     <PublishRejectActions
       post={post}
-      isLoading={selectedPost?.id === post.id && isUpdating}
-      isGlobalUpdating={isUpdating}
+      isLoading={selectedPost?.id === post.id && isPostUpdating}
+      isGlobalUpdating={isPostUpdating || isPostDeleting}
       onPublish={() => handlePublish(post)}
       onReject={() => handleReject(post)}
     />
@@ -99,10 +123,10 @@ const PostsManagement: React.FC<Props> = () => {
   const renderEditDeleteActions = (post: Post) => (
     <EditDeleteActions
       postId={post.id}
-      onDelete={dummyHandler}
+      onDelete={() => handleDelete(post)}
       onEdit={dummyHandler}
-      isLoading={false}
-      isGlobalUpdating={false}
+      isLoading={selectedPost?.id === post.id && isPostDeleting}
+      isGlobalUpdating={isPostDeleting || isPostUpdating}
     />
   );
 

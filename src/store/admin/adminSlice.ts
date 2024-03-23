@@ -7,7 +7,11 @@ import {
   updateUserRoles,
 } from 'store/user/userActions';
 import { initialAdminState } from './adminState';
-import { fetchAllPosts, updatePostStatus } from 'store/post/postActions';
+import {
+  deletePost,
+  fetchAllPosts,
+  updatePostStatus,
+} from 'store/post/postActions';
 import { Post } from 'models/post';
 
 export const adminSlice = createSlice({
@@ -109,6 +113,21 @@ export const adminSlice = createSlice({
         state.selectedPost.status = LoadingStatus.Failed;
         state.selectedPost.error =
           action.error.message || 'Failed to update post status';
+      })
+      .addCase(deletePost.pending, (state) => {
+        state.selectedPost.status = LoadingStatus.Loading;
+      })
+      .addCase(deletePost.fulfilled, (state, action: PayloadAction<number>) => {
+        // Remove the deleted post from the state
+        state.posts.data.items = state.posts.data.items.filter(
+          (post) => post.id !== action.payload
+        );
+        state.posts.data.totalCount -= 1; // Adjust the total count
+      })
+      .addCase(deletePost.rejected, (state, action) => {
+        state.selectedPost.status = LoadingStatus.Failed;
+        state.selectedPost.error =
+          action.error.message || 'Failed to delete post';
       });
   },
 });

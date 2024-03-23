@@ -159,6 +159,14 @@ class PostService {
       throw error;
     }
   }
+
+  static async deletePost(postId: number): Promise<void> {
+    try {
+      await axiosClient.delete(`/posts/${postId}`);
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default PostService;

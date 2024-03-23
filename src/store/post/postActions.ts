@@ -286,3 +286,18 @@ export const updatePostStatus = createAsyncThunk(
     }
   }
 );
+
+export const deletePost = createAsyncThunk(
+  'posts/deletePost',
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      await PostService.deletePost(postId);
+      return postId;
+    } catch (error: any) {
+      console.error(`Failed to delete post with ID ${postId}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to delete post with ID ${postId}`
+      );
+    }
+  }
+);
