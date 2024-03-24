@@ -100,6 +100,7 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
   useEffect(() => {
     if (mode === 'edit' && postId) {
       const numericPostId = Number(postId);
+      console.log('TEST');
       dispatch(getPostById(numericPostId))
         .unwrap()
         .then((post) => {
@@ -117,7 +118,8 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
           console.error('Error fetching post:', error);
         });
     }
-  }, [dispatch, mode, postId, formik]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, mode, postId]);
 
   useEffect(() => {
     dispatch(fetchAllCategories());
