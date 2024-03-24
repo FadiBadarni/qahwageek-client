@@ -23,9 +23,6 @@ export const Home: React.FC = () => {
         <meta property="og:url" content="https://qahwageek.com" />
         <link rel="canonical" href="https://qahwageek.com" />
       </Helmet>
-      <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-center mt-4 mb-4">
-        أهلا وسهلا بقهوة چيك!
-      </h1>
       <div className="">
         <div className="py-3">
           <FeaturedPosts />
