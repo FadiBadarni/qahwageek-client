@@ -176,6 +176,15 @@ class PostService {
       throw error;
     }
   }
+
+  static async featurePost(postId: number): Promise<any> {
+    try {
+      const response = await axiosClient.patch(`/posts/${postId}/feature`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default PostService;
