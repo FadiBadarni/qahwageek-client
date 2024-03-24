@@ -13,6 +13,7 @@ import {
   ChevronDownIcon,
   ShieldCheckIcon,
   CalendarIcon,
+  PencilIcon,
 } from '@heroicons/react/24/outline';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from 'assets/logo.svg';
@@ -213,6 +214,25 @@ export const Navbar: React.FC = () => {
                               )}
                             </Menu.Item>
                           )}
+                          {user?.roles.includes('ROLE_WRITER') && (
+                            <Menu.Item>
+                              {({ active }) => (
+                                <Link
+                                  to="/posts/create"
+                                  className={classNames(
+                                    active
+                                      ? 'bg-brand-500 dark:bg-brand-700'
+                                      : '',
+                                    'px-4 py-2 text-sm w-full text-right text-light-text dark:text-dark-text flex items-center justify-between'
+                                  )}
+                                >
+                                  <span>إنشاء مقال</span>
+                                  <PencilIcon className="w-5 h-5 ml-2 text-neutral-200 dark:text-neutral-500" />
+                                </Link>
+                              )}
+                            </Menu.Item>
+                          )}
+
                           {user?.roles.includes('ROLE_EVENTS_MANAGER') && (
                             <Menu.Item>
                               {({ active }) => (

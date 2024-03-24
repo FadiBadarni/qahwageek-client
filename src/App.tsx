@@ -76,6 +76,14 @@ function App() {
               }
             />
             <Route
+              path="/posts/create"
+              element={
+                <ProtectedRoute requiredRoles={['ROLE_WRITER']}>
+                  <PostForm mode="create" />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/cms/posts/edit/:postId"
               element={
                 <ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_WRITER']}>
