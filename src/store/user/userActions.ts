@@ -49,19 +49,6 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const getUserInfo = createAsyncThunk(
-  'user/getUserInfo',
-  async (_, { rejectWithValue }) => {
-    try {
-      const data = await UserService.getUserInfoService();
-      return data;
-    } catch (error) {
-      const message = (error as Error).message || 'Failed to fetch user info';
-      return rejectWithValue(message);
-    }
-  }
-);
-
 export const getUserProfile = createAsyncThunk(
   'user/getUserProfile',
   async (userId: number, { rejectWithValue }) => {
@@ -222,6 +209,23 @@ export const deleteUser = createAsyncThunk(
       return userId;
     } catch (error: any) {
       const message = error.response?.data?.message || 'Failed to delete user';
+      return rejectWithValue(message);
+    }
+  }
+);
+
+export const getUserPosts = createAsyncThunk(
+  'user/getUserPosts',
+  async (
+    { userId, page, size }: { userId: number; page: number; size: number },
+    { rejectWithValue }
+  ) => {
+    try {
+      const posts = await UserService.getUserPosts(userId, page, size);
+      return posts;
+    } catch (error: any) {
+      const message =
+        error.response?.data?.message || 'Failed to fetch user posts';
       return rejectWithValue(message);
     }
   }

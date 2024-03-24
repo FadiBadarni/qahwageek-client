@@ -27,6 +27,7 @@ import EventsManagement from 'components/events_manager/ManageEvents';
 import PostsManagement from 'components/admin/posts';
 import PostForm from 'components/admin/PostCreation/PostForm';
 import AboutPage from 'components/about';
+import UnauthorizedPage from 'components/shared/UnauthorizedPage';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -47,6 +48,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/404" element={<NotFoundPage />} />
+            <Route path="/unauthorized" element={<UnauthorizedPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/about" element={<AboutPage />} />
@@ -56,18 +58,11 @@ function App() {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/category/:slug" element={<DynamicCategoryHome />} />
             <Route path="/events" element={<EventsPage />} />
-            <Route
-              path="/user/profile/:userId"
-              element={
-                <ProtectedRoute>
-                  <UserProfile />
-                </ProtectedRoute>
-              }
-            />
+            <Route path="/user/profile/:userId" element={<UserProfile />} />
             <Route
               path="/cms"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredRoles={['ROLE_ADMIN']}>
                   <CMSPage />
                 </ProtectedRoute>
               }
@@ -75,7 +70,7 @@ function App() {
             <Route
               path="/cms/posts/new"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_WRITER']}>
                   <PostForm mode="create" />
                 </ProtectedRoute>
               }
@@ -83,7 +78,7 @@ function App() {
             <Route
               path="/cms/posts/edit/:postId"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredRoles={['ROLE_ADMIN', 'ROLE_WRITER']}>
                   <PostForm mode="edit" />
                 </ProtectedRoute>
               }
@@ -91,7 +86,7 @@ function App() {
             <Route
               path="/cms/categories"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredRoles={['ROLE_ADMIN']}>
                   <CategoriesManagement />
                 </ProtectedRoute>
               }
@@ -99,7 +94,7 @@ function App() {
             <Route
               path="/cms/posts"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredRoles={['ROLE_ADMIN']}>
                   <PostsManagement />
                 </ProtectedRoute>
               }
@@ -107,7 +102,7 @@ function App() {
             <Route
               path="/cms/manage-users"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute requiredRoles={['ROLE_ADMIN']}>
                   <UsersManagement />
                 </ProtectedRoute>
               }
@@ -115,7 +110,9 @@ function App() {
             <Route
               path="/events/cms"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute
+                  requiredRoles={['ROLE_ADMIN', 'ROLE_EVENTS_MANAGER']}
+                >
                   <EventsManagerDashboard />
                 </ProtectedRoute>
               }
@@ -123,7 +120,9 @@ function App() {
             <Route
               path="/events/create-event"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute
+                  requiredRoles={['ROLE_ADMIN', 'ROLE_EVENTS_MANAGER']}
+                >
                   <CreateEvent />
                 </ProtectedRoute>
               }
@@ -131,7 +130,9 @@ function App() {
             <Route
               path="/events/review-requests"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute
+                  requiredRoles={['ROLE_ADMIN', 'ROLE_EVENTS_MANAGER']}
+                >
                   <UsersEventsTable />
                 </ProtectedRoute>
               }
@@ -139,7 +140,9 @@ function App() {
             <Route
               path="/events/all"
               element={
-                <ProtectedRoute>
+                <ProtectedRoute
+                  requiredRoles={['ROLE_ADMIN', 'ROLE_EVENTS_MANAGER']}
+                >
                   <EventsManagement />
                 </ProtectedRoute>
               }

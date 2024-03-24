@@ -1,5 +1,3 @@
-import { LightPost } from './post';
-
 export interface UserData {
   id: number;
   email: string;
@@ -15,7 +13,6 @@ export interface UserProfileType {
   profilePicture: string;
   bio: string;
   joinDate: string;
-  posts: LightPost[];
   socialMediaHandles: SocialMediaHandle[];
 }
 

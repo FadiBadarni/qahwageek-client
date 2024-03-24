@@ -1,0 +1,24 @@
+import * as Yup from 'yup';
+
+export const registrationValidationSchema = Yup.object().shape({
+  username: Yup.string()
+    .matches(
+      /^\w+$/,
+      'يجب أن يكون اسم المستخدم فريدًا ولا يحتوي على مسافات أو رموز خاصة مثل @$!%*?&.'
+    )
+    .required('اسم المستخدم مطلوب'),
+  email: Yup.string()
+    .email('يجب أن يكون بريدًا إلكترونيًا صالحًا')
+    .required('البريد الإلكتروني مطلوب'),
+  password: Yup.string()
+    .min(6, 'يجب أن تكون كلمة المرور 6 أحرف على الأقل')
+    .required('كلمة المرور مطلوبة'),
+});
+
+export const postCreationFormValidationSchema = Yup.object({
+  title: Yup.string().required('عنوان المقال مطلوب'),
+  selectedImage: Yup.mixed().required('صورة الغلاف مطلوبة'),
+  selectedCategoryIds: Yup.array()
+    .min(1, 'يجب اختيار تصنيف واحد على الأقل')
+    .required('تصنيف المقال مطلوب'),
+});

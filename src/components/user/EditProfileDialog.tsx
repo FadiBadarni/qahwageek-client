@@ -22,7 +22,9 @@ const EditProfileDialog: React.FC<EditProfileDialogProps> = ({
   onClose,
 }) => {
   const dispatch = useAppDispatch();
-  const userProfile = useSelector((state: RootState) => state.userProfile.data);
+  const userProfile = useSelector(
+    (state: RootState) => state.userProfile.userProfile.data
+  );
   const [bio, setBio] = useState(userProfile?.bio || '');
   const [socialMediaHandles, setSocialMediaHandles] = useState<
     SocialMediaHandle[]

@@ -28,14 +28,6 @@ class UserService {
       throw error;
     }
   }
-  static async getUserInfoService() {
-    try {
-      const response = await axiosClient.get('/user/info');
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }
   static async getUserProfileService(userId: number) {
     try {
       const response = await axiosClient.get(`/user/profile/${userId}`);
@@ -139,6 +131,21 @@ class UserService {
   static async deleteUser(userId: number) {
     try {
       const response = await axiosClient.delete(`/user/${userId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getUserPosts(
+    userId: number,
+    page: number = 0,
+    size: number = 10
+  ) {
+    try {
+      const response = await axiosClient.get(`/user/posts/${userId}`, {
+        params: { page, size },
+      });
       return response.data;
     } catch (error) {
       throw error;
