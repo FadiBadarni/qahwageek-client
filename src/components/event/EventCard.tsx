@@ -9,6 +9,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
+import { determineTextDirection } from 'utils/textDirection';
 
 interface EventCardProps {
   event: MeetupEvent;
@@ -39,10 +40,24 @@ const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
       </div>
       <div className="flex-1 p-4 flex flex-col justify-between">
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 dark:text-white line-clamp-1 overflow-hidden overflow-ellipsis">
+          <h3
+            className={`text-xl font-semibold text-gray-900 dark:text-white line-clamp-1 overflow-hidden overflow-ellipsis ${
+              determineTextDirection(event.title) === 'rtl'
+                ? 'text-right'
+                : 'text-left'
+            }`}
+            dir={determineTextDirection(event.title)}
+          >
             {event.title}
           </h3>
-          <p className="mt-3 text-base text-gray-500 dark:text-gray-400 line-clamp-2">
+          <p
+            className={`mt-3 text-base text-gray-500 dark:text-gray-400 line-clamp-2 ${
+              determineTextDirection(event.description) === 'rtl'
+                ? 'text-right'
+                : 'text-left'
+            }`}
+            dir={determineTextDirection(event.description)}
+          >
             {event.description}
           </p>
         </div>
@@ -61,7 +76,14 @@ const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
               event.location && (
                 <>
                   <MapPinIcon className="h-5 w-5 text-neutral-500 dark:text-neutral-400" />
-                  <span className="overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[150px]">
+                  <span
+                    className={`overflow-hidden overflow-ellipsis whitespace-nowrap max-w-[150px] ${
+                      determineTextDirection(event.location) === 'rtl'
+                        ? 'text-right'
+                        : 'text-left'
+                    }`}
+                    dir={determineTextDirection(event.location)}
+                  >
                     {event.location}
                   </span>
                 </>

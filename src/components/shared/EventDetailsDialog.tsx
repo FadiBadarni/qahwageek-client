@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { Fragment } from 'react';
 import { MeetupEvent } from 'models/event';
@@ -9,6 +9,9 @@ import {
   GlobeAltIcon,
   MapPinIcon,
 } from '@heroicons/react/24/outline';
+import { determineTextDirection } from 'utils/textDirection';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store/store';
 
 interface EventDetailsDialogProps {
   isOpen: boolean;
@@ -21,6 +24,20 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
   onClose,
   event,
 }) => {
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
+  const [imageUrl, setImageUrl] = useState(
+    event.imageUrl || '/missing-image-dark.png'
+  );
+
+  const handleImageError = () => {
+    const fallbackImage =
+      currentTheme === 'light'
+        ? '/missing-image-light.png'
+        : '/missing-image-dark.png';
+    setImageUrl(fallbackImage);
+  };
+
   return (
     <Transition.Root show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={onClose}>
@@ -50,7 +67,12 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
               <Dialog.Panel className="relative w-full max-w-4xl transform overflow-hidden rounded-2xl bg-white dark:bg-dark-layer p-6 text-left align-middle shadow-xl transition-all">
                 <Dialog.Title
                   as="h3"
-                  className="text-xl font-bold leading-6 text-gray-900 dark:text-white mb-4 text-center"
+                  className={`text-xl font-bold leading-6 text-gray-900 dark:text-white mb-4 ${
+                    determineTextDirection(event.title) === 'rtl'
+                      ? 'text-center'
+                      : 'text-center'
+                  }`}
+                  dir={determineTextDirection(event.title)}
                 >
                   {event.title}
                 </Dialog.Title>
@@ -58,8 +80,9 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
                 <div className="flex flex-col md:flex-row items-center">
                   <div className="md:flex-1 md:mr-4 flex justify-center">
                     <img
-                      src={event.imageUrl}
+                      src={imageUrl}
                       alt="Event"
+                      onError={handleImageError}
                       className="h-60 w-auto object-cover rounded-lg shadow-md border border-gray-200 dark:border-neutral-700"
                     />
                   </div>
@@ -86,7 +109,14 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
                         ) : (
                           <>
                             <MapPinIcon className="h-8 sm:h-10 w-8 sm:w-10 text-brand-500 dark:text-accent-500 mb-2 ml-4 sm:ml-0" />
-                            <p className="text-xs md:text-sm">
+                            <p
+                              className={`text-xs md:text-sm ${
+                                determineTextDirection(event.location) === 'rtl'
+                                  ? 'text-right'
+                                  : 'text-left'
+                              }`}
+                              dir={determineTextDirection(event.location)}
+                            >
                               {event.location}
                             </p>
                           </>
@@ -100,7 +130,14 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
                   <h4 className="text-lg font-medium leading-6 text-gray-900 dark:text-white mb-2 text-right">
                     وصف الحدث
                   </h4>
-                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 text-right">
+                  <p
+                    className={`text-sm text-gray-500 dark:text-gray-400 mb-4 ${
+                      determineTextDirection(event.description) === 'rtl'
+                        ? 'text-right'
+                        : 'text-left'
+                    }`}
+                    dir={determineTextDirection(event.description)}
+                  >
                     {event.description}
                   </p>
                 </div>
