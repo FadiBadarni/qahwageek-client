@@ -67,6 +67,17 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
     onDrop,
   });
 
+  const getMinTime = () => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const selectedDate = new Date(newEvent.dateTime || now);
+    // Compare only the date parts
+    if (selectedDate.toDateString() === today.toDateString()) {
+      return now;
+    }
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="mt-1">
@@ -89,6 +100,9 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
           wrapperClassName="datePicker"
           className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer text-light-text dark:text-dark-text"
           required
+          minDate={new Date()}
+          minTime={getMinTime()}
+          maxTime={new Date(new Date().setHours(23, 59, 0, 0))}
         />
 
         <label

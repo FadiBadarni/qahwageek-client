@@ -100,7 +100,6 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
   useEffect(() => {
     if (mode === 'edit' && postId) {
       const numericPostId = Number(postId);
-      console.log('TEST');
       dispatch(getPostById(numericPostId))
         .unwrap()
         .then((post) => {

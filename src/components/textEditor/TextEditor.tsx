@@ -63,7 +63,7 @@ const TextEditor: React.FC<TextEditorProps> = ({
           skin: currentTheme === 'dark' ? 'oxide-dark' : 'oxide',
           content_css: currentTheme === 'dark' ? 'dark' : 'default',
         }}
-        initialValue="عن شو بدنا نكتب اليوم ؟"
+        value={initialContent || ''}
         onEditorChange={handleEditorChange}
       />
     </div>
