@@ -34,6 +34,7 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { postId } = useParams();
+  const user = useSelector((state: RootState) => state.user.data);
 
   const categories = useSelector(
     (state: RootState) => state.categories.categories.data
@@ -88,7 +89,10 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
           displayToast('تم تحديث المنشور بنجاح!', true, currentTheme);
         }
 
-        navigate(`/posts/${result.id}`);
+        // Determine the navigation path based on user role
+        const isAdmin = user?.roles.includes('ROLE_ADMIN');
+        const navigationPath = isAdmin ? `/posts/${result.id}` : '/';
+        navigate(navigationPath);
       } catch (error: any) {
         displayToast(`حدث خطأ: ${error.message}`, false, currentTheme);
       } finally {
