@@ -2,7 +2,11 @@ import { format, parseISO } from 'date-fns';
 import { ar } from 'date-fns/locale';
 import { CategoryDetail, LightPost } from 'models/post';
 import React from 'react';
-import { ClockIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import {
+  ClockIcon,
+  CalendarIcon,
+  ClipboardDocumentListIcon,
+} from '@heroicons/react/24/outline';
 import { useNavigate } from 'react-router-dom';
 
 interface UserPostsProps {
@@ -23,6 +27,22 @@ const UserPosts: React.FC<UserPostsProps> = ({ posts }) => {
     e.stopPropagation();
     navigate(`/category/${slug}`);
   };
+
+  if (posts.length === 0) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-10 bg-light-layer dark:bg-dark-layer rounded-lg shadow-lg border border-light-border dark:border-dark-border">
+        <div className="text-center">
+          <ClipboardDocumentListIcon className="mx-auto h-12 w-12 text-brand-500 dark:text-brand-400" />
+          <h3 className="mt-2 text-lg font-medium text-neutral-800 dark:text-neutral-200">
+            لا توجد مشاركات بعد
+          </h3>
+          <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
+            يبدو أنه لم يتم إضافة أي مشاركات حتى الآن.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-2">

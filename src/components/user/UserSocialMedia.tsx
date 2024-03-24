@@ -28,10 +28,14 @@ const getSocialMediaIcon = (platform: string) => {
 const UserSocialMedia: React.FC<UserSocialMediaProps> = ({
   socialMediaHandles,
 }) => {
-  if (socialMediaHandles.length === 0) {
-    return <div>ليس هناك معلومات للتواصل الاجتماعي</div>;
-  }
+  // Filter out handles that are either not provided or empty
+  const validHandles = socialMediaHandles.filter(
+    (handle) => handle.handle && handle.handle.trim() !== ''
+  );
 
+  if (validHandles.length === 0) {
+    return null;
+  }
   return (
     <div className="flex flex-wrap justify-center md:justify-center">
       {socialMediaHandles.map((handle) => (
