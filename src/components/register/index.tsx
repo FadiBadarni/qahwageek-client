@@ -6,24 +6,9 @@ import { MdPerson, MdEmail, MdLock } from 'react-icons/md';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { register } from 'store/user/userActions';
 import { displayError } from 'utils/alertUtils';
-import * as Yup from 'yup';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import RegistrationGuidelines from './RegistrationGuidelines';
-
-export const registrationValidationSchema = Yup.object().shape({
-  username: Yup.string()
-    .matches(
-      /^\w+$/,
-      'يجب أن يكون اسم المستخدم فريدًا ولا يحتوي على مسافات أو رموز خاصة مثل @$!%*?&.'
-    )
-    .required('اسم المستخدم مطلوب'),
-  email: Yup.string()
-    .email('يجب أن يكون بريدًا إلكترونيًا صالحًا')
-    .required('البريد الإلكتروني مطلوب'),
-  password: Yup.string()
-    .min(6, 'يجب أن تكون كلمة المرور 6 أحرف على الأقل')
-    .required('كلمة المرور مطلوبة'),
-});
+import { registrationValidationSchema } from 'utils/validationSchemas';
 
 export const RegistrationPage: React.FC = () => {
   const dispatch = useAppDispatch();

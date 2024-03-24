@@ -17,8 +17,8 @@ import { useDropzone } from 'react-dropzone';
 import { useDropzoneHandler } from 'utils/dropzoneUtils';
 import { getPostById } from 'store/post/postActions';
 import LoadingSpinner from 'utils/LoadingSpinner';
-import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import { postCreationFormValidationSchema } from 'utils/validationSchemas';
 
 interface PostFormProps {
   mode: 'create' | 'edit';
@@ -29,14 +29,6 @@ export interface PostFormValues {
   selectedImage?: File;
   selectedCategoryIds: number[];
 }
-
-export const postCreationFormValidationSchema = Yup.object({
-  title: Yup.string().required('عنوان المقال مطلوب'),
-  selectedImage: Yup.mixed().required('صورة الغلاف مطلوبة'),
-  selectedCategoryIds: Yup.array()
-    .min(1, 'يجب اختيار تصنيف واحد على الأقل')
-    .required('تصنيف المقال مطلوب'),
-});
 
 const PostForm: React.FC<PostFormProps> = ({ mode }) => {
   const dispatch = useAppDispatch();
