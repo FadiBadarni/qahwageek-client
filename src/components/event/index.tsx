@@ -87,8 +87,8 @@ const EventsPage: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-6">
-        <h2 className="text-3xl font-extrabold text-brand-500 dark:text-accent-500">
-          كل الأحداث
+        <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-extrabold text-brand-500 dark:text-accent-500">
+          كل الاحداث - بالتعاون مع The Meetup Stars
         </h2>
       </div>
 

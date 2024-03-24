@@ -17,11 +17,11 @@ const FilterSortOptions: React.FC<FilterSortOptionsProps> = ({
   onCategoryChange,
 }) => {
   return (
-    <div className="mb-4 flex flex-col sm:flex-row gap-4 items-start">
+    <div className="mb-4 flex flex-row gap-4 items-start">
       <div className="flex-1 max-w-44">
         <label
           htmlFor="sortSelect"
-          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+          className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1 "
         >
           ترتيب حسب
         </label>
@@ -34,8 +34,6 @@ const FilterSortOptions: React.FC<FilterSortOptionsProps> = ({
           >
             <option value="dateTime,asc">التاريخ (تصاعدي)</option>
             <option value="dateTime,desc">التاريخ (تنازلي)</option>
-            <option value="createdAt,asc">تاريخ الإنشاء (تصاعدي)</option>
-            <option value="createdAt,desc">تاريخ الإنشاء (تنازلي)</option>
           </select>
         </div>
       </div>
