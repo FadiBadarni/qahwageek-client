@@ -49,6 +49,7 @@ const ReplyInput: React.FC<ReplyInputProps> = ({
           placeholder="كتابة رد..."
           value={replyText}
           onChange={(e) => setReplyText(e.target.value)}
+          maxLength={500}
         />
         <div className="flex justify-end space-x-2 px-2 py-1 mt-1 space-x-reverse">
           <button

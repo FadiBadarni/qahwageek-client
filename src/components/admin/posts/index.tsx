@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import {
   deletePost,
+  featurePost,
   fetchAllPosts,
   updatePostStatus,
 } from 'store/post/postActions';
@@ -108,6 +109,25 @@ const PostsManagement: React.FC<Props> = () => {
       });
   };
 
+  const handleFeature = (post: Post) => {
+    setIsPostDeleting(true);
+
+    dispatch(setSelectedPost(post));
+
+    dispatch(featurePost(post.id))
+      .unwrap()
+      .then(() => {
+        displayToast('تم تمييز المنشور بنجاح', true, currentTheme);
+      })
+      .catch((error) => {
+        displayToast('فشل في تمييز المنشور', false, currentTheme);
+      })
+      .finally(() => {
+        dispatch(clearSelectedPost());
+        setIsPostDeleting(false);
+      });
+  };
+
   const handleEdit = (postId: number) => {
     navigate(`/cms/posts/edit/${postId}`);
   };
@@ -124,9 +144,10 @@ const PostsManagement: React.FC<Props> = () => {
 
   const renderEditDeleteActions = (post: Post) => (
     <EditDeleteActions
-      postId={post.id}
+      post={post}
       onDelete={() => handleDelete(post)}
       onEdit={() => handleEdit(post.id)}
+      onFeature={() => handleFeature(post)}
       isLoading={selectedPost?.id === post.id && isPostDeleting}
       isGlobalUpdating={isPostDeleting || isPostUpdating}
     />

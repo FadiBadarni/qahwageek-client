@@ -316,3 +316,18 @@ export const deletePost = createAsyncThunk(
     }
   }
 );
+
+export const featurePost = createAsyncThunk(
+  'posts/featurePost',
+  async (postId: number, { rejectWithValue }) => {
+    try {
+      const updatedPost = await PostService.featurePost(postId);
+      return updatedPost;
+    } catch (error: any) {
+      console.error(`Failed to feature post with ID ${postId}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to feature post with ID ${postId}`
+      );
+    }
+  }
+);

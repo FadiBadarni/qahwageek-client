@@ -2,8 +2,10 @@ export interface Post {
   id: number;
   title: string;
   content: string;
+  featured: boolean;
   author: string;
   authorId: number;
+  authorProfilePicture: string;
   publishedAt?: string;
   mainImageUrl?: string;
   readingTime?: number;

@@ -81,8 +81,11 @@ const Post = (props: Props) => {
               </div>
             )}
             <div
-              className="relative p-4 bg-light-layer dark:bg-dark-layer/90 rounded-t-md 
-            -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8"
+              className="relative p-4 -mt-[8vh] sm:-mt-[8vh] md:-mt-[10vh] lg:-mt-[15vh] xl:-mt-[15vh] mx-auto max-w-7xl px-6 lg:px-8 rounded-t-md
+             bg-gradient-to-br from-transparent to-transparent via-light-layer dark:via-dark-layer/90
+             shadow-lg dark:shadow-xl dark:shadow-gray-800/50 border border-transparent dark:border-dark-border
+             backdrop-blur-lg dark:backdrop-blur-md
+             "
             >
               <div className="flex flex-wrap items-center text-sm justify-between mb-4">
                 {/* Author, Date, and Reading Time */}
@@ -90,7 +93,7 @@ const Post = (props: Props) => {
                   <span className="text-xs sm:text-sm">كتب بواسطة - </span>
                   <Link
                     to={`/user/profile/${post.authorId}`}
-                    className="font-semibold text-xs sm:text-sm ml-1 mr-1 sm:mr-2"
+                    className="font-semibold text-xs sm:text-sm ml-1 mr-1 sm:mr-2 hover:text-brand-500 dark:hover:text-brand-400 transition-colors duration-300"
                   >
                     {post.author}
                   </Link>
@@ -118,24 +121,55 @@ const Post = (props: Props) => {
                   dangerouslySetInnerHTML={{ __html: sanitizedContent }}
                   className="prose dark:prose-dark mx-auto max-w-none"
                 ></div>
-                <div className="mt-8 p-4 bg-light-background dark:bg-dark-background rounded-lg shadow flex flex-wrap items-center">
-                  <div className="flex items-center ml-2">
-                    <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200 ml-2">
+
+                <div className="mt-6 flex justify-center items-center">
+                  <div className="h-1 w-20 rounded-full bg-gradient-to-r from-brand-500 to-transparent dark:from-brand-400 dark:to-transparent"></div>
+                  <span className="mx-4 text-neutral-600 dark:text-neutral-400">
+                    نهاية المقال
+                  </span>
+                  <div className="h-1 w-20 rounded-full bg-gradient-to-l from-brand-500 to-transparent dark:from-brand-400 dark:to-transparent"></div>
+                </div>
+
+                <div className="mt-8 p-4 bg-light-layer/80 dark:bg-dark-layer/80 backdrop-blur-sm border border-light-border dark:border-dark-border rounded-lg shadow-md flex flex-wrap items-center justify-between sm:gap-0 gap-2">
+                  <div className="flex items-center">
+                    <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200">
                       التصنيفات
                     </h4>
-                    <ArrowLeftIcon className="w-5 h-5 text-neutral-800 dark:text-neutral-200" />
+                    <ArrowLeftIcon className="w-5 h-5 text-neutral-800 dark:text-neutral-200 mr-2" />
+                    <div className="flex flex-wrap ml-4">
+                      {post.categoryDetails.map(
+                        (category: CategoryDetail, index: number) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center justify-center rounded-md px-2 py-1 text-sm font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out mr-2 mb-2"
+                            onClick={(e) =>
+                              handleCategoryClick(e, category.slug)
+                            }
+                          >
+                            {category.name}
+                          </span>
+                        )
+                      )}
+                    </div>
                   </div>
-                  {post.categoryDetails.map(
-                    (category: CategoryDetail, index: number) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center mr-2 justify-center rounded-md px-2 py-1 text-sm font-medium bg-neutral-400/50 dark:bg-dark-border text-light-text dark:text-dark-text hover:bg-light-primary dark:hover:bg-dark-primary cursor-pointer transition-colors duration-200 ease-in-out"
-                        onClick={(e) => handleCategoryClick(e, category.slug)}
-                      >
-                        {category.name}
-                      </span>
-                    )
-                  )}
+                  <div className="flex items-center">
+                    <h4 className="text-lg font-semibold text-neutral-800 dark:text-neutral-200">
+                      كتب بواسطة
+                    </h4>
+                    <ArrowLeftIcon className="w-5 h-5 text-neutral-800 dark:text-neutral-200 mr-2 ml-2" />
+                    <div className="flex flex-col items-center cursor-pointer">
+                      <a href={`/user/profile/${post.authorId}`}>
+                        <img
+                          src={
+                            post.authorProfilePicture ||
+                            '/missing-image-dark.png'
+                          }
+                          alt={post.author}
+                          className="w-10 h-10 rounded-full border border-gray-300 dark:border-gray-600 mb-2"
+                        />
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

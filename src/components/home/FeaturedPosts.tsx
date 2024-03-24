@@ -71,7 +71,7 @@ const FeaturedPosts: React.FC = () => {
           {posts.map((post) => (
             <div
               key={post.id}
-              className="p-4 bg-light-layer dark:bg-dark-layer transition duration-300 ease-in-out"
+              className="relative p-4 mx-auto max-w-7xl rounded-lg shadow-md dark:shadow-lg border border-light-border dark:border-dark-border backdrop-blur-sm dark:backdrop-blur-md bg-gradient-to-br from-light-layer to-light-background dark:from-dark-layer dark:to-dark-background transition duration-300 ease-in-out"
               onClick={() => navigate(`/posts/${post.id}`)}
               style={{ cursor: 'pointer' }}
             >
@@ -83,28 +83,28 @@ const FeaturedPosts: React.FC = () => {
                       alt={post.title}
                       className="w-full object-cover h-48 rounded-lg"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
-                      <h3 className="text-lg font-semibold leading-6 text-white">
+                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-10 dark:bg-neutral-800 dark:bg-opacity-20 backdrop-blur-sm border border-transparent p-2 sm:p-4">
+                      <h3 className="text-md sm:text-lg font-semibold leading-5 sm:leading-6 text-white">
                         {post.title}
                       </h3>
-                      <div className="flex justify-between items-center mt-4">
+                      <div className="flex justify-between items-center mt-2 sm:mt-4">
                         <div className="flex items-center">
                           <UserIcon
-                            className="h-5 w-5 text-gray-200 ml-1"
+                            className="h-4 sm:h-5 w-4 sm:w-5 text-gray-200 ml-1"
                             aria-hidden="true"
                           />
-                          <span className="text-sm text-gray-200">
+                          <span className="text-xs sm:text-sm text-gray-200">
                             {post.author}
                           </span>
                         </div>
                         <div className="flex items-center">
                           <CalendarIcon
-                            className="h-5 w-5 text-gray-200 ml-1"
+                            className="h-4 sm:h-5 w-4 sm:w-5 text-gray-200 ml-1"
                             aria-hidden="true"
                           />
                           <time
                             dateTime={post.publishedAt}
-                            className="text-sm text-gray-200"
+                            className="text-xs sm:text-sm text-gray-200"
                           >
                             {format(
                               parseISO(post.publishedAt),
@@ -116,10 +116,12 @@ const FeaturedPosts: React.FC = () => {
                         {post.readingTime && (
                           <div className="flex items-center text-gray-200">
                             <ClockIcon
-                              className="h-5 w-5 ml-1 "
+                              className="h-4 sm:h-5 w-4 sm:w-5 ml-1 "
                               aria-hidden="true"
                             />
-                            <span>{post.readingTime} دقائق</span>
+                            <span className="text-xs sm:text-sm">
+                              {post.readingTime} دقائق
+                            </span>
                           </div>
                         )}
                       </div>

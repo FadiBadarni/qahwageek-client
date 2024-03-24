@@ -79,10 +79,12 @@ const commentsSlice = createSlice({
                 if (!parentComment.replies) {
                   parentComment.replies = [];
                 }
-                parentComment.replies.push(newComment);
+                // Prepend new reply to the beginning of the replies array
+                parentComment.replies.unshift(newComment);
               }
             } else {
-              commentsState.data.push(newComment);
+              // Prepend new comment to the beginning of the comments array
+              commentsState.data.unshift(newComment);
             }
             commentsState.status = LoadingStatus.Succeeded;
           }
