@@ -7,6 +7,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { deleteComment } from 'store/comment/commentActions';
+import {
+  displayConfirmation,
+  displayError,
+  displayToast,
+} from 'utils/alertUtils';
 
 interface PostCommentProps {
   comment: Comment;
@@ -19,10 +24,32 @@ const PostComment: React.FC<PostCommentProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const currentUser = useSelector((state: RootState) => state.user.data);
+  const currentTheme = useSelector((state: RootState) => state.theme.theme);
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleDeleteComment = () => {
-    dispatch(deleteComment(comment.id));
+    displayConfirmation({
+      title: 'هل أنت متأكد؟',
+      text: 'لا يمكنك التراجع عن هذا الإجراء!',
+      icon: 'warning',
+      confirmButtonText: 'نعم، احذفه!',
+      cancelButtonText: 'إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteComment(comment.id))
+          .then(() => {
+            displayToast('تم حذف التعليق بنجاح', true, currentTheme);
+          })
+          .catch((error) => {
+            displayError({
+              title: 'حدث خطأ',
+              text: 'لم يتم حذف التعليق. يرجى المحاولة مرة أخرى لاحقًا.',
+              icon: 'error',
+            });
+          });
+      }
+    });
   };
 
   const isCurrentUserComment = comment.userId === currentUser?.id;
