@@ -28,14 +28,6 @@ class UserService {
       throw error;
     }
   }
-  static async getUserInfoService() {
-    try {
-      const response = await axiosClient.get('/user/info');
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  }
   static async getUserProfileService(userId: number) {
     try {
       const response = await axiosClient.get(`/user/profile/${userId}`);
