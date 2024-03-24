@@ -71,7 +71,7 @@ const FeaturedPosts: React.FC = () => {
           {posts.map((post) => (
             <div
               key={post.id}
-              className="p-4 bg-light-layer dark:bg-dark-layer transition duration-300 ease-in-out"
+              className="relative p-4 mx-auto max-w-7xl rounded-lg shadow-md dark:shadow-lg border border-light-border dark:border-dark-border backdrop-blur-sm dark:backdrop-blur-md bg-gradient-to-br from-light-layer to-light-background dark:from-dark-layer dark:to-dark-background transition duration-300 ease-in-out"
               onClick={() => navigate(`/posts/${post.id}`)}
               style={{ cursor: 'pointer' }}
             >
@@ -83,7 +83,7 @@ const FeaturedPosts: React.FC = () => {
                       alt={post.title}
                       className="w-full object-cover h-48 rounded-lg"
                     />
-                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 p-4">
+                    <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-20 dark:bg-neutral-800 dark:bg-opacity-40 backdrop-blur-sm border border-transparent p-4">
                       <h3 className="text-lg font-semibold leading-6 text-white">
                         {post.title}
                       </h3>
