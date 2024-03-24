@@ -53,12 +53,13 @@ const CommentsSection: FC<CommentsSectionProps> = ({ postId }) => {
           <form className="mb-4" onSubmit={handleCommentSubmit}>
             <div className="flex flex-col bg-light-input dark:bg-dark-input rounded-md border border-gray-300 dark:border-gray-700 overflow-hidden">
               <textarea
-                className="w-full p-2 text-sm text-neutral-800 dark:text-neutral-200 rounded-t-md border-none bg-light-input dark:bg-dark-input resize-none focus:outline-none focus:ring focus:border-blue-300"
+                className="w-full p-2 text-sm text-neutral-800 dark:text-neutral-200 rounded-t-md border-none bg-light-input dark:bg-dark-input focus:outline-none focus:ring focus:border-blue-300"
                 placeholder="كتابة تعليق..."
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
                 onFocus={() => setShowSubmitButton(true)}
                 onBlur={() => setShowSubmitButton(commentText.trim() !== '')}
+                maxLength={500}
               />
               <div
                 className={`transition-all duration-500 ease-in-out ${

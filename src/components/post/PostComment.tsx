@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useState } from 'react';
 import { formatDate } from 'utils/dateFormatUtil';
 import { MdAccessTime, MdReply, MdDelete } from 'react-icons/md';
 import { Comment } from 'models/comment';
@@ -19,6 +19,7 @@ const PostComment: React.FC<PostCommentProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const currentUser = useSelector((state: RootState) => state.user.data);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const handleDeleteComment = () => {
     dispatch(deleteComment(comment.id));
@@ -26,6 +27,14 @@ const PostComment: React.FC<PostCommentProps> = ({
 
   const isCurrentUserComment = comment.userId === currentUser?.id;
   const isReply = Boolean(comment.parentCommentId);
+
+  const toggleExpand = () => setIsExpanded(!isExpanded);
+
+  const needsTruncation = comment.content.length > 150;
+  const displayedContent =
+    isExpanded || !needsTruncation
+      ? comment.content
+      : `${comment.content.substring(0, 150)}...`;
 
   return (
     <div className={`my-2 ${isReply ? 'mr-6 mt-4' : ''}`}>
@@ -76,9 +85,17 @@ const PostComment: React.FC<PostCommentProps> = ({
           <div
             className="mt-2 text-neutral-600 dark:text-neutral-400 text-sm"
             dangerouslySetInnerHTML={{
-              __html: DOMPurify.sanitize(comment.content),
+              __html: DOMPurify.sanitize(displayedContent),
             }}
-          />
+          ></div>
+          {needsTruncation && (
+            <button
+              className="text-sm text-blue-500 hover:underline"
+              onClick={toggleExpand}
+            >
+              {isExpanded ? 'أخفي التعليق' : 'أظهر التعليق'}
+            </button>
+          )}
         </div>
       </div>
       {comment.replies && comment.replies.length > 0 && (
