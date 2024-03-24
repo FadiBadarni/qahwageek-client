@@ -104,6 +104,15 @@ const MobileNav: React.FC<MobileNavProps> = ({
         >
           الأحداث
         </Link>
+        {user?.roles.includes('ROLE_WRITER') && (
+          <Link
+            to="/posts/create"
+            className="block px-4 py-2 text-sm rounded hover:bg-light-layer dark:hover:bg-dark-layer text-light-text dark:text-dark-text"
+            onClick={closeMenu}
+          >
+            إنشاء منشور
+          </Link>
+        )}
         {isAdmin && (
           <Link
             to="/cms"
