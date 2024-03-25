@@ -28,6 +28,7 @@ export interface PostFormValues {
   title: string;
   selectedImage?: File;
   selectedCategoryIds: number[];
+  imageUrl?: string;
 }
 
 const PostForm: React.FC<PostFormProps> = ({ mode }) => {
@@ -52,6 +53,7 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
       title: '',
       selectedImage: undefined,
       selectedCategoryIds: [],
+      imageUrl: '',
     },
     validationSchema: postCreationFormValidationSchema,
     onSubmit: async (values) => {
@@ -115,6 +117,7 @@ const PostForm: React.FC<PostFormProps> = ({ mode }) => {
               (categoryDetail: { id: number }) => categoryDetail.id
             )
           );
+          formik.setFieldValue('imageUrl', post.mainImageUrl);
           setImagePreviewUrl(post.mainImageUrl);
         })
         .catch((error) => {
