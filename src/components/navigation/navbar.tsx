@@ -58,7 +58,7 @@ export const Navbar: React.FC = () => {
   return (
     <Disclosure
       as="nav"
-      className="bg-gradient-to-br from-light-layer/90 to-light-background/80 dark:from-dark-layer/90 dark:to-dark-background/80 backdrop-blur-lg dark:backdrop-blur-md shadow-sm dark:shadow-md border-b border-transparent dark:border-dark-border transition duration-300 ease-in-out z-10"
+      className="bg-gradient-to-br from-light-layer/90 to-light-background/80 dark:from-dark-layer/90 dark:to-dark-background/80 backdrop-blur-lg dark:backdrop-blur-md shadow-sm dark:shadow-md border-b border-transparent dark:border-dark-border transition duration-300 ease-in-out z-40"
     >
       {({ open, close }) => (
         <>

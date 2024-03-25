@@ -101,6 +101,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     placeholder="اسم التصنيف"
                     value={categoryName}
                     onChange={(e) => setCategoryName(e.target.value)}
+                    required
                   />
                 </div>
                 <div className="mt-4">
@@ -111,6 +112,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
                     dir="ltr"
+                    required
                   />
                 </div>
                 <div className="mt-4">
@@ -120,6 +122,7 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={3}
+                    required
                   ></textarea>
                 </div>
 
