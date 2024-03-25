@@ -17,8 +17,14 @@ export const registrationValidationSchema = Yup.object().shape({
 
 export const postCreationFormValidationSchema = Yup.object({
   title: Yup.string().required('عنوان المقال مطلوب'),
-  selectedImage: Yup.mixed().required('صورة الغلاف مطلوبة'),
+  selectedImage: Yup.mixed().when('imageUrl', {
+    is: (imageUrl: string) => !imageUrl || imageUrl === '',
+    then: (schema) => schema.required('صورة الغلاف مطلوبة'),
+    otherwise: (schema) => schema.notRequired(),
+  }),
+  imageUrl: Yup.string().url().notRequired(),
   selectedCategoryIds: Yup.array()
+    .of(Yup.number())
     .min(1, 'يجب اختيار تصنيف واحد على الأقل')
     .required('تصنيف المقال مطلوب'),
 });

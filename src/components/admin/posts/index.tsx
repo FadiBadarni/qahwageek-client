@@ -13,7 +13,7 @@ import PostsTable from './PostsTable';
 import { PaginationComponent } from 'components/shared/PaginationComponent';
 import PublishRejectActions from './PublishRejectActions';
 import EditDeleteActions from './EditDeleteActions';
-import { displayToast } from 'utils/alertUtils';
+import { displayConfirmation, displayToast } from 'utils/alertUtils';
 import { clearSelectedPost, setSelectedPost } from 'store/admin/adminSlice';
 import { useNavigate } from 'react-router-dom';
 
@@ -91,22 +91,31 @@ const PostsManagement: React.FC<Props> = () => {
   };
 
   const handleDelete = (post: Post) => {
-    setIsPostDeleting(true);
+    displayConfirmation({
+      title: 'هل أنت متأكد؟',
+      text: 'هذا الإجراء لا يمكن التراجع عنه وسيؤدي إلى حذف المنشور نهائيًا.',
+      icon: 'warning',
+      confirmButtonText: 'نعم، احذفه',
+      cancelButtonText: 'إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsPostDeleting(true);
+        dispatch(setSelectedPost(post));
 
-    dispatch(setSelectedPost(post));
-
-    dispatch(deletePost(post.id))
-      .unwrap()
-      .then(() => {
-        displayToast('تم حذف المنشور بنجاح', true, currentTheme);
-      })
-      .catch((error) => {
-        displayToast('فشل في حذف المنشور', false, currentTheme);
-      })
-      .finally(() => {
-        dispatch(clearSelectedPost());
-        setIsPostDeleting(false);
-      });
+        dispatch(deletePost(post.id))
+          .unwrap()
+          .then(() => {
+            displayToast('تم حذف المنشور بنجاح', true, currentTheme);
+          })
+          .catch((error) => {
+            displayToast('فشل في حذف المنشور', false, currentTheme);
+          })
+          .finally(() => {
+            dispatch(clearSelectedPost());
+            setIsPostDeleting(false);
+          });
+      }
+    });
   };
 
   const handleFeature = (post: Post) => {
