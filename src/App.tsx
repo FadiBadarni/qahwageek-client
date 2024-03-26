@@ -28,6 +28,7 @@ import PostsManagement from 'components/admin/posts';
 import PostForm from 'components/admin/PostCreation/PostForm';
 import AboutPage from 'components/about';
 import UnauthorizedPage from 'components/shared/UnauthorizedPage';
+import PostsPage from 'components/all_posts';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -55,6 +56,7 @@ function App() {
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/register" element={<RegistrationPage />} />
             <Route path="/posts/:postId" element={<Post />} />
+            <Route path="/posts" element={<PostsPage />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/category/:slug" element={<DynamicCategoryHome />} />
             <Route path="/events" element={<EventsPage />} />

@@ -6,9 +6,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'store/store';
 import PostItemSkeleton from 'components/shared/PostItemSkeleton';
 import { LoadingStatus } from 'store/shared/commonState';
+import { useNavigate } from 'react-router-dom';
 
 export const LatestPosts: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getRecentPosts());
@@ -17,6 +19,10 @@ export const LatestPosts: React.FC = () => {
   const { data: posts, status: loadingStatus } = useSelector(
     (state: RootState) => state.posts.recentPosts
   );
+
+  const handleSeeMoreClick = () => {
+    navigate('/posts');
+  };
 
   return (
     <div className="p-4 space-y-4">
@@ -30,7 +36,10 @@ export const LatestPosts: React.FC = () => {
             ))
           : posts.map((post) => <PostItem key={post.id} post={post} />)}
       </div>
-      <button className="mt-4 w-full py-2 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-400 transition duration-300 ease-in-out text-center">
+      <button
+        onClick={handleSeeMoreClick}
+        className="mt-4 w-full py-2 bg-brand-500 text-white font-semibold rounded-md hover:bg-brand-400 transition duration-300 ease-in-out text-center"
+      >
         رؤية المزيد
       </button>
     </div>

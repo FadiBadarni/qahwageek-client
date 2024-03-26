@@ -331,3 +331,36 @@ export const featurePost = createAsyncThunk(
     }
   }
 );
+
+export const fetchAllPublishedPosts = createAsyncThunk(
+  'posts/fetchAllPublished',
+  async (
+    {
+      page,
+      size,
+      sort,
+      categoryId,
+    }: {
+      page: number;
+      size: number;
+      sort?: string;
+      categoryId?: number;
+    },
+    { rejectWithValue }
+  ) => {
+    try {
+      const posts = await PostService.getAllPublishedPosts({
+        page,
+        size,
+        sort,
+        categoryId,
+      });
+      return posts;
+    } catch (error: any) {
+      console.error('Failed to fetch all public posts:', error);
+      return rejectWithValue(
+        error.response?.data || 'Unable to fetch all public posts'
+      );
+    }
+  }
+);

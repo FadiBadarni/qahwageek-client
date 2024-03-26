@@ -14,6 +14,7 @@ export interface PostState {
   latestTermsPosts: CommonState<LightPost[]>;
   categoryPosts: CommonState<PaginatedData<LightPost[]>>;
   relatedPosts: CommonState<PaginatedData<LightPost[]>>;
+  publishedPosts: CommonState<PaginatedData<LightPost[]>>;
 }
 
 export const initialPostsState: PostState = {
@@ -58,6 +59,16 @@ export const initialPostsState: PostState = {
     error: null,
   },
   relatedPosts: {
+    data: {
+      items: [],
+      totalCount: 0,
+      currentPage: 0,
+      totalPages: 0,
+    },
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  publishedPosts: {
     data: {
       items: [],
       totalCount: 0,
