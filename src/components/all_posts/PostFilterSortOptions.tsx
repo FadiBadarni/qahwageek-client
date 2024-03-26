@@ -1,5 +1,5 @@
 import { Category } from 'models/post';
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface PostFilterSortOptionsProps {
   sort: string;
@@ -16,6 +16,20 @@ const PostFilterSortOptions: React.FC<PostFilterSortOptionsProps> = ({
   onSortChange,
   onCategoryChange,
 }) => {
+  const renderCategoryOptions = (
+    categories: Category[] | undefined,
+    level: number = 0
+  ): ReactNode[] => {
+    if (!categories) return [];
+
+    return categories.flatMap((category) => [
+      <option key={category.id} value={category.id}>
+        {category.name}
+      </option>,
+      ...renderCategoryOptions(category.subCategories, level + 1),
+    ]);
+  };
+
   return (
     <div className="mb-4 flex flex-row gap-4 items-start">
       <div className="flex-1 max-w-44">
@@ -55,11 +69,7 @@ const PostFilterSortOptions: React.FC<PostFilterSortOptionsProps> = ({
             }
           >
             <option value="">جميع الفئات</option>
-            {categories.map((category) => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
+            {renderCategoryOptions(categories)}
           </select>
         </div>
       </div>
