@@ -36,7 +36,14 @@ const PostsPage: React.FC = () => {
   }, [dispatch, currentPage, sort, selectedCategory]);
 
   const handlePageChange = (newPage: number) => {
-    // Implement page change logic if needed
+    dispatch(
+      fetchAllPublishedPosts({
+        page: newPage,
+        size: ITEMS_PER_PAGE,
+        sort: sort,
+        ...(selectedCategory && { categoryId: selectedCategory }),
+      })
+    );
   };
 
   const handleSortChange = (newSort: string) => {

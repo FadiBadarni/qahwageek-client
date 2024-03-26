@@ -122,7 +122,6 @@ const AddCategoryDialog: React.FC<AddCategoryDialogProps> = ({
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={3}
-                    required
                   ></textarea>
                 </div>
 
