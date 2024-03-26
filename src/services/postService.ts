@@ -185,6 +185,32 @@ class PostService {
       throw error;
     }
   }
+
+  static async getAllPublishedPosts({
+    page = 0,
+    size = 10,
+    sort = 'createdAt,desc',
+    categoryId,
+  }: {
+    page?: number;
+    size?: number;
+    sort?: string;
+    categoryId?: number;
+  }): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/posts/all`, {
+        params: {
+          page,
+          size,
+          sort,
+          ...(categoryId ? { categoryId } : {}),
+        },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 export default PostService;

@@ -7,7 +7,6 @@ import {
   handleEventDateChange,
   handleEventInputChange,
 } from 'utils/eventHelpers';
-import { format, parseISO } from 'date-fns';
 import ReactDatePicker from 'react-datepicker';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getAllEventCategories, updateEvent } from 'store/event/eventActions';
@@ -45,10 +44,9 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
       return {
         title: selectedEvent.title || '',
         description: selectedEvent.description || '',
-        dateTime: format(
-          parseISO(selectedEvent.dateTime),
-          "yyyy-MM-dd'T'HH:mm"
-        ),
+        dateTime: selectedEvent.dateTime
+          ? new Date(selectedEvent.dateTime).toISOString()
+          : new Date().toISOString(),
         location: selectedEvent.location || '',
         imageUrl: selectedEvent.imageUrl || '',
         eventLink: selectedEvent.eventLink || '',

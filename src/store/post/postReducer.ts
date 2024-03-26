@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
+  fetchAllPublishedPosts,
   fetchPostsByCategory,
   fetchRelatedPosts,
   getFeaturedPosts,
@@ -143,6 +144,23 @@ const postSlice = createSlice({
         state.relatedPosts.status = LoadingStatus.Failed;
         state.relatedPosts.error =
           action.error.message ?? 'Failed to fetch related posts';
+      })
+      .addCase(fetchAllPublishedPosts.pending, (state) => {
+        state.publishedPosts.status = LoadingStatus.Loading;
+      })
+      .addCase(fetchAllPublishedPosts.fulfilled, (state, action) => {
+        state.publishedPosts.status = LoadingStatus.Succeeded;
+        state.publishedPosts.data = {
+          items: action.payload.content,
+          totalCount: action.payload.totalElements,
+          currentPage: action.payload.pageable.pageNumber,
+          totalPages: action.payload.totalPages,
+        };
+      })
+      .addCase(fetchAllPublishedPosts.rejected, (state, action) => {
+        state.publishedPosts.status = LoadingStatus.Failed;
+        state.publishedPosts.error =
+          action.error.message ?? 'Unable to fetch all public posts';
       });
   },
 });
