@@ -17,6 +17,8 @@ import FilterSortOptions from './FilterSortOptions';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const user = useSelector((state: RootState) => state.user.data);
+
   const {
     items: events,
     totalPages,
@@ -136,16 +138,21 @@ const EventsPage: React.FC = () => {
           event={selectedEvent}
         />
       )}
-      <button
-        onClick={handleAddEvent}
-        className="fixed bottom-6 left-6 inline-flex items-center justify-center p-4 bg-light-border dark:bg-dark-input rounded-full shadow-lg cursor-pointer text-white"
-        data-tooltip-content="إضافة حدث"
-        data-tooltip-id="addEventTooltip"
-        aria-label="إضافة حدث"
-      >
-        <PlusIcon className="h-6 w-6" />
-      </button>
-      <Tooltip id="addEventTooltip" />
+      {user && (
+        <>
+          <button
+            onClick={handleAddEvent}
+            className="fixed bottom-6 left-6 inline-flex items-center justify-center p-4 bg-light-border dark:bg-dark-input rounded-full shadow-lg cursor-pointer text-white"
+            data-tooltip-content="إضافة حدث"
+            data-tooltip-id="addEventTooltip"
+            aria-label="إضافة حدث"
+          >
+            <PlusIcon className="h-6 w-6" />
+          </button>
+          <Tooltip id="addEventTooltip" />
+        </>
+      )}
+
       <CreateEventDialog
         isOpen={isCreateDialogOpen}
         onClose={closeCreateDialog}
