@@ -9,12 +9,15 @@ import { EventDateTimeAndImage } from 'components/events_manager/EventCreation/E
 import { EventBasicDetails } from 'components/events_manager/EventCreation/EventBasicDetails';
 import AddEventGuidelines from './AddEventGuidelines';
 import { displayToast } from 'utils/alertUtils';
+import LoginPromptDialog from './LoginPromptDialog';
 
 const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   isOpen,
   onClose,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const user = useSelector((state: RootState) => state.user.data);
+
   const eventsCategories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
@@ -64,6 +67,10 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
       setLoading(false);
     }
   };
+
+  if (!user) {
+    return <LoginPromptDialog isOpen={isOpen} onClose={onClose} />;
+  }
 
   return (
     <Dialog
