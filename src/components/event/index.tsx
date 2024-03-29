@@ -14,6 +14,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 import { Tooltip } from 'react-tooltip';
 import CreateEventDialog from './CreateEventDialog';
 import FilterSortOptions from './FilterSortOptions';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -85,6 +86,12 @@ const EventsPage: React.FC = () => {
     setSelectedCategoryId(newCategoryId);
   };
 
+  const whatsappGroupLink = 'https://chat.whatsapp.com/E7wujZs2I682pxFx8Wuixm';
+
+  const handleWhatsAppClick = () => {
+    window.open(whatsappGroupLink, '_blank');
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-6">
@@ -144,10 +151,22 @@ const EventsPage: React.FC = () => {
         data-tooltip-content="إضافة حدث"
         data-tooltip-id="addEventTooltip"
         aria-label="إضافة حدث"
+        data-tooltip-place="right"
       >
         <PlusIcon className="h-6 w-6" />
       </button>
       <Tooltip id="addEventTooltip" />
+
+      <button
+        onClick={handleWhatsAppClick}
+        className="fixed bottom-24 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        data-tooltip-content="انضم إلى مجموعة الواتساب"
+        data-tooltip-id="whatsAppGroupTooltip"
+        aria-label="انضم إلى مجموعة الواتساب"
+      >
+        <FaWhatsapp className="h-6 w-6" />
+      </button>
+      <Tooltip id="whatsAppGroupTooltip" />
 
       <CreateEventDialog
         isOpen={isCreateDialogOpen}
