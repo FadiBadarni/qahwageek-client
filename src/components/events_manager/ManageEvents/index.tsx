@@ -8,7 +8,7 @@ import { deleteEvent, getAllEvents } from 'store/event/eventActions';
 import { RootState } from 'store/store';
 import EventManagementActions from './EventManagementActions';
 import { clearSelectedEvent, setSelectedEvent } from 'store/event/eventSlice';
-import { displayToast } from 'utils/alertUtils';
+import { displayConfirmation, displayToast } from 'utils/alertUtils';
 import EventEditDialog from './EventEditDialog';
 
 interface EventsManagementProps {}
@@ -50,21 +50,32 @@ const EventsManagement: React.FC<EventsManagementProps> = () => {
   };
 
   const handleDelete = (event: MeetupEvent) => {
-    setIsUpdating(true);
-    dispatch(setSelectedEvent(event));
-    dispatch(deleteEvent(event.id))
-      .unwrap()
-      .then(() => {
-        displayToast('تم حذف الحدث بنجاح', true, currentTheme);
-      })
-      .catch((error) => {
-        console.error('Failed to delete the event:', error);
-        displayToast('فشل في حذف الحدث', false, currentTheme);
-      })
-      .finally(() => {
-        dispatch(clearSelectedEvent());
-        setIsUpdating(false);
-      });
+    displayConfirmation({
+      title: 'هل أنت متأكد؟',
+      text: 'هذا الإجراء لا يمكن التراجع عنه وسيؤدي إلى حذف الحدث نهائيًا.',
+      icon: 'warning',
+      confirmButtonText: 'نعم، احذفه',
+      cancelButtonText: 'إلغاء',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setIsUpdating(true);
+        dispatch(setSelectedEvent(event));
+
+        dispatch(deleteEvent(event.id))
+          .unwrap()
+          .then(() => {
+            displayToast('تم حذف الحدث بنجاح', true, currentTheme);
+          })
+          .catch((error) => {
+            console.error('Failed to delete the event:', error);
+            displayToast('فشل في حذف الحدث', false, currentTheme);
+          })
+          .finally(() => {
+            dispatch(clearSelectedEvent());
+            setIsUpdating(false);
+          });
+      }
+    });
   };
 
   const closeEditDialog = () => {
