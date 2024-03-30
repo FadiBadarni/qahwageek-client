@@ -26,7 +26,8 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
   const [newEvent, setNewEvent] = useState<NewEvent>({
     title: '',
     description: '',
-    dateTime: new Date().toISOString(),
+    startDateTime: new Date().toISOString(),
+    endDateTime: new Date().toISOString(),
     imageUrl: '',
     eventLink: '',
     isOnlineEvent: false,
@@ -90,7 +91,7 @@ const CreateEventDialog: React.FC<{ isOpen: boolean; onClose: () => void }> = ({
               >
                 إنشاء حدث جديد
               </Dialog.Title>
-              <form onSubmit={onSubmit} className="space-y-8">
+              <form onSubmit={onSubmit} className="space-y-4">
                 <EventBasicDetails
                   newEvent={newEvent}
                   eventsCategories={eventsCategories}

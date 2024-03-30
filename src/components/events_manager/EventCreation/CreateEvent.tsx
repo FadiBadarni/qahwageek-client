@@ -18,7 +18,8 @@ const CreateEvent: React.FC = () => {
   const [newEvent, setNewEvent] = useState<NewEvent>({
     title: '',
     description: '',
-    dateTime: new Date().toISOString(),
+    startDateTime: new Date().toISOString(),
+    endDateTime: new Date().toISOString(),
     imageUrl: '',
     eventLink: '',
     isOnlineEvent: false,

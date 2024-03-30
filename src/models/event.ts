@@ -31,7 +31,8 @@ export enum EventStatus {
 export interface NewEvent {
   title: string;
   description: string;
-  dateTime: string;
+  startDateTime: string;
+  endDateTime: string;
   imageUrl: string;
   eventLink: string;
   isOnlineEvent: boolean;
