@@ -5,6 +5,8 @@ import { RootState } from 'store/store';
 import { DayHeaderContentArg, EventInput } from '@fullcalendar/common';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Dialog, Transition } from '@headlessui/react';
+import { useAppDispatch } from 'hooks/useAppDispatch';
+import { getCalendarEvents } from 'store/event/eventActions';
 
 interface CalendarComponentProps {
   isOpen: boolean;
@@ -15,8 +17,9 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   isOpen,
   onClose,
 }) => {
-  const { items: events } = useSelector(
-    (state: RootState) => state.events.eventsByCategory.data
+  const dispatch = useAppDispatch();
+  const events = useSelector(
+    (state: RootState) => state.events.calendarEvents.data
   );
 
   const formattedEvents: EventInput[] = events.map((event) => ({
@@ -24,7 +27,6 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     title: event.title,
     start: event.startDateTime,
     end: event.endDateTime,
-    url: event.eventLink,
   }));
 
   useEffect(() => {
@@ -34,6 +36,12 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
     if (nextButton) nextButton.setAttribute('title', 'الأسبوع التالي');
     if (prevButton) prevButton.setAttribute('title', 'الأسبوع السابق');
   }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+      dispatch(getCalendarEvents());
+    }
+  }, [dispatch, isOpen]);
 
   return (
     <Transition.Root show={isOpen} as={React.Fragment}>

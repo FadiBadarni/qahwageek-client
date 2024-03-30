@@ -16,6 +16,12 @@ export interface MeetupEvent {
   creator: string;
   createdAt: string;
 }
+export interface EventCalendar {
+  id: number;
+  title: string;
+  startDateTime: string;
+  endDateTime: string;
+}
 export interface EventCategory {
   id: number;
   name: string;

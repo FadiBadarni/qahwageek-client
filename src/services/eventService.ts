@@ -101,5 +101,14 @@ class EventService {
       throw error;
     }
   }
+
+  static async getCalendarEvents(): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/events/calendar`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 export default EventService;

@@ -1,11 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { initialEventState } from './eventState';
 import { LoadingStatus } from 'store/shared/commonState';
-import { EventCategory, MeetupEvent } from 'models/event';
+import { EventCalendar, EventCategory, MeetupEvent } from 'models/event';
 import {
   deleteEvent,
   getAllEventCategories,
   getAllEvents,
+  getCalendarEvents,
   getEventsByCategory,
   getUpcomingEvents,
   updateEvent,
@@ -153,6 +154,22 @@ const eventSlice = createSlice({
         state.selectedEvent.status = LoadingStatus.Failed;
         state.selectedEvent.error =
           action.error.message ?? 'Failed to update event';
+      })
+      .addCase(getCalendarEvents.pending, (state) => {
+        state.calendarEvents.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        getCalendarEvents.fulfilled,
+        (state, action: PayloadAction<EventCalendar[]>) => {
+          state.calendarEvents.status = LoadingStatus.Succeeded;
+          state.calendarEvents.data = action.payload;
+        }
+      )
+      .addCase(getCalendarEvents.rejected, (state, action) => {
+        state.calendarEvents.status = LoadingStatus.Failed;
+        state.calendarEvents.error =
+          action.error.message ??
+          'An unexpected error occurred fetching calendar events';
       });
   },
 });

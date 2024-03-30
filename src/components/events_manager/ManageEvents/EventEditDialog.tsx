@@ -172,7 +172,7 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
   }
 
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-10">
+    <Dialog open={isOpen} onClose={onClose} className="relative z-40">
       <div className="fixed inset-0 overflow-y-auto">
         <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         <div className="flex min-h-full items-center justify-center p-4 text-center">
