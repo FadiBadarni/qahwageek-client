@@ -35,6 +35,31 @@ textarea[id^='form-field_'] {
     transform: translateY(0);
   }
   50% {
-    transform: translateY(-10px);
+    transform: translateY(-5px);
   }
+}
+
+@media (max-width: 640px) {
+  .calendar-dialog {
+    height: 85vh;
+    overflow-y: auto;
+  }
+
+  .fc-toolbar-title {
+    @apply hidden;
+  }
+
+  .fc-view-harness-active {
+    height: 70vh !important;
+  }
+}
+
+.fc-event {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.fc-event:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }

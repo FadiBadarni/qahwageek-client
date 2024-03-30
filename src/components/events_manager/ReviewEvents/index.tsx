@@ -100,8 +100,8 @@ const UsersEventsTable: React.FC<Props> = () => {
           onChange={(e) => setSort(e.target.value)}
         >
           <option value="">اختر معيار الترتيب</option>
-          <option value="dateTime,asc">التاريخ (تصاعدي)</option>
-          <option value="dateTime,desc">التاريخ (تنازلي)</option>
+          <option value="startDateTime,asc">التاريخ (تصاعدي)</option>
+          <option value="startDateTime,desc">التاريخ (تنازلي)</option>
           <option value="createdAt,asc">تاريخ الإنشاء (تصاعدي)</option>
           <option value="createdAt,desc">تاريخ الإنشاء (تنازلي)</option>
         </select>

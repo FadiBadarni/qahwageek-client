@@ -1,4 +1,4 @@
-import { EventCategory, MeetupEvent } from 'models/event';
+import { EventCalendar, EventCategory, MeetupEvent } from 'models/event';
 import {
   CommonState,
   LoadingStatus,
@@ -11,6 +11,8 @@ export interface EventState {
   eventsByCategory: CommonState<PaginatedData<MeetupEvent[]>>;
   allEvents: CommonState<PaginatedData<MeetupEvent[]>>;
   selectedEvent: CommonState<MeetupEvent | null>;
+  calendarEvents: CommonState<EventCalendar[]>;
+  chosenEvent: CommonState<MeetupEvent | null>;
 }
 
 export const initialEventState: EventState = {
@@ -45,6 +47,16 @@ export const initialEventState: EventState = {
     error: null,
   },
   selectedEvent: {
+    data: null,
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  calendarEvents: {
+    data: [],
+    status: LoadingStatus.Idle,
+    error: null,
+  },
+  chosenEvent: {
     data: null,
     status: LoadingStatus.Idle,
     error: null,

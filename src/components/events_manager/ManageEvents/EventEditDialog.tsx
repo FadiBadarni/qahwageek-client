@@ -44,8 +44,11 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
       return {
         title: selectedEvent.title || '',
         description: selectedEvent.description || '',
-        dateTime: selectedEvent.dateTime
-          ? new Date(selectedEvent.dateTime).toISOString()
+        startDateTime: selectedEvent.startDateTime
+          ? new Date(selectedEvent.startDateTime).toISOString()
+          : new Date().toISOString(),
+        endDateTime: selectedEvent.endDateTime
+          ? new Date(selectedEvent.endDateTime).toISOString()
           : new Date().toISOString(),
         location: selectedEvent.location || '',
         imageUrl: selectedEvent.imageUrl || '',
@@ -61,7 +64,8 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
       return {
         title: '',
         description: '',
-        dateTime: '',
+        startDateTime: '',
+        endDateTime: '',
         location: '',
         imageUrl: '',
         eventLink: '',
@@ -101,8 +105,12 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
     }
   };
 
-  const handleDateChange = (date: Date | null) => {
-    handleEventDateChange(date, setNewEvent);
+  const handleStartDateChange = (date: Date | null) => {
+    handleEventDateChange(date, setNewEvent, 'start');
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    handleEventDateChange(date, setNewEvent, 'end');
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -119,7 +127,8 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
 
     formData.append('title', newEvent.title || '');
     formData.append('description', newEvent.description || '');
-    formData.append('dateTime', newEvent.dateTime || '');
+    formData.append('startDateTime', newEvent.startDateTime || '');
+    formData.append('endDateTime', newEvent.endDateTime || '');
     formData.append('location', newEvent.location || '');
     formData.append('eventLink', newEvent.eventLink || '');
     formData.append('isOnlineEvent', newEvent.isOnlineEvent.toString());
@@ -149,12 +158,21 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
     }
   };
 
+  const getMinEndTime = () => {
+    if (!newEvent.startDateTime) {
+      return new Date();
+    }
+
+    const startTime = new Date(newEvent.startDateTime);
+    return new Date(startTime.getTime() + 60000 * 15);
+  };
+
   if (!isOpen || !selectedEvent) {
     return null;
   }
 
   return (
-    <Dialog open={isOpen} onClose={onClose} className="relative z-10">
+    <Dialog open={isOpen} onClose={onClose} className="relative z-40">
       <div className="fixed inset-0 overflow-y-auto">
         <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         <div className="flex min-h-full items-center justify-center p-4 text-center">
@@ -249,25 +267,51 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
                   <div className="md:col-span-3">
                     <div className="mb-6">
                       <label
-                        htmlFor="dateTime"
+                        htmlFor="startDateTime"
                         className="block text-sm font-medium text-gray-700 dark:text-gray-200"
                       >
-                        تاريخ ووقت الحدث
+                        تاريخ ووقت بداية الحدث
                       </label>
                       <ReactDatePicker
                         selected={
-                          newEvent.dateTime
-                            ? new Date(newEvent.dateTime)
+                          newEvent.startDateTime
+                            ? new Date(newEvent.startDateTime)
                             : new Date()
                         }
-                        onChange={handleDateChange}
+                        onChange={handleStartDateChange}
                         showTimeSelect
                         timeFormat="HH:mm"
                         timeIntervals={15}
-                        timeCaption="time"
+                        timeCaption="الوقت"
                         dateFormat="MMMM d, yyyy h:mm aa"
                         wrapperClassName="datePicker"
                         className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 text-light-text dark:text-dark-text"
+                      />
+                    </div>
+                    <div className="mb-6">
+                      <label
+                        htmlFor="endDateTime"
+                        className="block text-sm font-medium text-gray-700 dark:text-gray-200 mt-4"
+                      >
+                        تاريخ ووقت نهاية الحدث
+                      </label>
+                      <ReactDatePicker
+                        selected={
+                          newEvent.endDateTime
+                            ? new Date(newEvent.endDateTime)
+                            : null
+                        }
+                        onChange={handleEndDateChange}
+                        showTimeSelect
+                        timeFormat="HH:mm"
+                        timeIntervals={15}
+                        timeCaption="الوقت"
+                        dateFormat="MMMM d, yyyy h:mm aa"
+                        wrapperClassName="datePicker"
+                        className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 text-light-text dark:text-dark-text"
+                        minDate={new Date(newEvent.startDateTime || new Date())}
+                        minTime={getMinEndTime()}
+                        maxTime={new Date(new Date().setHours(23, 59, 0, 0))}
                       />
                     </div>
                     <div>

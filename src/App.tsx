@@ -29,6 +29,7 @@ import PostForm from 'components/admin/PostCreation/PostForm';
 import AboutPage from 'components/about';
 import UnauthorizedPage from 'components/shared/UnauthorizedPage';
 import PostsPage from 'components/all_posts';
+import CalendarComponent from 'components/event/CalendarComponent';
 
 function App() {
   const theme = useSelector((state: RootState) => state.theme.theme);
@@ -60,6 +61,7 @@ function App() {
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/category/:slug" element={<DynamicCategoryHome />} />
             <Route path="/events" element={<EventsPage />} />
+            <Route path="/events/calendar" element={<CalendarComponent />} />
             <Route path="/user/profile/:userId" element={<UserProfile />} />
             <Route
               path="/cms"

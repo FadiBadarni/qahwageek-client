@@ -51,11 +51,13 @@ export const handleEventInputChange = (
 
 export const handleEventDateChange = (
   date: Date | null,
-  setNewEvent: React.Dispatch<React.SetStateAction<NewEvent>>
+  setNewEvent: React.Dispatch<React.SetStateAction<NewEvent>>,
+  dateType: 'start' | 'end'
 ) => {
   setNewEvent((prev) => ({
     ...prev,
-    dateTime: date?.toISOString() ?? '',
+    [dateType === 'start' ? 'startDateTime' : 'endDateTime']:
+      date?.toISOString() ?? '',
   }));
 };
 
@@ -83,7 +85,8 @@ export const handleEventSubmit = async (
     setNewEvent({
       title: '',
       description: '',
-      dateTime: new Date().toISOString(),
+      startDateTime: new Date().toISOString(),
+      endDateTime: new Date().toISOString(),
       imageUrl: '',
       eventLink: '',
       isOnlineEvent: false,

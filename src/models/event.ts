@@ -4,7 +4,8 @@ export interface MeetupEvent {
   id: number;
   title: string;
   description: string;
-  dateTime: string;
+  startDateTime: string;
+  endDateTime: string;
   imageUrl: string;
   eventLink: string;
   onlineEvent: boolean;
@@ -14,6 +15,12 @@ export interface MeetupEvent {
   userId: number;
   creator: string;
   createdAt: string;
+}
+export interface EventCalendar {
+  id: number;
+  title: string;
+  startDateTime: string;
+  endDateTime: string;
 }
 export interface EventCategory {
   id: number;
@@ -30,7 +37,8 @@ export enum EventStatus {
 export interface NewEvent {
   title: string;
   description: string;
-  dateTime: string;
+  startDateTime: string;
+  endDateTime: string;
   imageUrl: string;
   eventLink: string;
   isOnlineEvent: boolean;

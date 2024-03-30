@@ -46,7 +46,7 @@ class EventService {
     categoryId?: number,
     page = 0,
     size = 10,
-    sort = 'dateTime,desc'
+    sort = 'startDateTime,desc'
   ): Promise<any> {
     try {
       const params = categoryId
@@ -96,6 +96,24 @@ class EventService {
       const response = await axiosClient.patch(`/events/${eventId}/status`, {
         status,
       });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getCalendarEvents(): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/events/calendar`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getEventById(eventId: number): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/events/get/${eventId}`);
       return response.data;
     } catch (error) {
       throw error;

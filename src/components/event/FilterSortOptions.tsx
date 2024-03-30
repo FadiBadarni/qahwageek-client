@@ -32,8 +32,8 @@ const FilterSortOptions: React.FC<FilterSortOptionsProps> = ({
             value={sort}
             onChange={(e) => onSortChange(e.target.value)}
           >
-            <option value="dateTime,asc">التاريخ (تصاعدي)</option>
-            <option value="dateTime,desc">التاريخ (تنازلي)</option>
+            <option value="startDateTime,asc">التاريخ (تصاعدي)</option>
+            <option value="startDateTime,desc">التاريخ (تنازلي)</option>
             <option value="filter:today">اليوم</option>
             <option value="filter:tomorrow">غدًا</option>
             <option value="filter:thisWeek">هذا الأسبوع</option>

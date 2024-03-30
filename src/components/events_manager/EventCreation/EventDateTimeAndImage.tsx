@@ -23,8 +23,12 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
 }) => {
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
-  const handleDateChange = (date: Date | null) => {
-    handleEventDateChange(date, setNewEvent);
+  const handleStartDateChange = (date: Date | null) => {
+    handleEventDateChange(date, setNewEvent, 'start');
+  };
+
+  const handleEndDateChange = (date: Date | null) => {
+    handleEventDateChange(date, setNewEvent, 'end');
   };
 
   const handleInputChange = (
@@ -70,38 +74,71 @@ export const EventDateTimeAndImage: React.FC<EventDateTimeAndImageProps> = ({
   const getMinTime = () => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const selectedDate = new Date(newEvent.dateTime || now);
-    // Compare only the date parts
+    const selectedDate = new Date(newEvent.startDateTime || now);
     if (selectedDate.toDateString() === today.toDateString()) {
       return now;
     }
     return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0);
   };
 
+  const getMinEndTime = () => {
+    if (!newEvent.startDateTime) {
+      return new Date();
+    }
+
+    const startTime = new Date(newEvent.startDateTime);
+    return new Date(startTime.getTime() + 60000 * 15);
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       <div className="mt-1">
         <label
-          htmlFor="dateTime"
+          htmlFor="startDateTime"
           className="my-1 block text-sm font-medium text-light-text dark:text-dark-text"
         >
-          تاريخ ووقت الفعالية
+          بداية الفعالية
         </label>
         <ReactDatePicker
           selected={
-            newEvent.dateTime ? new Date(newEvent.dateTime) : new Date()
+            newEvent.startDateTime
+              ? new Date(newEvent.startDateTime)
+              : new Date()
           }
-          onChange={handleDateChange}
+          onChange={handleStartDateChange}
           showTimeSelect
           timeFormat="HH:mm"
           timeIntervals={15}
-          timeCaption="time"
+          timeCaption="الوقت"
           dateFormat="MMMM d, yyyy h:mm aa"
           wrapperClassName="datePicker"
           className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer text-light-text dark:text-dark-text"
           required
           minDate={new Date()}
           minTime={getMinTime()}
+          maxTime={new Date(new Date().setHours(23, 59, 0, 0))}
+        />
+
+        <label
+          htmlFor="endDateTime"
+          className="my-1 block text-sm font-medium text-light-text dark:text-dark-text mt-4"
+        >
+          نهاية الفعالية
+        </label>
+        <ReactDatePicker
+          selected={
+            newEvent.endDateTime ? new Date(newEvent.endDateTime) : null
+          }
+          onChange={handleEndDateChange}
+          showTimeSelect
+          timeFormat="HH:mm"
+          timeIntervals={15}
+          timeCaption="الوقت"
+          dateFormat="MMMM d, yyyy h:mm aa"
+          wrapperClassName="datePicker"
+          className="mt-1 block w-full rounded-md border border-neutral-300 bg-light-input dark:bg-dark-input py-2 px-4 cursor-pointer text-light-text dark:text-dark-text"
+          minDate={new Date(newEvent.startDateTime || new Date())}
+          minTime={getMinEndTime()}
           maxTime={new Date(new Date().setHours(23, 59, 0, 0))}
         />
 
