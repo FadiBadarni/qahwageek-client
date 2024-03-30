@@ -131,7 +131,7 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
                     وصف الحدث
                   </h4>
                   <p
-                    className={`text-sm text-gray-500 dark:text-gray-400 mb-4 ${
+                    className={`text-sm text-gray-500 dark:text-gray-400 mb-4 whitespace-pre-wrap ${
                       determineTextDirection(event.description) === 'rtl'
                         ? 'text-right'
                         : 'text-left'
