@@ -64,8 +64,10 @@ const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
         <div className="mt-2">
           <div className="flex items-center text-sm text-gray-500 dark:text-gray-400 space-x-2">
             <CalendarIcon className="h-5 w-5 text-neutral-500 dark:text-neutral-400  ml-2" />
-            <time dateTime={event.dateTime}>
-              {format(parseISO(event.dateTime), 'd MMMM yyyy', { locale: ar })}
+            <time dateTime={event.startDateTime}>
+              {format(parseISO(event.startDateTime), 'd MMMM yyyy', {
+                locale: ar,
+              })}
             </time>
             {event.onlineEvent ? (
               <>

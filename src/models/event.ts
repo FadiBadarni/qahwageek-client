@@ -4,7 +4,8 @@ export interface MeetupEvent {
   id: number;
   title: string;
   description: string;
-  dateTime: string;
+  startDateTime: string;
+  endDateTime: string;
   imageUrl: string;
   eventLink: string;
   onlineEvent: boolean;

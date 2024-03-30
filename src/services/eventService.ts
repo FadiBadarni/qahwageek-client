@@ -46,7 +46,7 @@ class EventService {
     categoryId?: number,
     page = 0,
     size = 10,
-    sort = 'dateTime,desc'
+    sort = 'startDateTime,desc'
   ): Promise<any> {
     try {
       const params = categoryId

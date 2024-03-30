@@ -78,7 +78,7 @@ export const UpcomingEvents: React.FC = () => {
               <div className="flex items-center space-x-reverse space-x-2 mb-2">
                 <CalendarIcon className="h-5 w-5 text-gray-500 dark:text-gray-400" />
                 <span className="text-sm text-gray-500 dark:text-gray-400">
-                  {formatDateWithTime(event.dateTime)}
+                  {formatDateWithTime(event.startDateTime)}
                 </span>
               </div>
             </div>

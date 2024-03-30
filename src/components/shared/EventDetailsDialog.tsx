@@ -92,7 +92,7 @@ const EventDetailsDialog: React.FC<EventDetailsDialogProps> = ({
                       <div className="flex sm:flex-col flex-row items-center justify-center space-x-2 md:space-x-0">
                         <CalendarIcon className="h-8 sm:h-10 w-8 sm:w-10 text-brand-500 dark:text-accent-500 mb-2 ml-4 sm:ml-0" />
                         <p className="text-xs md:text-sm">
-                          {format(parseISO(event.dateTime), 'PPpp', {
+                          {format(parseISO(event.startDateTime), 'PPpp', {
                             locale: ar,
                           })}
                         </p>

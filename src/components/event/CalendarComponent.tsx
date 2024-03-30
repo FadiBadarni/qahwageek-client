@@ -22,8 +22,8 @@ const CalendarComponent: React.FC<CalendarComponentProps> = ({
   const formattedEvents: EventInput[] = events.map((event) => ({
     id: event.id.toString(),
     title: event.title,
-    start: event.dateTime,
-    end: event.createdAt,
+    start: event.startDateTime,
+    end: event.endDateTime,
     url: event.eventLink,
   }));
 

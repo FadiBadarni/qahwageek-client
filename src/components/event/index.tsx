@@ -34,7 +34,7 @@ const EventsPage: React.FC = () => {
   const [isCalendarDialogOpen, setIsCalendarDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<MeetupEvent | null>(null);
-  const [sort, setSort] = useState<string>('dateTime,asc');
+  const [sort, setSort] = useState<string>('startDateTime,asc');
   const [selectedCategoryId, setSelectedCategoryId] = useState<
     number | undefined
   >(undefined);

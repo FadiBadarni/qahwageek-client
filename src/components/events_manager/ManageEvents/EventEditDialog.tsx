@@ -44,8 +44,8 @@ const EventEditDialog: React.FC<EventEditDialogProps> = ({
       return {
         title: selectedEvent.title || '',
         description: selectedEvent.description || '',
-        dateTime: selectedEvent.dateTime
-          ? new Date(selectedEvent.dateTime).toISOString()
+        dateTime: selectedEvent.startDateTime
+          ? new Date(selectedEvent.startDateTime).toISOString()
           : new Date().toISOString(),
         location: selectedEvent.location || '',
         imageUrl: selectedEvent.imageUrl || '',
