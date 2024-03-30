@@ -51,7 +51,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, onViewDetails }) => {
             {event.title}
           </h3>
           <p
-            className={`mt-3 text-base text-gray-500 dark:text-gray-400 line-clamp-2 ${
+            className={`mt-3 text-base text-gray-500 dark:text-gray-400 line-clamp-2 whitespace-pre-wrap ${
               determineTextDirection(event.description) === 'rtl'
                 ? 'text-right'
                 : 'text-left'
