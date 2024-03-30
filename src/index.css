@@ -53,3 +53,13 @@ textarea[id^='form-field_'] {
     height: 70vh !important;
   }
 }
+
+.fc-event {
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.fc-event:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}

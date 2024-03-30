@@ -6,6 +6,7 @@ import { DayHeaderContentArg, EventInput } from '@fullcalendar/common';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { useAppDispatch } from 'hooks/useAppDispatch';
 import { getCalendarEvents, getEventById } from 'store/event/eventActions';
+import EventDetailsDialog from 'components/shared/EventDetailsDialog';
 
 interface CalendarComponentProps {}
 
@@ -115,7 +116,18 @@ const CalendarComponent: React.FC<CalendarComponentProps> = () => {
           }
         }}
         eventClick={handleEventClick}
+        contentHeight="auto"
       />
+      {isDetailsDialogOpen && selectedEvent && (
+        <EventDetailsDialog
+          isOpen={isDetailsDialogOpen}
+          onClose={() => {
+            setIsDetailsDialogOpen(false);
+            setSelectedEvent(null);
+          }}
+          event={selectedEvent}
+        />
+      )}
     </div>
   );
 };
