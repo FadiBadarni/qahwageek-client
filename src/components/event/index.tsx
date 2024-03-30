@@ -10,11 +10,12 @@ import { RootState } from 'store/store';
 import EventCard from './EventCard';
 import { MeetupEvent } from 'models/event';
 import EventDetailsDialog from 'components/shared/EventDetailsDialog';
-import { PlusIcon } from '@heroicons/react/24/outline';
+import { CalendarIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { Tooltip } from 'react-tooltip';
 import CreateEventDialog from './CreateEventDialog';
 import FilterSortOptions from './FilterSortOptions';
 import { FaWhatsapp } from 'react-icons/fa';
+import CalendarComponent from './CalendarComponent';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,6 +31,7 @@ const EventsPage: React.FC = () => {
   const ITEMS_PER_PAGE = 6;
 
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+  const [isCalendarDialogOpen, setIsCalendarDialogOpen] = useState(false);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState<MeetupEvent | null>(null);
   const [sort, setSort] = useState<string>('dateTime,asc');
@@ -92,6 +94,10 @@ const EventsPage: React.FC = () => {
     window.open(whatsappGroupLink, '_blank');
   };
 
+  const toggleCalendarDialog = () => {
+    setIsCalendarDialogOpen(!isCalendarDialogOpen);
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
       <div className="text-center mb-6">
@@ -146,8 +152,20 @@ const EventsPage: React.FC = () => {
       )}
 
       <button
+        onClick={toggleCalendarDialog}
+        className="fixed bottom-20 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        data-tooltip-content="فتح التقويم"
+        data-tooltip-id="openCalendarTooltip"
+        aria-label="فتح التقويم"
+        data-tooltip-place="right"
+      >
+        <CalendarIcon className="h-6 w-6" />
+      </button>
+      <Tooltip id="openCalendarTooltip" />
+
+      <button
         onClick={handleAddEvent}
-        className="fixed bottom-6 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        className="fixed bottom-4 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
         data-tooltip-content="إضافة حدث"
         data-tooltip-id="addEventTooltip"
         aria-label="إضافة حدث"
@@ -159,7 +177,7 @@ const EventsPage: React.FC = () => {
 
       <button
         onClick={handleWhatsAppClick}
-        className="fixed bottom-24 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        className="fixed bottom-36 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
         data-tooltip-content="انضم إلى مجموعة الواتساب"
         data-tooltip-id="whatsAppGroupTooltip"
         aria-label="انضم إلى مجموعة الواتساب"
@@ -167,6 +185,11 @@ const EventsPage: React.FC = () => {
         <FaWhatsapp className="h-6 w-6" />
       </button>
       <Tooltip id="whatsAppGroupTooltip" />
+
+      <CalendarComponent
+        isOpen={isCalendarDialogOpen}
+        onClose={toggleCalendarDialog}
+      />
 
       <CreateEventDialog
         isOpen={isCreateDialogOpen}
