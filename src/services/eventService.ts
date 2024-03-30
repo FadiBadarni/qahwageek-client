@@ -110,5 +110,14 @@ class EventService {
       throw error;
     }
   }
+
+  static async getEventById(eventId: number): Promise<any> {
+    try {
+      const response = await axiosClient.get(`/events/get/${eventId}`);
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 export default EventService;

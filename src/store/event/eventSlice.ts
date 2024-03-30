@@ -7,6 +7,7 @@ import {
   getAllEventCategories,
   getAllEvents,
   getCalendarEvents,
+  getEventById,
   getEventsByCategory,
   getUpcomingEvents,
   updateEvent,
@@ -170,6 +171,23 @@ const eventSlice = createSlice({
         state.calendarEvents.error =
           action.error.message ??
           'An unexpected error occurred fetching calendar events';
+      })
+      .addCase(getEventById.pending, (state) => {
+        state.chosenEvent.status = LoadingStatus.Loading;
+      })
+      .addCase(
+        getEventById.fulfilled,
+        (state, action: PayloadAction<MeetupEvent>) => {
+          state.chosenEvent.status = LoadingStatus.Succeeded;
+          state.chosenEvent.data = action.payload;
+          state.chosenEvent.error = null;
+        }
+      )
+      .addCase(getEventById.rejected, (state, action) => {
+        state.chosenEvent.status = LoadingStatus.Failed;
+        state.chosenEvent.error =
+          action.error.message ??
+          'An unexpected error occurred fetching the event';
       });
   },
 });

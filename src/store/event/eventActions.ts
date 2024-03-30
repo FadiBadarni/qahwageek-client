@@ -201,3 +201,18 @@ export const getCalendarEvents = createAsyncThunk(
     }
   }
 );
+
+export const getEventById = createAsyncThunk(
+  'events/getEventById',
+  async (eventId: number, { rejectWithValue }) => {
+    try {
+      const event = await EventService.getEventById(eventId);
+      return event;
+    } catch (error: any) {
+      console.error(`Failed to fetch event with ID ${eventId}:`, error);
+      return rejectWithValue(
+        error.response?.data || `Unable to fetch event with ID ${eventId}`
+      );
+    }
+  }
+);
