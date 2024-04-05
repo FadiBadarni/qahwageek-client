@@ -17,6 +17,7 @@ import FilterSortOptions from './FilterSortOptions';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import EventCardSkeleton from './EventCardSkeleton';
+import { LoadingStatus } from 'store/shared/commonState';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -27,9 +28,15 @@ const EventsPage: React.FC = () => {
     totalPages,
     currentPage,
   } = useSelector((state: RootState) => state.events.eventsByCategory.data);
+
+  const loadingStatus = useSelector(
+    (state: RootState) => state.events.eventsByCategory.status
+  );
+
   const categories = useSelector(
     (state: RootState) => state.events.eventsCategories.data
   );
+
   const ITEMS_PER_PAGE = 6;
 
   const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
@@ -116,7 +123,11 @@ const EventsPage: React.FC = () => {
       />
 
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {events.length > 0 ? (
+        {loadingStatus === LoadingStatus.Loading ? (
+          <div className="text-center col-span-full">
+            <EventCardSkeleton />
+          </div>
+        ) : events.length > 0 ? (
           events.map((event) => (
             <EventCard
               key={event.id}
@@ -125,8 +136,13 @@ const EventsPage: React.FC = () => {
             />
           ))
         ) : (
-          <div className="text-center col-span-full">
-            <EventCardSkeleton />
+          <div className="text-center col-span-full mt-16">
+            <div className="inline-flex items-center justify-center text-xl text-gray-900 dark:text-white space-x-2">
+              <p className="ml-2">
+                الإبداع مستمر خلف الكواليس! لا يوجد أحداث حاليًا، فترقبوا
+                القادم...
+              </p>
+            </div>
           </div>
         )}
       </div>
