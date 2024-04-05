@@ -16,6 +16,7 @@ import CreateEventDialog from './CreateEventDialog';
 import FilterSortOptions from './FilterSortOptions';
 import { FaWhatsapp } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import EventCardSkeleton from './EventCardSkeleton';
 
 const EventsPage: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -125,9 +126,7 @@ const EventsPage: React.FC = () => {
           ))
         ) : (
           <div className="text-center col-span-full">
-            <p className="text-xl text-gray-900 dark:text-white">
-              لا يوجد أحداث لعرضها
-            </p>
+            <EventCardSkeleton />
           </div>
         )}
       </div>
