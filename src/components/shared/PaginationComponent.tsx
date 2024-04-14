@@ -55,7 +55,10 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({
       <div className="flex">
         {paginationRange.map((page, index) =>
           typeof page === 'string' ? (
-            <span key={index} className="px-4 py-2 text-sm text-neutral-700">
+            <span
+              key={index}
+              className="hidden sm:block px-4 py-2 text-sm text-neutral-700"
+            >
               {page}
             </span>
           ) : (
@@ -66,7 +69,13 @@ export const PaginationComponent: React.FC<PaginationComponentProps> = ({
               className={`mx-1 px-4 py-2 text-sm font-medium ${buttonStyle(
                 currentPage === page,
                 false
-              )} rounded-md`}
+              )} rounded-md ${
+                index === 0 ||
+                page === currentPage ||
+                index === paginationRange.length - 1
+                  ? 'block'
+                  : 'hidden sm:block'
+              }`}
             >
               {page + 1}
             </button>

@@ -168,7 +168,7 @@ const EventsPage: React.FC = () => {
 
       <button
         onClick={toggleCalendar}
-        className="fixed bottom-20 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        className="fixed bottom-20 left-2 sm:left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
         data-tooltip-content="فتح التقويم"
         data-tooltip-id="openCalendarTooltip"
         aria-label="فتح التقويم"
@@ -180,7 +180,7 @@ const EventsPage: React.FC = () => {
 
       <button
         onClick={handleAddEvent}
-        className="fixed bottom-4 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        className="fixed bottom-4 left-2 sm:left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
         data-tooltip-content="إضافة حدث"
         data-tooltip-id="addEventTooltip"
         aria-label="إضافة حدث"
@@ -192,7 +192,7 @@ const EventsPage: React.FC = () => {
 
       <button
         onClick={handleWhatsAppClick}
-        className="fixed bottom-36 left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
+        className="fixed bottom-36 left-2 sm:left-6 inline-flex items-center justify-center p-4 bg-light-input dark:bg-dark-input border border-light-border dark:border-dark-border rounded-full shadow-2xl cursor-pointer text-black dark:text-white animate-[float_3s_ease-in-out_infinite] hover:bg-light-200 dark:hover:bg-dark-700"
         data-tooltip-content="انضم إلى مجموعة الواتساب"
         data-tooltip-id="whatsAppGroupTooltip"
         aria-label="انضم إلى مجموعة الواتساب"
