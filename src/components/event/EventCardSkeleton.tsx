@@ -23,7 +23,7 @@ const EventCardSkeleton: React.FC = () => (
                   <CalendarIcon className="h-5 w-5 rounded" />
                   <div className="h-4 bg-neutral-300 dark:bg-neutral-700 rounded w-24 mr-2"></div>
                 </div>
-                <div className="flex items-center text-gray-500 dark:text-gray-400">
+                <div className="flex items-center text-gray-500 dark:text-gray-400 ml-2">
                   <GlobeAltIcon className="h-5 w-5 rounded" />
                   <div className="h-4 bg-neutral-300 dark:bg-neutral-700 rounded w-16 mr-2"></div>
                 </div>
