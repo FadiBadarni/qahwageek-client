@@ -56,6 +56,22 @@ const CalendarComponent: React.FC<CalendarComponentProps> = () => {
     }
   };
 
+  const dayHeaderContent = (
+    headerInfo: DayHeaderContentArg
+  ): { html: string } => {
+    const screenWidth = window.innerWidth;
+    const options =
+      screenWidth <= 640
+        ? { day: 'numeric', month: 'numeric' }
+        : { weekday: 'long', day: 'numeric', month: 'numeric' };
+    const formattedDate = headerInfo.date.toLocaleDateString(
+      'ar',
+      options as any
+    );
+
+    return { html: `<div>${formattedDate}</div>` };
+  };
+
   return (
     <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
       <FullCalendar
@@ -96,25 +112,7 @@ const CalendarComponent: React.FC<CalendarComponentProps> = () => {
         }}
         slotMinTime="08:00:00"
         slotMaxTime="23:00:00"
-        dayHeaderContent={(headerInfo: DayHeaderContentArg | any) => {
-          const screenWidth = window.innerWidth;
-          if (screenWidth <= 640) {
-            const dayOfMonth = headerInfo.date.getUTCDate();
-            const month = headerInfo.date.getUTCMonth() + 1;
-            return { html: `<div>${dayOfMonth}/${month}</div>` };
-          } else {
-            const options = {
-              weekday: 'long',
-              day: 'numeric',
-              month: 'numeric',
-            };
-            const formattedDate = headerInfo.date.toLocaleDateString(
-              'ar',
-              options
-            );
-            return { html: `<div>${formattedDate}</div>` };
-          }
-        }}
+        dayHeaderContent={dayHeaderContent}
         eventClick={handleEventClick}
         contentHeight="auto"
       />
