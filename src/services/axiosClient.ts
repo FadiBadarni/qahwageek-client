@@ -3,6 +3,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { clearAuthState } from 'store/auth/authReducer';
 import { AppDispatch, RootState } from 'store/store';
 import { clearUser } from 'store/user/userReducer';
+import { getSessionId } from 'utils/sessionUtils';
 
 export interface ErrorData {
   status?: number;
@@ -42,6 +43,17 @@ const handleApiError = (error: AxiosError<ErrorData>): ErrorData => {
 };
 
 let isRefreshing = false;
+
+axiosClient.interceptors.request.use(
+  (config) => {
+    const sessionId = getSessionId();
+    config.headers['X-Session-ID'] = sessionId;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 axiosClient.interceptors.response.use(
   async (response: AxiosResponse) => response,
